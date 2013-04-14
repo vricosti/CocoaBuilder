@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Smartmobili.Cocoa.Utils;
 
 namespace Smartmobili.Cocoa
 {
@@ -58,6 +59,50 @@ namespace Smartmobili.Cocoa
 
     public class NSButtonCell : NSActionCell
     {
+        // From GNUstep
+        struct WSButtonCellFlags
+        {
+            [BitfieldLength(8)]
+            uint unused2; // alt mnemonic loc.
+            [BitfieldLength(1)]
+            uint useButtonImageSource;
+            [BitfieldLength(6)]
+            uint unused1; // inset:2 doesn't dim:1 gradient:3
+            [BitfieldLength(1)]
+            uint isTransparent;
+            [BitfieldLength(1)]
+            uint lastState;
+            [BitfieldLength(1)]
+            uint hasKeyEquiv;
+            [BitfieldLength(1)]
+            uint isImageSizeDiff;
+            [BitfieldLength(1)]
+            uint isImageAndText;
+            [BitfieldLength(1)]
+            uint isBottomOrLeft;
+            [BitfieldLength(1)]
+            uint isHorizontal;
+            [BitfieldLength(1)]
+            uint imageDoesOverlap;
+            [BitfieldLength(1)]
+            uint isBordered;
+            [BitfieldLength(1)]
+            uint drawing;
+            [BitfieldLength(1)]
+            uint highlightByGray;
+            [BitfieldLength(1)]
+            uint highlightByBackground;
+            [BitfieldLength(1)]
+            uint highlightByContents;
+            [BitfieldLength(1)]
+            uint changeGray;
+            uint changeBackground;
+            [BitfieldLength(1)]
+            uint changeContents;
+            [BitfieldLength(1)]
+            uint isPushin;
+        };
+
         public NSButtonType ButtonType { get; set; }
 
         public string AlternateTitle { get; set; }
@@ -116,6 +161,7 @@ namespace Smartmobili.Cocoa
         {
             base.InitWithCoder(aDecoder);
 
+            // From Cocotron
             if (aDecoder.AllowsKeyedCoding)
             {
                 uint flags = (uint)aDecoder.DecodeIntForKey("NSButtonFlags");

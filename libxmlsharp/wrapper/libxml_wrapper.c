@@ -66,7 +66,7 @@ int _xmlNodeCache(xmlNodePtr node,void* nodeObj)
 	if(!(node->_private))
 	{
 		node->_private=(nodeInfo*)calloc(1,sizeof(nodeInfo));
-		fprintf(stdout,"0x%x\n", node->_private);
+		//fprintf(stdout,"0x%x\n", node->_private);
 	}
 	NODEINFO_OBJECT(node)=nodeObj;
 	NODEINFO_REFCOUNT(node)=1;

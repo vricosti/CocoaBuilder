@@ -28,6 +28,8 @@ namespace Smartmobili.Cocoa
     {
         private INSXMLParser _nsXmlInterface;
 
+        private NSData _data;
+
         public static NSXMLParser Alloc()
         {
             return new NSXMLParser();
@@ -35,7 +37,7 @@ namespace Smartmobili.Cocoa
 
         public NSXMLParser InitWithData(NSData aData)
         {
-
+            _data = aData;
             return this;
         }
 
@@ -51,5 +53,32 @@ namespace Smartmobili.Cocoa
         {
 
         }
+
+        //( void * ctx, 
+        //                       const xmlChar * localname, 
+        //                       const xmlChar * prefix, 
+        //                       const xmlChar * URI, 
+        //                       int nb_namespaces, 
+        //                       const xmlChar ** namespaces, 
+        //                       int nb_attributes, 
+        //                       int nb_defaulted, 
+        //                       const xmlChar ** attributes )
+
+        public void ParserDidStartElement(IntPtr ctx,
+                                          IntPtr localname,
+                                          IntPtr prefix, 
+                                          IntPtr URI,
+                                          int nb_namespaces,
+                                          IntPtr namespaces,
+                                          int nb_attributes,
+                                          int nb_defaulted,
+                                          IntPtr attributes);
+
+
+        //void ParserDidEndElement(NSXMLParser parser, string elementName, string namespaceURI, string qualifiedName);
+        //void ParserFoundCharacters(NSXMLParser parser, string foundCharacters);
+
+
+
     }
 }
