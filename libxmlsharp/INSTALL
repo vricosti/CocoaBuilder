@@ -1,0 +1,16 @@
+INSTALL
+-------
+
+Requirements
+------------
+	*) Working GNU development system (bash2,gnu make,gcc)
+	*) Portable.Net compiler & runtime
+	*) libxml2 and libxml2-devel packages
+
+More information on the the Portable.Net system is available from 
+http://www.southern-storm.com.au/portable_net.html.
+
+Get the latest Portable.Net from either Southern-Storm or a fresh
+CVS from http://savannah.gnu.org/projects/dotgnu-pnet 
+
+If you need more help please mail me .

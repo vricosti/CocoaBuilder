@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<?checkpoint Md5sig="#ZXpqe122141334"?>
+<!--COMMENT!-->
+<data>
+<comment>
+	<![CDATA[
+	]]>
+</comment>
+<info nelems="3">
+	<name order="0" name="Name" type="String" value="libxml#"/>
+	<license order="1" name="License" type="String" value="GPL"/>
+	<author order="2" name="Author" type="String" value="Gopal"/>
+</info>
+</data>

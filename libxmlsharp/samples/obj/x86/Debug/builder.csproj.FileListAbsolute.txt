@@ -1,0 +1,8 @@
+C:\Users\Vincent\Documents\Visual Studio 2010\XibBuilder\libxmlsharp\bin\Debug\iconv.dll
+C:\Users\Vincent\Documents\Visual Studio 2010\XibBuilder\libxmlsharp\bin\Debug\libxml2.dll
+C:\Users\Vincent\Documents\Visual Studio 2010\XibBuilder\libxmlsharp\bin\Debug\zlib1.dll
+C:\Users\Vincent\Documents\Visual Studio 2010\XibBuilder\libxmlsharp\bin\Debug\builder.exe
+C:\Users\Vincent\Documents\Visual Studio 2010\XibBuilder\libxmlsharp\bin\Debug\builder.pdb
+C:\Users\Vincent\Documents\Visual Studio 2010\XibBuilder\libxmlsharp\samples\obj\x86\Debug\builder.csprojResolveAssemblyReference.cache
+C:\Users\Vincent\Documents\Visual Studio 2010\XibBuilder\libxmlsharp\samples\obj\x86\Debug\builder.exe
+C:\Users\Vincent\Documents\Visual Studio 2010\XibBuilder\libxmlsharp\samples\obj\x86\Debug\builder.pdb

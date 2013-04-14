@@ -1,0 +1,112 @@
+
+2002-07-02	Gopal.V	<gopalv82@symonds.net>
+
+	* wrapper/Makefile: mod it to use gnome-config for locating
+	libxml2
+
+2002-06-27	Gopal.V	<gopalv82@symonds.net>
+
+	* dotgnu.xml/Native.cs: Remove redundant _xmlNewNS , as
+	XmlNs is still does not support public constructors
+
+	* wrapper/libxml_wrapper.c: Implement the _xmlParserGetCompression
+	and _xmlParserSetCompression methods 
+	
+2002-06-23	Gopal.V	<gopalv82@symonds.net>
+
+	* dotgnu.xml/XmlNs.cs, dotgnu.xml/Makefile: Begin implementing 
+	Namespaces
+
+	* dotgnu.xml/XmlElement.cs, dotgnu.xml/XmlAttr.cs: Implement the
+	'Namespace' attribute and FQName following the Namespace prefixes
+
+	* wrapper/libxml_wrapper.c, dotgnu.xml/Native.cs : native calls
+	for the Namespace
+
+	* dotgnu.xml/XmlNode.cs: Implement 'Content' property to return
+	decoded XML content like '"' for &quot; 
+
+	* samples/ns.cs , samples/ns.xml: samples for namespace 
+
+	* samples/Makefile : Use .SUFFIXES for cleaner code
+	
+2002-06-22	Gopal.V	<gopalv82@symonds.net>
+
+	* dotgnu.xml/Native.cs : Fix compile problem by adding missing
+	function decls 
+
+	* tools/pinvoke.sh : fix bug in function recognition that caused
+	problems when a function formed a substring of another. Give a 
+	nice verbose account of the replacements.
+
+2002-06-19	Gopal.V	<gopalv82@symonds.net>
+
+	* wrapper/libxml_wrapper.c : Free uncached nodes during normalization,
+	since they will not be GC'd normally
+	
+	* wrapper/libxml_wrapper.c, dotgnu.xml/Native.cs dotgnu.xml/XmlElement.cs:
+	Fix GetAttr() and SetAttr() and a Attributes enumerated list
+
+	* dotgnu.xml/XmlNode.cs : Move attributes from XmlNode to XmlElement.cs
+
+	* dotgnu.xml/XmlNodeFactory.cs: Enable XmlAttr construction
+
+	* samples/tree.cs : use Attributes and print them in tree
+
+	* samples/struct.cs: use the GetAttr off XmlElement
+
+2002-06-16	Gopal.V	<gopalv82@symonds.net>
+
+	* wrapper/libxml_wrapper.c: Implement Reference counting for
+	nodes .	fix up the mark and sweep instead of freeing when 
+	normalizing . The node is freed only during the GC/Finalize() 
+	sweep through _xmlNodeUncache() . 
+
+	* wrapper/Makefile: add the -DDEBUG symbol
+
+2002-06-15	Gopal.V	<gopalv82@symonds.net>
+
+	* dotgnu.xml/XmlNode.cs , dotgnu.xml/Native.cs , wrapper/libxml_wrapper.c:
+	Add node normalization .
+
+	* dotgnu.xml/XmlNodeEnumerator.cs: fix Reset() problem
+
+	* samples/tree.cs: introduce the normalization and count nodes
+	in both cases.
+	
+2002-06-13	Gopal.V <gopalv82@symonds.net>
+
+	* dotgnu.xml/XmlParser.cs : Implement ParseString 
+	
+	* dotgnu.xml/XmlDoc.cs, dotgnu.xml/XmlElement.cs: implement Object
+	construction and AddChild methods
+	
+	* dotgnu.xml/XmlText.cs, dotgnu.xml/XmlPI.cs, dotgnu.xml/XmlComment.cs,
+	dotgnu.xml/XmlCData.cs:	Implement object construction
+
+	* dotgnu.xml/XmlNode.cs : inheritance support for Object construction
+
+	* dotgnu.xml/XmlNodeFactory.cs, dotgnu.xml/XmlNodeCache.cs: Remove the
+	#ifdefs after the cscc switch bug is solved. Implement Uncaching .
+
+	* wrapper/libxml_wrapper.c: Implement all the native funcs needed
+	for development
+	
+	* samples/builder.cs: new DOM builder example 
+
+	* samples/struct.cs: use the foreach loop (now that it's fixed in cscc)
+
+	* samples/Makefile: construct symlinks to dotgnu.xml.dll and 
+	libxml_wrapper.so into samples/
+	
+2002-06-12	Gopal.V	<gopalv82@symonds.net>
+
+	* tools/pinvoke.sh: Automatically obtain the PInvoke function names
+	from Native.cs
+	
+	* dotgnu.xml/Native.cs: Change all PInvoke functions from "public"
+	to "internal"
+
+2002-06-09	Gopal.V	<gopalv82@symonds.net>
+	
+	Project started

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<struct name="student">
+	<elem name="name" type="char*"/>
+	<elem name="age" type="int"/>
+	<elem name="grade" type="char"/>
+</struct>

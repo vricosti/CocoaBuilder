@@ -1,0 +1,21 @@
+ libxml#
+ --------
+
+This is an attempt at a miniature DOM parser based on libxml2.
+The parser engine is hooked up directly into C# natively. The
+C# code is linked through a native wrapper and DSO interface.
+
+The parser is functional and not does not implement validation.
+Further work will proceed in time to make it better as well
+as thread safe with Portable.Net runtime.
+
+The development has been concentrated as a sister effort to the
+DotGNU Portable.Net project. This project will eventually join
+the DotGNU and the GNU movements once the DotGNU SC approves it.
+
+The other hurdle is the (C) assignment to the projects . In view
+of applying for inclusion in GNU project, all developers are asked 
+to be willing to assign copyright to FSF. But until then it remains
+under author copyright. 
+
+Gopal.V (gopalv82@symonds.net)
