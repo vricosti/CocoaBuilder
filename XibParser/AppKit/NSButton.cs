@@ -25,21 +25,6 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public enum NSButtonType
-    {
-        NSMomentaryLightButton = 0,
-        NSPushOnPushOffButton = 1,
-        NSToggleButton = 2,
-        NSSwitchButton = 3,
-        NSRadioButton = 4,
-        NSMomentaryChangeButton = 5,
-        NSOnOffButton = 6,
-        NSMomentaryPushInButton = 7,
-        NSMomentaryPushButton = 0,
-        NSMomentaryLight = 7
-    }
-
-
     public class NSButton : NSControl
     {
         public NSButtonCell Cell { get; protected set; }

@@ -66,13 +66,16 @@ namespace Smartmobili.Cocoa
 
         public void ParserDidStartElement(IntPtr ctx,
                                           IntPtr localname,
-                                          IntPtr prefix, 
+                                          IntPtr prefix,
                                           IntPtr URI,
                                           int nb_namespaces,
                                           IntPtr namespaces,
                                           int nb_attributes,
                                           int nb_defaulted,
-                                          IntPtr attributes);
+                                          IntPtr attributes)
+        {
+
+        }
 
 
         //void ParserDidEndElement(NSXMLParser parser, string elementName, string namespaceURI, string qualifiedName);
