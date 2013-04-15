@@ -26,6 +26,7 @@ using System.Text;
 namespace Smartmobili.Cocoa
 {
     // Nitesh 15 April 2013
+    // Change2
     public class NSButton : NSControl
     {
         public NSButtonCell Cell { get; protected set; }
