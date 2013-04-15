@@ -218,22 +218,260 @@ namespace Smartmobili.Cocoa
                 {
                     uint bFlags = (uint)aDecoder.DecodeIntForKey("NSButtonFlags");
                     WSButtonCellFlags buttonCellFlags = PrimitiveConversion.FromLong<WSButtonCellFlags>(bFlags);
-                    // TODO
+
+
+                    //[self setTransparent: buttonCellFlags.isTransparent];
                     this.IsTransparent = Convert.ToBoolean(buttonCellFlags.isTransparent);
+                    //[self setBordered: buttonCellFlags.isBordered];
+                    this.IsBordered = Convert.ToBoolean(buttonCellFlags.isBordered);
+
+                    //[self setCellAttribute: NSPushInCell
+                    //      to: buttonCellFlags.isPushin];
+                    this.SetCellAttribute(NSCellAttribute.NSPushInCell, (int)buttonCellFlags.isPushin);
+                    //[self setCellAttribute: NSCellLightsByBackground
+                    //      to: buttonCellFlags.highlightByBackground];
+                    this.SetCellAttribute(NSCellAttribute.NSCellLightsByBackground, (int)buttonCellFlags.highlightByBackground);
+                    //[self setCellAttribute: NSCellLightsByContents
+                    //      to: buttonCellFlags.highlightByContents];
+                    this.SetCellAttribute(NSCellAttribute.NSCellLightsByContents, (int)buttonCellFlags.highlightByContents);
+                    //[self setCellAttribute: NSCellLightsByGray
+                    //      to: buttonCellFlags.highlightByGray];
+                    this.SetCellAttribute(NSCellAttribute.NSCellLightsByGray, (int)buttonCellFlags.highlightByGray);
+                    //[self setCellAttribute: NSChangeBackgroundCell
+                    //      to: buttonCellFlags.changeBackground];
+                    this.SetCellAttribute(NSCellAttribute.NSChangeBackgroundCell, (int)buttonCellFlags.changeBackground);
+                    //[self setCellAttribute: NSCellChangesContents
+                    //      to: buttonCellFlags.changeContents];
+                    this.SetCellAttribute(NSCellAttribute.NSCellChangesContents, (int)buttonCellFlags.changeContents);
+                    //[self setCellAttribute: NSChangeGrayCell
+                    //      to: buttonCellFlags.changeGray];
+                    this.SetCellAttribute(NSCellAttribute.NSChangeGrayCell, (int)buttonCellFlags.changeGray);
+
+
+
+
+                    //if (buttonCellFlags.imageDoesOverlap)
+                    //  if (buttonCellFlags.isImageAndText)
+                    //    [self setImagePosition: NSImageOverlaps];
+                    //  else
+                    //    [self setImagePosition: NSImageOnly];
+                    //else if (buttonCellFlags.isImageAndText)
+                    //  if (buttonCellFlags.isHorizontal)
+                    //    if (buttonCellFlags.isBottomOrLeft)
+                    //      [self setImagePosition: NSImageLeft];
+                    //    else
+                    //      [self setImagePosition: NSImageRight];
+                    //  else
+                    //    if (buttonCellFlags.isBottomOrLeft)
+                    //      [self setImagePosition: NSImageBelow];
+                    //    else
+                    //      [self setImagePosition: NSImageAbove];
+                    //else
+                    //  [self setImagePosition: NSNoImage];
+
+
+                    if (Convert.ToBoolean(buttonCellFlags.imageDoesOverlap))
+                    {
+                        if (Convert.ToBoolean(buttonCellFlags.isImageAndText))
+                        {
+                            this.ImagePosition = NSCellImagePosition.NSImageOverlaps;
+                        }
+                        else
+                        {
+                            this.ImagePosition = NSCellImagePosition.NSImageOnly;
+                        }
+                    }
+                    else if (Convert.ToBoolean(buttonCellFlags.isImageAndText))
+                    {
+                        if (Convert.ToBoolean(buttonCellFlags.isHorizontal))
+                        {
+                            if (Convert.ToBoolean(buttonCellFlags.isBottomOrLeft))
+                            {
+                                this.ImagePosition = NSCellImagePosition.NSImageLeft;
+                            }
+                            else
+                            {
+                                this.ImagePosition = NSCellImagePosition.NSImageRight;
+                            }
+                        }
+                        else
+                        {
+                            if (Convert.ToBoolean(buttonCellFlags.isBottomOrLeft))
+                            {
+                                this.ImagePosition = NSCellImagePosition.NSImageBelow;
+                            }
+                            else
+                            {
+                                this.ImagePosition = NSCellImagePosition.NSImageAbove;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        this.ImagePosition = NSCellImagePosition.NSNoImage;
+                    }
                 }
                 if (aDecoder.ContainsValueForKey("NSButtonFlags2"))
                 {
                     uint imageScale;
-                    uint bFlags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");
-                    //ShowsBorderOnlyWhileMouseInside =
-                    // TODO
+                    uint bFlags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");           
+
+                    //[self setShowsBorderOnlyWhileMouseInside: (bFlags2 & 0x8)];
+                    this.ShowsBorderOnlyWhileMouseInside = Convert.ToBoolean(bFlags2 & 0x8);
+
+                    //[self setBezelStyle: (bFlags2 & 0x7) | ((bFlags2 & 0x20) >> 2)];
+                    this.BezelStyle = (NSBezelStyle)((bFlags2 & 0x7) | ((bFlags2 & 0x20) >> 2));
+
+                    //[self setKeyEquivalentModifierMask: ((bFlags2 >> 8) & NSDeviceIndependentModifierFlagsMask)];                    
+                    this._keyEquivalentModifierMask = (int)((bFlags2 >> 8) & (uint)NSDeviceIndependentModifierFlagsMasks.NSDeviceIndependentModifierFlagsMask);
+
+                    //NSDeviceIndependentModifierFlagsMask
+                    //switch (bFlags2 & (3 << 6))
+                    //{
+                    //case 2:
+                    //imageScale = NSImageScaleProportionallyDown;
+                    //break;
+                    //case 3:
+                    //imageScale = NSImageScaleAxesIndependently;
+                    //break;
+                    //case 0:
+                    //default:
+                    //imageScale = NSImageScaleNone;
+                    //break;
+                    //case 1:
+                    //imageScale = NSImageScaleProportionallyUpOrDown;
+                    //break;
+                    //}
+                    //[self setImageScaling: imageScale];
+
+
+                    switch (bFlags2 & (3 << 6))
+                    {
+                        case 0:
+                        default:
+                            imageScale = (uint)NSImageScaling.NSImageScaleNone; break;
+
+                        case 1: imageScale = (uint)NSImageScaling.NSImageScaleProportionallyUpOrDown; break;
+                        case 2: imageScale = (uint)NSImageScaling.NSImageScaleProportionallyDown; break;
+                        case 3: imageScale = (uint)NSImageScaling.NSImageScaleAxesIndependently; break;
+                    }
                 }
 
-                //WSButtonCellFlags2 buttonCellFlags2;
-                //uint btnFlags2 = 0;
+                #region TODO
 
+                if (aDecoder.ContainsValueForKey("NSAlternateImage"))
+                {
+                    object image = aDecoder.DecodeObjectForKey("NSAlternateImage");
+                    if (image.GetType() == typeof(NSImage))
+                    {
+                        #region TODO
 
+                        //        if ([NSImage imageNamed: @"NSSwitch"] == image)
+                        //              {
+                        //                image = [NSImage imageNamed: @"NSHighlightedSwitch"];
+                        //                if ([self image] == nil)
+                        //                  {
+                        //                    [self setImage: [NSImage imageNamed: @"NSSwitch"]];
+                        //                  }
+                        //              }
+                        //            else if ([NSImage imageNamed: @"NSRadioButton"] == image)
+                        //              {
+                        //                image = [NSImage imageNamed: @"NSHighlightedRadioButton"];
+                        //                if ([self image] == nil)
+                        //                  {
+                        //                    [self setImage: [NSImage imageNamed: @"NSRadioButton"]];
+                        //                  }
+                        //              }
+
+                        //            [self setAlternateImage: image];
+
+                        #endregion
+                    }
+
+                    if (aDecoder.ContainsValueForKey("NSPeriodicDelay"))
+                    {
+                        delay = aDecoder.DecodeIntForKey("NSPeriodicDelay");
+                    }
+                    if (aDecoder.ContainsValueForKey("NSPeriodicInterval"))
+                    {
+                        interval = aDecoder.DecodeIntForKey("NSPeriodicInterval");
+                    } 
+                    
+                    // [self setPeriodicDelay: delay interval: interval];            
+                    this.SetPeriodicDelay(delay, interval);                    
+                }
+                else
+                {
+                    bool temp;
+
+                    //int version = [aDecoder versionForClassName: @"NSButtonCell"];
+                    //TODO
+                    
+                    //NSString *key = nil;
+                    NSString key = null;
+
+                    //[aDecoder decodeValueOfObjCType: @encode(id) at: &key];
+                    //TODO
+
+                    //[self setKeyEquivalent: key]; // Set the key equivalent...
+                    this.KeyEquivalent = key;
+
+                    #region We do not handle this for now
+                                        
+                    //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_keyEquivalentFont];
+                    //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_altContents];
+                    //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_altImage];
+                    //    [aDecoder decodeValueOfObjCType: @encode(BOOL) at: &tmp];
+                    //    _buttoncell_is_transparent = tmp;
+                    //    [aDecoder decodeValueOfObjCType: @encode(unsigned int)
+                    //                                 at: &_keyEquivalentModifierMask];
+                    //    if (version <= 2)
+                    //      {
+                    //        _keyEquivalentModifierMask = _keyEquivalentModifierMask << 16;
+                    //      }
+                    //    [aDecoder decodeValueOfObjCType: @encode(unsigned int)
+                    //                                 at: &_highlightsByMask];
+                    //    [aDecoder decodeValueOfObjCType: @encode(unsigned int)
+                    //                                 at: &_showAltStateMask];
+
+                    //    if (version >= 2)
+                    //      {
+                    //        [aDecoder decodeValueOfObjCType: @encode(id) at: &_sound];
+                    //        [aDecoder decodeValueOfObjCType: @encode(id) at: &_backgroundColor];
+                    //        [aDecoder decodeValueOfObjCType: @encode(float) at: &_delayInterval];
+                    //        [aDecoder decodeValueOfObjCType: @encode(float) at: &_repeatInterval];
+                    //        [aDecoder decodeValueOfObjCType: @encode(unsigned int)
+                    //                                     at: &_bezel_style];
+                    //        [aDecoder decodeValueOfObjCType: @encode(unsigned int)
+                    //                                     at: &_gradient_type];
+                    //        [aDecoder decodeValueOfObjCType: @encode(BOOL) at: &tmp];
+                    //        _image_dims_when_disabled = tmp;
+                    //        [aDecoder decodeValueOfObjCType: @encode(BOOL) at: &tmp];
+                    //        _shows_border_only_while_mouse_inside = tmp;
+                    //      }
+                    //    // Not encoded in non-keyed archive
+                    //    _imageScaling = NSImageScaleNone;
+
+                    #endregion
+                }
+
+                // Hack to correct a Gorm problem, there "\n" is used instead of "\r".
+                if (KeyEquivalent == "\n")
+                {
+                    this.KeyEquivalent = "\r";
+                }
+                                
+                #endregion                
             }
+
+
+
+
+
+
+
+
+
 
 
             //// From Cocotron
@@ -308,6 +546,13 @@ namespace Smartmobili.Cocoa
                     //TODO
             }
         }
+
+        private void SetPeriodicDelay(int delay, int interval)
+        {
+            this.PeriodicDelay = delay;
+            this.PeriodicInterval = interval;
+        }
+
 
     }
 }
