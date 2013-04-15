@@ -118,20 +118,20 @@ namespace Smartmobili.Cocoa
             public uint isPushin;
         };
 
-        struct WSButtonCellFlags2 
+        public struct WSButtonCellFlags2 
         {
             [BitfieldLength(3)]
-            uint bezelStyle;
+            public uint bezelStyle;
             [BitfieldLength(1)]
-            uint showsBorderOnlyWhileMouseInside;
+            public uint showsBorderOnlyWhileMouseInside;
             [BitfieldLength(1)]
-            uint mouseInside;
+            public uint mouseInside;
             [BitfieldLength(1)]
-            uint bezelStyle2;
+            public uint bezelStyle2;
             [BitfieldLength(2)]
-            uint imageScaling;
+            public uint imageScaling;
             [BitfieldLength(24)]
-            uint keyEquivalentModifierMask;
+            public uint keyEquivalentModifierMask;
         };
 
 
@@ -177,16 +177,17 @@ namespace Smartmobili.Cocoa
 
         public int PeriodicInterval { get; set; }
 
-        private int _highlightsByMask;
-        public int HighlightsBy { get { return _highlightsByMask; } set { _highlightsByMask = value; } }
+        private uint _highlightsByMask;
+        public int HighlightsBy { get { return (int)_highlightsByMask; } set { _highlightsByMask = (uint)value; } }
 
-        public NSCellMasks ShowsStateBy { get; set; }
+        private uint _showAltStateMask;
+        public int ShowsStateBy { get { return (int)_showAltStateMask; } set { _showAltStateMask = (uint)value; } }
 
         public bool ImageDimsWhenDisabled { get; set; }
 
         public string KeyEquivalent { get; set; }
 
-        private int _keyEquivalentModifierMask;
+        private uint _keyEquivalentModifierMask;
 
         public NSButtonCell()
         {
@@ -219,57 +220,17 @@ namespace Smartmobili.Cocoa
                 {
                     uint bFlags = (uint)aDecoder.DecodeIntForKey("NSButtonFlags");
                     WSButtonCellFlags buttonCellFlags = PrimitiveConversion.FromLong<WSButtonCellFlags>(bFlags);
-
-
-                    //[self setTransparent: buttonCellFlags.isTransparent];
+                   
                     this.IsTransparent = Convert.ToBoolean(buttonCellFlags.isTransparent);
-                    //[self setBordered: buttonCellFlags.isBordered];
                     this.IsBordered = Convert.ToBoolean(buttonCellFlags.isBordered);
 
-                    //[self setCellAttribute: NSPushInCell
-                    //      to: buttonCellFlags.isPushin];
                     this.SetCellAttribute(NSCellAttribute.NSPushInCell, (int)buttonCellFlags.isPushin);
-                    //[self setCellAttribute: NSCellLightsByBackground
-                    //      to: buttonCellFlags.highlightByBackground];
                     this.SetCellAttribute(NSCellAttribute.NSCellLightsByBackground, (int)buttonCellFlags.highlightByBackground);
-                    //[self setCellAttribute: NSCellLightsByContents
-                    //      to: buttonCellFlags.highlightByContents];
                     this.SetCellAttribute(NSCellAttribute.NSCellLightsByContents, (int)buttonCellFlags.highlightByContents);
-                    //[self setCellAttribute: NSCellLightsByGray
-                    //      to: buttonCellFlags.highlightByGray];
                     this.SetCellAttribute(NSCellAttribute.NSCellLightsByGray, (int)buttonCellFlags.highlightByGray);
-                    //[self setCellAttribute: NSChangeBackgroundCell
-                    //      to: buttonCellFlags.changeBackground];
                     this.SetCellAttribute(NSCellAttribute.NSChangeBackgroundCell, (int)buttonCellFlags.changeBackground);
-                    //[self setCellAttribute: NSCellChangesContents
-                    //      to: buttonCellFlags.changeContents];
                     this.SetCellAttribute(NSCellAttribute.NSCellChangesContents, (int)buttonCellFlags.changeContents);
-                    //[self setCellAttribute: NSChangeGrayCell
-                    //      to: buttonCellFlags.changeGray];
                     this.SetCellAttribute(NSCellAttribute.NSChangeGrayCell, (int)buttonCellFlags.changeGray);
-
-
-
-
-                    //if (buttonCellFlags.imageDoesOverlap)
-                    //  if (buttonCellFlags.isImageAndText)
-                    //    [self setImagePosition: NSImageOverlaps];
-                    //  else
-                    //    [self setImagePosition: NSImageOnly];
-                    //else if (buttonCellFlags.isImageAndText)
-                    //  if (buttonCellFlags.isHorizontal)
-                    //    if (buttonCellFlags.isBottomOrLeft)
-                    //      [self setImagePosition: NSImageLeft];
-                    //    else
-                    //      [self setImagePosition: NSImageRight];
-                    //  else
-                    //    if (buttonCellFlags.isBottomOrLeft)
-                    //      [self setImagePosition: NSImageBelow];
-                    //    else
-                    //      [self setImagePosition: NSImageAbove];
-                    //else
-                    //  [self setImagePosition: NSNoImage];
-
 
                     if (Convert.ToBoolean(buttonCellFlags.imageDoesOverlap))
                     {
@@ -314,37 +275,18 @@ namespace Smartmobili.Cocoa
                 }
                 if (aDecoder.ContainsValueForKey("NSButtonFlags2"))
                 {
+                    //uint bFlags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");
+                    //WSButtonCellFlags2 buttonCellFlags2 = PrimitiveConversion.FromLong<WSButtonCellFlags2>(bFlags2);
+                    //this.ShowsBorderOnlyWhileMouseInside = Convert.ToBoolean(buttonCellFlags2.showsBorderOnlyWhileMouseInside);
+                    //this.BezelStyle = (NSBezelStyle)buttonCellFlags2.bezelStyle;
+                    //this._keyEquivalentModifierMask = buttonCellFlags2.keyEquivalentModifierMask;
+                    //uint imageScale = buttonCellFlags2.imageScaling;
+
                     uint imageScale;
-                    uint bFlags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");           
-
-                    //[self setShowsBorderOnlyWhileMouseInside: (bFlags2 & 0x8)];
+                    uint bFlags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");
                     this.ShowsBorderOnlyWhileMouseInside = Convert.ToBoolean(bFlags2 & 0x8);
-
-                    //[self setBezelStyle: (bFlags2 & 0x7) | ((bFlags2 & 0x20) >> 2)];
                     this.BezelStyle = (NSBezelStyle)((bFlags2 & 0x7) | ((bFlags2 & 0x20) >> 2));
-
-                    //[self setKeyEquivalentModifierMask: ((bFlags2 >> 8) & NSDeviceIndependentModifierFlagsMask)];                    
-                    this._keyEquivalentModifierMask = (int)((bFlags2 >> 8) & (uint)NSDeviceIndependentModifierFlagsMasks.NSDeviceIndependentModifierFlagsMask);
-
-                    //NSDeviceIndependentModifierFlagsMask
-                    //switch (bFlags2 & (3 << 6))
-                    //{
-                    //case 2:
-                    //imageScale = NSImageScaleProportionallyDown;
-                    //break;
-                    //case 3:
-                    //imageScale = NSImageScaleAxesIndependently;
-                    //break;
-                    //case 0:
-                    //default:
-                    //imageScale = NSImageScaleNone;
-                    //break;
-                    //case 1:
-                    //imageScale = NSImageScaleProportionallyUpOrDown;
-                    //break;
-                    //}
-                    //[self setImageScaling: imageScale];
-
+                    this._keyEquivalentModifierMask = (uint)((bFlags2 >> 8) & (uint)NSDeviceIndependentModifierFlagsMasks.NSDeviceIndependentModifierFlagsMask);
 
                     switch (bFlags2 & (3 << 6))
                     {
@@ -356,6 +298,8 @@ namespace Smartmobili.Cocoa
                         case 2: imageScale = (uint)NSImageScaling.NSImageScaleProportionallyDown; break;
                         case 3: imageScale = (uint)NSImageScaling.NSImageScaleAxesIndependently; break;
                     }
+
+                    this.ImageScaling = (NSImageScaling)imageScale;
                 }
 
                 #region TODO
@@ -367,24 +311,23 @@ namespace Smartmobili.Cocoa
                     {
                         #region TODO
 
-                        //        if ([NSImage imageNamed: @"NSSwitch"] == image)
-                        //              {
-                        //                image = [NSImage imageNamed: @"NSHighlightedSwitch"];
-                        //                if ([self image] == nil)
-                        //                  {
-                        //                    [self setImage: [NSImage imageNamed: @"NSSwitch"]];
-                        //                  }
-                        //              }
-                        //            else if ([NSImage imageNamed: @"NSRadioButton"] == image)
-                        //              {
-                        //                image = [NSImage imageNamed: @"NSHighlightedRadioButton"];
-                        //                if ([self image] == nil)
-                        //                  {
-                        //                    [self setImage: [NSImage imageNamed: @"NSRadioButton"]];
-                        //                  }
-                        //              }
-
-                        //            [self setAlternateImage: image];
+                        //if ([NSImage imageNamed: @"NSSwitch"] == image)
+                        //      {
+                        //        image = [NSImage imageNamed: @"NSHighlightedSwitch"];
+                        //        if ([self image] == nil)
+                        //          {
+                        //            [self setImage: [NSImage imageNamed: @"NSSwitch"]];
+                        //          }
+                        //      }
+                        //    else if ([NSImage imageNamed: @"NSRadioButton"] == image)
+                        //      {
+                        //        image = [NSImage imageNamed: @"NSHighlightedRadioButton"];
+                        //        if ([self image] == nil)
+                        //          {
+                        //            [self setImage: [NSImage imageNamed: @"NSRadioButton"]];
+                        //          }
+                        //      }
+                        //    [self setAlternateImage: image];
 
                         #endregion
                     }
@@ -403,6 +346,8 @@ namespace Smartmobili.Cocoa
                 }
                 else
                 {
+                    #region We do not handle this for now
+
                     bool temp;
 
                     //int version = [aDecoder versionForClassName: @"NSButtonCell"];
@@ -417,7 +362,7 @@ namespace Smartmobili.Cocoa
                     //[self setKeyEquivalent: key]; // Set the key equivalent...
                     this.KeyEquivalent = key;
 
-                    #region We do not handle this for now
+                    
                                         
                     //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_keyEquivalentFont];
                     //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_altContents];
@@ -455,25 +400,11 @@ namespace Smartmobili.Cocoa
 
                     #endregion
                 }
-
-                // Hack to correct a Gorm problem, there "\n" is used instead of "\r".
-                if (KeyEquivalent == "\n")
-                {
-                    this.KeyEquivalent = "\r";
-                }
-                                
+                 
                 #endregion                
             }
 
-
-
-
-
-
-
-
-
-
+            #region From Cocotron
 
             //// From Cocotron
             //if (aDecoder.AllowsKeyedCoding)
@@ -528,6 +459,7 @@ namespace Smartmobili.Cocoa
             //    //todo NSAlternateImage
             //}
 
+            #endregion
 
             return this;
         }
@@ -539,12 +471,52 @@ namespace Smartmobili.Cocoa
             {
                 case NSCellAttribute.NSPushInCell:
                     if (toValue != 0)
-                        _highlightsByMask |= (int)NSCellMasks.NSPushInCellMask;
+                        _highlightsByMask |= (uint)NSCellMasks.NSPushInCellMask;
                     else
-                        _highlightsByMask &= ~(int)NSCellMasks.NSPushInCellMask;
+                        _highlightsByMask &= ~(uint)NSCellMasks.NSPushInCellMask;
+                    break;
+                case NSCellAttribute.NSChangeGrayCell:
+                    if (toValue != 0)
+                        _showAltStateMask |= (uint)NSCellMasks.NSChangeGrayCellMask;
+                    else
+                        _showAltStateMask &= ~(uint)NSCellMasks.NSChangeGrayCellMask;
+                    break;
+                case NSCellAttribute.NSChangeBackgroundCell:
+                    if (toValue != 0)
+                        _showAltStateMask |= (uint)NSCellMasks.NSChangeBackgroundCellMask;
+                    else
+                        _showAltStateMask &= ~(uint)NSCellMasks.NSChangeBackgroundCellMask;
+                    break;
+                case NSCellAttribute.NSCellChangesContents:
+                    if (toValue != 0)
+                        _showAltStateMask |= (uint)NSCellMasks.NSContentsCellMask;
+                    else
+                        _showAltStateMask &= ~(uint)NSCellMasks.NSContentsCellMask;
+                    break;
+                case NSCellAttribute.NSCellLightsByGray:
+                    if (toValue != 0)
+                        _highlightsByMask |= (uint)NSCellMasks.NSChangeGrayCellMask;
+                    else
+                        _highlightsByMask &= ~(uint)NSCellMasks.NSChangeGrayCellMask;
+                    break;
+                case NSCellAttribute.NSCellLightsByBackground:
+                    if (toValue != 0)
+                        _highlightsByMask |= (uint)NSCellMasks.NSChangeBackgroundCellMask;
+                    else
+                        _highlightsByMask &= ~(uint)NSCellMasks.NSChangeBackgroundCellMask;
+                    break;
+                case NSCellAttribute.NSCellLightsByContents:
+                    if (toValue != 0)
+                        _highlightsByMask |= (uint)NSCellMasks.NSContentsCellMask;
+                    else
+                        _highlightsByMask &= ~(uint)NSCellMasks.NSContentsCellMask;
                     break;
 
-                    //TODO
+                default:
+                    // TODO implement SetCellAttribute inside NSCell
+                    // base.SetCellAttribute(aParameter, toValue);
+                    break;
+                
             }
         }
 

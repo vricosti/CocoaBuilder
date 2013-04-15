@@ -61,7 +61,7 @@ namespace Smartmobili.Cocoa
 
 
     [Flags]
-    public enum NSEventMask
+    public enum NSEventMask : uint
     {
         NSLeftMouseDownMask      = 1 << NSEventType.NSLeftMouseDown,
         NSLeftMouseUpMask        = 1 << NSEventType.NSLeftMouseUp,
@@ -88,16 +88,17 @@ namespace Smartmobili.Cocoa
         NSOtherMouseDraggedMask  = 1 << NSEventType.NSOtherMouseDragged,
         NSEventMaskGesture       = 1 << NSEventType.NSEventTypeGesture,
         NSEventMaskMagnify       = 1 << NSEventType.NSEventTypeMagnify,
-        //NSEventMaskSwipe         = 1U << NSEventType.NSEventTypeSwipe,
+        NSEventMaskSwipe         = 1U << NSEventType.NSEventTypeSwipe,
         NSEventMaskRotate        = 1 << NSEventType.NSEventTypeRotate,
         NSEventMaskBeginGesture  = 1 << NSEventType.NSEventTypeBeginGesture,
         NSEventMaskEndGesture    = 1 << NSEventType.NSEventTypeEndGesture,
         //NSEventMaskSmartMagnify  = 1ULL << NSEventType.NSEventTypeSmartMagnify,
-        //NSAnyEventMask           = 0xffffffffU
+        NSAnyEventMask           = 0xffffffffU
 }
 
+[Flags]
 public enum NSDeviceIndependentModifierFlagsMasks : uint
-    {
+ {
         NSAlphaShiftKeyMask = 1 << 16,
         NSShiftKeyMask = 1 << 17,
         NSControlKeyMask = 1 << 18,
