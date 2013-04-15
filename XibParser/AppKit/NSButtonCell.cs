@@ -186,6 +186,7 @@ namespace Smartmobili.Cocoa
 
         public string KeyEquivalent { get; set; }
 
+        private int _keyEquivalentModifierMask;
 
         public NSButtonCell()
         {

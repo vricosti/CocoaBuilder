@@ -75,7 +75,7 @@ namespace Smartmobili.Cocoa
 
         public NSToolbar Toolbar { get; set; }
 
-        NSView WindowView { get; set; }
+        public NSView WindowView { get; set; }
 
         public NSSize MinSize { get; set; }
 
