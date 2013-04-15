@@ -74,47 +74,48 @@ namespace Smartmobili.Cocoa
     public class NSButtonCell : NSActionCell
     {
         // From GNUstep
-        struct WSButtonCellFlags
+        public struct WSButtonCellFlags
         {
             [BitfieldLength(8)]
-            uint unused2; // alt mnemonic loc.
+            public uint unused2; // alt mnemonic loc.
             [BitfieldLength(1)]
-            uint useButtonImageSource;
+            public uint useButtonImageSource;
             [BitfieldLength(6)]
-            uint unused1; // inset:2 doesn't dim:1 gradient:3
+            public uint unused1; // inset:2 doesn't dim:1 gradient:3
             [BitfieldLength(1)]
-            uint isTransparent;
+            public uint isTransparent;
             [BitfieldLength(1)]
-            uint lastState;
+            public uint lastState;
             [BitfieldLength(1)]
-            uint hasKeyEquiv;
+            public uint hasKeyEquiv;
             [BitfieldLength(1)]
-            uint isImageSizeDiff;
+            public uint isImageSizeDiff;
             [BitfieldLength(1)]
-            uint isImageAndText;
+            public uint isImageAndText;
             [BitfieldLength(1)]
-            uint isBottomOrLeft;
+            public uint isBottomOrLeft;
             [BitfieldLength(1)]
-            uint isHorizontal;
+            public uint isHorizontal;
             [BitfieldLength(1)]
-            uint imageDoesOverlap;
+            public uint imageDoesOverlap;
             [BitfieldLength(1)]
-            uint isBordered;
+            public uint isBordered;
             [BitfieldLength(1)]
-            uint drawing;
+            public uint drawing;
             [BitfieldLength(1)]
-            uint highlightByGray;
+            public uint highlightByGray;
             [BitfieldLength(1)]
-            uint highlightByBackground;
+            public uint highlightByBackground;
             [BitfieldLength(1)]
-            uint highlightByContents;
+            public uint highlightByContents;
             [BitfieldLength(1)]
-            uint changeGray;
-            uint changeBackground;
+            public uint changeGray;
             [BitfieldLength(1)]
-            uint changeContents;
+            public uint changeBackground;
             [BitfieldLength(1)]
-            uint isPushin;
+            public uint changeContents;
+            [BitfieldLength(1)]
+            public uint isPushin;
         };
 
         struct WSButtonCellFlags2 
@@ -218,6 +219,7 @@ namespace Smartmobili.Cocoa
                     uint bFlags = (uint)aDecoder.DecodeIntForKey("NSButtonFlags");
                     WSButtonCellFlags buttonCellFlags = PrimitiveConversion.FromLong<WSButtonCellFlags>(bFlags);
                     // TODO
+                    this.IsTransparent = Convert.ToBoolean(buttonCellFlags.isTransparent);
                 }
                 if (aDecoder.ContainsValueForKey("NSButtonFlags2"))
                 {

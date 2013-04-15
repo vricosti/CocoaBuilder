@@ -1,0 +1,5 @@
+# Ignore bin folder
+bin
+# Ignore obj folder
+obj
+
