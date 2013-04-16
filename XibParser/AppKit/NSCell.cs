@@ -142,7 +142,7 @@ namespace Smartmobili.Cocoa
                              _contents = "title";
                              _cell.contents_is_attributed_string = 0;
                              /* Doc says we have to reset the font too. */
-                             //ASSIGN (_font, [fontClass systemFontOfSize: 0]);
+                             _font = NSFont.SystemFontOfSize(-1);
                              break;
                          }
                      case (uint)NSCellType.NSImageCellType:
@@ -333,7 +333,7 @@ namespace Smartmobili.Cocoa
             _cell.type = (uint)NSCellType.NSImageCellType;
             _cell_image = anImage;
             _cell.image_position = (uint)NSCellImagePosition.NSImageOnly;
-            //_font = RETAIN ([fontClass systemFontOfSize: 0]);
+            _font = NSFont.SystemFontOfSize(-1);
 
             return this;
         }

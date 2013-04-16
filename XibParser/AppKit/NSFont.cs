@@ -50,12 +50,13 @@ namespace Smartmobili.Cocoa
         {
             NSFont font = null;
 
-            if (aFontSize != 0)
+            if (aFontSize > 0)
             {
                 font = NSFont.FontWithNameSize("Helvetica", aFontSize);
             }
             else
             {
+                // Default System size
                 font = NSFont.FontWithNameSize("Helvetica", 12);
             }
 
