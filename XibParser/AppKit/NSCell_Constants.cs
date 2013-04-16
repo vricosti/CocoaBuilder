@@ -32,7 +32,7 @@ namespace Smartmobili.Cocoa
         NSFocusRingTypeExterior = 2
     }
 
-    public enum NSCellType
+    public enum NSCellType : uint
     {
         NSNullCellType = 0,
         NSTextCellType = 1,

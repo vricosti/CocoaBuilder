@@ -171,7 +171,7 @@ namespace Smartmobili.Cocoa
         // inherited
         //public bool AllowsMixedState { get; set; }
 
-        public NSCellStateValue State { get; set; }
+        //public NSCellStateValue State { get; set; }
 
         public int PeriodicDelay { get; set; }
 

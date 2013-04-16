@@ -31,5 +31,35 @@ namespace Smartmobili.Cocoa
         {
 
         }
+
+        public static NSFont Alloc()
+        {
+            return new NSFont();
+        }
+
+
+        public static NSFont FontWithNameSize(string aFontName, float aSize)
+        {
+            NSFont font = new NSFont();
+
+
+            return font;
+        }
+
+        public static NSFont SystemFontOfSize(float aFontSize)
+        {
+            NSFont font = null;
+
+            if (aFontSize != 0)
+            {
+                font = NSFont.FontWithNameSize("Helvetica", aFontSize);
+            }
+            else
+            {
+                font = NSFont.FontWithNameSize("Helvetica", 12);
+            }
+
+            return font;
+        }
     }
 }

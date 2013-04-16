@@ -22,17 +22,141 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Smartmobili.Cocoa.Utils;
 
 namespace Smartmobili.Cocoa
 {
 
     public class NSCell : NSObject
     {
-        public NSCellType CellType { get; set; }
+        public struct GSCellFlagsType
+        {
+            // total 32 bits.  0 bits left.
+            [BitfieldLength(1)]
+            public uint contents_is_attributed_string;
+            [BitfieldLength(1)]
+            public uint is_highlighted;
+            [BitfieldLength(1)]
+            public uint is_disabled;
+            [BitfieldLength(1)]
+            public uint is_editable;
+            [BitfieldLength(1)]
+            public uint is_rich_text;
+            [BitfieldLength(1)]
+            public uint imports_graphics;
+            [BitfieldLength(1)]
+            public uint shows_first_responder;
+            [BitfieldLength(1)]
+            public uint refuses_first_responder;
+            [BitfieldLength(1)]
+            public uint sends_action_on_end_editing;
+            [BitfieldLength(1)]
+            public uint is_bordered;
+            [BitfieldLength(1)]
+            public uint is_bezeled;
+            [BitfieldLength(1)]
+            public uint is_scrollable;
+            [BitfieldLength(1)]
+            public uint reserved;
+            [BitfieldLength(3)]
+            public uint text_align; // 5 values
+            [BitfieldLength(1)]
+            public uint is_selectable;
+            [BitfieldLength(1)]
+            public uint allows_mixed_state;
+            [BitfieldLength(1)]
+            public uint has_valid_object_value;
+            [BitfieldLength(2)]
+            public uint type;           // 3 values
+            [BitfieldLength(3)]
+            public uint image_position; // 7 values
+            [BitfieldLength(4)]
+            public uint entry_type;     // 8 values
+            [BitfieldLength(1)]
+            public uint allows_undo;
+            [BitfieldLength(3)]
+            public uint line_break_mode; // 6 values
+
+            // total 20 bits.  4 bits extension, 8 bits left.
+            [BitfieldLength(2)]
+            public int state; // 3 values but one negative
+            [BitfieldLength(8)]
+            public uint mnemonic_location;
+            [BitfieldLength(3)]
+            public uint control_tint;
+            [BitfieldLength(2)]
+            public uint control_size;
+            [BitfieldLength(2)]
+            public uint focus_ring_type; // 3 values
+            [BitfieldLength(2)]
+            public uint base_writing_direction; // 3 values
+            // 4 bits reserved for subclass use
+            [BitfieldLength(1)]
+            public uint subclass_bool_one;
+            [BitfieldLength(1)]
+            public uint subclass_bool_two;
+            [BitfieldLength(1)]
+            public uint subclass_bool_three;
+            [BitfieldLength(1)]
+            public uint subclass_bool_four;
+            // Set while the cell is edited/selected
+            [BitfieldLength(1)]
+            public uint in_editing;
+        };
+
+        protected object _contents;
+        protected NSImage _cell_image;
+        protected NSFont _font;
+        protected id _object_value;
+        protected GSCellFlagsType _cell;
+
+
+        public NSImage Image 
+        {
+            get { return (_cell.type == (uint)NSCellType.NSImageCellType) ? _cell_image : null; }
+            set { _cell_image = value; } 
+        }
+
+
+        public NSCellType Type 
+        {
+            get 
+            {
+                if (_cell.type == (uint)NSCellType.NSImageCellType && _cell_image == null)
+                    return NSCellType.NSNullCellType;
+
+                return (NSCellType)_cell.type;
+            }
+            set
+            {
+                 if (_cell.type == (uint)value)
+                 {
+                     return;
+                 }
+
+                 _cell.type = (uint)value;
+                 switch (_cell.type)
+                 {
+                     case (uint)NSCellType.NSTextCellType:
+                         {
+                             _contents = "title";
+                             _cell.contents_is_attributed_string = 0;
+                             /* Doc says we have to reset the font too. */
+                             //ASSIGN (_font, [fontClass systemFontOfSize: 0]);
+                             break;
+                         }
+                     case (uint)NSCellType.NSImageCellType:
+                         {
+                             _cell_image = null;
+                             break;
+                         }
+                 }
+            }
+        }
 
         public object Contents { get; set; }
 
-        public NSImage Image { get; set; }
+        
 
         public NSFocusRingType FocusRingType { get; set; }
 
@@ -53,6 +177,9 @@ namespace Smartmobili.Cocoa
         public bool Enabled { get; set; }
 
         public bool Highlighted { get; set; }
+
+        //protected int _state;
+        public virtual int State { get; set; }
 
         //public NSOnState State { get; set; }
 
@@ -77,6 +204,11 @@ namespace Smartmobili.Cocoa
         public NSCell()
         {
 
+        }
+
+        public NSObject Init()
+        {
+            return (NSObject)InitTextCell((NSString)"");
         }
 
         public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
@@ -119,7 +251,7 @@ namespace Smartmobili.Cocoa
                 this.Selectable = ((cFlags & 0x200000) == 0x200000);
                 this.Bezeled = ((cFlags & 0x400000) == 0x400000);
                 this.Bordered = ((cFlags & 0x800000) == 0x800000);
-                this.CellType = (NSCellType)((cFlags & 0xC000000) >> 26);
+                this.Type = (NSCellType)((cFlags & 0xC000000) >> 26);
                 this.Editable = ((cFlags & 0x10000000) == 0x10000000);
                 this.Enabled = ((cFlags & 0x20000000) != 0x20000000);
                 this.Highlighted = ((cFlags & 0x40000000) == 0x40000000);
@@ -143,7 +275,8 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.ContainsValueForKey("NSSupport"))
             {
-                /*id*/object support = aDecoder.DecodeObjectForKey("NSSupport");
+                /*id*/
+                object support = aDecoder.DecodeObjectForKey("NSSupport");
 
                 //if (support is NSFont)
                 //{
@@ -167,9 +300,9 @@ namespace Smartmobili.Cocoa
 
         public /*id*/object InitTextCell(NSString aString)
         {
-            this.CellType = NSCellType.NSTextCellType;
+            this.Type = NSCellType.NSTextCellType;
             this.Contents = aString;
- 
+
             //_cell.type = NSTextCellType;
             //_contents = RETAIN (aString);
             //_font = RETAIN ([fontClass systemFontOfSize: 0]);
@@ -195,8 +328,13 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
-        public /*id*/object InitImageCell(NSImage aImage)
+        public /*id*/object InitImageCell(NSImage anImage)
         {
+            _cell.type = (uint)NSCellType.NSImageCellType;
+            _cell_image = anImage;
+            _cell.image_position = (uint)NSCellImagePosition.NSImageOnly;
+            //_font = RETAIN ([fontClass systemFontOfSize: 0]);
+
             return this;
         }
 

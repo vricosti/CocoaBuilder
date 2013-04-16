@@ -29,8 +29,55 @@ namespace Smartmobili.Cocoa
     // Change2
     public class NSButton : NSControl
     {
-        public NSButtonCell Cell { get; protected set; }
+        private NSButtonCell _cell;
+        public NSButtonCell Cell 
+        { 
+            get { return _cell; } 
+            protected set { _cell = value; } 
+        }
 
+        public NSButtonType ButtonType 
+        { 
+            get { return _cell.ButtonType; } 
+            set { _cell.ButtonType = value; } 
+        }
+
+        public int HighlightsBy
+        {
+            get { return _cell.HighlightsBy; }
+            set { _cell.HighlightsBy = value; }
+        }
+
+        public int ShowsStateBy
+        {
+            get { return _cell.ShowsStateBy; }
+            set { _cell.ShowsStateBy = value; }
+        }
+
+        //
+        // Setting the State
+        //
+        public int IntValue
+        {
+            set { _cell.State = value; }
+        }
+
+
+        //- (void) setIntValue: (int)anInt
+        //{
+        //  [self setState: (anInt != 0)];
+        //}
+        
+        //- (void) setFloatValue: (float)aFloat
+        //{
+        //  [self setState: (aFloat != 0)];
+        //}
+        
+        //- (void) setDoubleValue: (double)aDouble
+        //{
+        //  [self setState: (aDouble != 0)];
+        //}
+       
 
         public NSButton()
         {
@@ -43,7 +90,7 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                Cell = (NSButtonCell)aDecoder.DecodeObjectForKey("NSCell");
+                _cell = (NSButtonCell)aDecoder.DecodeObjectForKey("NSCell");
             }
 
             return this;
