@@ -202,9 +202,12 @@ namespace Smartmobili.Cocoa
                     this.State = (int)NSCellStateValue.NSOffState;
                 }
                 //else if (objVal.RespondsToSelector: @selector(intValue)])
+                // TODO : maybe implement RespondsToSelector using reflection
+                // Something like objVal.RespondsToSelector("intValue"); (int)objVal.SendObjMsg("intValue");
+                // (int)objVal.ObjcSendMsg();
                 else if (objVal is INSNumber)
                 {
-                    // TODO : maybe implement RespondsToSelector using reflection
+                   
                     this.State = ((INSNumber)objVal).IntValue;
                 }
                 else
