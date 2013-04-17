@@ -25,7 +25,7 @@ using System.Text;
 namespace Smartmobili.Cocoa.Utils
 {
     [global::System.AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    sealed class BitfieldLengthAttribute : Attribute
+    internal sealed class BitfieldLengthAttribute : System.Attribute
     {
         uint length;
 

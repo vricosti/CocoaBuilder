@@ -144,6 +144,7 @@
     <Compile Include="AppKit\NSWindowTemplate.cs" />
     <Compile Include="NSXMLParser.cs" />
     <Compile Include="Objc.cs" />
+    <Compile Include="ObjcAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Bitfields.cs" />

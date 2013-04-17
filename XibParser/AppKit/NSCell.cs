@@ -110,14 +110,14 @@ namespace Smartmobili.Cocoa
         protected id _object_value;
         protected GSCellFlagsType _cell;
 
-
+        [ObjcPropAttribute]
         public NSImage Image 
         {
             get { return (_cell.type == (uint)NSCellType.NSImageCellType) ? _cell_image : null; }
             set { _cell_image = value; } 
         }
 
-
+        [ObjcPropAttribute]
         public NSCellType Type 
         {
             get 
