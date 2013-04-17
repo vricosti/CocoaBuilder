@@ -383,11 +383,13 @@ namespace Smartmobili.Cocoa
                 /*id*/
                 NSObject contents = (NSObject)aDecoder.DecodeObjectForKey("NSContents");
 
-                if (contents.IsKindOfClass(NSString.Class()))
+                //if (contents.IsKindOfClass(NSString.Class()))
+                if (contents is NSString)
                 {
                     InitTextCell((NSString)contents);
                 }
-                else if (contents.IsKindOfClass(NSImage.Class()))
+                //else if (contents.IsKindOfClass(NSImage.Class()))
+                else if (contents is NSImage)
                 {
                     InitImageCell((NSImage)contents);
                 }
@@ -444,11 +446,13 @@ namespace Smartmobili.Cocoa
                     /*id*/
                     NSObject support = (NSObject)aDecoder.DecodeObjectForKey("NSSupport");
 
-                    if (support.IsKindOfClass(NSFont.Class()))
+                   // if (support.IsKindOfClass(NSFont.Class()))
+                    if (support is NSFont)
                     {
                         this.Font = (NSFont)support; 
                     }
-                    else if (support.IsKindOfClass(NSImage.Class()))
+                    else if (support is NSImage)
+                    //else if (support.IsKindOfClass(NSImage.Class()))
                     {
                         this.Image = (NSImage)support;
                     }

@@ -68,6 +68,12 @@
   <ItemGroup>
     <Compile Include="AppKit\NSButton.cs" />
     <Compile Include="AppKit\NSButtonCell.cs" />
+    <Compile Include="AppKit\NSTextField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AppKit\NSTextFieldCell.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IBActionConnection.cs" />
     <Compile Include="IBActionInfo.cs" />
@@ -118,8 +124,6 @@
     <Compile Include="AppKit\NSMenu.cs" />
     <Compile Include="AppKit\NSMenuItem.cs" />
     <Compile Include="AppKit\NSObjectController.cs" />
-    <Compile Include="AppKit\NSTextField.cs" />
-    <Compile Include="AppKit\NSTextFieldCell.cs" />
     <Compile Include="AppKit\NSViewController.cs" />
     <Compile Include="AppKit\NSWindow.cs" />
     <Compile Include="NSFileWrapper.cs" />

@@ -183,7 +183,8 @@ namespace Smartmobili.Cocoa
 
             NSObjectDecoder decoder = new NSObjectDecoder(Document, xElement);
 
-            
+            System.Diagnostics.Debug.WriteLine(attrClass);
+
             Type t = Type.GetType("Smartmobili.Cocoa." + attrClass);
             if (t != null)
             {
