@@ -210,7 +210,7 @@ namespace Smartmobili.Cocoa
                 }
                 if (aDecoder.ContainsValueForKey("NSNormalImage"))
                 {
-                    Image = (NSImage)aDecoder.DecodeObjectForKey("NSKeyEquivalent");
+                    Image = (NSImage)aDecoder.DecodeObjectForKey("NSNormalImage");
                 }
                 if (aDecoder.ContainsValueForKey("NSAlternateContents"))
                 {
