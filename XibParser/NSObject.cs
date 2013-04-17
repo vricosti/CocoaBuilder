@@ -25,6 +25,12 @@ using System.Xml.Linq;
 
 namespace Smartmobili.Cocoa
 {
+    public static class ObjConstants
+    {
+        public static const int NO = 0;
+        public static const int YES = 1;
+    }
+
     public class NSObject : NSCoding
     {
         public string Key { get; set; }

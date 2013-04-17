@@ -26,7 +26,8 @@ using Smartmobili.Cocoa.Utils;
 
 namespace Smartmobili.Cocoa
 {
-
+    //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ApplicationKit/Classes/NSCell_Class/Reference/NSCell.html
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSCell.m
     public class NSCell : NSObject, INSNumber
     {
         public struct GSCellFlagsType
@@ -111,7 +112,7 @@ namespace Smartmobili.Cocoa
         protected GSCellFlagsType _cell;
         uint _mouse_down_flags;
         uint _action_mask;
-        //NSFormatter _formatter;
+        NSFormatter _formatter;
         NSMenu _menu;
         //id _represented_object;
         //object _reserved1;
@@ -174,7 +175,6 @@ namespace Smartmobili.Cocoa
             }
         }
 
-
         [ObjcPropAttribute("ObjectValue")]
         public object ObjectValue 
         {
@@ -216,7 +216,27 @@ namespace Smartmobili.Cocoa
                 }
             }
         }
-    
+
+        [ObjcPropAttribute("HasValidObjectValue", SetName = null)]
+        public bool HasValidObjectValue
+        {
+            get { return Convert.ToBoolean(_cell.has_valid_object_value); }
+        }
+
+        [ObjcPropAttribute("DoubleValue", SetName = null)]
+        public double DoubleValue
+        {
+            get { return _cell.state; }
+        }
+
+
+        [ObjcPropAttribute("IntValue", SetName = null)]
+        public int IntValue
+        {
+            get { return _cell.state; }
+        }
+
+
         [ObjcPropAttribute("Contents")]
         public object Contents { get; set; }
 
@@ -290,11 +310,10 @@ namespace Smartmobili.Cocoa
 
         public bool AllowsEditingTextAttributes { get; set; }
 
-        [ObjcPropAttribute("IntValue", SetName=null)]
-        public int IntValue
-        {
-            get { return _cell.state; }
-        }
+        [ObjcPropAttribute("Formatter")]
+        public NSFormatter Formatter { get { return _formatter; } set { _formatter = value; } }
+
+       
 
         public NSCell()
         {
@@ -391,9 +410,8 @@ namespace Smartmobili.Cocoa
 
                 if (aDecoder.ContainsValueForKey("NSFormatter"))
                 {
-                    //NSFormatter *formatter = [aDecoder decodeObjectForKey: @"NSFormatter"];
-
-                    //[self setFormatter: formatter];
+                    NSFormatter formatter = (NSFormatter)aDecoder.DecodeObjectForKey("NSFormatter");
+                    Formatter = formatter;
                 }
             }
             return this;
