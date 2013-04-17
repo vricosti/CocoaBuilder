@@ -400,8 +400,8 @@ namespace Smartmobili.Cocoa
                     {
                         if (Convert.ToBoolean(toValue))
                         {
-                            if (_cell.image_position != (uint)NSCellImagePosition.NSImageLeft
-                                && _cell.image_position != (uint)NSCellImagePosition.NSImageRight)
+                            if (_cell.image_position != (uint)NSCellImagePosition.NSImageLeft && 
+                                _cell.image_position != (uint)NSCellImagePosition.NSImageRight)
                             {
                                 _cell.image_position = (uint)NSCellImagePosition.NSImageLeft;
                             }
