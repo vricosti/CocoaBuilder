@@ -29,8 +29,14 @@ namespace Smartmobili.Cocoa
     {
         //public override string ClassName  { get { return "NSString"; } }
 
-
         public string Value { get; set; }
+
+
+        public static Class Class()
+        {
+            return new Class(typeof(NSString));
+        }
+
 
         public NSString()
         {

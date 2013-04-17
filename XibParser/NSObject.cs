@@ -50,6 +50,7 @@ namespace Smartmobili.Cocoa
             this.Key = key;
         }
 
+
         public virtual void EncodeWithCoder(NSObjectDecoder aCoder)
         {
 

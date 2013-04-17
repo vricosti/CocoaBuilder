@@ -465,7 +465,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        private void SetCellAttribute(NSCellAttribute aParameter, int toValue)
+        public override void SetCellAttribute(NSCellAttribute aParameter, int toValue)
         {
             switch (aParameter)
             {
@@ -513,8 +513,7 @@ namespace Smartmobili.Cocoa
                     break;
 
                 default:
-                    // TODO implement SetCellAttribute inside NSCell
-                    // base.SetCellAttribute(aParameter, toValue);
+                    base.SetCellAttribute(aParameter, toValue);
                     break;
                 
             }

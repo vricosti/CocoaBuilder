@@ -26,6 +26,11 @@ namespace Smartmobili.Cocoa
 {
     public class NSMenu : NSObject
     {
+        public static Class Class()
+        {
+            return new Class(typeof(NSMenu));
+        }
+
         public string Title { get; set; }
 
         public NSMutableArray MenuItems { get; set; }
