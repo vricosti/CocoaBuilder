@@ -24,9 +24,18 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSNumber : NSObject, NSCoding
+    public class NSNumber : NSObject, NSCoding, INSNumber
     {
         private object _number;
+
+        [ObjcPropAttribute("IntValue", SetName=null)]
+        public int IntValue
+        {
+            get 
+            {
+                return Convert.ToInt32(_number); 
+            }
+        }
 
         public NSNumber()
         {
@@ -50,11 +59,13 @@ namespace Smartmobili.Cocoa
             _number = integer;
         }
 
+         [ObjcMethodAttribute("EncodeWithCoder")]
         public override void EncodeWithCoder(NSObjectDecoder aCoder)
         {
             base.EncodeWithCoder(aCoder);
         }
 
+        [ObjcMethodAttribute("InitWithCoder")]
         public override NSObject InitWithCoder(NSObjectDecoder decoder)
         {
             base.InitWithCoder(decoder);
@@ -64,8 +75,17 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
+        [ObjcMethodAttribute("NumberWithBool")]
+        public static NSNumber NumberWithBool(bool aBool)
+        {
+            return new NSNumber(aBool);
+        }
 
-
+        [ObjcMethodAttribute("NumberWithInt")]
+        public static NSNumber NumberWithInt(int aInt)
+        {
+            return new NSNumber(aInt);
+        }
 
 
         // implicit NSNumber to int conversion operator
@@ -126,5 +146,7 @@ namespace Smartmobili.Cocoa
 
 
 
+
+        
     }
 }

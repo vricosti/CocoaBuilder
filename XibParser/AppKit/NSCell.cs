@@ -27,7 +27,7 @@ using Smartmobili.Cocoa.Utils;
 namespace Smartmobili.Cocoa
 {
 
-    public class NSCell : NSObject
+    public class NSCell : NSObject, INSNumber
     {
         public struct GSCellFlagsType
         {
@@ -174,6 +174,46 @@ namespace Smartmobili.Cocoa
             }
         }
 
+
+        [ObjcPropAttribute("ObjectValue")]
+        public object ObjectValue 
+        {
+            get
+            {
+                if (_cell.state == (int)NSCellStateValue.NSOffState)
+                {        
+                    return NSNumber.NumberWithBool(false);
+                }
+                else if (_cell.state == (int)NSCellStateValue.NSOnState)
+                {        
+                    return NSNumber.NumberWithBool(true);
+                }
+                else // NSMixedState
+                {
+                    return NSNumber.NumberWithInt(-1);
+                }
+            }
+            set
+            {
+                //id objVal = (id)value;
+                NSObject objVal = (NSObject)value;
+                if (objVal == null)
+                {
+                    this.State = (int)NSCellStateValue.NSOffState;
+                }
+                //else if (objVal.RespondsToSelector: @selector(intValue)])
+                else if (objVal is INSNumber)
+                {
+                    // TODO : maybe implement RespondsToSelector using reflection
+                    this.State = ((INSNumber)objVal).IntValue;
+                }
+                else
+                {
+                     this.State = (int)NSCellStateValue.NSOnState;
+                }
+            }
+        }
+    
         [ObjcPropAttribute("Contents")]
         public object Contents { get; set; }
 
@@ -206,10 +246,28 @@ namespace Smartmobili.Cocoa
 
         public bool Highlighted { get; set; }
 
-        //protected int _state;
-        public virtual int State { get; set; }
+        [ObjcPropAttribute("State")]
+        public int State 
+        {
+            get { return _cell.state; }
+            set
+            {
+                if (value > 0 || (value < 0 && Convert.ToBoolean(_cell.allows_mixed_state) == false))
+                {
+                    _cell.state = (int)NSCellStateValue.NSOnState;
+                }
+                else if (value == 0)
+                {
+                    _cell.state = (int)NSCellStateValue.NSOffState;
+                }
+                else
+                {
+                    _cell.state = (int)NSCellStateValue.NSMixedState;
+                }
+            }
+        }
 
-        //public NSOnState State { get; set; }
+        //public int State { get; set; }
 
         public NSControlTint ControlTint { get; set; }
 
@@ -229,6 +287,12 @@ namespace Smartmobili.Cocoa
 
         public bool AllowsEditingTextAttributes { get; set; }
 
+        [ObjcPropAttribute("IntValue", SetName=null)]
+        public int IntValue
+        {
+            get { return _cell.state; }
+        }
+
         public NSCell()
         {
 
@@ -236,6 +300,7 @@ namespace Smartmobili.Cocoa
 
         #region Initializing a Cell
 
+        [ObjcMethodAttribute("Init")]
         public NSObject Init()
         {
             return (NSObject)InitTextCell((NSString)"");
@@ -288,7 +353,7 @@ namespace Smartmobili.Cocoa
                     this.Editable = ((cFlags & 0x10000000) == 0x10000000);
                     this.Enabled = ((cFlags & 0x20000000) != 0x20000000);
                     this.Highlighted = ((cFlags & 0x40000000) == 0x40000000);
-                    //this.State = ((cFlags & 0x80000000) == 0x80000000) ? NSOnState : NSOffState;
+                    this.State = (int)(((cFlags & 0x80000000) == 0x80000000) ? NSCellStateValue.NSOnState : NSCellStateValue.NSOffState);
                 }
 
                 if (aDecoder.ContainsValueForKey("NSCellFlags2"))
@@ -476,5 +541,7 @@ namespace Smartmobili.Cocoa
         {
             return 0;
         }
+
+        
     }
 }

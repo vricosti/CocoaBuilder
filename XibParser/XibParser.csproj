@@ -87,6 +87,7 @@
     <Compile Include="IBPartialClassDescription.cs" />
     <Compile Include="IBToOneOutletInfo.cs" />
     <Compile Include="id.cs" />
+    <Compile Include="INSNumber.cs" />
     <Compile Include="INSXMLParser.cs" />
     <Compile Include="NSArray.cs" />
     <Compile Include="NSClassWrapper.cs" />
