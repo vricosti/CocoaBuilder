@@ -226,6 +226,30 @@ namespace Smartmobili.Cocoa
         [ObjcPropAttribute("DoubleValue", SetName = null)]
         public double DoubleValue
         {
+            get 
+            { 
+                if ((Convert.ToBoolean(_cell.has_valid_object_value) == true) &&
+                    (_object_value is INSNumber))
+                {
+                    return (double)((INSNumber)_object_value).DoubleValue;
+                }
+                else
+                {
+                    return this.StringValue.DoubleValue;
+                }
+                 
+            }
+        }
+
+        [ObjcPropAttribute("FloatValue", SetName = null)]
+        public float FloatValue
+        {
+            get { return _cell.state; }
+        }
+
+        [ObjcPropAttribute("IntegerValue", SetName = null)]
+        public int IntegerValue
+        {
             get { return _cell.state; }
         }
 
@@ -234,6 +258,28 @@ namespace Smartmobili.Cocoa
         public int IntValue
         {
             get { return _cell.state; }
+        }
+
+        [ObjcPropAttribute("StringValue", SetName = null)]
+        public NSString StringValue
+        {
+            get
+            {
+                if (null == _contents)
+                {
+                    return @"";
+                }
+
+                if (Convert.ToBoolean(_cell.contents_is_attributed_string) == false)
+                {
+                    return (NSString)_contents;
+                }
+                else
+                {
+                    throw new NotImplementedException("NSCell.StringValue");
+                    //return (NSAttributedString);
+                }
+            }
         }
 
 

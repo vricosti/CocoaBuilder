@@ -44,6 +44,67 @@ namespace System
 
             return ret;
         }
+
+
+        public static double ToDouble(this object anObject)
+        {
+            double ret = 0;
+            try { ret = Convert.ToDouble(anObject); }  
+            catch (Exception)  {}
+            return ret;
+        }
+
+        public static float ToFloat(this object anObject)
+        {
+            float ret = 0;
+            try { ret = Convert.ToSingle(anObject); } 
+            catch (Exception) { }
+            return ret;
+        }
+
+        public static int ToInt(this object anObject)
+        {
+            int ret = 0;
+            try { ret = Convert.ToInt32(anObject); }
+            catch (Exception) { }
+            return ret;
+        }
+
+        public static bool ToBool(this object anObject)
+        {
+            bool ret = false;
+            try { ret = Convert.ToBoolean(anObject); }
+            catch (Exception) { }
+            return ret;
+        }
+
+        //public static double ToDouble(this string nsString)
+        //{
+        //    double ret = 0;
+        //    Double.TryParse(nsString, out ret);
+        //    return ret;
+        //}
+
+        //public static float ToFloat(this string nsString)
+        //{
+        //    float ret = 0;
+        //    Single.TryParse(nsString, out ret);
+        //    return ret;
+        //}
+
+        //public static int ToInt(this string nsString)
+        //{
+        //    int ret = 0;
+        //    Int32.TryParse(nsString, out ret);
+        //    return ret;
+        //}
+
+        //public static bool ToBool(this string nsString)
+        //{
+        //    bool ret = false;
+        //    bool.TryParse(nsString, out ret);
+        //    return ret;
+        //}
     }
 }
 
@@ -119,6 +180,6 @@ namespace System.Xml.Linq
             return val;
         }
 
-        
+
     }
 }

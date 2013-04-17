@@ -90,6 +90,7 @@
     <Compile Include="INSNumber.cs" />
     <Compile Include="INSXMLParser.cs" />
     <Compile Include="NSArray.cs" />
+    <Compile Include="NSAttributedString.cs" />
     <Compile Include="NSClassWrapper.cs" />
     <Compile Include="NSCoder.cs" />
     <Compile Include="NSCoding.cs" />

@@ -25,18 +25,29 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSString : NSObject
+    public class NSString : NSObject, INSNumber
     {
         //public override string ClassName  { get { return "NSString"; } }
 
         public string Value { get; set; }
+
+        [ObjcPropAttribute("DoubleValue", SetName = null)]
+        public double DoubleValue { get  { return Value.ToDouble(); } }
+
+        [ObjcPropAttribute("FloatValue", SetName = null)]
+        public float FloatValue { get { return Value.ToFloat(); } }
+        
+        [ObjcPropAttribute("IntValue", SetName = null)]
+        public int IntValue { get { return Value.ToInt(); } }
+        
+        [ObjcPropAttribute("IntegerValue", SetName = null)]
+        public int IntegerValue { get { return Value.ToInt(); } }
 
 
         public static Class Class()
         {
             return new Class(typeof(NSString));
         }
-
 
         public NSString()
         {

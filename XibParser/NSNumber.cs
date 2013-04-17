@@ -28,14 +28,20 @@ namespace Smartmobili.Cocoa
     {
         private object _number;
 
-        [ObjcPropAttribute("IntValue", SetName=null)]
-        public int IntValue
-        {
-            get 
-            {
-                return Convert.ToInt32(_number); 
-            }
-        }
+        
+
+        [ObjcPropAttribute("DoubleValue", SetName = null)]
+        public double DoubleValue { get { return _number.ToDouble(); } }
+
+        [ObjcPropAttribute("FloatValue", SetName = null)]
+        public float FloatValue { get { return _number.ToFloat(); } }
+
+        [ObjcPropAttribute("IntegerValue", SetName = null)]
+        public int IntegerValue { get { return _number.ToInt(); } }
+
+        [ObjcPropAttribute("IntValue", SetName = null)]
+        public int IntValue { get { return _number.ToInt(); } }
+
 
         public NSNumber()
         {
@@ -147,6 +153,9 @@ namespace Smartmobili.Cocoa
 
 
 
-        
+
+
+
+       
     }
 }
