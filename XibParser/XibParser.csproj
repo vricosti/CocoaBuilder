@@ -94,6 +94,7 @@
     <Compile Include="NSCoder.cs" />
     <Compile Include="NSCoding.cs" />
     <Compile Include="Foundation\NSData.cs" />
+    <Compile Include="NSDateFormatter.cs" />
     <Compile Include="NSDictionary.cs" />
     <Compile Include="NSError.cs" />
     <Compile Include="NSEvent.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="AppKit\NSViewController.cs" />
     <Compile Include="AppKit\NSWindow.cs" />
     <Compile Include="NSFileWrapper.cs" />
+    <Compile Include="NSFormatter.cs" />
     <Compile Include="NSKeyedUnarchiver.cs" />
     <Compile Include="NSMutableArray.cs" />
     <Compile Include="NSMutableDictionary.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="NSNibBindingConnector.cs" />
     <Compile Include="NSNibConnector.cs" />
     <Compile Include="NSNumber.cs" />
+    <Compile Include="NSNumberFormatter.cs" />
     <Compile Include="NSObject.cs" />
     <Compile Include="NSObjectDecoder.cs" />
     <Compile Include="AppKit\NSResponder.cs" />
