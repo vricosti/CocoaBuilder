@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
         public const int YES = 1;
     }
 
-    public class NSObject : NSCoding
+    public class NSObject : id, NSCoding
     {
         public string Key { get; set; }
 

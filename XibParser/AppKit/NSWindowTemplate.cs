@@ -28,9 +28,32 @@ using Smartmobili.Cocoa.Utils;
 
 namespace Smartmobili.Cocoa
 {
+    public enum NSBackingStoreType : uint
+    {
+        NSBackingStoreRetained,
+        NSBackingStoreNonretained,
+        NSBackingStoreBuffered
+    }
+
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSNibLoading.m
     public class NSWindowTemplate : NSObject, NSCoding
     {
-        struct NSWindowTemplateFlags
+        NSBackingStoreType _backingStoreType;
+        NSSize _maxSize;
+        NSSize _minSize;
+        uint _windowStyle;
+        NSString _title;
+        id _viewClass;
+        NSString _windowClass;
+        NSRect _windowRect;
+        NSRect _screenRect;
+        id _realObject;
+        id _view;
+        GSWindowTemplateFlags _flags;
+        NSString _autosaveName;
+        Class _baseWindowClass;
+
+        struct GSWindowTemplateFlags
         {
             [BitfieldLength(16)]
             public uint _unused;
@@ -56,36 +79,94 @@ namespace Smartmobili.Cocoa
             public uint isHiddenOnDeactivate;
         };
 
-        private NSWindowTemplateFlags _NSWTFlags = new NSWindowTemplateFlags();
-        public uint NSWTFlags { get { return (uint)EncodeNSWTFlags(); } set { DecodeNSWTFlags(value); } }
 
-        public List<NSObject> Items { get; set; }
+        [ObjcPropAttribute("backingStore")]
+        public NSBackingStoreType BackingStore
+        {
+            get { return _backingStoreType; }
+            set { _backingStoreType = value; }
+        }
 
-        public NSWindowStyleMasks StyleMask;
+        [ObjcPropAttribute("deferred", GetName = "isDeferred")]
+        public bool Deferred
+        {
+            get { return Convert.ToBoolean(_flags.isDeferred); }
+            set { _flags.isDeferred = Convert.ToUInt32(value); }
+        }
 
-        public int Backing;
+        [ObjcPropAttribute("maxSize")]
+        public NSSize MaxSize
+        {
+            get { return _maxSize; }
+            set { _maxSize = value; }
+        }
 
-        public NSRect WindowRect { get; set; }
+        [ObjcPropAttribute("minSize")]
+        public NSSize MinSize
+        {
+            get { return _minSize; }
+            set { _minSize = value; }
+        }
 
-        public NSRect ScreenRect { get; set; }
+        [ObjcPropAttribute("windowStyle")]
+        public uint WindowStyle
+        {
+            get { return _windowStyle; }
+            set { _windowStyle = value; }
+        }
 
-        public string Title { get; set; }
+        [ObjcPropAttribute("title")]
+        public NSString Title
+        {
+            get { return _title; }
+            set { _title = value; }
+        }
 
-        public string WindowClass { get; set; }
+        [ObjcPropAttribute("viewClass")]
+        public id ViewClass
+        {
+            get { return _viewClass; }
+            set { _viewClass = value; }
+        }
 
-        public NSToolbar Toolbar { get; set; }
+        [ObjcPropAttribute("windowRect")]
+        public NSRect WindowRect
+        {
+            get { return _windowRect; }
+            set { _windowRect = value; }
+        }
 
-        public NSView WindowView { get; set; }
+        [ObjcPropAttribute("screenRect")]
+        public NSRect ScreenRect
+        {
+            get { return _screenRect; }
+            set { _screenRect = value; }
+        }
 
-        public NSSize MinSize { get; set; }
+        [ObjcPropAttribute("realObject")]
+        public id RealObject
+        {
+            get { return _realObject; }
+            set { _realObject = value; }
+        }
 
-        public NSSize MaxSize { get; set; }
+        [ObjcPropAttribute("view")]
+        public id View
+        {
+            get { return _view; }
+            set { _view = value; }
+        }
 
-        public bool IsRestorable { get; set; }
+        [ObjcPropAttribute("className")]
+        public NSString ClassName
+        {
+            get { return _windowClass; }
+            set { _windowClass = value; }
+        }
 
         public NSWindowTemplate()
         {
-            Items = new List<NSObject>();
+            
         }
 
         public override void EncodeWithCoder(NSObjectDecoder aCoder)
@@ -99,101 +180,101 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                StyleMask = (NSWindowStyleMasks)aDecoder.DecodeIntForKey("NSWindowStyleMask");
-                Backing = aDecoder.DecodeIntForKey("NSWindowBacking");
-                WindowRect = aDecoder.DecodeRectForKey("NSWindowRect");
-                NSWTFlags = (uint)aDecoder.DecodeIntForKey("NSWTFlags");
-                if (aDecoder.ContainsValueForKey("NSWindowTitle"))
+                if (aDecoder.ContainsValueForKey("NSViewClass"))
                 {
-                    Title = (NSString)aDecoder.DecodeObjectForKey("NSWindowTitle");
-                    StyleMask |= NSWindowStyleMasks.NSTitledWindowMask;
+                    _viewClass = (id)aDecoder.DecodeObjectForKey("NSViewClass");
                 }
-
-                WindowClass = (NSString)aDecoder.DecodeObjectForKey("NSWindowClass");
-                Toolbar = (NSToolbar)aDecoder.DecodeObjectForKey("NSViewClass");
-                WindowView = (NSView)aDecoder.DecodeObjectForKey("NSWindowView");
-                ScreenRect = (NSRect)aDecoder.DecodeRectForKey("NSScreenRect");
-                IsRestorable = aDecoder.DecodeBoolForKey("NSWindowIsRestorable");
-
-                MinSize = aDecoder.DecodeSizeForKey("NSMinSize");
-
+                if (aDecoder.ContainsValueForKey("NSWindowClass"))
+                {
+                    _windowClass = (NSString)aDecoder.DecodeObjectForKey("NSWindowClass");
+                }
+                if (aDecoder.ContainsValueForKey("NSWindowStyleMask"))
+                {
+                    _windowStyle = (uint)aDecoder.DecodeIntForKey("NSWindowStyleMask");
+                }
+                if (aDecoder.ContainsValueForKey("NSWindowBacking"))
+                {
+                    _backingStoreType = (NSBackingStoreType)aDecoder.DecodeIntForKey("NSWindowBacking");
+                }
+                if (aDecoder.ContainsValueForKey("NSWindowView"))
+                {
+                    _view = (id)aDecoder.DecodeObjectForKey("NSWindowView");
+                }
+                if (aDecoder.ContainsValueForKey("NSWTFlags"))
+                {
+                    uint flags = (uint)aDecoder.DecodeIntForKey("NSWTFlags");
+                    _flags = PrimitiveConversion.FromLong<GSWindowTemplateFlags>(flags);
+                }
+                if (aDecoder.ContainsValueForKey("NSMinSize"))
+                {
+                    _minSize = aDecoder.DecodeSizeForKey("NSMinSize");
+                }
                 if (aDecoder.ContainsValueForKey("NSMaxSize"))
                 {
-                    MaxSize = aDecoder.DecodeSizeForKey("NSMaxSize");
+                    _maxSize = aDecoder.DecodeSizeForKey("NSMaxSize");
                 }
                 else
                 {
-                    MaxSize = new NSSize((float)10e+4, (float)10e+4);
+                    _maxSize = new NSSize((float)10e+4, (float)10e+4);
                 }
+
+                if (aDecoder.ContainsValueForKey("NSWindowRect"))
+                {
+                    _windowRect = aDecoder.DecodeRectForKey("NSWindowRect");
+                }
+                if (aDecoder.ContainsValueForKey("NSFrameAutosaveName"))
+                {
+                    _autosaveName = (NSString)aDecoder.DecodeObjectForKey("NSFrameAutosaveName");
+                }
+                if (aDecoder.ContainsValueForKey("NSWindowTitle"))
+                {
+                    _title = (NSString)aDecoder.DecodeObjectForKey("NSWindowTitle");
+                    _windowStyle |= (uint)NSWindowStyleMasks.NSTitledWindowMask;
+                }
+
+                //_baseWindowClass = [NSWindow class];
             }
+            else
+            {
+                //[NSException raise: NSInvalidArgumentException 
+                //             format: @"Can't decode %@ with %@.",NSStringFromClass([self class]),
+                //             NSStringFromClass([coder class])];
+            }
+
+            //if (aDecoder.AllowsKeyedCoding)
+            //{
+            //    StyleMask = (NSWindowStyleMasks)aDecoder.DecodeIntForKey("NSWindowStyleMask");
+            //    Backing = aDecoder.DecodeIntForKey("NSWindowBacking");
+            //    WindowRect = aDecoder.DecodeRectForKey("NSWindowRect");
+            //    NSWTFlags = (uint)aDecoder.DecodeIntForKey("NSWTFlags");
+            //    if (aDecoder.ContainsValueForKey("NSWindowTitle"))
+            //    {
+            //        Title = (NSString)aDecoder.DecodeObjectForKey("NSWindowTitle");
+            //        StyleMask |= NSWindowStyleMasks.NSTitledWindowMask;
+            //    }
+
+            //    WindowClass = (NSString)aDecoder.DecodeObjectForKey("NSWindowClass");
+            //    Toolbar = (NSToolbar)aDecoder.DecodeObjectForKey("NSViewClass");
+            //    WindowView = (NSView)aDecoder.DecodeObjectForKey("NSWindowView");
+            //    ScreenRect = (NSRect)aDecoder.DecodeRectForKey("NSScreenRect");
+            //    IsRestorable = aDecoder.DecodeBoolForKey("NSWindowIsRestorable");
+
+            //    MinSize = aDecoder.DecodeSizeForKey("NSMinSize");
+
+            //    if (aDecoder.ContainsValueForKey("NSMaxSize"))
+            //    {
+            //        MaxSize = aDecoder.DecodeSizeForKey("NSMaxSize");
+            //    }
+            //    else
+            //    {
+            //        MaxSize = new NSSize((float)10e+4, (float)10e+4);
+            //    }
+            //}
 
             return this;
         }
 
-        private void DecodeNSWTFlags(uint nswtflags)
-        {
-            _NSWTFlags = PrimitiveConversion.FromLong<NSWindowTemplateFlags>(nswtflags);
-            
-
-        }
-
-        private int EncodeNSWTFlags()
-        {
-           
-
-            return (int)PrimitiveConversion.ToLong<NSWindowTemplateFlags>(_NSWTFlags);
-        }
-
-        //public static NSWindowTemplate Create(NSObjectDecoder aDecoder)
-        //{
-        //    NSWindowTemplate nsObj = new NSWindowTemplate();
-
-        //    var xElement = aDecoder.XmlElement;
-        //    var elements = xElement.Elements();
-        //    foreach (var elm in elements)
-        //    {
-        //        aDecoder.XmlElement = elm;
-        //        nsObj.Decode(aDecoder);
-        //    }
-
-
-        //    //var elementsxElement.Elements()
-        //    //<int key="NSWindowStyleMask">15</int>
-        //    //<int key="NSWindowBacking">2</int>
-        //    //<string key="NSWindowRect">{{196, 240}, {618, 508}}</string>
-        //    //<int key="NSWTFlags">544735232</int>
-        //    //<string key="NSWindowTitle">Compose</string>
-        //    //<string key="NSWindowClass">NSWindow</string>
-        //    //<object class="NSToolbar" key="NSViewClass" id="1042547981">
-        //    return nsObj;
-        //}
-
-
-        //protected void Decode(NSObjectDecoder aDecoder)
-        //{
-        //    var xElement = aDecoder.XmlElement;
-        //    string key = xElement.Attribute("key").Value;
-        //    switch (key)
-        //    {
-
-        //        case "NSWindowStyleMask": { StyleMask = (NSWindowStyleMask)(int)(NSNumber)aDecoder.Create(xElement); break; }
-        //        case "NSWindowBacking": { Backing = (NSNumber)aDecoder.Create(xElement); break; }
-        //        case "NSWindowRect": { WindowRect = (NSRect)(NSString)aDecoder.Create(xElement); break; }
-        //        case "NSWTFlags": { NSWTFlags = (NSNumber)aDecoder.Create(xElement); break; }
-        //        case "NSWindowTitle": { Title = (NSString)aDecoder.Create(xElement); break; }
-        //        case "NSWindowClass": { WindowClass = (NSString)aDecoder.Create(xElement); break; }
-        //        case "NSViewClass": { Toolbar = (NSToolbar)aDecoder.Create(xElement); break; }
-        //        case "NSUserInterfaceItemIdentifier": { break; }
-        //        case "NSWindowView": { View = (NSView)aDecoder.Create(xElement); break; }
-        //        case "NSScreenRect": { ScreenRect = (NSString)aDecoder.Create(xElement); break; }
-        //        case "NSMaxSize": { MaxSize = (NSSize)(NSString)aDecoder.Create(xElement); break; }
-        //        case "NSWindowIsRestorable": { IsRestorable = (NSNumber)aDecoder.Create(xElement); break; }
-        //        default:
-
-        //            break;
-
-        //    }
-        //}
+       
 
     }
 }

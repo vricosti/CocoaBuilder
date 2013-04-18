@@ -11,7 +11,7 @@ namespace Smartmobili.Cocoa
         static void Main(string[] args)
         {
 #if TEST
-            string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/NSButton.xib";
+            string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/Compose.xib";
             //string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\ButtonTextAlign.xib";
             XibParser xibParser = new XibParser(xibPath);
             var ibArchive = xibParser.Deserialize();
@@ -22,11 +22,12 @@ namespace Smartmobili.Cocoa
 
             if (nsWindow != null)
             {
-                if (nsWindow.WindowView != null)
+                if (nsWindow.View != null)
                 {
+                    NSView view = (NSView)nsWindow.View;
                     // We want to see differences between buttons starting from the upper button to the lower one
                     // Note tha origin in cocoa is the left bottom side
-                    var btnArray = nsWindow.WindowView.SubViews.Where(o => (o != null) && (o.GetType() == typeof(NSButton))).OrderByDescending(x => ((NSButton)x).Frame.Origin.Y).ToArray();
+                    var btnArray = view.SubViews.Where(o => (o != null) && (o.GetType() == typeof(NSButton))).OrderByDescending(x => ((NSButton)x).Frame.Origin.Y).ToArray();
                     if (btnArray != null && btnArray.Length > 0)
                     {
                         KellermanSoftware.CompareNetObjects.CompareObjects compareObjects = new KellermanSoftware.CompareNetObjects.CompareObjects();

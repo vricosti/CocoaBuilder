@@ -302,7 +302,7 @@ namespace Smartmobili.Cocoa
         [ObjcPropAttribute("Wraps")]
         public bool Wraps { get; set; }
 
-        [ObjcPropAttribute("Scrollable", GetName = "isScrollable")]
+        [ObjcPropAttribute("scrollable", GetName = "isScrollable")]
         public bool Scrollable { get; set; }
 
         [ObjcPropAttribute("Selectable", GetName = "isSelectable")]

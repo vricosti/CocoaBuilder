@@ -28,42 +28,121 @@ namespace Smartmobili.Cocoa
 {
     public class NSToolbarItem : NSObject
     {
-        public NSString ItemIdentifier { get; set; }
+        bool _autovalidates;
+        NSString _itemIdentifier;
+        NSString _label;
+        NSString _paletteLabel;
+        NSImage _image;
+        id _view;
+        NSMenuItem _menuFormRepresentation;
+        NSString _toolTip;
+        int _tag;
+        int _visibilityPriority;
 
-        public string Label { get; set; }
+        // toolbar
+        NSToolbar _toolbar;
+        NSView _backView;
+        bool _modified;
+        bool _selectable;
+        bool _isUserRemovable;
 
-        public string PaletteLabel { get; set; }
+        // size
+        NSSize _maxSize;
+        NSSize _minSize;
 
-        public string ToolTip { get; set; }
+        //FIXME : doesn't exist in GNUSTep
+        bool _enabled;
 
-        public NSView View { get; set; }
 
-        //public NSImage Image { get; set; }
 
-        public NSCustomResource CustomResource  { get; set; }
+        public NSString ItemIdentifier
+        {
+            get { return _itemIdentifier;  }
+            set { _itemIdentifier = value; }
+        }
 
-        public string Target { get; set; }
+        public NSString Label
+        {
+            get { return _label; }
+            set { _label = value; }
+        }
 
-        public string Action { get; set; }
+        public NSString PaletteLabel
+        {
+            get { return _paletteLabel; }
+            set { _paletteLabel = value; }
+        }
 
-        public NSSize MinSize { get; set; }
+        public NSImage Image
+        {
+            get { return _image; }
+            set { _image = value; }
+        }
 
-        public NSSize MaxSize { get; set; }
+        public NSString ToolTip
+        {
+            get { return _toolTip; }
+            set { _toolTip = value; }
+        }
 
-        public bool Enabled { get; set; }
+        public NSSize MaxSize
+        {
+            get { return _maxSize; }
+            set { _maxSize = value; }
+        }
 
-        public bool Autovalidates { get; set; }
+        public NSSize MinSize
+        {
+            get { return _minSize; }
+            set { _minSize = value; }
+        }
 
-        public int Tag { get; set; }
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set { _enabled = value; }
+        }
 
-        public bool IsUserRemovable { get; set; }
+        public bool Autovalidates
+        {
+            get { return _autovalidates; }
+            set { _autovalidates = value; }
+        }
 
-        public int VisibilityPriority { get; set; }
+        public int Tag
+        {
+            get { return _tag; }
+            set { _tag = value; }
+        }
+
+        public int VisibilityPriority
+        {
+            get { return _visibilityPriority; }
+            set { _visibilityPriority = value; }
+        }
+
+        public NSView View
+        {
+            get { return (NSView)_view; }
+            set { _view = value; }
+        }
+
+        public bool IsUserRemovable
+        {
+            get { return _isUserRemovable; }
+            set { _isUserRemovable = value; }
+        }
 
         public NSToolbarItem()
         {
 
         }
+
+        //public id InitWithItemIdentifier(NSString itemIdentifier)
+        //{
+
+        //}
+
 
         //public NSToolbarItem(NSObjectDecoder aDecoder)
         //    : base(aDecoder)
@@ -83,9 +162,9 @@ namespace Smartmobili.Cocoa
                 PaletteLabel = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemPaletteLabel");
                 ToolTip = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemToolTip");
                 View = (NSView)aDecoder.DecodeObjectForKey("NSToolbarItemView");
-                CustomResource = (NSCustomResource)aDecoder.DecodeObjectForKey("NSToolbarItemImage");
-                Target = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemTarget");
-                Action = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemAction");
+                Image = (NSImage)aDecoder.DecodeObjectForKey("NSToolbarItemImage");
+                //Target = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemTarget");
+                //Action = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemAction");
                 MinSize = aDecoder.DecodeSizeForKey("NSToolbarItemMinSize");
                 MaxSize = aDecoder.DecodeSizeForKey("NSToolbarItemMaxSize");
                 Enabled = aDecoder.DecodeBoolForKey("NSToolbarItemEnabled");
