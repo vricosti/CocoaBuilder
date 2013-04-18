@@ -307,7 +307,7 @@ namespace Smartmobili.Cocoa
                 if (aDecoder.ContainsValueForKey("NSAlternateImage"))
                 {
                     object image = aDecoder.DecodeObjectForKey("NSAlternateImage");
-                    if (image.GetType() == typeof(NSImage))
+                    if (image != null && image.GetType() == typeof(NSImage))
                     {
                         #region TODO
 

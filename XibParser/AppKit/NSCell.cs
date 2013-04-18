@@ -135,7 +135,14 @@ namespace Smartmobili.Cocoa
         public NSImage Image 
         {
             get { return (_cell.type == (uint)NSCellType.NSImageCellType) ? _cell_image : null; }
-            set { _cell_image = value; } 
+            set 
+            { 
+                 if (_cell.type != (uint)NSCellType.NSImageCellType) 
+                 { 
+                     this.Type = NSCellType.NSImageCellType; 
+                 }
+                _cell_image = value; 
+            } 
         }
 
         [ObjcPropAttribute("Type")]

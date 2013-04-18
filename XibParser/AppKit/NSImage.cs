@@ -37,7 +37,7 @@ namespace Smartmobili.Cocoa
     {
         public string Name { get; set; }
 
-        //public string ResourceName { get; set; }
+        public string ResourceName { get; set; }
 
         public static Class Class()
         {
@@ -47,8 +47,8 @@ namespace Smartmobili.Cocoa
 
         public NSImage()
         {
-
         }
+
 
         //public NSImage(NSObjectDecoder aDecoder)
         //    : base(aDecoder)

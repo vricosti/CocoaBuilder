@@ -28,10 +28,20 @@ namespace Smartmobili.Cocoa
 {
     public class NSCustomResource : NSObject
     {
-        public string ClassName { get; set; }
+        private NSString _className;
+        private NSString _resourceName;
 
-        public string ResourceName { get; set; }
+        public NSString ClassName 
+        { 
+            get { return _className; } 
+            set { _className = value; } 
+        }
 
+        public NSString ResourceName
+        { 
+            get { return _resourceName; } 
+            set { _resourceName = value; } 
+        }
 
         public NSCustomResource()
         {
@@ -44,47 +54,33 @@ namespace Smartmobili.Cocoa
             
         //}
 
-        public override NSObject InitWithCoder(NSObjectDecoder decoder)
+        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
         {
-            base.InitWithCoder(decoder);
 
-            var xElement = decoder.XmlElement;
-            foreach (var xElem in xElement.Elements())
+            NSObject realObject = null;
+            if (aDecoder.AllowsKeyedCoding)
             {
-                XAttribute xKeyAttr = xElem.Attribute("key");
-                if (xKeyAttr != null && xKeyAttr.Value == "NSClassName")
+                _className = (NSString)aDecoder.DecodeObjectForKey("NSClassName");
+                _resourceName = (NSString)aDecoder.DecodeObjectForKey("NSResourceName");
+
+                if (_className == "NSSound")
                 {
-                    ClassName = xElem.Value;
+                    //realObject = null;
                 }
-                else if (xKeyAttr != null && xKeyAttr.Value == "NSResourceName")
+                else if (_className == "NSImage")
                 {
-                    ResourceName = xElem.Value;
+                    realObject = new NSImage();
+                    ((NSImage)realObject).ResourceName = _resourceName;
                 }
             }
+            else
+            {
 
-            return this;
+            }
+
+            return realObject;
+
         }
-
-        //public static NSCustomResource Create(NSObjectDecoder aDecoder)
-        //{
-        //    NSCustomResource nsCustomRes = new NSCustomResource();
-
-        //    var xElement = aDecoder.XmlElement;
-        //    foreach (var xElem in xElement.Elements())
-        //    {
-        //        XAttribute xKeyAttr = xElem.Attribute("key");
-        //        if (xKeyAttr != null && xKeyAttr.Value == "NSClassName")
-        //        {
-        //            nsCustomRes.ClassName = xElem.Value;
-        //        }
-        //        else if (xKeyAttr != null && xKeyAttr.Value == "NSResourceName")
-        //        {
-        //            nsCustomRes.ResourceName = xElem.Value;
-        //        }
-        //    }
-
-        //    return nsCustomRes;
-        //}
 
         
 

@@ -191,8 +191,7 @@ namespace Smartmobili.Cocoa
                 nsObj = Activator.CreateInstance(t) as NSCoding;
                 if (nsObj != null)
                 {
-                    nsObj.InitWithCoder(decoder);
-                    
+                    nsObj = nsObj.InitWithCoder(decoder);   
                 }
                 else
                 {
