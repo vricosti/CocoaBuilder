@@ -790,13 +790,13 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        protected void GetPeriodicDelay(ref float delay, ref float interval)
+        public void GetPeriodicDelay(ref float delay, ref float interval)
         {
             delay = _delayInterval;
             interval = _repeatInterval;
         }
 
-        private void SetPeriodicDelay(int delay, int interval)
+        public void SetPeriodicDelay(int delay, int interval)
         {
             _delayInterval = delay;
             _repeatInterval = interval;

@@ -152,7 +152,7 @@ namespace Smartmobili.Cocoa
         [ObjcMethod("getPeriodicDelay:interval")]
         public void GetPeriodicDelay(ref float delay, ref float interval)
         {
-            //_cell.GetPeriodicDelay(ref delay, ref interval);
+            _cell.GetPeriodicDelay(ref delay, ref interval);
         }
 		
 
