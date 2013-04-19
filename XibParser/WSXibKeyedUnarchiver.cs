@@ -53,7 +53,7 @@ namespace Smartmobili.Cocoa
             string xml = System.Text.Encoding.Default.GetString(data.Bytes);
             XDocument xDoc = XDocument.Parse(xml);
 
-            NSMutableDictionary customClassDict = NSMutableDictionary.Alloc().Init();
+            NSMutableDictionary customClassDict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
 
             var customClassNodes = xDoc.XPathSelectElements("//dictionary[@key=\"flattenedProperties\"]/string[contains(@key,\"CustomClassName\")]", null);
             if (customClassNodes != null && customClassNodes.Count() == 1)
@@ -125,18 +125,18 @@ namespace Smartmobili.Cocoa
         {
             NSData theData = data;
 
-            Objects = NSMutableDictionary.Alloc().Init();
+            Objects = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
 
-            Stack = NSMutableArray.Alloc().Init();
+            Stack = (NSMutableArray)NSMutableArray.Alloc().Init();
 
-            Decoded = NSMutableDictionary.Alloc().Init();
+            Decoded = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
 
             if (NSClassWrapper.IsInInterfaceBuilder == false)
             {
                 theData = PreProcessXib(data);
             }
 
-            NSXMLParser theParser = NSXMLParser.Alloc().InitWithData(theData);
+            NSXMLParser theParser = (NSXMLParser)NSXMLParser.Alloc().InitWithData(theData);
             theParser.SetDelegate(this);
 
             theParser.Parse();

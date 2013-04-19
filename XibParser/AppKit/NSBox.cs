@@ -95,7 +95,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

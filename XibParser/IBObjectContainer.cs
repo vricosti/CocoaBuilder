@@ -54,8 +54,10 @@ namespace Smartmobili.Cocoa
             Localizations = new NSMutableDictionary();
         }
 
-        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
+            id self = this;
+
             if (aDecoder.AllowsKeyedCoding)
             {
                 ConnectionRecords = (NSMutableArray)aDecoder.DecodeObjectForKey("connectionRecords");
@@ -68,7 +70,7 @@ namespace Smartmobili.Cocoa
             }
 
 
-            return this;
+            return self;
         }
 
 

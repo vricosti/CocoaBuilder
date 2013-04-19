@@ -151,8 +151,10 @@ namespace Smartmobili.Cocoa
             
         //}
 
-        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
+            id self = this;
+
             base.InitWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
@@ -175,7 +177,7 @@ namespace Smartmobili.Cocoa
                 VisibilityPriority = aDecoder.DecodeIntForKey("NSToolbarItemVisibilityPriority");
             }
 
-            return this;
+            return self;
         }
     }
 }

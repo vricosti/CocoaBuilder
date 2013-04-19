@@ -37,8 +37,10 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
+            id self = this;
+
             base.InitWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
@@ -48,7 +50,7 @@ namespace Smartmobili.Cocoa
                 Destination = aDecoder.DecodeObjectForKey("destination");
             }
 
-            return this;
+            return self;
         }
     }
 }

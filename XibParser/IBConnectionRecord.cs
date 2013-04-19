@@ -34,15 +34,17 @@ namespace Smartmobili.Cocoa
         {
         }
 
-        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
+            id self = this;
+
             if (aDecoder.AllowsKeyedCoding)
             {
                 Connection = (IBConnection)aDecoder.DecodeObjectForKey("connection");
                 ConnectionID = aDecoder.DecodeIntForKey("connectionID");
             }
 
-            return this;
+            return self;
         }
 
 

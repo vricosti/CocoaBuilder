@@ -42,7 +42,7 @@ namespace Smartmobili.Cocoa
             MenuItems = new NSMutableArray();
         }
 
-        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

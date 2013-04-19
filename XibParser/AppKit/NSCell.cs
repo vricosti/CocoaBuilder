@@ -382,7 +382,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcMethodAttribute("InitWithCoder")]
-        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
 
             if (aDecoder.AllowsKeyedCoding)

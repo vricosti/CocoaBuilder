@@ -39,9 +39,10 @@ namespace Smartmobili.Cocoa
             return new NSMutableDictionary();
         }
 
-        public NSMutableDictionary Init()
+        public id Init()
         {
-            return this;
+            id self = this;
+            return self;
         }
 
 

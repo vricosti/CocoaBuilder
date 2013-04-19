@@ -62,7 +62,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public virtual NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public virtual id InitWithCoder(NSObjectDecoder aDecoder)
         {
             var xElement = aDecoder.XmlElement;
             string id = xElement.AttributeValueOrDefault("id", null);

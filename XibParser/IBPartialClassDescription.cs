@@ -65,8 +65,10 @@ namespace Smartmobili.Cocoa
         //                    <string>id</string>
         //                    <string>id</string>
         //                </object>
-        public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
+            id self = this;
+
             base.InitWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
@@ -81,7 +83,7 @@ namespace Smartmobili.Cocoa
 
             }
 
-            return this;
+            return self;
         }
 
        
