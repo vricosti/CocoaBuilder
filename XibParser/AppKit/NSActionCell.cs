@@ -25,8 +25,14 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSActionCell.h
     public class NSActionCell : NSCell
     {
+        protected int _tag;
+        protected id _target;
+        protected SEL _action;
+        protected NSView _control_view;
+
         public NSActionCell()
         {
 

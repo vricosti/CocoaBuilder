@@ -79,7 +79,7 @@ namespace Smartmobili.Cocoa
     }
 
     [Flags]
-    public enum NSCellMasks
+    public enum NSCellMasks : uint
     {
         NSNoCellMask = 0,
         NSContentsCellMask = 1,

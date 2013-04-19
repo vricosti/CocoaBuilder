@@ -62,5 +62,11 @@ namespace Smartmobili.Cocoa
 
             return this;
         }
+
+
+        public static NSImage ImageNamed(NSString anImage)
+        {
+            return new NSImage();
+        }
     }
 }

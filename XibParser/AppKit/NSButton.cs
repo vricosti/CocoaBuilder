@@ -100,8 +100,8 @@ namespace Smartmobili.Cocoa
         [ObjcPropAttribute("transparent", GetName = "isTransparent")]
         public bool Transparent
         {
-            get { return _cell.IsTransparent; }
-            set { _cell.IsTransparent = value; this.SetNeedsDisplay(true); }
+            get { return _cell.Transparent; }
+            set { _cell.Transparent = value; this.SetNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("bezelStyle")]

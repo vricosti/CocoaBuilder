@@ -357,7 +357,7 @@ namespace Smartmobili.Cocoa
 
         public bool RefusesFirstResponder { get; set; }
 
-        public NSTextAlignment TextAlignment { get; set; }
+        public NSTextAlignment Alignment { get; set; }
 
         public bool ImportsGraphics { get; set; }
 
@@ -443,7 +443,7 @@ namespace Smartmobili.Cocoa
                     this.SendsActionOnEndEditing = ((cFlags2 & 0x400000) == 0x400000);
                     this.AllowsMixedState = ((cFlags2 & 0x1000000) == 0x1000000);
                     this.RefusesFirstResponder = ((cFlags2 & 0x2000000) == 0x2000000);
-                    this.TextAlignment = (NSTextAlignment)((cFlags2 & 0x1C000000) >> 26);
+                    this.Alignment = (NSTextAlignment)((cFlags2 & 0x1C000000) >> 26);
                     this.ImportsGraphics = ((cFlags2 & 0x20000000) == 0x20000000);
                     this.AllowsEditingTextAttributes = ((cFlags2 & 0x40000000) == 0x40000000);
                 }

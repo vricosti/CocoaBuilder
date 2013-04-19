@@ -42,6 +42,8 @@ namespace Smartmobili.Cocoa
 
     public enum NSBezelStyle
     {
+        NSNoBezelStyle = 0,
+
         NSRoundedBezelStyle = 1,
         NSRegularSquareBezelStyle = 2,
         NSThickSquareBezelStyle = 3,
@@ -87,6 +89,7 @@ namespace Smartmobili.Cocoa
         NSBezelStyle _bezel_style;
         NSGradientType _gradient_type;
         NSColor _backgroundColor;
+        NSImageScaling _imageScaling;
 
         // From GNUstep
         public struct GSButtonCellFlags
@@ -133,7 +136,7 @@ namespace Smartmobili.Cocoa
             public uint isPushin;
         };
 
-        public struct GSButtonCellFlags2 
+        public struct GSButtonCellFlags2
         {
             [BitfieldLength(3)]
             public uint bezelStyle;
@@ -150,55 +153,319 @@ namespace Smartmobili.Cocoa
         };
 
 
-        public NSButtonType ButtonType { get; set; }
+        //
+        // Setting the Titles 
+        //
+        public NSString Title
+        {
+            get 
+            {
+                if (null == _contents)
+                    return (NSString)@"";
 
-        public string AlternateTitle { get; set; }
+                if (_cell.contents_is_attributed_string.ToBool() == false)
+                {
+                    return (NSString)_contents;
+                }
+                else
+                {
+                    return ((NSAttributedString)_contents).String;
+                }
+            }
 
-        // TODO
-        //public NSAttributedString AttributedTitle { get; set; }
-        // TODO
-        //public NSAttributedString AttributedAlternateTitle { get; set; }
+            set
+            {
+                _contents = value;
+                _cell.contents_is_attributed_string = Convert.ToUInt32(false);
+                if ((_control_view != null) && _control_view is NSControl)
+                {
+                    //FIXME
+                    //((NSControl)_control_view).UpdateCell(this);
+                }
+            }
+        }
 
-        public NSString Title { get; set; }
 
-        public NSFont Font { get; set; }
+        [ObjcProp("alternateTitle")]
+        public NSString AlternateTitle
+        {
+            get
+            {
+                return _altContents != null ? _altContents : (NSString)@"";
+            }
 
-        // inherited
-        //public NSImage Image { get; set; }
+            set
+            {
+                _altContents = value;
+                if ((_control_view != null) && _control_view is NSControl)
+                {
+                    //FIXME
+                    //((NSControl)_control_view).UpdateCell(this);
+                }
+            }
+        }
 
-        public NSImageScaling ImageScaling { get; set; }
+        [ObjcProp("attributedAlternateTitle")]
+        public NSAttributedString AttributedAlternateTitle
+        {
+            get
+            {
+                //FIXME
+                return null;
+            }
 
-        public NSColor BackgroundColor { get; set; }
-         public NSGradientType GradientType { get; set; }
+            set
+            {
+                this.AlternateTitle = value.String;
+            }
+        }
 
-        public NSImage AlternateImage { get; set; }
 
-        public NSCellImagePosition ImagePosition { get; set; }
+        //
+        // Managing Images 
+        //
+        [ObjcProp("alternateImage")]
+        public NSImage AlternateImage
+        {
+            get { return _altImage; }
+            set
+            {
+                _altImage = value;
+                if ((_control_view != null) && _control_view is NSControl)
+                {
+                    //FIXME
+                    //((NSControl)_control_view).UpdateCell(this);
+                }
+            }
+        }
 
-        public bool IsBordered { get; set; }
+        [ObjcProp("imagePosition")]
+        public NSCellImagePosition ImagePosition
+        {
+            get { return (NSCellImagePosition)_cell.image_position; }
+            set
+            {
+                NSCellImagePosition aPosition = value;
+                _cell.image_position = (uint)aPosition;
 
-        public bool IsTransparent { get; set; }
+                if (_cell.image_position == (uint)NSCellImagePosition.NSNoImage)
+                {
+                    _cell.type = (uint)NSCellType.NSTextCellType;
+                }
+                else
+                {
+                    _cell.type = (uint)NSCellType.NSImageCellType;
+                }
 
-        public NSBezelStyle BezelStyle { get; set; }
+                if ((_control_view != null) && _control_view is NSControl)
+                {
+                    //FIXME
+                    //((NSControl)_control_view).UpdateCell(this);
+                }
+            }
+        }
 
-        public bool ShowsBorderOnlyWhileMouseInside { get; set; }
+        [ObjcProp("imageScaling")]
+        public NSImageScaling ImageScaling
+        {
+            get { return _imageScaling; }
+            set { _imageScaling = value; }
+        }
 
-        // inherited
-        //public bool AllowsMixedState { get; set; }
 
-        //public NSCellStateValue State { get; set; }
+        //Managing the Key Equivalent
 
-        public int PeriodicDelay { get; set; }
+        [ObjcProp("keyEquivalent")]
+        public NSString KeyEquivalent
+        {
+            get { return (_keyEquivalent != null) ? _keyEquivalent : (NSString)@""; }
+            set
+            {
+                NSString key = value;
+                // FIXME
+                //[[GSTheme theme] setKeyEquivalent: key forButtonCell: self];
+                _keyEquivalent = key;
+            }
+        }
 
-        public int PeriodicInterval { get; set; }
+        [ObjcProp("keyEquivalentFont")]
+        public NSFont KeyEquivalentFont
+        {
+            get { return _keyEquivalentFont; }
+            set
+            {
+                NSFont fontObj = value;
+                _keyEquivalentFont = fontObj;
+            }
+        }
 
-        public int HighlightsBy { get { return (int)_highlightsByMask; } set { _highlightsByMask = (uint)value; } }
-       
-        public int ShowsStateBy { get { return (int)_showAltStateMask; } set { _showAltStateMask = (uint)value; } }
+        [ObjcProp("keyEquivalentModifierMask")]
+        public uint KeyEquivalentModifierMask
+        {
+            get { return _keyEquivalentModifierMask; }
+            set
+            {
+                uint mask = value;
+                _keyEquivalentModifierMask = mask;
+            }
+        }
 
-        public bool ImageDimsWhenDisabled { get; set; }
+        //Managing Graphics Attributes
 
-        public NSString KeyEquivalent { get; set; }
+        [ObjcProp("backgroundColor")]
+        public NSColor BackgroundColor
+        {
+            get { return _backgroundColor; }
+            set { _backgroundColor = value; }
+        }
+
+        [ObjcProp("transparent", GetName = "isTransparent")]
+        public bool Transparent
+        {
+            get { return Convert.ToBoolean(_cell.subclass_bool_one); }
+            set
+            {
+                bool flag = value;
+                _cell.subclass_bool_one = Convert.ToUInt32(flag);
+
+            }
+        }
+
+        [ObjcProp("opaque", GetName = "isOpaque", SetName = null)]
+        public bool Opaque
+        {
+            get
+            {
+                return (_cell.subclass_bool_one == 0) &&
+                    Convert.ToBoolean(_cell.is_bordered) &&
+                    _bezel_style == NSBezelStyle.NSNoBezelStyle;
+            }
+        }
+
+        [ObjcProp("bezelStyle")]
+        public NSBezelStyle BezelStyle
+        {
+            get { return _bezel_style; }
+            set { _bezel_style = value; }
+        }
+
+
+        [ObjcProp("showsBorderOnlyWhileMouseInside")]
+        public bool ShowsBorderOnlyWhileMouseInside
+        {
+            get { return _cell.subclass_bool_three.ToBool(); }
+            set
+            {
+                if (Convert.ToBoolean(_cell.subclass_bool_three) == value)
+                    return;
+
+                _cell.subclass_bool_three = Convert.ToUInt32(value);
+            }
+        }
+
+        [ObjcProp("gradientType")]
+        public NSGradientType GradientType
+        {
+            get { return _gradient_type; }
+            set { _gradient_type = value; }
+        }
+
+        [ObjcProp("imageDimsWhenDisabled")]
+        public bool ImageDimsWhenDisabled
+        {
+            get { return _cell.subclass_bool_two.ToBool(); }
+            set { _cell.subclass_bool_two = Convert.ToUInt32(value); }
+        }
+
+
+        //Displaying the Cell
+
+        public int HighlightsBy
+        {
+            get { return (int)_highlightsByMask; }
+            set { _highlightsByMask = (uint)value; }
+        }
+
+        public int ShowsStateBy
+        {
+            get { return (int)_showAltStateMask; }
+            set { _showAltStateMask = (uint)value; }
+        }
+
+        [ObjcProp("buttonType", GetName = null)]
+        public NSButtonType ButtonType
+        {
+            set
+            {
+                NSButtonType buttonType = value;
+                switch (buttonType)
+                {
+                    case NSButtonType.NSMomentaryLightButton:
+                        this.HighlightsBy = (int)NSCellMasks.NSChangeBackgroundCellMask;
+                        this.ShowsStateBy = (int)NSCellMasks.NSNoCellMask;
+                        this.ImageDimsWhenDisabled = true;
+                        break;
+                    case NSButtonType.NSMomentaryPushInButton:
+                        this.HighlightsBy = (int)(NSCellMasks.NSPushInCellMask | NSCellMasks.NSChangeGrayCellMask);
+                        this.ShowsStateBy = (int)NSCellMasks.NSNoCellMask;
+                        this.ImageDimsWhenDisabled = true;
+                        break;
+                    case NSButtonType.NSMomentaryChangeButton:
+                        this.HighlightsBy = (int)NSCellMasks.NSContentsCellMask;
+                        this.ShowsStateBy = (int)NSCellMasks.NSNoCellMask;
+                        this.ImageDimsWhenDisabled = true;
+                        break;
+                    case NSButtonType.NSPushOnPushOffButton:
+                        this.HighlightsBy = (int)(NSCellMasks.NSPushInCellMask | NSCellMasks.NSChangeGrayCellMask);
+                        this.ShowsStateBy = (int)NSCellMasks.NSChangeBackgroundCellMask;
+                        this.ImageDimsWhenDisabled = true;
+                        break;
+                    case NSButtonType.NSOnOffButton:
+                        this.HighlightsBy = (int)NSCellMasks.NSChangeBackgroundCellMask;
+                        this.ShowsStateBy = (int)NSCellMasks.NSChangeBackgroundCellMask;
+                        this.ImageDimsWhenDisabled = true;
+                        break;
+                    case NSButtonType.NSToggleButton:
+                        this.HighlightsBy = (int)(NSCellMasks.NSPushInCellMask | NSCellMasks.NSContentsCellMask);
+                        this.ShowsStateBy = (int)NSCellMasks.NSContentsCellMask;
+                        this.ImageDimsWhenDisabled = true;
+                        break;
+                    case NSButtonType.NSSwitchButton:
+                        this.HighlightsBy = (int)NSCellMasks.NSContentsCellMask;
+                        this.ShowsStateBy = (int)NSCellMasks.NSContentsCellMask;
+                        this.Image = NSImage.ImageNamed(@"NSSwitch");
+                        this.AlternateImage = NSImage.ImageNamed(@"NSHighlightedSwitch");
+                        this.ImagePosition = NSCellImagePosition.NSImageLeft;
+                        this.Alignment = NSTextAlignment.NSLeftTextAlignment;
+                        this.Bordered = false;
+                        this.Bezeled = false;
+                        this.ImageDimsWhenDisabled = false;
+                        break;
+
+                    case NSButtonType.NSRadioButton:
+                        this.HighlightsBy = (int)NSCellMasks.NSContentsCellMask;
+                        this.ShowsStateBy = (int)NSCellMasks.NSContentsCellMask;
+                        this.Image = NSImage.ImageNamed(@"NSRadioButton");
+                        this.AlternateImage = NSImage.ImageNamed(@"NSHighlightedRadioButton");
+                        this.ImagePosition = NSCellImagePosition.NSImageLeft;
+                        this.Alignment = NSTextAlignment.NSLeftTextAlignment;
+                        this.Bordered = false;
+                        this.Bezeled = false;
+                        this.ImageDimsWhenDisabled = false;
+                        break;
+                }
+            }
+        }
+
+
+       //Managing the Sound
+
+        [ObjcProp("sound")]
+        public NSSound Sound
+        {
+            get { return _sound; }
+            set { _sound = value; }
+        }
 
 
         public NSButtonCell()
@@ -213,7 +480,7 @@ namespace Smartmobili.Cocoa
             // Implicitly performed by allocation:
             //
 
-            //this.Alignment = NSTextAlignment.NSCenterTextAlignment;
+            this.Alignment = NSTextAlignment.NSCenterTextAlignment;
             _cell.is_bordered = Convert.ToUInt32(true);
             this.ButtonType = NSButtonType.NSMomentaryPushInButton;
 
@@ -224,7 +491,7 @@ namespace Smartmobili.Cocoa
             _altContents = @"";
             _gradient_type = NSGradientType.NSGradientNone;
             this.ImageScaling = NSImageScaling.NSImageScaleNone;
-            
+
 
             return self;
         }
@@ -281,9 +548,9 @@ namespace Smartmobili.Cocoa
                 {
                     uint bFlags = (uint)aDecoder.DecodeIntForKey("NSButtonFlags");
                     GSButtonCellFlags buttonCellFlags = PrimitiveConversion.FromLong<GSButtonCellFlags>(bFlags);
-                   
-                    this.IsTransparent = Convert.ToBoolean(buttonCellFlags.isTransparent);
-                    this.IsBordered = Convert.ToBoolean(buttonCellFlags.isBordered);
+
+                    this.Transparent = Convert.ToBoolean(buttonCellFlags.isTransparent);
+                    this.Bordered = Convert.ToBoolean(buttonCellFlags.isBordered);
 
                     this.SetCellAttribute(NSCellAttribute.NSPushInCell, (int)buttonCellFlags.isPushin);
                     this.SetCellAttribute(NSCellAttribute.NSCellLightsByBackground, (int)buttonCellFlags.highlightByBackground);
@@ -400,10 +667,10 @@ namespace Smartmobili.Cocoa
                     if (aDecoder.ContainsValueForKey("NSPeriodicInterval"))
                     {
                         interval = aDecoder.DecodeIntForKey("NSPeriodicInterval");
-                    } 
-                    
+                    }
+
                     // [self setPeriodicDelay: delay interval: interval];            
-                    this.SetPeriodicDelay(delay, interval);                    
+                    this.SetPeriodicDelay(delay, interval);
                 }
                 else
                 {
@@ -413,7 +680,7 @@ namespace Smartmobili.Cocoa
 
                     //int version = [aDecoder versionForClassName: @"NSButtonCell"];
                     //TODO
-                    
+
                     //NSString *key = nil;
                     NSString key = null;
 
@@ -423,8 +690,8 @@ namespace Smartmobili.Cocoa
                     //[self setKeyEquivalent: key]; // Set the key equivalent...
                     this.KeyEquivalent = key;
 
-                    
-                                        
+
+
                     //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_keyEquivalentFont];
                     //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_altContents];
                     //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_altImage];
@@ -461,66 +728,9 @@ namespace Smartmobili.Cocoa
 
                     #endregion
                 }
-                 
-                #endregion                
+
+                #endregion
             }
-
-            #region From Cocotron
-
-            //// From Cocotron
-            //if (aDecoder.AllowsKeyedCoding)
-            //{
-            //    uint flags = (uint)aDecoder.DecodeIntForKey("NSButtonFlags");
-            //    uint flags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");
-
-            //    Title = (NSString)aDecoder.DecodeObjectForKey("NSContents");
-
-            //    ImagePosition = NSCellImagePosition.NSNoImage;
-            //    if ((flags & 0x00480000) == 0x00400000)
-            //        ImagePosition = NSCellImagePosition.NSImageOnly;
-            //    else if ((flags & 0x00480000) == 0x00480000)
-            //        ImagePosition = NSCellImagePosition.NSImageOverlaps;
-            //    else if ((flags & 0x00380000) == 0x00380000)
-            //        ImagePosition = NSCellImagePosition.NSImageLeft;
-            //    else if ((flags & 0x00380000) == 0x00280000)
-            //        ImagePosition = NSCellImagePosition.NSImageRight;
-            //    else if ((flags & 0x00380000) == 0x00180000)
-            //        ImagePosition = NSCellImagePosition.NSImageBelow;
-            //    else if ((flags & 0x00380000) == 0x00080000)
-            //        ImagePosition = NSCellImagePosition.NSImageAbove;
-
-            //    HighlightsBy = NSCellMasks.NSNoCellMask;
-            //    ShowsStateBy = NSCellMasks.NSNoCellMask;
-
-            //    if ((flags & 0x80000000) > 0)
-            //        HighlightsBy |= NSCellMasks.NSPushInCellMask;
-            //    if ((flags & 0x40000000) > 0)
-            //        ShowsStateBy |= NSCellMasks.NSContentsCellMask;
-            //    if ((flags & 0x20000000) > 0)
-            //        ShowsStateBy |= NSCellMasks.NSChangeBackgroundCellMask;
-            //    if ((flags & 0x10000000) > 0)
-            //        ShowsStateBy |= NSCellMasks.NSChangeGrayCellMask;
-            //    if ((flags & 0x08000000) > 0)
-            //        HighlightsBy |= NSCellMasks.NSContentsCellMask;
-            //    if ((flags & 0x04000000) > 0)
-            //        HighlightsBy |= NSCellMasks.NSChangeBackgroundCellMask;
-            //    if ((flags & 0x02000000) > 0)
-            //        HighlightsBy |= NSCellMasks.NSChangeGrayCellMask;
-
-            //    IsBordered = ((flags & 0x00800000) > 0) ? true : false;
-
-            //    BezelStyle = (NSBezelStyle) ((flags2 & 0x7) | (flags2 & 0x20 >> 2));
-
-            //    IsTransparent = ((flags & 0x00008000) > 0) ? true : false;
-
-            //    ImageDimsWhenDisabled = ((flags & 0x00002000) > 0)? false : true;
-
-            //    ShowsBorderOnlyWhileMouseInside = ((flags2 & 0x8) > 0) ? true : false;
-
-            //    //todo NSAlternateImage
-            //}
-
-            #endregion
 
             return this;
         }
@@ -576,14 +786,20 @@ namespace Smartmobili.Cocoa
                 default:
                     base.SetCellAttribute(aParameter, toValue);
                     break;
-                
+
             }
+        }
+
+        protected void GetPeriodicDelay(ref float delay, ref float interval)
+        {
+            delay = _delayInterval;
+            interval = _repeatInterval;
         }
 
         private void SetPeriodicDelay(int delay, int interval)
         {
-            this.PeriodicDelay = delay;
-            this.PeriodicInterval = interval;
+            _delayInterval = delay;
+            _repeatInterval = interval;
         }
 
 
