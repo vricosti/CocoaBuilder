@@ -133,7 +133,7 @@ namespace Smartmobili.Cocoa
             public uint isPushin;
         };
 
-        public struct WSButtonCellFlags2 
+        public struct GSButtonCellFlags2 
         {
             [BitfieldLength(3)]
             public uint bezelStyle;
@@ -288,7 +288,7 @@ namespace Smartmobili.Cocoa
                 if (aDecoder.ContainsValueForKey("NSButtonFlags2"))
                 {
                     //uint bFlags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");
-                    //WSButtonCellFlags2 buttonCellFlags2 = PrimitiveConversion.FromLong<WSButtonCellFlags2>(bFlags2);
+                    //GSButtonCellFlags2 buttonCellFlags2 = PrimitiveConversion.FromLong<GSButtonCellFlags2>(bFlags2);
                     //this.ShowsBorderOnlyWhileMouseInside = Convert.ToBoolean(buttonCellFlags2.showsBorderOnlyWhileMouseInside);
                     //this.BezelStyle = (NSBezelStyle)buttonCellFlags2.bezelStyle;
                     //this._keyEquivalentModifierMask = buttonCellFlags2.keyEquivalentModifierMask;
