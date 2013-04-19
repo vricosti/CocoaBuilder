@@ -67,8 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppKit\GSToolbarButton.cs" />
-    <Compile Include="AppKit\NSButton.cs" />
-    <Compile Include="AppKit\NSButtonCell.cs" />
+    <Compile Include="AppKit\Button\NSButton.cs" />
+    <Compile Include="AppKit\Button\NSButtonCell.cs" />
     <Compile Include="AppKit\NSSound.cs" />
     <Compile Include="AppKit\NSTextField.cs">
       <SubType>Code</SubType>
