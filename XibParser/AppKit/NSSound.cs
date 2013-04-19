@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSSound
+    //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ApplicationKit/Classes/NSSound_Class/Reference/Reference.html
+    public class NSSound : NSObject
     {
         public NSSound()
         {

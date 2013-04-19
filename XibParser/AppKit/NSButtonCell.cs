@@ -192,9 +192,7 @@ namespace Smartmobili.Cocoa
 
         public int PeriodicInterval { get; set; }
 
-        
         public int HighlightsBy { get { return (int)_highlightsByMask; } set { _highlightsByMask = (uint)value; } }
-
        
         public int ShowsStateBy { get { return (int)_showAltStateMask; } set { _showAltStateMask = (uint)value; } }
 

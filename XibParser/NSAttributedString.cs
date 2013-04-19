@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSAttributedString
+    //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSAttributedString_Class/Reference/Reference.html
+    public class NSAttributedString : NSObject
     {
         public NSAttributedString()
         {
