@@ -69,12 +69,27 @@ namespace Smartmobili.Cocoa
         NSGradientConvexStrong = 4
     }
 
-
-
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSButtonCell.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSButtonCell.m
     public class NSButtonCell : NSActionCell
     {
+        // Attributes
+        NSString _altContents;
+        NSImage _altImage;
+        NSString _keyEquivalent;
+        NSFont _keyEquivalentFont;
+        NSSound _sound;
+        uint _keyEquivalentModifierMask;
+        uint _highlightsByMask;
+        uint _showAltStateMask;
+        float _delayInterval;
+        float _repeatInterval;
+        NSBezelStyle _bezel_style;
+        NSGradientType _gradient_type;
+        NSColor _backgroundColor;
+
         // From GNUstep
-        public struct WSButtonCellFlags
+        public struct GSButtonCellFlags
         {
             [BitfieldLength(8)]
             public uint unused2; // alt mnemonic loc.
@@ -144,7 +159,7 @@ namespace Smartmobili.Cocoa
         // TODO
         //public NSAttributedString AttributedAlternateTitle { get; set; }
 
-        public string Title { get; set; }
+        public NSString Title { get; set; }
 
         public NSFont Font { get; set; }
 
@@ -177,17 +192,16 @@ namespace Smartmobili.Cocoa
 
         public int PeriodicInterval { get; set; }
 
-        private uint _highlightsByMask;
+        
         public int HighlightsBy { get { return (int)_highlightsByMask; } set { _highlightsByMask = (uint)value; } }
 
-        private uint _showAltStateMask;
+       
         public int ShowsStateBy { get { return (int)_showAltStateMask; } set { _showAltStateMask = (uint)value; } }
 
         public bool ImageDimsWhenDisabled { get; set; }
 
-        public string KeyEquivalent { get; set; }
+        public NSString KeyEquivalent { get; set; }
 
-        private uint _keyEquivalentModifierMask;
 
         public NSButtonCell()
         {
@@ -219,7 +233,7 @@ namespace Smartmobili.Cocoa
                 if (aDecoder.ContainsValueForKey("NSButtonFlags"))
                 {
                     uint bFlags = (uint)aDecoder.DecodeIntForKey("NSButtonFlags");
-                    WSButtonCellFlags buttonCellFlags = PrimitiveConversion.FromLong<WSButtonCellFlags>(bFlags);
+                    GSButtonCellFlags buttonCellFlags = PrimitiveConversion.FromLong<GSButtonCellFlags>(bFlags);
                    
                     this.IsTransparent = Convert.ToBoolean(buttonCellFlags.isTransparent);
                     this.IsBordered = Convert.ToBoolean(buttonCellFlags.isBordered);

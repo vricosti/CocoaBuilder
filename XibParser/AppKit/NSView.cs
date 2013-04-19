@@ -57,6 +57,7 @@ namespace Smartmobili.Cocoa
         //<string key="NSOffsets">{0, 0}</string>
         public NSPoint Offsets { get; set; }
 
+        
 
         public string ClassName { get; set; }
 
@@ -132,6 +133,12 @@ namespace Smartmobili.Cocoa
             }
 
             return this;
+        }
+
+
+        public void SetNeedsDisplay(bool flag)
+        {
+
         }
     }
 }

@@ -25,8 +25,8 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    // Nitesh 15 April 2013
-    // Change2
+    //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ApplicationKit/Classes/NSButton_Class/Reference/Reference.html
+
     public class NSButton : NSControl
     {
         private NSButtonCell _cell;
@@ -38,7 +38,7 @@ namespace Smartmobili.Cocoa
 
         public NSButtonType ButtonType 
         { 
-            get { return _cell.ButtonType; } 
+            // There is no getter and this is normal 
             set { _cell.ButtonType = value; } 
         }
 
@@ -48,10 +48,74 @@ namespace Smartmobili.Cocoa
             set { _cell.HighlightsBy = value; }
         }
 
+        [ObjcPropAttribute("alternateTitle")]
         public int ShowsStateBy
         {
             get { return _cell.ShowsStateBy; }
             set { _cell.ShowsStateBy = value; }
+        }
+
+        [ObjcPropAttribute("alternateTitle")]
+        public NSString AlternateTitle
+        {
+            get { return _cell.AlternateTitle; }
+            set { _cell.AlternateTitle = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("title")]
+        public NSString Title
+        {
+            get { return _cell.Title; }
+            set { _cell.Title = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("alternateImage")]
+        public NSImage AlternateImage
+        {
+            get { return _cell.AlternateImage; }
+            set { _cell.AlternateImage = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("image")]
+        public NSImage Image
+        {
+            get { return _cell.Image; }
+            set { _cell.Image = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("imagePosition")]
+        public NSCellImagePosition ImagePosition
+        {
+            get { return (NSCellImagePosition)_cell.ImagePosition; }
+            set { _cell.ImagePosition = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("bordered", GetName = "isBordered")]
+        public bool Bordered
+        {
+            get { return _cell.Bordered; }
+            set { _cell.Bordered = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("transparent", GetName = "isTransparent")]
+        public bool Transparent
+        {
+            get { return _cell.IsTransparent; }
+            set { _cell.IsTransparent = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("bezelStyle")]
+        public NSBezelStyle BezelStyle
+        {
+            get { return _cell.BezelStyle; }
+            set { _cell.BezelStyle = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("showsBorderOnlyWhileMouseInside")]
+        public bool ShowsBorderOnlyWhileMouseInside
+        {
+            get { return _cell.ShowsBorderOnlyWhileMouseInside; }
+            set { _cell.ShowsBorderOnlyWhileMouseInside = value; this.SetNeedsDisplay(true); }
         }
 
         //
@@ -59,24 +123,40 @@ namespace Smartmobili.Cocoa
         //
         public int IntValue
         {
-            set { _cell.State = value; }
+            set { this.State = value; }
         }
 
+        public float FloatValue
+        {
+            set { this.State = (int)value; }
+        }
 
-        //- (void) setIntValue: (int)anInt
-        //{
-        //  [self setState: (anInt != 0)];
-        //}
-        
-        //- (void) setFloatValue: (float)aFloat
-        //{
-        //  [self setState: (aFloat != 0)];
-        //}
-        
-        //- (void) setDoubleValue: (double)aDouble
-        //{
-        //  [self setState: (aDouble != 0)];
-        //}
+        public double DoubleValue
+        {
+            set { this.State = (int)value; }
+        }
+
+        public int State
+        {
+            get { return _cell.ShowsStateBy; }
+            set { _cell.State = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcPropAttribute("allowsMixedState")]
+        public bool AllowsMixedState
+        {
+            get { return _cell.AllowsMixedState; }
+            set { _cell.AllowsMixedState = value; this.SetNeedsDisplay(true); }
+        }
+
+        [ObjcMethod("getPeriodicDelay:interval")]
+        public void GetPeriodicDelay(ref float delay, ref float interval)
+        {
+            //_cell.GetPeriodicDelay(ref delay, ref interval);
+        }
+		
+
+
        
 
         public NSButton()
@@ -96,5 +176,7 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
+
+        
     }
 }

@@ -26,6 +26,7 @@ using System.Xml.Linq;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSToolbarItem.m
     public class NSToolbarItem : NSObject
     {
         bool _autovalidates;
