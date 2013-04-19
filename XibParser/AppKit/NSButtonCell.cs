@@ -206,6 +206,55 @@ namespace Smartmobili.Cocoa
 
         }
 
+        public id _Init()
+        {
+            id self = this;
+
+            // Implicitly performed by allocation:
+            //
+
+            //this.Alignment = NSTextAlignment.NSCenterTextAlignment;
+            _cell.is_bordered = Convert.ToUInt32(true);
+            this.ButtonType = NSButtonType.NSMomentaryPushInButton;
+
+            _delayInterval = 0.4f;
+            _repeatInterval = 0.075f;
+            _keyEquivalentModifierMask = 0;
+            _keyEquivalent = @"";
+            _altContents = @"";
+            _gradient_type = NSGradientType.NSGradientNone;
+            this.ImageScaling = NSImageScaling.NSImageScaleNone;
+            
+
+            return self;
+        }
+
+        public id Init()
+        {
+            id self = this;
+
+            this.InitTextCell("Button");
+
+            return self;
+        }
+
+        public id InitImageCell(NSImage anImage)
+        {
+            if (base.InitImageCell(anImage) == null)
+                return null;
+
+            return this._Init();
+        }
+
+        public id InitTextCell(NSString aString)
+        {
+            if (base.InitTextCell(aString) == null)
+                return null;
+
+            return this._Init();
+        }
+
+
         //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSButtonCell.m
         public override NSObject InitWithCoder(NSObjectDecoder aDecoder)
         {

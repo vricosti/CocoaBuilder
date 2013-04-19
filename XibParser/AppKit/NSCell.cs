@@ -475,7 +475,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcMethodAttribute("InitTextCell")]
-        public /*id*/object InitTextCell(NSString aString)
+        public id InitTextCell(NSString aString)
         {
             _cell.type = (uint)NSCellType.NSTextCellType;
             _contents = aString;
@@ -488,7 +488,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcMethodAttribute("InitImageCell")]
-        public /*id*/object InitImageCell(NSImage anImage)
+        public id InitImageCell(NSImage anImage)
         {
             _cell.type = (uint)NSCellType.NSImageCellType;
             _cell_image = anImage;
