@@ -28,7 +28,14 @@ namespace Smartmobili.Cocoa
     {
         public id()
         {
-
         }
+
+
+        public virtual id Init()
+        {
+            return this;
+        }
+
+
     }
 }

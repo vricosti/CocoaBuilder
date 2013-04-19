@@ -27,6 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSScrollView : NSView
     {
+#pragma warning disable 0649
+
         struct NSScrollViewFlags
         {
             [BitfieldLength(2)]
@@ -66,7 +68,9 @@ namespace Smartmobili.Cocoa
             [BitfieldLength(14)]
             public uint __unused6;
         };
-        
+
+#pragma warning restore 0649
+
         private NSScrollViewFlags _scrollViewFlags = new NSScrollViewFlags();
         public uint NSsFlags { get { return (uint)EncodeNSsFlags(); } set { DecodeNSsFlags(value); } }
 

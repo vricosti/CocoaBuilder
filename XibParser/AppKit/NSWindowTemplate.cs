@@ -53,6 +53,8 @@ namespace Smartmobili.Cocoa
         NSString _autosaveName;
         Class _baseWindowClass;
 
+#pragma warning disable 0649
+
         struct GSWindowTemplateFlags
         {
             [BitfieldLength(16)]
@@ -79,6 +81,7 @@ namespace Smartmobili.Cocoa
             public uint isHiddenOnDeactivate;
         };
 
+#pragma warning restore 0649
 
         [ObjcPropAttribute("backingStore")]
         public NSBackingStoreType BackingStore

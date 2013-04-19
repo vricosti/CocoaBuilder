@@ -268,14 +268,14 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public object DecodeObjectForKey(string keyName)
+        public id DecodeObjectForKey(string keyName)
         {
-            object nsObj = null;
+            id nsObj = null;
 
             XElement xElm = _classDict.Find(i => (string)i.Attribute("key") == keyName);
             if (xElm != null)
             {
-                nsObj = Create(xElm);
+                nsObj = (id)Create(xElm);
             }
 
             return nsObj;

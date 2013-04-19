@@ -376,9 +376,9 @@ namespace Smartmobili.Cocoa
         #region Initializing a Cell
 
         [ObjcMethodAttribute("Init")]
-        public NSObject Init()
+        public id Init()
         {
-            return (NSObject)InitTextCell((NSString)"");
+            return InitTextCell((NSString)"");
         }
 
         [ObjcMethodAttribute("InitWithCoder")]
@@ -387,8 +387,8 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                /*id*/
-                NSObject contents = (NSObject)aDecoder.DecodeObjectForKey("NSContents");
+                
+                id contents = (id)aDecoder.DecodeObjectForKey("NSContents");
 
                 //if (contents.IsKindOfClass(NSString.Class()))
                 if (contents is NSString)
