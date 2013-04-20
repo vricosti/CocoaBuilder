@@ -66,7 +66,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppKit\GSToolbarButton.cs" />
+    <Compile Include="AppKit\Toolbar\GSToolbarButton.cs" />
     <Compile Include="AppKit\Button\NSButton.cs" />
     <Compile Include="AppKit\Button\NSButtonCell.cs" />
     <Compile Include="AppKit\NSSound.cs" />
@@ -145,11 +145,11 @@
     <Compile Include="AppKit\NSScroller.cs" />
     <Compile Include="AppKit\NSScrollView.cs" />
     <Compile Include="NSString.cs" />
-    <Compile Include="AppKit\NSToolbar.cs" />
-    <Compile Include="AppKit\NSToolbarFlexibleSpaceItem.cs" />
-    <Compile Include="AppKit\NSToolbarItem.cs" />
-    <Compile Include="AppKit\NSToolbarSeparatorItem.cs" />
-    <Compile Include="AppKit\NSToolbarSpaceItem.cs" />
+    <Compile Include="AppKit\Toolbar\NSToolbar.cs" />
+    <Compile Include="AppKit\Toolbar\NSToolbarFlexibleSpaceItem.cs" />
+    <Compile Include="AppKit\Toolbar\NSToolbarItem.cs" />
+    <Compile Include="AppKit\Toolbar\NSToolbarSeparatorItem.cs" />
+    <Compile Include="AppKit\Toolbar\NSToolbarSpaceItem.cs" />
     <Compile Include="AppKit\NSView.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="AppKit\NSWindowTemplate.cs" />

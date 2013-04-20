@@ -496,7 +496,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public id Init()
+        public override id Init()
         {
             id self = this;
 
@@ -505,7 +505,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public id InitImageCell(NSImage anImage)
+        public override id InitImageCell(NSImage anImage)
         {
             if (base.InitImageCell(anImage) == null)
                 return null;
@@ -513,7 +513,7 @@ namespace Smartmobili.Cocoa
             return this._Init();
         }
 
-        public id InitTextCell(NSString aString)
+        public override id InitTextCell(NSString aString)
         {
             if (base.InitTextCell(aString) == null)
                 return null;

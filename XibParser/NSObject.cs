@@ -93,13 +93,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public bool IsKindOfClass(Class aClass)
-        {
-            if (aClass == null)
-                return false;
-
-            return this.GetType().IsSubclassOf(aClass.InnerType);
-        }
+       
 
 
 

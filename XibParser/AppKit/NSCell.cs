@@ -287,40 +287,136 @@ namespace Smartmobili.Cocoa
                     //return (NSAttributedString);
                 }
             }
+
+            set
+            {
+                NSString aString = value;
+                /* We warn about nil for compatibiliy with MacOS X, which refuses nil.  */
+                if (aString == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("MacOSXCompatibility " + "Attempt to use nil as string value");
+                }
+                
+                if (_cell.type != (uint)NSCellType.NSTextCellType)
+                {
+                    this.Type = NSCellType.NSTextCellType;
+                }
+
+                if (_formatter == null)
+                {
+
+                }
+                else
+                {
+                    //FIXME
+                    //id newObjectValue;
+                }
+            }
+        }
+
+        [ObjcPropAttribute("wraps")]
+        public bool Wraps 
+        {
+            get
+            {
+                return ((_cell.line_break_mode == (uint)NSLineBreakMode.NSLineBreakByWordWrapping)
+                    || (_cell.line_break_mode == (uint)NSLineBreakMode.NSLineBreakByCharWrapping));
+            }
+            set
+            {
+                if (value)
+                {
+                    if (!this.Wraps)
+                        this.LineBreakMode = NSLineBreakMode.NSLineBreakByWordWrapping;
+         
+                }
+                else
+                {
+                    if (this.Wraps)
+                        this.LineBreakMode = NSLineBreakMode.NSLineBreakByClipping;
+                }
+            }
+        }
+
+        [ObjcPropAttribute("scrollable", GetName = "isScrollable")]
+        public bool Scrollable
+        {
+            get { return (_cell.is_scrollable == 1); }
+            set
+            {
+                _cell.is_scrollable = Convert.ToUInt32(value);
+
+                if (value)
+                {
+                    this.Wraps = false;
+                }
+            }
+        }
+
+        [ObjcPropAttribute("selectable", GetName = "isSelectable")]
+        public bool Selectable 
+        {
+            get { return ((_cell.is_selectable == 1) || (_cell.is_editable == 1)); }
+            set
+            {
+                _cell.is_selectable = Convert.ToUInt32(value);
+
+                if (!value)
+                    _cell.is_editable = 0;
+            }
+        }
+
+        [ObjcPropAttribute("bezeled", GetName = "isBezeled")]
+        public bool Bezeled 
+        {
+            get { return Convert.ToBoolean(_cell.is_bezeled); }
+            set 
+            { 
+                _cell.is_bezeled = Convert.ToUInt32(value);
+                _cell.is_bordered = Convert.ToUInt32(false);
+            }
+        }
+
+        [ObjcPropAttribute("bordered", GetName = "isBordered")]
+        public bool Bordered 
+        {
+            get { return Convert.ToBoolean(_cell.is_bordered); }
+            set
+            {
+                _cell.is_bordered = Convert.ToUInt32(value);
+                _cell.is_bezeled = Convert.ToUInt32(false);
+            } 
+        }
+
+        [ObjcPropAttribute("opaque", SetName = null, GetName = "isOpaque")]
+        public bool Opaque
+        {
+            get { return false; }
+        }
+
+        [ObjcPropAttribute("focusRingType")]
+        public NSFocusRingType FocusRingType
+        {
+            get { return (NSFocusRingType)_cell.focus_ring_type; }
+            set { _cell.focus_ring_type =  Convert.ToUInt32(value); } 
         }
 
 
-        [ObjcPropAttribute("Contents")]
-        public object Contents { get; set; }
+        [ObjcPropAttribute("editable", GetName = "isEditable")]
+        public bool Editable 
+        {
+            get { return _cell.is_editable.ToBool(); }
+            set { _cell.is_editable = Convert.ToUInt32(value); }  
+        }
+
+        [ObjcPropAttribute("enabled", GetName = "isEnabled")]
+        public bool Enabled 
+        {
+            get { return (Convert.ToBoolean(_cell.is_disabled) == false); }
+            set { _cell.is_disabled = Convert.ToUInt32(!value); } 
+        }
 
         
-
-        public NSFocusRingType FocusRingType { get; set; }
-
-        public bool ShowsFirstResponder { get; set; }
-
-        [ObjcPropAttribute("Wraps")]
-        public bool Wraps { get; set; }
-
-        [ObjcPropAttribute("scrollable", GetName = "isScrollable")]
-        public bool Scrollable { get; set; }
-
-        [ObjcPropAttribute("Selectable", GetName = "isSelectable")]
-        public bool Selectable { get; set; }
-
-        [ObjcPropAttribute("Bezeled", GetName = "isBezeled")]
-        public bool Bezeled { get; set; }
-
-        [ObjcPropAttribute("Bordered", GetName = "isBordered")]
-        public bool Bordered { get; set; }
-
-        [ObjcPropAttribute("Editable", GetName = "isEditable")]
-        public bool Editable { get; set; }
-
-        [ObjcPropAttribute("Enabled", GetName = "isEnabled")]
-        public bool Enabled { get; set; }
-
-        public bool Highlighted { get; set; }
 
         [ObjcPropAttribute("State")]
         public int State 
@@ -343,28 +439,212 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        //public int State { get; set; }
+        public bool AllowsMixedState 
+        {
+            get { return (Convert.ToBoolean(_cell.allows_mixed_state)); }
+            set 
+            { 
+                _cell.allows_mixed_state = Convert.ToUInt32(value);
+                if (!value && (_cell.state == (int)NSCellStateValue.NSMixedState))
+                {
+                    //FIXME
+                    //this.setNextState();
+                }
+            }  
+        }
 
-        public NSControlTint ControlTint { get; set; }
+       
 
-        public NSLineBreakMode LineBreakMode { get; set; }
+        [ObjcPropAttribute("lineBreakMode")]
+        public NSLineBreakMode LineBreakMode 
+        {
+            get { return (NSLineBreakMode)_cell.line_break_mode; }
+            set
+            {
+                if ((value == NSLineBreakMode.NSLineBreakByCharWrapping) || (value == NSLineBreakMode.NSLineBreakByWordWrapping))
+                {
+                    _cell.is_scrollable = 0;
+                }
+                _cell.line_break_mode = Convert.ToUInt32(value);
+            }
+        }
 
-        public NSControlSize ControlSize { get; set; }
+        [ObjcPropAttribute("baseWritingDirection")]
+        public NSWritingDirection BaseWritingDirection
+        {
+            get { return (NSWritingDirection)_cell.base_writing_direction; }
+            set { _cell.base_writing_direction = Convert.ToUInt32(value); }
+        }
 
-        public bool SendsActionOnEndEditing { get; set; }
+        [ObjcPropAttribute("continuous", GetName = "isContinuous")]
+        public bool Continuous
+        {
+            get { return ((_action_mask & (uint)NSEventMask.NSPeriodicMask)) != 0; }
+            set 
+            {
+                if (value)
+                {
+                    _action_mask |= (uint)NSEventMask.NSPeriodicMask;
+                }
+                else
+                {
+                    _action_mask &= ~((uint)NSEventMask.NSPeriodicMask);
+                }
+            }
+        }
 
-        public bool AllowsMixedState { get; set; }
+        public int SendActionOn(int mask)
+        {
+            uint previousMask = _action_mask;
 
-        public bool RefusesFirstResponder { get; set; }
+            _action_mask = (uint)mask;
 
-        public NSTextAlignment Alignment { get; set; }
+            return (int)previousMask;
+        }
 
-        public bool ImportsGraphics { get; set; }
+        [ObjcPropAttribute("tag")]
+        public int Tag
+        {
+            get { return -1; }
+            set { throw new NotImplementedException(); }
+        }
 
-        public bool AllowsEditingTextAttributes { get; set; }
+        [ObjcPropAttribute("entryType")]
+        public int EntryType
+        {
+            get { return (int)_cell.entry_type; }
+            set 
+            {
+                this.Type = NSCellType.NSTextCellType;
+                _cell.entry_type = (uint)value;
+            }
+        }
 
-        [ObjcPropAttribute("Formatter")]
-        public NSFormatter Formatter { get { return _formatter; } set { _formatter = value; } }
+        [ObjcPropAttribute("menu")]
+        public NSMenu Menu
+        {
+            get { return _menu; }
+            set { _menu = value; }
+        }
+
+
+        public bool AcceptsFirstResponder
+        {
+            get { return ((_cell.is_disabled == 0) && (_cell.refuses_first_responder == 0)); }
+        }
+
+        [ObjcPropAttribute("showsFirstResponder")]
+        public bool ShowsFirstResponder 
+        {
+            get { return ((_cell.is_disabled == 0) && (_cell.refuses_first_responder == 0)); }
+            set { _cell.shows_first_responder = Convert.ToUInt32(value); } 
+        }
+
+        [ObjcPropAttribute("refusesFirstResponder")]
+        public bool RefusesFirstResponder 
+        {
+            get { return Convert.ToBoolean(_cell.refuses_first_responder); }
+            set { _cell.refuses_first_responder = Convert.ToUInt32(value); } 
+        }
+
+        public int MouseDownFlags
+        {
+            get { return (int)_mouse_down_flags; }
+        }
+
+        public NSString KeyEquivalent
+        {
+            get { return @""; }
+        }
+
+        public NSControlSize ControlSize 
+        {
+            get { return (NSControlSize)_cell.control_size; }
+            set { _cell.control_size = Convert.ToUInt32(value); }
+        }
+
+        public NSControlTint ControlTint 
+        {
+            get { return (NSControlTint)_cell.control_tint; }
+            set { _cell.control_tint = Convert.ToUInt32(value); } 
+        }
+
+        public virtual NSView ControlView
+        {
+            get { return null; }
+            set { } 
+        }
+
+        [ObjcPropAttribute("highlighted", GetName = "isHighlighted")]
+        public bool Highlighted 
+        {
+            get { return Convert.ToBoolean(_cell.is_highlighted); }
+            set { _cell.is_highlighted = Convert.ToUInt32(value); } 
+        }
+
+
+        [ObjcPropAttribute("sendsActionOnEndEditing")]
+        public bool SendsActionOnEndEditing 
+        {
+            get { return Convert.ToBoolean(_cell.sends_action_on_end_editing); }
+            set { _cell.sends_action_on_end_editing = Convert.ToUInt32(value); }  
+        }
+
+        [ObjcPropAttribute("allowsUndo")]
+        public bool AllowsUndo
+        {
+            get { return Convert.ToBoolean(_cell.allows_undo); }
+            set { _cell.allows_undo = Convert.ToUInt32(value); }
+        } 
+
+        public NSTextAlignment Alignment 
+        {
+            get { return (NSTextAlignment)_cell.text_align; }
+            set { _cell.text_align = (uint)value; }  
+        }
+
+        [ObjcPropAttribute("importsGraphics")]
+        public bool ImportsGraphics 
+        {
+            get { return _cell.imports_graphics.ToBool(); }
+            set
+            {
+                _cell.imports_graphics = Convert.ToUInt32(value);
+                if (value)
+                    _cell.is_rich_text = 1;
+            } 
+        }
+
+        [ObjcPropAttribute("allowsEditingTextAttributes")]
+        public bool AllowsEditingTextAttributes 
+        {
+            get { return _cell.is_rich_text.ToBool(); }
+            set
+            {
+                _cell.is_rich_text = Convert.ToUInt32(value);
+                if (!value)
+                    _cell.imports_graphics = 0;
+            }
+        }
+
+        public NSString Title
+        {
+            get 
+            { 
+                return this.StringValue; 
+            }
+            set
+            {
+                this.StringValue = value;
+            }
+        }
+
+        [ObjcPropAttribute("formatter")]
+        public NSFormatter Formatter 
+        { 
+            get { return _formatter; } 
+            set { _formatter = value; } 
+        }
 
        
 
@@ -376,7 +656,7 @@ namespace Smartmobili.Cocoa
         #region Initializing a Cell
 
         [ObjcMethodAttribute("Init")]
-        public id Init()
+        public override id Init()
         {
             return InitTextCell((NSString)"");
         }
@@ -387,16 +667,13 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                
                 id contents = (id)aDecoder.DecodeObjectForKey("NSContents");
 
-                //if (contents.IsKindOfClass(NSString.Class()))
-                if (contents is NSString)
+                if (contents.IsKindOfClass(NSString.Class()))
                 {
                     InitTextCell((NSString)contents);
                 }
-                //else if (contents.IsKindOfClass(NSImage.Class()))
-                else if (contents is NSImage)
+                else if (contents.IsKindOfClass(NSImage.Class()))
                 {
                     InitImageCell((NSImage)contents);
                 }
@@ -450,16 +727,16 @@ namespace Smartmobili.Cocoa
 
                 if (aDecoder.ContainsValueForKey("NSSupport"))
                 {
-                    /*id*/
-                    NSObject support = (NSObject)aDecoder.DecodeObjectForKey("NSSupport");
+                    
+                    id support = aDecoder.DecodeObjectForKey("NSSupport");
 
-                   // if (support.IsKindOfClass(NSFont.Class()))
-                    if (support is NSFont)
+                    if (support.IsKindOfClass(NSFont.Class()))
+                    //if (support is NSFont)
                     {
                         this.Font = (NSFont)support; 
                     }
-                    else if (support is NSImage)
-                    //else if (support.IsKindOfClass(NSImage.Class()))
+                    //else if (support is NSImage)
+                    else if (support.IsKindOfClass(NSImage.Class()))
                     {
                         this.Image = (NSImage)support;
                     }
@@ -475,30 +752,83 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcMethodAttribute("InitTextCell")]
-        public id InitTextCell(NSString aString)
+        public virtual id InitTextCell(NSString aString)
         {
+            id self = this;
+
             _cell.type = (uint)NSCellType.NSTextCellType;
             _contents = aString;
             _font = NSFont.SystemFontOfSize(-1);
-            //_action_mask = NSLeftMouseUpMask;
+            _action_mask = (uint)NSEventMask.NSLeftMouseUpMask;
             //_menu = [object_getClass(self) defaultMenu];
             //[self setFocusRingType: [object_getClass(self) defaultFocusRingType]];
 
-            return this;
+            return self;
         }
 
         [ObjcMethodAttribute("InitImageCell")]
-        public id InitImageCell(NSImage anImage)
+        public virtual id InitImageCell(NSImage anImage)
         {
+            id self = this;
+
             _cell.type = (uint)NSCellType.NSImageCellType;
             _cell_image = anImage;
             _cell.image_position = (uint)NSCellImagePosition.NSImageOnly;
             _font = NSFont.SystemFontOfSize(-1);
+            _action_mask = (uint)NSEventMask.NSLeftMouseUpMask;
+            //_menu = [object_getClass(self) defaultMenu];
+            //[self setFocusRingType: [object_getClass(self) defaultFocusRingType]];
 
-            return this;
+            return self;
         }
 
         #endregion
+
+
+        public int CellAttribute(NSCellAttribute aParameter)
+        {
+            switch (aParameter)
+            {
+                case NSCellAttribute.NSCellDisabled: return (int)_cell.is_disabled;
+                case NSCellAttribute.NSCellState: return _cell.state;
+                case NSCellAttribute.NSCellEditable: return (int)_cell.is_editable;
+                case NSCellAttribute.NSCellHighlighted: return (int)_cell.is_highlighted;
+                case NSCellAttribute.NSCellIsBordered: return (int)_cell.is_bordered;
+                case NSCellAttribute.NSCellAllowsMixedState: return (int)_cell.allows_mixed_state;
+
+                /*
+                  case NSPushInCell: return 0; 
+                  case NSChangeGrayCell: return 0; 
+                  case NSCellLightsByContents: return 0; 
+                  case NSCellLightsByGray: return 0; 
+                  case NSChangeBackgroundCell: return 0; 
+                  case NSCellLightsByBackground: return 0; 
+                  case NSCellChangesContents: return 0;  
+                  case NSCellIsInsetButton: return 0;  
+                */
+                case NSCellAttribute.NSCellHasOverlappingImage:
+                    {
+                        return (_cell.image_position == (uint)NSCellImagePosition.NSImageOverlaps).ToInt();
+                    }
+                case NSCellAttribute.NSCellHasImageHorizontal:
+                    {
+                        return ((_cell.image_position == (uint)NSCellImagePosition.NSImageRight)
+                               || (_cell.image_position == (uint)NSCellImagePosition.NSImageLeft)).ToInt();
+                    }
+                case NSCellAttribute.NSCellHasImageOnLeftOrBottom:
+                    {
+                        return ((_cell.image_position == (uint)NSCellImagePosition.NSImageBelow)
+                                || (_cell.image_position == (uint)NSCellImagePosition.NSImageLeft)).ToInt();
+                    }
+                default:
+                    {
+                        //NSWarnLog (@"cell attribute %d not supported", (int)aParameter);
+                        break;
+                    }
+            }
+  
+  return 0;
+}
 
         public virtual void SetCellAttribute(NSCellAttribute aParameter, int toValue)
         {
@@ -613,13 +943,6 @@ namespace Smartmobili.Cocoa
                     }
             }
         }
-
-
-        public int SendActionOn(int aMask)
-        {
-            return 0;
-        }
-
-        
+    
     }
 }

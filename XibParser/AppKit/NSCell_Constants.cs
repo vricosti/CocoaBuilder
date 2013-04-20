@@ -124,4 +124,11 @@ namespace Smartmobili.Cocoa
         NSJustifiedTextAlignment = 3,
         NSNaturalTextAlignment = 4
     } 
+
+    public enum NSWritingDirection
+    {
+        NSWritingDirectionNatural     = -1,
+        NSWritingDirectionLeftToRight = 0,
+        NSWritingDirectionRightToLeft
+    }
 }

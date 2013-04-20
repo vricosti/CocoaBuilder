@@ -36,6 +36,19 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
+        public bool IsKindOfClass(Class aClass)
+        {
+            bool isKindOfClass = false;
 
+            if (aClass == null)
+                return false;
+
+            isKindOfClass = this.GetType().IsAssignableFrom(aClass.InnerType);
+
+            //isKindOfClass =  this.GetType().Equals(aClass.InnerType);
+            //isKindOfClass =  this.GetType().IsSubclassOf(aClass.InnerType);
+
+            return isKindOfClass;
+        }
     }
 }

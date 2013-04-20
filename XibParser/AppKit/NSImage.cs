@@ -35,16 +35,16 @@ namespace Smartmobili.Cocoa
 
     public class NSImage : NSObject
     {
-        public string Name { get; set; }
-
-        public string ResourceName { get; set; }
-
         public static Class Class()
         {
             return new Class(typeof(NSImage));
         }
 
+        public string Name { get; set; }
 
+        public string ResourceName { get; set; }
+
+       
         public NSImage()
         {
         }

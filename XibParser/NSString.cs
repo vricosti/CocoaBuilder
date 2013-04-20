@@ -27,8 +27,12 @@ namespace Smartmobili.Cocoa
 {
     public class NSString : NSObject, INSNumber
     {
-        //public override string ClassName  { get { return "NSString"; } }
+        public static Class Class()
+        {
+            return new Class(typeof(NSString));
+        }
 
+        
         public string Value { get; set; }
 
         [ObjcPropAttribute("DoubleValue", SetName = null)]
@@ -44,10 +48,7 @@ namespace Smartmobili.Cocoa
         public int IntegerValue { get { return Value.ToInt(); } }
 
 
-        public static Class Class()
-        {
-            return new Class(typeof(NSString));
-        }
+       
 
         public NSString()
         {

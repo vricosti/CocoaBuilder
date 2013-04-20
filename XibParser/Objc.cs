@@ -33,19 +33,33 @@ namespace Smartmobili.Cocoa
             InnerType = type;
         }
 
+        //public static bool operator ==(Class cls1, Class cls2)
+        //{
+        //    if (cls1 == null)
+        //        return false;
+        //    if (cls2 == null)
+        //        return false;
 
-        public static bool operator ==(Class cls1, Class cls2)
+        //    return (cls1.InnerType.Equals(cls2.InnerType));
+        //}
+
+        //public static bool operator !=(Class cls1, Class cls2)
+        //{
+        //    return !(cls1.InnerType.Equals(cls2.InnerType));
+        //}
+
+        public override bool Equals(object cls2)
         {
-            if (cls1 == null || cls2 == null)
-                return false;
-
-            return (cls1.InnerType == cls2.InnerType);
+            return (this.InnerType.Equals(((Class)cls2).InnerType));
         }
 
-        public static bool operator !=(Class cls1, Class cls2)
+        public override int GetHashCode()
         {
-            return !(cls1 == cls2);
+            int hash = 13;
+            hash = (hash * 7) + InnerType.GetHashCode();
+            return hash;
         }
+
 
         public static Class NSClassFromString(string className)
         {
