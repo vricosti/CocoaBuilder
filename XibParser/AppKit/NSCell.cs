@@ -447,13 +447,44 @@ namespace Smartmobili.Cocoa
                 _cell.allows_mixed_state = Convert.ToUInt32(value);
                 if (!value && (_cell.state == (int)NSCellStateValue.NSMixedState))
                 {
-                    //FIXME
-                    //this.setNextState();
+                    this.SetNextState();
                 }
             }  
         }
 
+        public int NextState()
+        {
+            switch (_cell.state)
+            {
+                case (int)NSCellStateValue.NSOnState:
+                    {
+                        return (int)NSCellStateValue.NSOffState;
+                    }
+                case (int)NSCellStateValue.NSOffState:
+                    {
+                        if (_cell.allows_mixed_state == 1)
+                        {
+                            return (int)NSCellStateValue.NSMixedState;
+                        }
+                        else
+                        {
+                            return (int)NSCellStateValue.NSOnState;
+                        }
+                    }
+                case (int)NSCellStateValue.NSMixedState:
+                default:
+                    {
+                        return (int)NSCellStateValue.NSOnState;
+                    }
+            }
+        }
        
+        public void SetNextState()
+        {
+            this.State = this.NextState();
+            //[self setState: [self nextState]]
+        }
+
 
         [ObjcPropAttribute("lineBreakMode")]
         public NSLineBreakMode LineBreakMode 
