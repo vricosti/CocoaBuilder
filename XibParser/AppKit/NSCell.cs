@@ -110,10 +110,10 @@ namespace Smartmobili.Cocoa
         protected NSFont _font;
         protected id _object_value;
         protected GSCellFlagsType _cell;
-        uint _mouse_down_flags;
-        uint _action_mask;
-        NSFormatter _formatter;
-        NSMenu _menu;
+        protected uint _mouse_down_flags;
+        protected uint _action_mask;
+        protected NSFormatter _formatter;
+        protected NSMenu _menu;
         //id _represented_object;
         //object _reserved1;
 
@@ -583,9 +583,10 @@ namespace Smartmobili.Cocoa
             get { return (int)_mouse_down_flags; }
         }
 
-        public NSString KeyEquivalent
+        public virtual NSString KeyEquivalent
         {
             get { return @""; }
+            set { }
         }
 
         public NSControlSize ControlSize 
@@ -658,7 +659,7 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public NSString Title
+        public virtual NSString Title
         {
             get 
             { 

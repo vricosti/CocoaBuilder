@@ -35,6 +35,19 @@ namespace Smartmobili.Cocoa
 
         }
 
+
+        public static NSColor TextColor
+        {
+            get { return new NSColor(); }
+        }
+
+
+        public static NSColor TextBackgroundColor
+        {
+            get { return new NSColor(); }
+        }
+
+
         public override id InitWithCoder(NSObjectDecoder decoder)
         {
             base.InitWithCoder(decoder);
@@ -56,6 +69,8 @@ namespace Smartmobili.Cocoa
 
             return this;
         }
+
+      
 
     }
 }

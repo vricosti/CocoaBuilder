@@ -76,20 +76,20 @@ namespace Smartmobili.Cocoa
     public class NSButtonCell : NSActionCell
     {
         // Attributes
-        NSString _altContents;
-        NSImage _altImage;
-        NSString _keyEquivalent;
-        NSFont _keyEquivalentFont;
-        NSSound _sound;
-        uint _keyEquivalentModifierMask;
-        uint _highlightsByMask;
-        uint _showAltStateMask;
-        float _delayInterval;
-        float _repeatInterval;
-        NSBezelStyle _bezel_style;
-        NSGradientType _gradient_type;
-        NSColor _backgroundColor;
-        NSImageScaling _imageScaling;
+        protected NSString _altContents;
+        protected NSImage _altImage;
+        protected NSString _keyEquivalent;
+        protected NSFont _keyEquivalentFont;
+        protected NSSound _sound;
+        protected uint _keyEquivalentModifierMask;
+        protected uint _highlightsByMask;
+        protected uint _showAltStateMask;
+        protected float _delayInterval;
+        protected float _repeatInterval;
+        protected NSBezelStyle _bezel_style;
+        protected NSGradientType _gradient_type;
+        protected NSColor _backgroundColor;
+        protected NSImageScaling _imageScaling;
 
         // From GNUstep
         public struct GSButtonCellFlags
@@ -156,7 +156,7 @@ namespace Smartmobili.Cocoa
         //
         // Setting the Titles 
         //
-        public NSString Title
+        public override NSString Title
         {
             get 
             {
@@ -179,8 +179,7 @@ namespace Smartmobili.Cocoa
                 _cell.contents_is_attributed_string = Convert.ToUInt32(false);
                 if ((_control_view != null) && _control_view is NSControl)
                 {
-                    //FIXME
-                    //((NSControl)_control_view).UpdateCell(this);
+                    ((NSControl)_control_view).UpdateCell(this);
                 }
             }
         }
@@ -259,8 +258,7 @@ namespace Smartmobili.Cocoa
 
                 if ((_control_view != null) && _control_view is NSControl)
                 {
-                    //FIXME
-                    //((NSControl)_control_view).UpdateCell(this);
+                    ((NSControl)_control_view).UpdateCell(this);
                 }
             }
         }
@@ -276,7 +274,7 @@ namespace Smartmobili.Cocoa
         //Managing the Key Equivalent
 
         [ObjcProp("keyEquivalent")]
-        public NSString KeyEquivalent
+        public override NSString KeyEquivalent
         {
             get { return (_keyEquivalent != null) ? _keyEquivalent : (NSString)@""; }
             set

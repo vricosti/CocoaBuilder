@@ -24,16 +24,111 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    public enum NSTextFieldBezelStyle
+    {
+        NSTextFieldSquareBezel = 0,
+        NSTextFieldRoundedBezel
+    }
+
+
+    //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ApplicationKit/Classes/NSTextFieldCell_Class/Reference/Reference.html
+    //
     public class NSTextFieldCell : NSActionCell
     {
-        public NSColor BackgroundColor { get; set; }
+        // Attributes
+        protected NSColor _background_color;
+        protected NSColor _text_color;
+        protected NSTextFieldBezelStyle _bezelStyle;
 
-        public NSColor TextColor { get; set; }
+        // Think of the following ones as of two BOOL ivars
+        //#define _textfieldcell_draws_background _cell.subclass_bool_one
+        //#define _textfieldcell_placeholder_is_attributed_string _cell.subclass_bool_three
+        protected id _placeholder;
+
+
+        [ObjcPropAttribute("backgroundColor")]
+        public NSColor BackgroundColor
+        {
+            get { return _background_color; }
+            set
+            {
+                _background_color = value;
+                _UpdateCell();
+            }
+        }
+
+        [ObjcPropAttribute("textColor")]
+        public NSColor TextColor
+        {
+            get { return _text_color; }
+            set
+            {
+                _text_color = value;
+                _UpdateCell();
+            }
+        }
+
+        [ObjcPropAttribute("bezelStyle")]
+        public NSTextFieldBezelStyle BezelStyle
+        {
+            get { return _bezelStyle; }
+            set { _bezelStyle = value; }
+        }
+
+        [ObjcPropAttribute("drawsBackground")]
+        public bool DrawsBackground
+        {
+            get { return Convert.ToBoolean(_cell.subclass_bool_one); }
+            set { _cell.subclass_bool_one = Convert.ToUInt32(value); }
+        }
+
+        [ObjcPropAttribute("placeholderString")]
+        public NSString PlaceholderString
+        {
+            get 
+            {
+                return (_cell.subclass_bool_three == 1) ? null : (NSString)_placeholder;
+            }
+            set 
+            { 
+                _placeholder = value;
+                _cell.subclass_bool_three = 0; 
+            }
+        }
+
+        [ObjcPropAttribute("placeholderAttributedString")]
+        public NSAttributedString PlaceholderAttributedString
+        {
+            get
+            {
+                return (_cell.subclass_bool_three == 1) ? (NSAttributedString)_placeholder : null;
+            }
+            set
+            {
+                _placeholder = value;
+                _cell.subclass_bool_three = 1;
+            }
+        }
 
 
         public NSTextFieldCell()
         {
 
+        }
+
+        public override id InitTextCell(NSString aString)
+        {
+            id self = this;
+
+             if (base.InitTextCell(aString) == null)
+                return null;
+
+            _text_color = NSColor.TextColor;
+            _background_color = NSColor.TextBackgroundColor;
+            //  _textfieldcell_draws_background = NO;
+            _action_mask = (uint)(NSEventMask.NSKeyUpMask | NSEventMask.NSKeyDownMask);
+
+            return self;
         }
 
         public override id InitWithCoder(NSObjectDecoder aDecoder)
@@ -49,6 +144,28 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
+
+        public NSText SetUpFieldEditorAttributes(NSText textObject)
+        {
+            // FIXME
+            //textObject = [super setUpFieldEditorAttributes: textObject];
+            //[textObject setDrawsBackground: _cell.subclass_bool_one];
+            //[textObject setBackgroundColor: _background_color];
+            //[textObject setTextColor: _text_color];
+            
+            return textObject;
+        }
+
+
+
+        protected void _UpdateCell()
+        {
+            if (_control_view != null && _control_view.IsKindOfClass(NSControl.Class()))
+            {
+                ((NSControl)_control_view).UpdateCell(this);
+            }
+        }
+        
 
     }
 }

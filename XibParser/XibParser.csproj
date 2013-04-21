@@ -151,6 +151,7 @@
     <Compile Include="AppKit\Toolbar\NSToolbarSeparatorItem.cs" />
     <Compile Include="AppKit\Toolbar\NSToolbarSpaceItem.cs" />
     <Compile Include="AppKit\NSView.cs" />
+    <Compile Include="NSText.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="AppKit\NSWindowTemplate.cs" />
     <Compile Include="NSXMLParser.cs" />
