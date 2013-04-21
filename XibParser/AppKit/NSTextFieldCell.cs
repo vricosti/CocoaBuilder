@@ -47,7 +47,7 @@ namespace Smartmobili.Cocoa
 
 
         [ObjcPropAttribute("backgroundColor")]
-        public NSColor BackgroundColor
+        public virtual NSColor BackgroundColor
         {
             get { return _background_color; }
             set
@@ -58,7 +58,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("textColor")]
-        public NSColor TextColor
+        public virtual NSColor TextColor
         {
             get { return _text_color; }
             set
@@ -69,21 +69,21 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("bezelStyle")]
-        public NSTextFieldBezelStyle BezelStyle
+        public virtual NSTextFieldBezelStyle BezelStyle
         {
             get { return _bezelStyle; }
             set { _bezelStyle = value; }
         }
 
         [ObjcPropAttribute("drawsBackground")]
-        public bool DrawsBackground
+        public virtual bool DrawsBackground
         {
             get { return Convert.ToBoolean(_cell.subclass_bool_one); }
             set { _cell.subclass_bool_one = Convert.ToUInt32(value); }
         }
 
         [ObjcPropAttribute("placeholderString")]
-        public NSString PlaceholderString
+        public virtual NSString PlaceholderString
         {
             get 
             {
@@ -97,7 +97,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("placeholderAttributedString")]
-        public NSAttributedString PlaceholderAttributedString
+        public virtual NSAttributedString PlaceholderAttributedString
         {
             get
             {
@@ -158,13 +158,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        protected void _UpdateCell()
-        {
-            if (_control_view != null && _control_view.IsKindOfClass(NSControl.Class()))
-            {
-                ((NSControl)_control_view).UpdateCell(this);
-            }
-        }
+        
         
 
     }

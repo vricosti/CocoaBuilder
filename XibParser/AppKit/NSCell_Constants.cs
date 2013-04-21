@@ -116,19 +116,6 @@ namespace Smartmobili.Cocoa
         NSMiniControlSize
     }
 
-    public enum NSTextAlignment
-    {
-        NSLeftTextAlignment = 0,
-        NSRightTextAlignment = 1,
-        NSCenterTextAlignment = 2,
-        NSJustifiedTextAlignment = 3,
-        NSNaturalTextAlignment = 4
-    } 
 
-    public enum NSWritingDirection
-    {
-        NSWritingDirectionNatural     = -1,
-        NSWritingDirectionLeftToRight = 0,
-        NSWritingDirectionRightToLeft
-    }
+   
 }

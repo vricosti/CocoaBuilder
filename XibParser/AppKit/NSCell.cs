@@ -118,7 +118,7 @@ namespace Smartmobili.Cocoa
         //object _reserved1;
 
         [ObjcPropAttribute("Font")]
-        public NSFont Font
+        public virtual NSFont Font
         {
             get { return _font; }
             set
@@ -127,28 +127,28 @@ namespace Smartmobili.Cocoa
                 {
                     this.Type = NSCellType.NSTextCellType;
                 }
-                _font= value;
+                _font = value;
             }
         }
 
         [ObjcPropAttribute("Image")]
-        public NSImage Image 
+        public virtual NSImage Image
         {
             get { return (_cell.type == (uint)NSCellType.NSImageCellType) ? _cell_image : null; }
-            set 
-            { 
-                 if (_cell.type != (uint)NSCellType.NSImageCellType) 
-                 { 
-                     this.Type = NSCellType.NSImageCellType; 
-                 }
-                _cell_image = value; 
-            } 
+            set
+            {
+                if (_cell.type != (uint)NSCellType.NSImageCellType)
+                {
+                    this.Type = NSCellType.NSImageCellType;
+                }
+                _cell_image = value;
+            }
         }
 
         [ObjcPropAttribute("Type")]
-        public NSCellType Type 
+        public virtual NSCellType Type
         {
-            get 
+            get
             {
                 if (_cell.type == (uint)NSCellType.NSImageCellType && _cell_image == null)
                     return NSCellType.NSNullCellType;
@@ -157,42 +157,42 @@ namespace Smartmobili.Cocoa
             }
             set
             {
-                 if (_cell.type == (uint)value)
-                 {
-                     return;
-                 }
+                if (_cell.type == (uint)value)
+                {
+                    return;
+                }
 
-                 _cell.type = (uint)value;
-                 switch (_cell.type)
-                 {
-                     case (uint)NSCellType.NSTextCellType:
-                         {
-                             _contents = "title";
-                             _cell.contents_is_attributed_string = 0;
-                             /* Doc says we have to reset the font too. */
-                             _font = NSFont.SystemFontOfSize(-1);
-                             break;
-                         }
-                     case (uint)NSCellType.NSImageCellType:
-                         {
-                             _cell_image = null;
-                             break;
-                         }
-                 }
+                _cell.type = (uint)value;
+                switch (_cell.type)
+                {
+                    case (uint)NSCellType.NSTextCellType:
+                        {
+                            _contents = "title";
+                            _cell.contents_is_attributed_string = 0;
+                            /* Doc says we have to reset the font too. */
+                            _font = NSFont.SystemFontOfSize(-1);
+                            break;
+                        }
+                    case (uint)NSCellType.NSImageCellType:
+                        {
+                            _cell_image = null;
+                            break;
+                        }
+                }
             }
         }
 
         [ObjcPropAttribute("ObjectValue")]
-        public object ObjectValue 
+        public virtual object ObjectValue
         {
             get
             {
                 if (_cell.state == (int)NSCellStateValue.NSOffState)
-                {        
+                {
                     return NSNumber.NumberWithBool(false);
                 }
                 else if (_cell.state == (int)NSCellStateValue.NSOnState)
-                {        
+                {
                     return NSNumber.NumberWithBool(true);
                 }
                 else // NSMixedState
@@ -214,27 +214,27 @@ namespace Smartmobili.Cocoa
                 // (int)objVal.ObjcSendMsg();
                 else if (objVal is INSNumber)
                 {
-                   
+
                     this.State = ((INSNumber)objVal).IntValue;
                 }
                 else
                 {
-                     this.State = (int)NSCellStateValue.NSOnState;
+                    this.State = (int)NSCellStateValue.NSOnState;
                 }
             }
         }
 
         [ObjcPropAttribute("HasValidObjectValue", SetName = null)]
-        public bool HasValidObjectValue
+        public virtual bool HasValidObjectValue
         {
             get { return Convert.ToBoolean(_cell.has_valid_object_value); }
         }
 
         [ObjcPropAttribute("DoubleValue", SetName = null)]
-        public double DoubleValue
+        public virtual double DoubleValue
         {
-            get 
-            { 
+            get
+            {
                 if ((Convert.ToBoolean(_cell.has_valid_object_value) == true) &&
                     (_object_value is INSNumber))
                 {
@@ -244,31 +244,31 @@ namespace Smartmobili.Cocoa
                 {
                     return this.StringValue.DoubleValue;
                 }
-                 
+
             }
         }
 
         [ObjcPropAttribute("FloatValue", SetName = null)]
-        public float FloatValue
+        public virtual float FloatValue
         {
             get { return _cell.state; }
         }
 
         [ObjcPropAttribute("IntegerValue", SetName = null)]
-        public int IntegerValue
+        public virtual int IntegerValue
         {
             get { return _cell.state; }
         }
 
 
         [ObjcPropAttribute("IntValue", SetName = null)]
-        public int IntValue
+        public virtual int IntValue
         {
             get { return _cell.state; }
         }
 
         [ObjcPropAttribute("StringValue", SetName = null)]
-        public NSString StringValue
+        public virtual NSString StringValue
         {
             get
             {
@@ -296,7 +296,7 @@ namespace Smartmobili.Cocoa
                 {
                     System.Diagnostics.Debug.WriteLine("MacOSXCompatibility " + "Attempt to use nil as string value");
                 }
-                
+
                 if (_cell.type != (uint)NSCellType.NSTextCellType)
                 {
                     this.Type = NSCellType.NSTextCellType;
@@ -315,7 +315,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("wraps")]
-        public bool Wraps 
+        public virtual bool Wraps
         {
             get
             {
@@ -328,7 +328,7 @@ namespace Smartmobili.Cocoa
                 {
                     if (!this.Wraps)
                         this.LineBreakMode = NSLineBreakMode.NSLineBreakByWordWrapping;
-         
+
                 }
                 else
                 {
@@ -339,7 +339,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("scrollable", GetName = "isScrollable")]
-        public bool Scrollable
+        public virtual bool Scrollable
         {
             get { return (_cell.is_scrollable == 1); }
             set
@@ -354,7 +354,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("selectable", GetName = "isSelectable")]
-        public bool Selectable 
+        public virtual bool Selectable
         {
             get { return ((_cell.is_selectable == 1) || (_cell.is_editable == 1)); }
             set
@@ -367,59 +367,59 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("bezeled", GetName = "isBezeled")]
-        public bool Bezeled 
+        public virtual bool Bezeled
         {
             get { return Convert.ToBoolean(_cell.is_bezeled); }
-            set 
-            { 
+            set
+            {
                 _cell.is_bezeled = Convert.ToUInt32(value);
                 _cell.is_bordered = Convert.ToUInt32(false);
             }
         }
 
         [ObjcPropAttribute("bordered", GetName = "isBordered")]
-        public bool Bordered 
+        public virtual bool Bordered
         {
             get { return Convert.ToBoolean(_cell.is_bordered); }
             set
             {
                 _cell.is_bordered = Convert.ToUInt32(value);
                 _cell.is_bezeled = Convert.ToUInt32(false);
-            } 
+            }
         }
 
         [ObjcPropAttribute("opaque", SetName = null, GetName = "isOpaque")]
-        public bool Opaque
+        public virtual bool Opaque
         {
             get { return false; }
         }
 
         [ObjcPropAttribute("focusRingType")]
-        public NSFocusRingType FocusRingType
+        public virtual NSFocusRingType FocusRingType
         {
             get { return (NSFocusRingType)_cell.focus_ring_type; }
-            set { _cell.focus_ring_type =  Convert.ToUInt32(value); } 
+            set { _cell.focus_ring_type = Convert.ToUInt32(value); }
         }
 
 
         [ObjcPropAttribute("editable", GetName = "isEditable")]
-        public bool Editable 
+        public virtual bool Editable
         {
             get { return _cell.is_editable.ToBool(); }
-            set { _cell.is_editable = Convert.ToUInt32(value); }  
+            set { _cell.is_editable = Convert.ToUInt32(value); }
         }
 
         [ObjcPropAttribute("enabled", GetName = "isEnabled")]
-        public bool Enabled 
+        public virtual bool Enabled
         {
             get { return (Convert.ToBoolean(_cell.is_disabled) == false); }
-            set { _cell.is_disabled = Convert.ToUInt32(!value); } 
+            set { _cell.is_disabled = Convert.ToUInt32(!value); }
         }
 
-        
+
 
         [ObjcPropAttribute("State")]
-        public int State 
+        public virtual int State
         {
             get { return _cell.state; }
             set
@@ -439,17 +439,17 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public bool AllowsMixedState 
+        public virtual bool AllowsMixedState
         {
             get { return (Convert.ToBoolean(_cell.allows_mixed_state)); }
-            set 
-            { 
+            set
+            {
                 _cell.allows_mixed_state = Convert.ToUInt32(value);
                 if (!value && (_cell.state == (int)NSCellStateValue.NSMixedState))
                 {
                     this.SetNextState();
                 }
-            }  
+            }
         }
 
         public int NextState()
@@ -478,7 +478,7 @@ namespace Smartmobili.Cocoa
                     }
             }
         }
-       
+
         public void SetNextState()
         {
             this.State = this.NextState();
@@ -487,7 +487,7 @@ namespace Smartmobili.Cocoa
 
 
         [ObjcPropAttribute("lineBreakMode")]
-        public NSLineBreakMode LineBreakMode 
+        public virtual NSLineBreakMode LineBreakMode
         {
             get { return (NSLineBreakMode)_cell.line_break_mode; }
             set
@@ -501,17 +501,17 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("baseWritingDirection")]
-        public NSWritingDirection BaseWritingDirection
+        public virtual NSWritingDirection BaseWritingDirection
         {
             get { return (NSWritingDirection)_cell.base_writing_direction; }
             set { _cell.base_writing_direction = Convert.ToUInt32(value); }
         }
 
         [ObjcPropAttribute("continuous", GetName = "isContinuous")]
-        public bool Continuous
+        public virtual bool Continuous
         {
             get { return ((_action_mask & (uint)NSEventMask.NSPeriodicMask)) != 0; }
-            set 
+            set
             {
                 if (value)
                 {
@@ -524,7 +524,7 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public int SendActionOn(int mask)
+        public virtual int SendActionOn(int mask)
         {
             uint previousMask = _action_mask;
 
@@ -534,17 +534,17 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("tag")]
-        public int Tag
+        public virtual int Tag
         {
             get { return -1; }
             set { throw new NotImplementedException(); }
         }
 
         [ObjcPropAttribute("entryType")]
-        public int EntryType
+        public virtual int EntryType
         {
             get { return (int)_cell.entry_type; }
-            set 
+            set
             {
                 this.Type = NSCellType.NSTextCellType;
                 _cell.entry_type = (uint)value;
@@ -552,33 +552,33 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("menu")]
-        public NSMenu Menu
+        public virtual NSMenu Menu
         {
             get { return _menu; }
             set { _menu = value; }
         }
 
 
-        public bool AcceptsFirstResponder
+        public virtual bool AcceptsFirstResponder
         {
             get { return ((_cell.is_disabled == 0) && (_cell.refuses_first_responder == 0)); }
         }
 
         [ObjcPropAttribute("showsFirstResponder")]
-        public bool ShowsFirstResponder 
+        public virtual bool ShowsFirstResponder
         {
             get { return ((_cell.is_disabled == 0) && (_cell.refuses_first_responder == 0)); }
-            set { _cell.shows_first_responder = Convert.ToUInt32(value); } 
+            set { _cell.shows_first_responder = Convert.ToUInt32(value); }
         }
 
         [ObjcPropAttribute("refusesFirstResponder")]
-        public bool RefusesFirstResponder 
+        public virtual bool RefusesFirstResponder
         {
             get { return Convert.ToBoolean(_cell.refuses_first_responder); }
-            set { _cell.refuses_first_responder = Convert.ToUInt32(value); } 
+            set { _cell.refuses_first_responder = Convert.ToUInt32(value); }
         }
 
-        public int MouseDownFlags
+        public virtual int MouseDownFlags
         {
             get { return (int)_mouse_down_flags; }
         }
@@ -589,54 +589,54 @@ namespace Smartmobili.Cocoa
             set { }
         }
 
-        public NSControlSize ControlSize 
+        public virtual NSControlSize ControlSize
         {
             get { return (NSControlSize)_cell.control_size; }
             set { _cell.control_size = Convert.ToUInt32(value); }
         }
 
-        public NSControlTint ControlTint 
+        public virtual NSControlTint ControlTint
         {
             get { return (NSControlTint)_cell.control_tint; }
-            set { _cell.control_tint = Convert.ToUInt32(value); } 
+            set { _cell.control_tint = Convert.ToUInt32(value); }
         }
 
         public virtual NSView ControlView
         {
             get { return null; }
-            set { } 
+            set { }
         }
 
         [ObjcPropAttribute("highlighted", GetName = "isHighlighted")]
-        public bool Highlighted 
+        public virtual bool Highlighted
         {
             get { return Convert.ToBoolean(_cell.is_highlighted); }
-            set { _cell.is_highlighted = Convert.ToUInt32(value); } 
+            set { _cell.is_highlighted = Convert.ToUInt32(value); }
         }
 
 
         [ObjcPropAttribute("sendsActionOnEndEditing")]
-        public bool SendsActionOnEndEditing 
+        public virtual bool SendsActionOnEndEditing
         {
             get { return Convert.ToBoolean(_cell.sends_action_on_end_editing); }
-            set { _cell.sends_action_on_end_editing = Convert.ToUInt32(value); }  
+            set { _cell.sends_action_on_end_editing = Convert.ToUInt32(value); }
         }
 
         [ObjcPropAttribute("allowsUndo")]
-        public bool AllowsUndo
+        public virtual bool AllowsUndo
         {
             get { return Convert.ToBoolean(_cell.allows_undo); }
             set { _cell.allows_undo = Convert.ToUInt32(value); }
-        } 
+        }
 
-        public NSTextAlignment Alignment 
+        public virtual NSTextAlignment Alignment
         {
             get { return (NSTextAlignment)_cell.text_align; }
-            set { _cell.text_align = (uint)value; }  
+            set { _cell.text_align = (uint)value; }
         }
 
         [ObjcPropAttribute("importsGraphics")]
-        public bool ImportsGraphics 
+        public virtual bool ImportsGraphics
         {
             get { return _cell.imports_graphics.ToBool(); }
             set
@@ -644,11 +644,11 @@ namespace Smartmobili.Cocoa
                 _cell.imports_graphics = Convert.ToUInt32(value);
                 if (value)
                     _cell.is_rich_text = 1;
-            } 
+            }
         }
 
         [ObjcPropAttribute("allowsEditingTextAttributes")]
-        public bool AllowsEditingTextAttributes 
+        public virtual bool AllowsEditingTextAttributes
         {
             get { return _cell.is_rich_text.ToBool(); }
             set
@@ -661,9 +661,9 @@ namespace Smartmobili.Cocoa
 
         public virtual NSString Title
         {
-            get 
-            { 
-                return this.StringValue; 
+            get
+            {
+                return this.StringValue;
             }
             set
             {
@@ -672,13 +672,13 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("formatter")]
-        public NSFormatter Formatter 
-        { 
-            get { return _formatter; } 
-            set { _formatter = value; } 
+        public virtual NSFormatter Formatter
+        {
+            get { return _formatter; }
+            set { _formatter = value; }
         }
 
-       
+
 
         public NSCell()
         {
@@ -759,15 +759,13 @@ namespace Smartmobili.Cocoa
 
                 if (aDecoder.ContainsValueForKey("NSSupport"))
                 {
-                    
+
                     id support = aDecoder.DecodeObjectForKey("NSSupport");
 
                     if (support.IsKindOfClass(NSFont.Class()))
-                    //if (support is NSFont)
                     {
-                        this.Font = (NSFont)support; 
+                        this.Font = (NSFont)support;
                     }
-                    //else if (support is NSImage)
                     else if (support.IsKindOfClass(NSImage.Class()))
                     {
                         this.Image = (NSImage)support;
@@ -858,9 +856,9 @@ namespace Smartmobili.Cocoa
                         break;
                     }
             }
-  
-  return 0;
-}
+
+            return 0;
+        }
 
         public virtual void SetCellAttribute(NSCellAttribute aParameter, int toValue)
         {
@@ -905,7 +903,7 @@ namespace Smartmobili.Cocoa
                     {
                         if (Convert.ToBoolean(toValue))
                         {
-                            if (_cell.image_position != (uint)NSCellImagePosition.NSImageLeft && 
+                            if (_cell.image_position != (uint)NSCellImagePosition.NSImageLeft &&
                                 _cell.image_position != (uint)NSCellImagePosition.NSImageRight)
                             {
                                 _cell.image_position = (uint)NSCellImagePosition.NSImageLeft;
@@ -975,6 +973,6 @@ namespace Smartmobili.Cocoa
                     }
             }
         }
-    
+
     }
 }

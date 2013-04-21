@@ -26,6 +26,7 @@ using System.Text;
 namespace Smartmobili.Cocoa
 {
     //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSActionCell.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSActionCell.m
     public class NSActionCell : NSCell
     {
         protected int _tag;
@@ -38,11 +39,89 @@ namespace Smartmobili.Cocoa
 
         }
 
+        [ObjcPropAttribute("action")]
+        public virtual SEL Action
+        {
+            get { return _action; }
+            set { _action = value; }
+        }
+
+        [ObjcPropAttribute("target")]
+        public virtual id Target
+        {
+            get { return _target; }
+            set { _target = value; }
+        }
+
+        [ObjcPropAttribute("tag")]
+        public override int Tag
+        {
+            get { return _tag; }
+            set { _tag = value; }
+        }
+
+        [ObjcPropAttribute("controlView")]
+        public override NSView ControlView
+        {
+            get { return _control_view; }
+            set { _control_view = value; }
+        }
+
+
         public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            id self = this;
 
-            return this;
+            if (base.InitWithCoder(aDecoder) == null)
+                return null;
+
+            if (aDecoder.AllowsKeyedCoding)
+            {
+                if (aDecoder.ContainsValueForKey("NSTag"))
+                {
+                    this.Tag = aDecoder.DecodeIntForKey("NSTag");
+                }
+                if (aDecoder.ContainsValueForKey("NSTarget"))
+                {
+                    this.Target = aDecoder.DecodeObjectForKey("NSTarget");
+                }
+                if (aDecoder.ContainsValueForKey("NSAction"))
+                {
+                    NSString action = (NSString)aDecoder.DecodeObjectForKey("NSAction");
+                    //NSString *action = [aDecoder decodeObjectForKey: @"NSAction"];
+                    //[self setAction: NSSelectorFromString(action)];
+                }
+            }
+
+            return self;
+        }
+
+        public override void EncodeWithCoder(NSObjectDecoder aCoder)
+        {
+            base.EncodeWithCoder(aCoder);
+            if (aCoder.AllowsKeyedCoding)
+            {
+                //  [aCoder encodeInteger: [self tag] forKey: @"NSTag"];
+                //  if ([self target] != nil)
+                //{
+                //  [aCoder encodeObject: [self target] forKey: @"NSTarget"];
+                //}
+                //  if ([self action] != NULL)
+                //{
+                //  [aCoder encodeObject: NSStringFromSelector([self action]) forKey: @"NSAction"];
+                //}
+                //  [aCoder encodeObject: _control_view forKey: @"NSControlView"];
+                //}
+            }
+        }
+
+
+        protected void _UpdateCell()
+        {
+            if (_control_view != null && _control_view.IsKindOfClass(NSControl.Class()))
+            {
+                ((NSControl)_control_view).UpdateCell(this);
+            }
         }
     }
 }

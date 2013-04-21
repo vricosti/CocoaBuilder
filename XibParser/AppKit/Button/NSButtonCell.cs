@@ -177,10 +177,7 @@ namespace Smartmobili.Cocoa
             {
                 _contents = value;
                 _cell.contents_is_attributed_string = Convert.ToUInt32(false);
-                if ((_control_view != null) && _control_view is NSControl)
-                {
-                    ((NSControl)_control_view).UpdateCell(this);
-                }
+                _UpdateCell();
             }
         }
 
@@ -196,11 +193,7 @@ namespace Smartmobili.Cocoa
             set
             {
                 _altContents = value;
-                if ((_control_view != null) && _control_view is NSControl)
-                {
-                    //FIXME
-                    //((NSControl)_control_view).UpdateCell(this);
-                }
+                _UpdateCell();
             }
         }
 
@@ -230,11 +223,7 @@ namespace Smartmobili.Cocoa
             set
             {
                 _altImage = value;
-                if ((_control_view != null) && _control_view is NSControl)
-                {
-                    //FIXME
-                    //((NSControl)_control_view).UpdateCell(this);
-                }
+                _UpdateCell();
             }
         }
 
@@ -256,10 +245,7 @@ namespace Smartmobili.Cocoa
                     _cell.type = (uint)NSCellType.NSImageCellType;
                 }
 
-                if ((_control_view != null) && _control_view is NSControl)
-                {
-                    ((NSControl)_control_view).UpdateCell(this);
-                }
+                _UpdateCell();
             }
         }
 
@@ -330,7 +316,7 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcProp("opaque", GetName = "isOpaque", SetName = null)]
-        public bool Opaque
+        public override bool Opaque
         {
             get
             {
