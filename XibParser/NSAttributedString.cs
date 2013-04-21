@@ -6,6 +6,7 @@ using System.Text;
 namespace Smartmobili.Cocoa
 {
     //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSAttributedString_Class/Reference/Reference.html
+    //https://github.com/gnustep/gnustep-base/blob/master/Headers/Foundation/NSAttributedString.h
     public class NSAttributedString : NSObject
     {
         protected NSString _string;
@@ -17,9 +18,25 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public static NSAttributedString Alloc()
+        {
+            return new NSAttributedString();
+        }
+
+
         public NSAttributedString()
         {
 
+        }
+
+        public virtual id InitWithRTF(NSData rtfData, ref NSDictionary docAttributes)
+        {
+            return this;
+        }
+
+        public virtual id InitWithRTFD(NSData rtfData, ref NSDictionary docAttributes)
+        {
+            return this;
         }
     }
 }

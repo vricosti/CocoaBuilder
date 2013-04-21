@@ -28,6 +28,19 @@ using System.Globalization;
 
 namespace Smartmobili.Cocoa
 {
+    public struct NSRange
+    {
+        public uint Location { get; set; }
+        public uint Length { get; set; }
+
+        public NSRange(uint location, uint length)
+            : this()
+        {
+            Location = location;
+            Length = length;
+        }
+    }
+
     public struct NSSize
     {
         public float Width  {get; set;}
