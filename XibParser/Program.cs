@@ -10,10 +10,6 @@ namespace Smartmobili.Cocoa
     {
         static void Main(string[] args)
         {
-            NSString aString = new NSString("TEst");
-
-
-
 #if TEST
             string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
             //string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\ButtonTextAlign.xib";

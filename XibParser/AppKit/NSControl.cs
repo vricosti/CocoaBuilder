@@ -25,16 +25,42 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSControl.h
     public class NSControl : NSView
     {
         new public static Class Class = new Class(typeof(NSControl));
+        
+        protected static Class usedCellClass;
+        protected static Class cellClass;
+        protected static Class actionCellClass;
+        //protected static NSNotificationCenter nc;
 
+        // Attributes
+        protected int _tag;
+        protected id _cell; // id so compiler wont complain too much for subclasses
+        protected bool _ignoresMultiClick;
+
+
+        static NSControl() { Initialize(); }
+        public static void Initialize()
+        {
+            cellClass = NSCell.Class;
+            usedCellClass = cellClass;
+            actionCellClass = NSActionCell.Class;
+        }
 
         public NSControl()
         {
 
         }
 
+        public static Class CellClass
+        {
+            get { return cellClass; }
+            set { usedCellClass = (value != null) ? value : cellClass; }
+        }
+        
+      
 
         public void UpdateCell(NSCell aCell)
         {

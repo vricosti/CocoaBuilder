@@ -26,7 +26,8 @@ using System.Text;
 namespace Smartmobili.Cocoa
 {
     //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ApplicationKit/Classes/NSButton_Class/Reference/Reference.html
-
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSButton.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSButton.m
     public class NSButton : NSControl
     {
         new public static Class Class = new Class(typeof(NSButton));

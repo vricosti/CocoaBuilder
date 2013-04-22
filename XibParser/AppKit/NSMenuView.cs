@@ -9,6 +9,32 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSMenuView));
 
+        protected NSMutableArray _itemCells;
+        protected bool _horizontal;
+        protected char[] _pad1 = new char[3];
+        protected NSFont _font;
+        protected int _highlightedItemIndex;
+        protected float _horizontalEdgePad;
+        protected float _stateImageOffset;
+        protected float _stateImageWidth;
+        protected float _imageAndTitleOffset;
+        protected float _imageAndTitleWidth;
+        protected float _keyEqOffset;
+        protected float _keyEqWidth;
+        protected bool _needsSizing;
+        protected char[] _pad2 = new char[3];
+        protected NSSize _cellSize;
+
+        private id _items_link;
+        private int _leftBorderOffset;
+        private id _titleView;
+
+        /*
+        Private and not named '_menu' to avoid confusion and further problems
+        with NSResponder's menu.
+        */
+        private NSMenu _attachedMenu;
+
         public NSMenuView()
         {
 

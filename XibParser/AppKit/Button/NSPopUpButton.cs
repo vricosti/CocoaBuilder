@@ -16,7 +16,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public static Class CellClass
+        new public static Class CellClass
         {
             get { return _nspopupbuttonCellClass; }
             set { _nspopupbuttonCellClass = value; }
