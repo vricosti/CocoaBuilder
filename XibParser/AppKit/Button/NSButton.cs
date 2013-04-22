@@ -29,7 +29,7 @@ namespace Smartmobili.Cocoa
 
     public class NSButton : NSControl
     {
-        private NSButtonCell _cell;
+        protected NSButtonCell _cell;
         public NSButtonCell Cell 
         { 
             get { return _cell; } 

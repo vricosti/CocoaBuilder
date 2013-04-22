@@ -66,6 +66,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppKit\Button\NSPopUpButton.cs" />
     <Compile Include="AppKit\Toolbar\GSToolbarButton.cs" />
     <Compile Include="AppKit\Button\NSButton.cs" />
     <Compile Include="AppKit\Button\NSButtonCell.cs" />
