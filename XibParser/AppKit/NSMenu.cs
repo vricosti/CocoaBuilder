@@ -24,14 +24,15 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    //class NSMenuView
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSMenu.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSMenu.m
     public class NSMenu : NSObject
     {
         new public static Class Class = new Class(typeof(NSMenu));
 
         protected NSString _title;
         protected NSMutableArray _items;
-        //protected NSView<NSMenuView> _view;
+        protected NSMenuView _view;
         protected NSMenu _superMenu;
         protected NSMenu _attachedMenu;
         protected NSMutableArray _notifications;

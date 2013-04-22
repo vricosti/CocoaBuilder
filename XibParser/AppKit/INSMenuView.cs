@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public interface NSMenuView
+    public interface INSMenuView
     {
         NSMenu Menu { set; }
 
