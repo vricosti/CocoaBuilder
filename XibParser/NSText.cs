@@ -82,7 +82,7 @@ namespace Smartmobili.Cocoa
 
         public virtual NSData RTFDFromRange { get { return null; } }
 
-        public virtual NSData RTFDFromRange { get { return null; } }
+        public virtual NSData RTFDromRange { get { return null; } }
 
         public virtual NSString String
         {
