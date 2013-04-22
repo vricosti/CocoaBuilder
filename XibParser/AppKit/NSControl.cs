@@ -27,10 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSControl : NSView
     {
-        public static Class Class()
-        {
-            return new Class(typeof(NSControl));
-        }
+        new public static Class Class = new Class(typeof(NSControl));
+
 
         public NSControl()
         {

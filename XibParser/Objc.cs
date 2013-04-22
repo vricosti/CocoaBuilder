@@ -50,7 +50,8 @@ namespace Smartmobili.Cocoa
 
         public override bool Equals(object cls2)
         {
-            return (this.InnerType.Equals(((Class)cls2).InnerType));
+            Class class2 = new Class(cls2.GetType());
+            return (this.InnerType.Equals((class2.InnerType)));
         }
 
         public override int GetHashCode()

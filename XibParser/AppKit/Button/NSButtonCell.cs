@@ -75,6 +75,8 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSButtonCell.m
     public class NSButtonCell : NSActionCell
     {
+        new public static Class Class = new Class(typeof(NSButtonCell));
+
         // Attributes
         protected NSString _altContents;
         protected NSImage _altImage;
@@ -152,6 +154,8 @@ namespace Smartmobili.Cocoa
             public uint keyEquivalentModifierMask;
         };
 
+
+       
 
         //
         // Setting the Titles 

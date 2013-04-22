@@ -24,13 +24,20 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //class NSMenuView
     public class NSMenu : NSObject
     {
-        public static Class Class()
-        {
-            return new Class(typeof(NSMenu));
-        }
+        new public static Class Class = new Class(typeof(NSMenu));
 
+        protected NSString _title;
+        protected NSMutableArray _items;
+        //protected NSView<NSMenuView> _view;
+        protected NSMenu _superMenu;
+        protected NSMenu _attachedMenu;
+        protected NSMutableArray _notifications;
+        protected id _delegate; 
+
+        
         public string Title { get; set; }
 
         public NSMutableArray MenuItems { get; set; }

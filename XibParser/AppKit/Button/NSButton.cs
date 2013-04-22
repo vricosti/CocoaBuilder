@@ -29,6 +29,8 @@ namespace Smartmobili.Cocoa
 
     public class NSButton : NSControl
     {
+        new public static Class Class = new Class(typeof(NSButton));
+
         protected NSButtonCell _cell;
         public NSButtonCell Cell 
         { 

@@ -30,6 +30,8 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSCell.m
     public class NSCell : NSObject, INSNumber
     {
+        new public static Class Class = new Class(typeof(NSCell));
+
         public struct GSCellFlagsType
         {
             // total 32 bits.  0 bits left.
@@ -701,11 +703,11 @@ namespace Smartmobili.Cocoa
             {
                 id contents = (id)aDecoder.DecodeObjectForKey("NSContents");
 
-                if (contents.IsKindOfClass(NSString.Class()))
+                if (contents.IsKindOfClass(NSString.Class))
                 {
                     InitTextCell((NSString)contents);
                 }
-                else if (contents.IsKindOfClass(NSImage.Class()))
+                else if (contents.IsKindOfClass(NSImage.Class))
                 {
                     InitImageCell((NSImage)contents);
                 }
@@ -762,11 +764,11 @@ namespace Smartmobili.Cocoa
 
                     id support = aDecoder.DecodeObjectForKey("NSSupport");
 
-                    if (support.IsKindOfClass(NSFont.Class()))
+                    if (support.IsKindOfClass(NSFont.Class))
                     {
                         this.Font = (NSFont)support;
                     }
-                    else if (support.IsKindOfClass(NSImage.Class()))
+                    else if (support.IsKindOfClass(NSImage.Class))
                     {
                         this.Image = (NSImage)support;
                     }

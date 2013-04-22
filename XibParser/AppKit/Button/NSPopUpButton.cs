@@ -10,6 +10,35 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSPopUpButton.m
     public class NSPopUpButton : NSButton
     {
+        private static Class _class = new Class(typeof(NSResponder));
+        private static Class _nspopupbuttonCellClass;
+
+
+
+
+        public static Class CellClass
+        {
+            get { return _nspopupbuttonCellClass; }
+            set { _nspopupbuttonCellClass = value; }
+        }
+
+        static NSPopUpButton() { Initialize(); }
+        static void Initialize()
+        {
+            //this.Version = 1;
+            NSPopUpButton.CellClass = NSPopUpButtonCell.Class;
+
+            //[self exposeBinding: NSSelectedIndexBinding];
+            //[self exposeBinding: NSSelectedObjectBinding];
+            //[self exposeBinding: NSSelectedTagBinding];
+            //[self exposeBinding: NSContentValuesBinding];
+        }
+        
+
+
+
+
+
         public NSPopUpButton()
         {
 

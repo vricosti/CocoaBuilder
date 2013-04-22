@@ -27,10 +27,7 @@ namespace Smartmobili.Cocoa
 {
     public class NSFont : NSObject
     {
-        public static Class Class()
-        {
-            return new Class(typeof(NSFont));
-        }
+        new public static Class Class = new Class(typeof(NSFont));
 
         public NSFont()
         {

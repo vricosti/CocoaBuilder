@@ -35,7 +35,7 @@ namespace Smartmobili.Cocoa
 
     public class NSView : NSResponder
     {
-        
+        new public static Class Class = new Class(typeof(NSView));
 
         //<int key="NSvFlags">256</int>
         public int NSvFlags { get; set; }

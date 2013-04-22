@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppKit\Button\NSPopUpButton.cs" />
+    <Compile Include="AppKit\Button\NSPopUpButtonCell.cs" />
+    <Compile Include="AppKit\INSMenuView.cs" />
     <Compile Include="AppKit\Toolbar\GSToolbarButton.cs" />
     <Compile Include="AppKit\Button\NSButton.cs" />
     <Compile Include="AppKit\Button\NSButtonCell.cs" />

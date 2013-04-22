@@ -26,6 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSResponder : NSObject
     {
+        new public static Class Class = new Class(typeof(NSResponder));
+
         //<reference key="NSNextResponder" />
         public NSResponder NextResponder { get; set; }
 

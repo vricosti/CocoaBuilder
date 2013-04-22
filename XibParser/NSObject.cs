@@ -33,6 +33,8 @@ namespace Smartmobili.Cocoa
 
     public class NSObject : id, NSCoding
     {
+        public static Class Class = new Class(typeof(NSObject));
+
         public string Key { get; set; }
 
         public string RefId { get; set; }

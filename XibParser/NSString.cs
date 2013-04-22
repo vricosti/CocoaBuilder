@@ -27,10 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSString : NSObject, INSNumber
     {
-        public static Class Class()
-        {
-            return new Class(typeof(NSString));
-        }
+        new public static Class Class = new Class(typeof(NSString));
+        
 
         
         public string Value { get; set; }

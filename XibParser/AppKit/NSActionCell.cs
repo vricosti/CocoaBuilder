@@ -29,6 +29,8 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSActionCell.m
     public class NSActionCell : NSCell
     {
+        new public static Class Class = new Class(typeof(NSButtonCell));
+
         protected int _tag;
         protected id _target;
         protected SEL _action;
@@ -118,7 +120,7 @@ namespace Smartmobili.Cocoa
 
         protected void _UpdateCell()
         {
-            if (_control_view != null && _control_view.IsKindOfClass(NSControl.Class()))
+            if (_control_view != null && _control_view.IsKindOfClass(NSControl.Class))
             {
                 ((NSControl)_control_view).UpdateCell(this);
             }
