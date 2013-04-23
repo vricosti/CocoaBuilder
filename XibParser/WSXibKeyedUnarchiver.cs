@@ -26,6 +26,7 @@ using System.Xml.XPath;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/Additions/GNUstepGUI/GSXibLoading.h
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSXibLoader.m
     public class WSXibKeyedUnarchiver : NSKeyedUnarchiver, INSXMLParser
     {
@@ -37,13 +38,17 @@ namespace Smartmobili.Cocoa
 
         public NSMutableDictionary Decoded { get; set; }
 
-        protected WSXibKeyedUnarchiver()
+        public WSXibKeyedUnarchiver(bool shouldCallInit = true)
         {
+            if (shouldCallInit)
+            {
+                Init();
+            }
         }
 
         public static WSXibKeyedUnarchiver Alloc()
         {
-            return new WSXibKeyedUnarchiver();
+            return new WSXibKeyedUnarchiver(false);
         }
 
         private NSData PreProcessXib(NSData data)
@@ -53,7 +58,7 @@ namespace Smartmobili.Cocoa
             string xml = System.Text.Encoding.Default.GetString(data.Bytes);
             XDocument xDoc = XDocument.Parse(xml);
 
-            NSMutableDictionary customClassDict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+            NSMutableDictionary customClassDict = new NSMutableDictionary();
 
             var customClassNodes = xDoc.XPathSelectElements("//dictionary[@key=\"flattenedProperties\"]/string[contains(@key,\"CustomClassName\")]", null);
             if (customClassNodes != null && customClassNodes.Count() == 1)

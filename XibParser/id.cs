@@ -35,7 +35,9 @@ namespace Smartmobili.Cocoa
 
         public virtual id Init()
         {
-            return this;
+            id self = this;
+
+            return self;
         }
 
         public bool IsKindOfClass(Class aClass)

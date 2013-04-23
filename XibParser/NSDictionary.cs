@@ -62,9 +62,12 @@ namespace Smartmobili.Cocoa
         //      </object>
         /////////////////////////////////////////////////////////////////////////////////
 
-        public NSDictionary()
+        public NSDictionary(bool shouldCallInit = true)
         {
-            Init();
+            if (shouldCallInit)
+            {
+                Init();
+            }
         }
 
         public NSDictionary(NSArray sortedKeys, NSMutableArray values)
@@ -76,11 +79,6 @@ namespace Smartmobili.Cocoa
         public static NSDictionary Alloc()
         {
             return new NSDictionary();
-        }
-
-        public NSDictionary Init()
-        {
-            return this;
         }
 
 

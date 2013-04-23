@@ -29,22 +29,18 @@ namespace Smartmobili.Cocoa
 {
     public class NSMutableDictionary : NSDictionary
     {
-        public NSMutableDictionary()
+        public NSMutableDictionary(bool shouldCallInit = true)
         {
-
+            if (shouldCallInit)
+            {
+                Init();
+            }
         }
 
-        public static NSMutableDictionary Alloc()
+        new public static NSMutableDictionary Alloc()
         {
-            return new NSMutableDictionary();
+            return new NSMutableDictionary(false);
         }
-
-        public id Init()
-        {
-            id self = this;
-            return self;
-        }
-
 
     }
 }

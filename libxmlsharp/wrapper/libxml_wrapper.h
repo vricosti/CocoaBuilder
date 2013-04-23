@@ -42,6 +42,27 @@
 
 __BEGIN_DECLS
 
+	typedef void (__stdcall * StartDocumentCallback)(void* user_data);
+	typedef void (__stdcall * EndDocumentCallback)(void* user_data);
+	typedef void (__stdcall * CharactersCallback)(void* user_data, const xmlChar* ch, int len);
+	typedef void (__stdcall * StartElementCallback)(void* user_data, const xmlChar* name, const xmlChar ** 	attrs);
+	typedef void (__stdcall * EndElementCallback)(void* user_data, const xmlChar* name);
+   
+
+
+
+
+typedef struct _SAXCallbacks
+{
+	long startDocumentCallback;
+	long endDocumentCallback;
+	long charactersCallback;
+	long startElementCallback;
+	long endElementCallback;
+} 
+SAXCallbacks;
+
+
 LIBXML_WRAPPER xmlDocPtr _xmlParseFile(const char* name);
 
 LIBXML_WRAPPER xmlDocPtr _xmlParseMemory(const char* data,int len);
