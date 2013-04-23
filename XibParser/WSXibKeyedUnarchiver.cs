@@ -26,6 +26,41 @@ using System.Xml.XPath;
 
 namespace Smartmobili.Cocoa
 {
+
+    //public class GSXibElement : NSObject
+    //{
+    //    NSString type;
+    //    NSDictionary attributes;
+    //    NSString value;
+    //    NSMutableDictionary elements;
+    //    NSMutableArray values;
+
+    //    public virtual GSXibElement InitWithTypeAndAttributes(NSString typeName, NSDictionary attribs);
+
+
+    //    public virtual NSString Type;
+        
+    //    public virtual NSString Value;
+        
+    //    public virtual NSDictionary Elements;
+        
+    //    public virtual NSArray Values;
+
+        
+    //    public virtual void AddElement(GSXibElement element);
+        
+    //    public virtual void SetElementForKey(GSXibElement element, NSString key);
+        
+    //    public virtual void SetValue(NSString text);
+        
+    //    public virtual NSString AttributeForKey(NSString key);
+        
+    //    public virtual GSXibElement ElementForKey(NSString key);
+    //}
+
+
+
+
     //https://github.com/gnustep/gnustep-gui/blob/master/Headers/Additions/GNUstepGUI/GSXibLoading.h
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSXibLoader.m
     public class WSXibKeyedUnarchiver : NSKeyedUnarchiver, INSXMLParser
