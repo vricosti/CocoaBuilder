@@ -26,12 +26,7 @@ namespace Smartmobili.Cocoa
 {
     public class id
     {
-        //protected Class _class;
-
-        //public virtual Class Class
-        //{
-
-        //}
+        protected bool _isInited;
 
         public id()
         {

@@ -35,6 +35,8 @@ namespace Smartmobili.Cocoa
     //
     public class NSTextFieldCell : NSActionCell
     {
+        new public static Class Class = new Class(typeof(NSTextFieldCell));
+
         // Attributes
         protected NSColor _background_color;
         protected NSColor _text_color;

@@ -17,7 +17,7 @@ namespace Smartmobili.Cocoa
 
     //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSPopUpButtonCell.h
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSPopUpButtonCell.m
-    public class NSPopUpButtonCell //: NSMenuItemCell
+    public class NSPopUpButtonCell : NSMenuItemCell
     {
         new public static Class Class = new Class(typeof(NSPopUpButtonCell));
 

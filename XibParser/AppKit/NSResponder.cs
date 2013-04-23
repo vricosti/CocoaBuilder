@@ -24,14 +24,41 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    public enum NSInterfaceStyle
+    {
+        NSNoInterfaceStyle = 0,
+        NSNextStepInterfaceStyle = 1,
+        NSMacintoshInterfaceStyle = 2,
+        NSWindows95InterfaceStyle = 3,
+
+        /*
+         * GNUstep specific. Blame: Michael Hanni.
+         */
+        GSWindowMakerInterfaceStyle = 4
+    } 
+
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSResponder.m
     public class NSResponder : NSObject
     {
         new public static Class Class = new Class(typeof(NSResponder));
 
-        //<reference key="NSNextResponder" />
-        public NSResponder NextResponder { get; set; }
+        protected NSInterfaceStyle _interface_style;
+        protected NSResponder _next_responder;
+        protected NSMenu _menu;
 
-        public object Menu { get; set; }
+
+        
+        public virtual NSResponder NextResponder 
+        {
+            get { return _next_responder; }
+            set { _next_responder = value; }  
+        }
+
+        public virtual NSMenu Menu 
+        {
+            get { return _menu; }
+            set { _menu = value; } 
+        }
 
         public NSResponder()
         {
@@ -41,15 +68,34 @@ namespace Smartmobili.Cocoa
 
         public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            id self = this;
 
+            id menu = null;
+
+            base.InitWithCoder(aDecoder);
             if (aDecoder.AllowsKeyedCoding)
             {
-                Menu = aDecoder.DecodeObjectForKey("NSMenu");
-                NextResponder = (NSResponder)aDecoder.DecodeObjectForKey("NSNextResponder");
+                if (aDecoder.ContainsValueForKey(@"NSInterfaceStyle"))
+                {
+                    _interface_style = (NSInterfaceStyle)aDecoder.DecodeIntForKey(@"NSInterfaceStyle");
+                }
+                if (aDecoder.ContainsValueForKey(@"NSMenu"))
+                {
+                    menu = (NSMenu)aDecoder.DecodeObjectForKey(@"NSMenu");
+                }
+                if (aDecoder.ContainsValueForKey(@"NSNextResponder"))
+                {
+                    NextResponder = (NSResponder)aDecoder.DecodeObjectForKey(@"NSNextResponder");
+                }
+            }
+            else
+            {
+
             }
 
-            return this;
+            Menu = (NSMenu)menu;
+
+            return self;
         }
     }
 }

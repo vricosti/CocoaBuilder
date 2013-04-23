@@ -29,7 +29,7 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSActionCell.m
     public class NSActionCell : NSCell
     {
-        new public static Class Class = new Class(typeof(NSButtonCell));
+        new public static Class Class = new Class(typeof(NSActionCell));
 
         protected int _tag;
         protected id _target;
@@ -42,14 +42,14 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcPropAttribute("action")]
-        public virtual SEL Action
+        public override SEL Action
         {
             get { return _action; }
             set { _action = value; }
         }
 
         [ObjcPropAttribute("target")]
-        public virtual id Target
+        public override id Target
         {
             get { return _target; }
             set { _target = value; }

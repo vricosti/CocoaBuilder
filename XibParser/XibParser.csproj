@@ -69,7 +69,12 @@
     <Compile Include="AppKit\Button\NSPopUpButton.cs" />
     <Compile Include="AppKit\Button\NSPopUpButtonCell.cs" />
     <Compile Include="AppKit\INSMenuView.cs" />
+    <Compile Include="AppKit\NSApplication.cs" />
+    <Compile Include="AppKit\NSMenuItemCell.cs" />
+    <Compile Include="AppKit\NSMenuPanel.cs" />
     <Compile Include="AppKit\NSMenuView.cs" />
+    <Compile Include="AppKit\NSNotification.cs" />
+    <Compile Include="AppKit\NSPanel.cs" />
     <Compile Include="AppKit\Toolbar\GSToolbarButton.cs" />
     <Compile Include="AppKit\Button\NSButton.cs" />
     <Compile Include="AppKit\Button\NSButtonCell.cs" />
@@ -81,6 +86,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Foundation\NSAffineTransform.cs" />
+    <Compile Include="Foundation\NSProcessInfo.cs" />
     <Compile Include="IBActionConnection.cs" />
     <Compile Include="IBActionInfo.cs" />
     <Compile Include="IBArchive.cs" />

@@ -10,7 +10,7 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSPopUpButton.m
     public class NSPopUpButton : NSButton
     {
-        private static Class _class = new Class(typeof(NSResponder));
+        private static Class _class = new Class(typeof(NSPopUpButton));
         private static Class _nspopupbuttonCellClass;
 
 
@@ -23,7 +23,7 @@ namespace Smartmobili.Cocoa
         }
 
         static NSPopUpButton() { Initialize(); }
-        static void Initialize()
+        new static void Initialize()
         {
             //this.Version = 1;
             NSPopUpButton.CellClass = NSPopUpButtonCell.Class;
@@ -47,8 +47,8 @@ namespace Smartmobili.Cocoa
         [ObjcProp("menu")]
         public NSMenu Menu 
         {
-            get { return _cell.Menu; }
-            set { _cell.Menu = value; }
+            get { return ((NSPopUpButtonCell)_cell).Menu; }
+            set { ((NSPopUpButtonCell)_cell).Menu = value; }
         }
 
         //[ObjcProp("pullsDown")]

@@ -618,8 +618,6 @@ namespace Smartmobili.Cocoa
                     this.ImageScaling = (NSImageScaling)imageScale;
                 }
 
-                #region TODO
-
                 if (aDecoder.ContainsValueForKey("NSAlternateImage"))
                 {
                     object image = aDecoder.DecodeObjectForKey("NSAlternateImage");
@@ -627,6 +625,7 @@ namespace Smartmobili.Cocoa
                     {
                         #region TODO
 
+                        //FIXME
                         //if ([NSImage imageNamed: @"NSSwitch"] == image)
                         //      {
                         //        image = [NSImage imageNamed: @"NSHighlightedSwitch"];
@@ -647,77 +646,22 @@ namespace Smartmobili.Cocoa
 
                         #endregion
                     }
-
-                    if (aDecoder.ContainsValueForKey("NSPeriodicDelay"))
-                    {
-                        delay = aDecoder.DecodeIntForKey("NSPeriodicDelay");
-                    }
-                    if (aDecoder.ContainsValueForKey("NSPeriodicInterval"))
-                    {
-                        interval = aDecoder.DecodeIntForKey("NSPeriodicInterval");
-                    }
-
-                    // [self setPeriodicDelay: delay interval: interval];            
-                    this.SetPeriodicDelay(delay, interval);
                 }
-                else
+
+                if (aDecoder.ContainsValueForKey("NSPeriodicDelay"))
                 {
-                    #region We do not handle this for now
-
-                    bool temp;
-
-                    //int version = [aDecoder versionForClassName: @"NSButtonCell"];
-                    //TODO
-
-                    //NSString *key = nil;
-                    NSString key = null;
-
-                    //[aDecoder decodeValueOfObjCType: @encode(id) at: &key];
-                    //TODO
-
-                    //[self setKeyEquivalent: key]; // Set the key equivalent...
-                    this.KeyEquivalent = key;
-
-
-
-                    //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_keyEquivalentFont];
-                    //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_altContents];
-                    //    [aDecoder decodeValueOfObjCType: @encode(id) at: &_altImage];
-                    //    [aDecoder decodeValueOfObjCType: @encode(BOOL) at: &tmp];
-                    //    _buttoncell_is_transparent = tmp;
-                    //    [aDecoder decodeValueOfObjCType: @encode(unsigned int)
-                    //                                 at: &_keyEquivalentModifierMask];
-                    //    if (version <= 2)
-                    //      {
-                    //        _keyEquivalentModifierMask = _keyEquivalentModifierMask << 16;
-                    //      }
-                    //    [aDecoder decodeValueOfObjCType: @encode(unsigned int)
-                    //                                 at: &_highlightsByMask];
-                    //    [aDecoder decodeValueOfObjCType: @encode(unsigned int)
-                    //                                 at: &_showAltStateMask];
-
-                    //    if (version >= 2)
-                    //      {
-                    //        [aDecoder decodeValueOfObjCType: @encode(id) at: &_sound];
-                    //        [aDecoder decodeValueOfObjCType: @encode(id) at: &_backgroundColor];
-                    //        [aDecoder decodeValueOfObjCType: @encode(float) at: &_delayInterval];
-                    //        [aDecoder decodeValueOfObjCType: @encode(float) at: &_repeatInterval];
-                    //        [aDecoder decodeValueOfObjCType: @encode(unsigned int)
-                    //                                     at: &_bezel_style];
-                    //        [aDecoder decodeValueOfObjCType: @encode(unsigned int)
-                    //                                     at: &_gradient_type];
-                    //        [aDecoder decodeValueOfObjCType: @encode(BOOL) at: &tmp];
-                    //        _image_dims_when_disabled = tmp;
-                    //        [aDecoder decodeValueOfObjCType: @encode(BOOL) at: &tmp];
-                    //        _shows_border_only_while_mouse_inside = tmp;
-                    //      }
-                    //    // Not encoded in non-keyed archive
-                    //    _imageScaling = NSImageScaleNone;
-
-                    #endregion
+                    delay = aDecoder.DecodeIntForKey("NSPeriodicDelay");
+                }
+                if (aDecoder.ContainsValueForKey("NSPeriodicInterval"))
+                {
+                    interval = aDecoder.DecodeIntForKey("NSPeriodicInterval");
                 }
 
-                #endregion
+                this.SetPeriodicDelay(delay, interval);
+            }
+            else
+            {
+
             }
 
             return this;

@@ -246,7 +246,11 @@ namespace Smartmobili.Cocoa
                 {
                     return this.StringValue.DoubleValue;
                 }
-
+            }
+            set
+            {
+                NSNumber number = NSNumber.NumberWithDouble(value);
+                this.ObjectValue = number;
             }
         }
 
@@ -254,12 +258,22 @@ namespace Smartmobili.Cocoa
         public virtual float FloatValue
         {
             get { return _cell.state; }
+            set
+            {
+                NSNumber number = NSNumber.NumberWithFloat(value);
+                this.ObjectValue = number;
+            }
         }
 
         [ObjcPropAttribute("IntegerValue", SetName = null)]
         public virtual int IntegerValue
         {
             get { return _cell.state; }
+            set
+            {
+                NSNumber number = NSNumber.NumberWithInteger(value);
+                this.ObjectValue = number;
+            }
         }
 
 
@@ -267,6 +281,11 @@ namespace Smartmobili.Cocoa
         public virtual int IntValue
         {
             get { return _cell.state; }
+            set
+            {
+                NSNumber number = NSNumber.NumberWithInt(value);
+                this.ObjectValue = number;
+            }
         }
 
         [ObjcPropAttribute("StringValue", SetName = null)]
@@ -508,6 +527,22 @@ namespace Smartmobili.Cocoa
             get { return (NSWritingDirection)_cell.base_writing_direction; }
             set { _cell.base_writing_direction = Convert.ToUInt32(value); }
         }
+
+        [ObjcPropAttribute("action")]
+        public virtual SEL Action
+        {
+            get { return null; }
+            set { throw new NotImplementedException(); }
+        }
+
+        [ObjcPropAttribute("target")]
+        public virtual id Target
+        {
+            get { return null; }
+            set { throw new NotImplementedException(); }
+        }
+
+
 
         [ObjcPropAttribute("continuous", GetName = "isContinuous")]
         public virtual bool Continuous

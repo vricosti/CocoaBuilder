@@ -35,6 +35,8 @@ namespace Smartmobili.Cocoa
     {
         public static Class Class = new Class(typeof(NSObject));
 
+        
+
         public string Key { get; set; }
 
         public string RefId { get; set; }

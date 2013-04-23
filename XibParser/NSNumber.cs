@@ -65,6 +65,16 @@ namespace Smartmobili.Cocoa
             _number = integer;
         }
 
+        public NSNumber(double aDouble)
+        {
+            _number = aDouble;
+        }
+
+        public NSNumber(float aFloat)
+        {
+            _number = aFloat;
+        }
+
          [ObjcMethodAttribute("EncodeWithCoder")]
         public override void EncodeWithCoder(NSObjectDecoder aCoder)
         {
@@ -93,6 +103,23 @@ namespace Smartmobili.Cocoa
             return new NSNumber(aInt);
         }
 
+        [ObjcMethodAttribute("NumberWithInteger")]
+        public static NSNumber NumberWithInteger(int aInt)
+        {
+            return new NSNumber(aInt);
+        }
+
+        [ObjcMethodAttribute("NumberWithDouble")]
+        public static NSNumber NumberWithDouble(double aDouble)
+        {
+            return new NSNumber(aDouble);
+        }
+
+        [ObjcMethodAttribute("NumberWithFloat")]
+        public static NSNumber NumberWithFloat(float aFloat)
+        {
+            return new NSNumber(aFloat);
+        }
 
         // implicit NSNumber to int conversion operator
 

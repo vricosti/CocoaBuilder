@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSMenuView.m
     public class NSMenuView : NSView, INSMenuView
     {
         new public static Class Class = new Class(typeof(NSMenuView));
@@ -35,9 +36,66 @@ namespace Smartmobili.Cocoa
         */
         private NSMenu _attachedMenu;
 
+
+        public static NSMenuView Alloc()
+        {
+            return new NSMenuView();
+        }
+
         public NSMenuView()
         {
 
+        }
+
+
+        public id InitWithFrame(NSRect aFrame)
+        {
+            id self = this;
+
+            //self = [super initWithFrame: aFrame];
+            //if (!self)
+            //  return nil;
+
+            //[self setFont: [NSFont menuFontOfSize: 0.0]];
+
+            _highlightedItemIndex = -1;
+            _horizontalEdgePad = 4.0f;
+
+            /* Set the necessary offset for the menuView. That is, how many pixels 
+             * do we need for our left side border line.
+             */
+            _leftBorderOffset = 1;
+
+            // Create an array to store our menu item cells.
+            _itemCells = (NSMutableArray)NSMutableArray.Alloc().Init();
+
+            return self;
+        }
+
+
+         private bool _RootIsHorizontal(ref bool isAppMenu)
+        {
+            return false;
+            //NSMenu m = _attachedMenu;
+
+            ///* Determine root menu of this menu hierarchy */
+            //while (m.SuperMenu != null)
+            //  {
+            //    m = m.SuperMenu;
+            //  }
+
+            //if (isAppMenu != false)
+            //  {
+            //    if (m == [NSApp mainMenu])
+            //      {
+            //        isAppMenu = true;
+            //      }
+            //    else
+            //      {
+            //        isAppMenu = false;
+            //      }
+            //  }
+            //return [[m menuRepresentation] isHorizontal];
         }
 
 

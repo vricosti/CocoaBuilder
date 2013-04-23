@@ -24,8 +24,11 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSTextField.m
     public class NSTextField : NSControl
     {
+        new public static Class Class = new Class(typeof(NSTextField));
+
         public NSTextFieldCell Cell { get; set; }
  
         public NSTextField()

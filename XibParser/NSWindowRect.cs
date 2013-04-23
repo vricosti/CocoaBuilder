@@ -107,6 +107,8 @@ namespace Smartmobili.Cocoa
 
     public struct NSPoint
     {
+        public static readonly NSPoint Zero = new NSPoint(0, 0);
+
         public float X { get; set; }
         public float Y { get; set; }
 
@@ -143,6 +145,8 @@ namespace Smartmobili.Cocoa
     
     public struct NSRect
     {
+        public static readonly NSRect Zero = new NSRect(0, 0, 0, 0);
+
         public NSPoint Origin { get; set; }
         public NSSize Size { get; set; }
 

@@ -26,13 +26,14 @@ using System.Text;
 namespace Smartmobili.Cocoa
 {
     //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSControl.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSControl.m
     public class NSControl : NSView
     {
         new public static Class Class = new Class(typeof(NSControl));
         
-        protected static Class usedCellClass;
-        protected static Class cellClass;
-        protected static Class actionCellClass;
+        private static Class usedCellClass;
+        private static Class cellClass;
+        private static Class actionCellClass;
         //protected static NSNotificationCenter nc;
 
         // Attributes
@@ -59,13 +60,484 @@ namespace Smartmobili.Cocoa
             get { return cellClass; }
             set { usedCellClass = (value != null) ? value : cellClass; }
         }
-        
-      
 
-        public void UpdateCell(NSCell aCell)
+
+        public NSCell Cell
         {
-
+            get { return (NSCell)_cell; }
+            set { _cell = value; }
         }
 
+        public id SelectedCell
+        {
+            get { return _cell; }
+        }
+
+        [ObjcPropAttribute("enabled", GetName = "isEnabled")]
+        public virtual bool Enabled
+        {
+            get { return ((NSCell)SelectedCell).Enabled; }
+            set 
+            {
+                ((NSCell)SelectedCell).Enabled = true;
+                if (!value)
+                    this.AbortEditing();
+
+                SetNeedsDisplay(true);
+            }
+        }
+
+        [ObjcPropAttribute("DoubleValue", SetName = null)]
+        public virtual double DoubleValue
+        {
+            get { return ((NSCell)SelectedCell).DoubleValue; }
+            set
+            {
+                NSCell selected = (NSCell)SelectedCell;
+                bool wasEditing = AbortEditing();
+
+                selected.DoubleValue = value;
+                if (!selected.IsKindOfClass(actionCellClass))
+                    SetNeedsDisplay(true);
+
+                if (wasEditing)
+                {
+                    //FIXME 
+                    //[[self window] makeFirstResponder: self];
+                }
+            }
+        }
+
+        [ObjcPropAttribute("FloatValue", SetName = null)]
+        public virtual float FloatValue
+        {
+            get { return ((NSCell)SelectedCell).FloatValue; }
+            set
+            {
+                NSCell selected = (NSCell)SelectedCell;
+                bool wasEditing = AbortEditing();
+
+                selected.FloatValue = value;
+                if (!selected.IsKindOfClass(actionCellClass))
+                    SetNeedsDisplay(true);
+
+                if (wasEditing)
+                {
+                    //FIXME 
+                    //[[self window] makeFirstResponder: self];
+                }
+            }
+        }
+
+        [ObjcPropAttribute("intValue", SetName = null)]
+        public virtual int IntValue
+        {
+            get { return ((NSCell)SelectedCell).IntValue; }
+            set
+            {
+                NSCell selected = (NSCell)SelectedCell;
+                bool wasEditing = AbortEditing();
+
+                selected.IntValue = value;
+                if (!selected.IsKindOfClass(actionCellClass))
+                    SetNeedsDisplay(true);
+
+                if (wasEditing)
+                {
+                    //FIXME 
+                    //[[self window] makeFirstResponder: self];
+                }
+            }
+        }
+
+        [ObjcPropAttribute("IntegerValue", SetName = null)]
+        public virtual int IntegerValue
+        {
+            get { return ((NSCell)SelectedCell).IntValue; }
+            set
+            {
+                NSCell selected = (NSCell)SelectedCell;
+                bool wasEditing = AbortEditing();
+
+                selected.IntegerValue = value;
+                if (!selected.IsKindOfClass(actionCellClass))
+                    SetNeedsDisplay(true);
+
+                if (wasEditing)
+                {
+                    //FIXME 
+                    //[[self window] makeFirstResponder: self];
+                }
+            }
+        }
+
+        
+        [ObjcPropAttribute("stringValue", SetName = null)]
+        public virtual NSString StringValue
+        {
+            get { return ((NSCell)SelectedCell).StringValue; }
+            set
+            {
+                NSCell selected = (NSCell)SelectedCell;
+                bool wasEditing = AbortEditing();
+
+                selected.StringValue = value;
+                if (!selected.IsKindOfClass(actionCellClass))
+                    SetNeedsDisplay(true);
+
+                if (wasEditing)
+                {
+                    //FIXME 
+                    //[[self window] makeFirstResponder: self];
+                }
+            }
+        }
+
+        [ObjcPropAttribute("ObjectValue")]
+        public virtual object ObjectValue
+        {
+            get { return ((NSCell)SelectedCell).ObjectValue; }
+            set 
+            {
+                NSCell selected = (NSCell)SelectedCell;
+                bool wasEditing = AbortEditing();
+
+                selected.ObjectValue = value;
+                if (!selected.IsKindOfClass(actionCellClass))
+                    SetNeedsDisplay(true);
+
+                if (wasEditing)
+                {
+                    //FIXME 
+                    //[[self window] makeFirstResponder: self];
+                }
+            }
+        }
+
+        public virtual void SetNeedsDisplay()
+        {
+            base.SetNeedsDisplay(true);
+        }
+
+
+        public virtual NSTextAlignment Alignment
+        {
+            get 
+            {
+                if (_cell != null)
+                    return (((NSCell)_cell).Alignment);
+                else
+                    return NSTextAlignment.NSNaturalTextAlignment;
+            }
+            set 
+            {
+                if (_cell != null)
+                {
+                    AbortEditing();
+
+                    ((NSCell)_cell).Alignment = value;
+                    if (!((NSCell)_cell).IsKindOfClass(actionCellClass))
+                        SetNeedsDisplay(true);
+                } 
+            }
+        }
+
+        [ObjcPropAttribute("Font")]
+        public virtual NSFont Font
+        {
+            get 
+            { 
+                return (_cell != null) ? ((NSCell)_cell).Font : null; 
+            }
+            set
+            {
+                if (_cell != null)
+                {
+                    NSText editor = this.CurrentEditor;
+                    ((NSCell)_cell).Font = value;
+                    if (editor != null)
+                    {
+                        //FIXME
+                        //editor.Font = value;
+                    }
+                }
+            }
+        }
+
+        [ObjcPropAttribute("formatter")]
+        public virtual NSFormatter Formatter
+        {
+            get { return ((NSCell)_cell).Formatter; }
+            set 
+            {
+                if (_cell != null)
+                {
+                    ((NSCell)_cell).Formatter = value;
+                    if (!((NSCell)_cell).IsKindOfClass(actionCellClass))
+                        SetNeedsDisplay(true);
+                } 
+            }
+        }
+
+        [ObjcPropAttribute("baseWritingDirection")]
+        public virtual NSWritingDirection BaseWritingDirection
+        {
+            get { return ((NSCell)_cell).BaseWritingDirection; }
+            set
+            {
+                if (_cell != null)
+                {
+                    ((NSCell)_cell).BaseWritingDirection = value;
+                    if (!((NSCell)_cell).IsKindOfClass(actionCellClass))
+                        SetNeedsDisplay(true);
+                } 
+            }
+        }
+
+        public virtual bool AbortEditing()
+        {
+            NSText text;
+
+            text = this.CurrentEditor;
+            if (text == null)
+            {
+                return false;
+            }
+
+            //((NSCell)SelectedCell).EndEditing(text);
+            
+            return true;
+        }
+
+        public virtual NSText CurrentEditor
+        {
+            get
+            {
+                if (_cell != null)
+                {
+                    //FIXME
+                }
+
+                return null;
+            }
+        }
+
+        public virtual void ValidateEditing()
+        {
+            //FIXME
+        }
+
+        public virtual void TextDidBeginEditing(NSNotification aNotification)
+        {
+            //FIXME
+        }
+
+        public virtual void TextDidChange(NSNotification aNotification)
+        {
+            //FIXME
+        }
+
+        public virtual void TextDidEndEditing(NSNotification aNotification)
+        {
+            //FIXME
+        }
+
+        public virtual void CalcSize()
+        {
+            //FIXME
+            //[_cell calcDrawInfo: [self bounds]];
+        }
+
+        public virtual void SizeToFit()
+        {
+            //FIXME
+            //[self setFrameSize: [_cell cellSize]];
+        }
+
+
+        [ObjcProp("opaque", GetName = "isOpaque", SetName = null)]
+        public virtual bool Opaque
+        {
+            get
+            {
+                return ((NSCell)_cell).Opaque;
+            }
+        }
+
+
+        public virtual void DrawRect(NSRect aRect)
+        {
+            //FIXME
+            //[self drawCell: _cell];
+        }
+
+
+        public virtual void DrawCell(NSCell aCell)
+        {
+            if (((NSCell)_cell).Equals(aCell))
+            {
+                //FIXME
+                //[_cell drawWithFrame: _bounds inView: self];
+                //((NSCell)_cell).DrawWithFrame(_bounds, this);
+            }
+        }
+
+        public virtual void DrawCellInside(NSCell aCell)
+        {
+            if (((NSCell)_cell).Equals(aCell))
+            {
+                //FIXME
+                //[_cell drawInteriorWithFrame: _bounds inView: self];
+                //((NSCell)_cell).DrawInteriorWithFrame(_bounds, this);
+            }
+        }
+
+         public virtual void SelectCell(NSCell aCell)
+         {
+             if (((NSCell)_cell).Equals(aCell))
+             {
+                 ((NSCell)_cell).State = (int)NSCellStateValue.NSOnState;
+                 SetNeedsDisplay(true);
+             }
+         }
+        
+         public virtual void UpdateCell(NSCell aCell)
+         {
+             SetNeedsDisplay(true);
+         }
+
+         public virtual void UpdateCellInside(NSCell aCell)
+         {
+             SetNeedsDisplay(true);
+         }
+
+         [ObjcPropAttribute("action")]
+         public virtual SEL Action
+         {
+             get { return ((NSCell)_cell).Action; }
+             set { ((NSCell)_cell).Action = value; }
+         }
+
+
+         [ObjcPropAttribute("continuous", GetName = "isContinuous")]
+         public virtual bool Continuous
+         {
+             get { return ((NSCell)_cell).Continuous; }
+             set { ((NSCell)_cell).Continuous = value; }
+         }
+
+         [ObjcPropAttribute("target")]
+         public virtual id Target
+         {
+             get { return ((NSCell)_cell).Target; }
+             set { ((NSCell)_cell).Target = value; }
+         }
+
+         [ObjcPropAttribute("attributedStringValue")]
+         public virtual NSAttributedString AttributedStringValue
+         {
+             get 
+             { 
+                 //FIXME
+                 return null; 
+             }
+             set 
+             { 
+                 //FIXME
+             }
+         }
+
+         [ObjcPropAttribute("tag")]
+         public virtual int Tag
+         {
+             get { return _tag; }
+             set { _tag = value; }
+         }
+
+         public virtual void performClick(id sender)
+         {
+             //FIXME
+         }
+
+         [ObjcPropAttribute("refusesFirstResponder")]
+         public virtual bool RefusesFirstResponder
+         {
+             get { return ((NSCell)SelectedCell).RefusesFirstResponder; }
+             set { ((NSCell)SelectedCell).RefusesFirstResponder = value; }
+         }
+
+        [ObjcPropAttribute("acceptsFirstResponder", SetName=null)]
+         public virtual bool AcceptsFirstResponder
+         {
+             get { return ((NSCell)SelectedCell).AcceptsFirstResponder; }
+         }
+
+        public virtual void MouseDown(NSEvent theEvent)
+        {
+            //FIXME
+        }
+
+        
+        public virtual bool ShouldBeTreatedAsInkEvent(NSEvent theEvent)
+        {
+            return false;
+        }
+
+        public virtual void ResetCursorRects()
+        {
+            //FIXME
+            //[_cell resetCursorRect: _bounds inView: self];
+        }
+
+        [ObjcPropAttribute("ignoresMultiClick")]
+        public virtual bool IgnoresMultiClick
+        {
+            get { return _ignoresMultiClick; }
+            set { _ignoresMultiClick = value; }
+        }
+
+        [ObjcPropAttribute("mouseDownFlags")]
+        public virtual int MouseDownFlags
+        {
+            get { return ((NSCell)SelectedCell).MouseDownFlags; }
+        }
+
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        {
+            id self = this;
+
+            if (base.InitWithCoder(aDecoder) == null)
+                return null;
+
+            if (aDecoder.AllowsKeyedCoding)
+            {
+                NSCell cell = (NSCell)aDecoder.DecodeObjectForKey("NSCell");
+
+                if (cell != null)
+                {
+                    Cell = cell; 
+                }
+                else
+                {
+                    // This is needed for subclasses without cells, like NSColorWeel
+                    // as we store some properties only on the cell.
+                    
+                    //FIXME
+                    //cell = [[[self class] cellClass] new];
+
+                    Cell = cell; 
+                }
+                if (aDecoder.ContainsValueForKey("NSEnabled"))
+                {
+                    this.Enabled = aDecoder.DecodeBoolForKey("NSEnabled");
+                }
+                if (aDecoder.ContainsValueForKey("NSTag"))
+                {
+                    this.Tag = aDecoder.DecodeIntForKey("NSTag");
+                }
+            }
+
+            return self;
+        }
     }
 }

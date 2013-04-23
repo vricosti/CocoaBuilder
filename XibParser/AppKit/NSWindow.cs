@@ -35,6 +35,7 @@ namespace Smartmobili.Cocoa
         NSTexturedBackgroundWindowMask = 16,
     }
 
+
     public class NSWindow : NSResponder
     {
 

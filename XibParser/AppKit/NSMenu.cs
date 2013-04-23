@@ -1,4 +1,5 @@
-﻿/*
+﻿using Smartmobili.Cocoa.Utils;
+/*
 * XibParser.
 * Copyright (C) 2013 Smartmobili SARL
 * 
@@ -28,6 +29,26 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSMenu.m
     public class NSMenu : NSObject
     {
+        public struct GSMenuFlags
+        {
+            [BitfieldLength(1)]
+            public uint changedMessagesEnabled;
+            [BitfieldLength(1)]
+            public uint autoenable;
+            [BitfieldLength(1)]
+            public uint needsSizing;
+            [BitfieldLength(1)]
+            public uint is_tornoff;
+            [BitfieldLength(1)]
+            public uint transient;
+            [BitfieldLength(1)]
+            public uint horizontal;
+            [BitfieldLength(1)]
+            public uint mainMenuChanged;
+            [BitfieldLength(25)]
+            public uint unused;
+        }
+
         new public static Class Class = new Class(typeof(NSMenu));
 
         protected NSString _title;
@@ -36,19 +57,80 @@ namespace Smartmobili.Cocoa
         protected NSMenu _superMenu;
         protected NSMenu _attachedMenu;
         protected NSMutableArray _notifications;
-        protected id _delegate; 
+        protected id _delegate;
+        protected GSMenuFlags _menu;
 
-        
+        private NSWindow _aWindow;
+        private NSWindow _bWindow;
+        private NSMenu _oldAttachedMenu;
+        private int _oldHiglightedIndex;
+        private NSString _name;
+
+
+        //static NSZone* menuZone = NULL;
+        static NSString NSMenuLocationsKey = @"NSMenuLocations";
+        static NSString NSEnqueuedMenuMoveName = @"EnqueuedMoveNotificationName";
+        //static NSNotificationCenter nc;
+        static bool menuBarVisible = true;
+
+
+
+
+
         public string Title { get; set; }
 
         public NSMutableArray MenuItems { get; set; }
 
         public string Name { get; set; }
 
-        public NSMenu()
+        
+
+
+        public static bool MenuBarVisible
         {
-            MenuItems = new NSMutableArray();
+            get { return menuBarVisible; }
+            set { menuBarVisible = value; }
         }
+
+        public static NSMenu Alloc()
+        {
+            return new NSMenu();
+        }
+
+        public override id Init()
+        {
+            return InitWithTitle(NSProcessInfo.ProcessInfo.ProcessName);
+        }
+
+        public virtual id InitWithTitle(NSString aTitle)
+        {
+            id self = this;
+            NSMenuView menuRep;
+
+            if (base.Init() == null)
+                return null;
+
+            _title = aTitle;
+            _items = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _menu.changedMessagesEnabled = 1;
+            _notifications = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _menu.needsSizing = 1;
+            // According to the spec, menus do autoenable by default.
+            _menu.autoenable = 1;
+
+            // Create the windows that will display the menu.
+            //_aWindow = [self _CreateWindow];
+            //_bWindow = [self _CreateWindow];
+            //[_bWindow setLevel: NSPopUpMenuWindowLevel];
+
+            // Create a NSMenuView to draw our menu items.
+            menuRep = (NSMenuView)NSMenuView.Alloc().InitWithFrame(NSRect.Zero);
+            //[self setMenuRepresentation: menuRep];
+           
+
+            return self;
+        }
+
 
         public override id InitWithCoder(NSObjectDecoder aDecoder)
         {
