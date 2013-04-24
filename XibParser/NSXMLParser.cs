@@ -54,32 +54,24 @@ namespace Smartmobili.Cocoa
 
         }
 
-        //( void * ctx, 
-        //                       const xmlChar * localname, 
-        //                       const xmlChar * prefix, 
-        //                       const xmlChar * URI, 
-        //                       int nb_namespaces, 
-        //                       const xmlChar ** namespaces, 
-        //                       int nb_attributes, 
-        //                       int nb_defaulted, 
-        //                       const xmlChar ** attributes )
 
-        public void ParserDidStartElement(IntPtr ctx,
-                                          IntPtr localname,
-                                          IntPtr prefix,
-                                          IntPtr URI,
-                                          int nb_namespaces,
-                                          IntPtr namespaces,
-                                          int nb_attributes,
-                                          int nb_defaulted,
-                                          IntPtr attributes)
-        {
+        //public virtual void StartElement(string uri, string localName, string qName, IAttributes atts)
+        //{
+        //    // You should call ParserDidStartElement
+        //    if (_nsXmlInterface != null)
+        //    {
+        //        NSMutableDictionary attributeDict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+        //        for (int indx = 0; indx < atts.Length; indx++)
+        //        {
+        //            NSString key = (NSString)atts.GetQName(indx);
+        //            NSString val = (NSString)atts.GetValue(indx);
+        //            attributeDict.Add(key, val);
+        //        }
 
-        }
-
-
-        //void ParserDidEndElement(NSXMLParser parser, string elementName, string namespaceURI, string qualifiedName);
-        //void ParserFoundCharacters(NSXMLParser parser, string foundCharacters);
+        //        _nsXmlInterface.ParserDidStartElement(this, localName, uri, qName, attributeDict);
+        //    }
+        //}
+        
 
 
 

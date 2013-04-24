@@ -242,12 +242,12 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
-        public void ParserFoundCharacters(NSXMLParser parser, string foundCharacters)
+        public void ParserFoundCharacters(NSXMLParser parser, NSString foundCharacters)
         {
             CurrentElement.Value = foundCharacters;
         }
 
-        public void ParserDidStartElement(NSXMLParser parser, string elementName, string namespaceURI, string qualifiedName, NSDictionary attributeDict)
+        public void ParserDidStartElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
         {
             GSXibElement element = GSXibElement.Alloc().InitWithTypeAndAttributes(elementName, attributeDict); //andAttributes: attributeDict];
             NSString key = (NSString)attributeDict.ObjectForKey((NSString)@"key");
@@ -281,7 +281,7 @@ namespace Smartmobili.Cocoa
              }
         }
 
-        public void ParserDidEndElement(NSXMLParser parser, string elementName, string namespaceURI, string qualifiedName)
+        public void ParserDidEndElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
         {
             if (!@"archive".IsEqualToString(elementName) &&
                  !@"data".IsEqualToString(elementName))
