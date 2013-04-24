@@ -110,10 +110,10 @@ namespace Smartmobili.Cocoa
 
                     for (int index = 0; index < xmlKeys.Count(); index++)
                     {
-                        var key = xmlKeys[index].Value;
+                        NSString key = xmlKeys[index].Value;
                         if (key.Contains("CustomClassName"))
                         {
-                            customClassDict.Add(key, xmlObjs[index].Value);
+                            customClassDict.Add(key, (NSString)xmlObjs[index].Value);
                         }
                     }
                 }
@@ -123,9 +123,9 @@ namespace Smartmobili.Cocoa
             {
                 foreach (var kvp in customClassDict)
                 {
-                    string keyValue = ((string)kvp.Key).Replace(".CustomClassName", "");
-                    string className = (string)kvp.Value;
-                    string objectRecordXpath = string.Format("//object[@class=\"IBObjectRecord\"]/int[@key=\"objectID\"][text()=\"{0}\"]/../reference", keyValue);
+                    NSString keyValue = ((NSString)kvp.Key).Replace(".CustomClassName", "");
+                    NSString className = (NSString)kvp.Value;
+                    NSString objectRecordXpath = string.Format("//object[@class=\"IBObjectRecord\"]/int[@key=\"objectID\"][text()=\"{0}\"]/../reference", keyValue);
 
                     var objectRecords = xDoc.XPathSelectElements(objectRecordXpath, null).ToArray();
                     if (objectRecords != null && objectRecords.Count() > 0)

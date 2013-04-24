@@ -25,9 +25,9 @@ using System.Xml.Linq;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSDictionary : NSObject, IDictionary<object, object>
+    public class NSDictionary : NSObject, IDictionary<id, id>
     {
-        protected Dictionary<object, object> _dict = new Dictionary<object, object>();
+        protected Dictionary<id, id> _dict = new Dictionary<id, id>();
 
         //////////////////////////////////////////////////////////////////////////////////
         //      <object class="NSMutableDictionary" key="IBDocument.Metadata">
@@ -62,7 +62,12 @@ namespace Smartmobili.Cocoa
         //      </object>
         /////////////////////////////////////////////////////////////////////////////////
 
-        public NSDictionary(bool shouldCallInit = true)
+        public NSDictionary()
+        {
+            Init();
+
+        }
+        public NSDictionary(bool shouldCallInit)
         {
             if (shouldCallInit)
             {
@@ -125,8 +130,8 @@ namespace Smartmobili.Cocoa
                     {
                         for (int i = 0; i < dictSortedKeyElements.Count(); i++)
                         {
-                            object keyObj = decoder.Create(dictSortedKeyElements[i]);
-                            object valueObj = decoder.Create(dictValueElements[i]);
+                            id keyObj = (id)decoder.Create(dictSortedKeyElements[i]);
+                            id valueObj = (id)decoder.Create(dictValueElements[i]);
                             Add(keyObj, valueObj);
                         }
                     }
@@ -135,10 +140,10 @@ namespace Smartmobili.Cocoa
                 {
                     foreach (var xElm in decoder.XmlElement.Elements())
                     {
-                        string key = xElm.AttributeValueOrDefault("key", null);
+                        NSString key = xElm.AttributeValueOrDefault("key", null);
                         if (!string.IsNullOrWhiteSpace(key))
                         {
-                            object valueObj = decoder.Create(xElm);
+                            id valueObj = (id)decoder.Create(xElm);
                             Add(key, valueObj);
                         }
                     }
@@ -155,39 +160,39 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
-        
 
-        public void Add(object key, object value)
+
+        public void Add(id key, id value)
         {
             _dict.Add(key, value);
         }
 
-        public bool ContainsKey(object key)
+        public bool ContainsKey(id key)
         {
             return _dict.ContainsKey(key);
         }
 
-        public ICollection<object> Keys
+        public ICollection<id> Keys
         {
             get { return _dict.Keys; }
         }
 
-        public bool Remove(object key)
+        public bool Remove(id key)
         {
             return _dict.Remove(key);
         }
 
-        public bool TryGetValue(object key, out object value)
+        public bool TryGetValue(id key, out id value)
         {
             return _dict.TryGetValue(key, out value);
         }
 
-        public ICollection<object> Values
+        public ICollection<id> Values
         {
             get { return _dict.Values; }
         }
 
-        public object this[object key]
+        public id this[id key]
         {
             get
             {
@@ -200,9 +205,9 @@ namespace Smartmobili.Cocoa
         }
 
 
-        #region ICollection<KeyValuePair<object,object>> Members
+        #region ICollection<KeyValuePair<id,id>> Members
 
-        public void Add(KeyValuePair<object, object> item)
+        public void Add(KeyValuePair<id, id> item)
         {
             _dict.Add(item.Key, item.Value);
         }
@@ -212,12 +217,12 @@ namespace Smartmobili.Cocoa
             _dict.Clear();
         }
 
-        public bool Contains(KeyValuePair<object, object> item)
+        public bool Contains(KeyValuePair<id, id> item)
         {
             return (_dict.ContainsKey(item.Key) && _dict.ContainsValue(item.Value));
         }
 
-        public void CopyTo(KeyValuePair<object, object>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<id, id>[] array, int arrayIndex)
         {
             //Could be done but you prolly could figure this out yourself;
             throw new Exception("do not use");
@@ -233,16 +238,16 @@ namespace Smartmobili.Cocoa
             get { return false; }
         }
 
-        public bool Remove(KeyValuePair<object, object> item)
+        public bool Remove(KeyValuePair<id, id> item)
         {
             throw new NotImplementedException();
         }
 
         #endregion
 
-        #region IEnumerable<KeyValuePair<object, object>> Members
+        #region IEnumerable<KeyValuePair<id, id>> Members
 
-        public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
+        public IEnumerator<KeyValuePair<id, id>> GetEnumerator()
         {
             return _dict.GetEnumerator();
         }

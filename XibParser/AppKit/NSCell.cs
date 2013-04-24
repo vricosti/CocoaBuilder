@@ -738,6 +738,11 @@ namespace Smartmobili.Cocoa
             {
                 id contents = (id)aDecoder.DecodeObjectForKey("NSContents");
 
+                //FIXME
+                //Weird I have to do this...
+                if (contents == null)
+                    contents = new NSString("");
+
                 if (contents.IsKindOfClass(NSString.Class))
                 {
                     InitTextCell((NSString)contents);

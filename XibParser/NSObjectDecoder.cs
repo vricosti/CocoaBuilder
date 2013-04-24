@@ -79,16 +79,16 @@ namespace Smartmobili.Cocoa
 
         public object Create(XElement xCurrentElement = null)
         {
-            object nsObj = null;
+            id nsObj = null;
 
             //XmlElement = (xCurrentElement != null) ? xCurrentElement : XmlElement;
             //var xElement = XmlElement;
 
             var xElement = (xCurrentElement != null) ? xCurrentElement : XmlElement;
 
-            string attrClass = string.Empty;
+            NSString attrClass = string.Empty;
             //string key = (xElement.Attribute("key") != null) ? xElement.Attribute("key").Value : null;
-            string id = (xElement.Attribute("id") != null) ? xElement.Attribute("id").Value : null;
+            NSString id = (xElement.Attribute("id") != null) ? xElement.Attribute("id").Value : null;
 
             switch (xElement.Name.LocalName)
             {
@@ -103,27 +103,27 @@ namespace Smartmobili.Cocoa
                 case "array":
                     {
                         attrClass = xElement.AttributeValueOrDefault("class", "NSArray");
-                        nsObj = CreateFromClassName(xElement, attrClass);
+                        nsObj = (id)CreateFromClassName(xElement, attrClass);
                         break;
                     }
 
                 case "dictionary":
                     {
                         attrClass = xElement.AttributeValueOrDefault("class", "NSDictionary");
-                        nsObj = CreateFromClassName(xElement, attrClass);
+                        nsObj = (id)CreateFromClassName(xElement, attrClass);
                         break;
                     }
 
                 case "object":
                     {
                         attrClass = xElement.AttributeValueOrDefault("class", string.Empty);
-                        nsObj = CreateFromClassName(xElement, attrClass);
+                        nsObj = (id)CreateFromClassName(xElement, attrClass);
                         break;
                     }
 
                 case "reference":
                     {
-                        string refId = xElement.AttributeValueOrDefault("ref", "");
+                        NSString refId = xElement.AttributeValueOrDefault("ref", "");
                         bool foundRefID = Document.ListOfReferenceId.TryGetValue(refId, out nsObj);
                         if (!foundRefID)
                         {
@@ -148,12 +148,12 @@ namespace Smartmobili.Cocoa
 
         public object ResolveReference(object instance, string propertyName, XElement xElement)
         {
-            object nsObj = null;
+            id nsObj = null;
 
             if (instance == null || string.IsNullOrEmpty(propertyName) || xElement == null)
                 return null;
 
-            string refId = xElement.AttributeValueOrDefault("ref", "");
+            NSString refId = xElement.AttributeValueOrDefault("ref", "");
             if (!string.IsNullOrWhiteSpace(refId))
             {
                 bool foundRefID = Document.ListOfReferenceId.TryGetValue(refId, out nsObj);

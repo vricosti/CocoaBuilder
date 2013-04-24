@@ -34,5 +34,57 @@ namespace Smartmobili.Cocoa
             [BitfieldLength(2)]
             uint arrowPosition;
         }
+
+        [ObjcMethodAttribute("InitWithCoder")]
+        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        {
+            id self = this;
+            NSMenu menu;
+
+            if (base.InitWithCoder(aDecoder) == null)
+                return null;
+
+              if (aDecoder.AllowsKeyedCoding)
+              {
+                  menu = (NSMenu)aDecoder.DecodeObjectForKey(@"NSMenu");
+                  this.Menu = null;
+                  this.Menu = menu;
+
+                  if (aDecoder.ContainsValueForKey(@"NSAltersState"))
+                  {
+
+                  }
+                  if (aDecoder.ContainsValueForKey(@"NSPullDown"))
+                  {
+
+                  }
+                  if (aDecoder.ContainsValueForKey(@"NSUsesItemFromMenu"))
+                  {
+
+                  }
+                  if (aDecoder.ContainsValueForKey(@"NSArrowPosition"))
+                  {
+
+                  }
+                  if (aDecoder.ContainsValueForKey(@"NSPreferredEdge"))
+                  {
+
+                  }
+                  if (aDecoder.ContainsValueForKey(@"NSSelectedIndex"))
+                  {
+
+                  }
+                  if (aDecoder.ContainsValueForKey(@"NSMenuItem"))
+                  {
+
+                  }
+
+              }
+
+
+            return self;
+        }
+
+
     }
 }

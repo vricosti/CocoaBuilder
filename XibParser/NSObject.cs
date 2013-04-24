@@ -69,12 +69,14 @@ namespace Smartmobili.Cocoa
         public virtual id InitWithCoder(NSObjectDecoder aDecoder)
         {
             var xElement = aDecoder.XmlElement;
-            string id = xElement.AttributeValueOrDefault("id", null);
+            NSString id = xElement.AttributeValueOrDefault("id", null);
             if (id != null)
             {
-                
                 RefId = id;
-                aDecoder.Document.ListOfReferenceId.Add(id, this);
+                if (!aDecoder.Document.ListOfReferenceId.ContainsKey(id))
+                {
+                    aDecoder.Document.ListOfReferenceId.Add(id, this);
+                }
 
                 //TODO : FIXME
                 //if (id == "0")

@@ -25,7 +25,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSString : NSObject, INSNumber
+    public class NSString : NSObject, INSNumber, IEquatable<NSString>
     {
         new public static Class Class = new Class(typeof(NSString));
         
@@ -64,10 +64,46 @@ namespace Smartmobili.Cocoa
             return Value;
         }
 
+        public bool Contains(NSString aString)
+        {
+          return (Value != null) ? Value.Contains(aString) : false;
+        }
+
+        public NSString Replace(char oldChar, char newChar)
+        {
+            return (Value != null) ? Value.Replace(oldChar, newChar) : null;
+        }
+
+        public NSString Replace(NSString oldValue, NSString newValue)
+        {
+            return (Value != null) ? Value.Replace(oldValue, newValue) : null;
+        }
+
+
+
+        # region IEquatable
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as NSString);
+        }
+
+        public bool Equals(NSString obj)
+        {
+            return obj != null && obj.Value.Equals(this.Value);
+        }
+
+        #endregion //IEquatable
+
+        public override int GetHashCode()
+        {
+            return (Value != null) ? Value.GetHashCode() : base.GetHashCode();
+        }
+
 
         public static implicit operator NSString(string csString)
         {
-            return new NSString(csString);
+            return (csString != null) ? new NSString(csString) : null;
         }
 
         // implicit NSString to string conversion operator

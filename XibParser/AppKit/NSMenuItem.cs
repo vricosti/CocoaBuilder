@@ -24,8 +24,31 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSMenuItem.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSMenuItem.m
     public class NSMenuItem : NSObject
     {
+        protected NSMenu _menu;
+        protected NSString _title;
+        protected NSString _keyEquivalent;
+        protected uint _keyEquivalentModifierMask;
+        protected uint _mnemonicLocation;
+        protected int _state;
+        protected NSImage _image;
+        protected NSImage _onStateImage;
+        protected NSImage _offStateImage;
+        protected NSImage _mixedStateImage;
+        protected id _target;
+        protected SEL _action;
+        protected int _tag;
+        protected id _representedObject;
+        protected NSMenu _submenu;
+        protected bool _enabled;
+        protected bool _changesState;
+        protected bool _isAlternate;
+        protected char _indentation; // 0..15
+        protected NSString _toolTip;
+
         public NSMenu Menu { get; set; }
 
         public bool IsDisabled { get; set; }
@@ -35,6 +58,21 @@ namespace Smartmobili.Cocoa
         public string Title { get; set; }
 
         public NSMenu SubMenu { get; set; }
+
+
+        [ObjcPropAttribute("enabled", GetName = "isEnabled")]
+        public virtual bool Enabled
+        {
+            get { return _enabled; }
+            set 
+            { 
+                if (value == _enabled)
+                    return;
+
+                _enabled = value;
+                //_menu.itemChanged: self];
+            }
+        }
 
         public NSMenuItem()
         {
@@ -48,6 +86,16 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.AllowsKeyedCoding)
             {
+                //NSString title;
+                //NSString action;
+                //NSString key;
+                bool isSeparator = false;
+                //int keyMask;
+
+                if (aDecoder.ContainsValueForKey(@"NSIsSeparator"))
+                {
+                    isSeparator = aDecoder.DecodeBoolForKey(@"NSIsSeparator");
+                }
 
                 Title = (NSString)aDecoder.DecodeObjectForKey("NSTitle");
 

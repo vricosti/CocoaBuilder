@@ -189,10 +189,10 @@ namespace Smartmobili.Cocoa
         {
             foreach (var kvp in UnresolvedReferences)
             {
-                string refId = kvp.Key;
+                NSString refId = kvp.Key;
                 Action<object> propAction = kvp.Value;
 
-                object nsObj = null;
+                id nsObj = null;
                 if (ListOfReferenceId.TryGetValue(refId, out nsObj))
                 {
                     propAction(nsObj);
