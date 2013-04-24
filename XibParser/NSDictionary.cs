@@ -160,6 +160,28 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
+        public virtual void SetObjectForKey(id anObject, id aKey)
+        {
+            if (anObject == null)
+                throw new ArgumentNullException("anObject");
+            if (aKey == null)
+                throw new ArgumentNullException("aKey");
+
+            this[aKey] = anObject;
+        }
+
+
+        public virtual id ObjectForKey(id aKey)
+        {
+            id obj = null;
+
+            if (this.ContainsKey(aKey))
+            {
+                obj = this[aKey];
+            }
+
+            return obj;
+        }
 
 
         public void Add(id key, id value)
@@ -244,6 +266,13 @@ namespace Smartmobili.Cocoa
         }
 
         #endregion
+
+
+        public override int GetHashCode()
+        {
+            return (_dict != null) ? _dict.GetHashCode() : base.GetHashCode();
+        }
+
 
         #region IEnumerable<KeyValuePair<id, id>> Members
 

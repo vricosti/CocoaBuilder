@@ -28,19 +28,22 @@ using System.Collections;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSArray : NSObject, IList<object>
+    public class NSArray : NSObject, IList<id>
     {
-        private readonly IList<object> _list = new List<object>();
+        private readonly IList<id> _list = new List<id>();
 
         public NSArray()
         {
            
         }
 
-        //public NSArray(NSObjectDecoder aDecoder) : base(aDecoder)
-        //{
-           
-        //}
+        public virtual void AddObject(id anObject)
+        {
+            if (anObject == null)
+                throw new ArgumentNullException("anObject");
+
+            this.Add(anObject);
+        }
 
         public override id InitWithCoder(NSObjectDecoder decoder)
         {
@@ -53,68 +56,21 @@ namespace Smartmobili.Cocoa
                 if (node.Name == "bool" && node.Attribute("key") != null)
                     continue;
 
-                Add(decoder.Create(node));
+                Add((id)decoder.Create(node));
             }
 
             return this;
         }
 
 
-        //public static NSArray Create(NSObjectDecoder aDecoder)
-        //{
-        //    NSArray nsArray = new NSArray();
-
-        //    var xElement = aDecoder.XmlElement;
-        //    var nodes = xElement.Elements();
-        //    foreach (var node in nodes)
-        //    {
-        //        if (node.Name == "bool" && node.Attribute("key") != null)
-        //            continue;
-
-        //        nsArray.Add(aDecoder.Create(node));
-
-        //    }
-
-        //    return nsArray;
-        //}
-
-        //public static NSArray Create(XElement xElement)
-        //{
-        //    NSArray nsArray = new NSArray();
-
-        //    var nodes = xElement.Elements();
-        //    foreach (var node in nodes)
-        //    {
-        //        if (node.Name == "bool" && node.Attribute("key") != null)
-        //            continue;
-
-        //        nsArray.Add(NSObjectDecoder.Create(node));
-
-        //    }
-
-        //    return nsArray;
-        //}
-
-
-        //public static NSArray Parse(IOrderedEnumerable<XElement> dictSortedKeys)
-        //{
-        //    NSArray nsArray = new NSArray();
-
-        //    foreach (XElement xElement in dictSortedKeys)
-        //    {
-        //        object nsObj = NSObjectDecoder.Create(xElement);
-        //        nsArray.Add(nsObj);
-        //    }
-
-        //    return nsArray;
-        //}
+        
 
 
 
 
         #region Implementation of IEnumerable
 
-        public IEnumerator<object> GetEnumerator()
+        public IEnumerator<id> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
@@ -128,7 +84,7 @@ namespace Smartmobili.Cocoa
 
         #region Implementation of ICollection<NSObject>
 
-        public void Add(object item)
+        public void Add(id item)
         {
             _list.Add(item);
         }
@@ -138,17 +94,17 @@ namespace Smartmobili.Cocoa
             _list.Clear();
         }
 
-        public bool Contains(object item)
+        public bool Contains(id item)
         {
             return _list.Contains(item);
         }
 
-        public void CopyTo(object[] array, int arrayIndex)
+        public void CopyTo(id[] array, int arrayIndex)
         {
             _list.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(object item)
+        public bool Remove(id item)
         {
             return _list.Remove(item);
         }
@@ -167,12 +123,12 @@ namespace Smartmobili.Cocoa
 
         #region Implementation of IList<INSObject>
 
-        public int IndexOf(object item)
+        public int IndexOf(id item)
         {
             return _list.IndexOf(item);
         }
 
-        public void Insert(int index, object item)
+        public void Insert(int index, id item)
         {
             _list.Insert(index, item);
         }
@@ -182,7 +138,7 @@ namespace Smartmobili.Cocoa
             _list.RemoveAt(index);
         }
 
-        public object this[int index]
+        public id this[int index]
         {
             get { return _list[index]; }
             set { _list[index] = value; }
@@ -190,11 +146,11 @@ namespace Smartmobili.Cocoa
 
         #endregion
 
-        #region Your Added Stuff
 
-       
-
-        #endregion
+        public override int GetHashCode()
+        {
+            return (_list != null) ? _list.GetHashCode() : base.GetHashCode();
+        }
     }
 
 

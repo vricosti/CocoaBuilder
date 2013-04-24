@@ -27,36 +27,86 @@ using System.Xml.XPath;
 namespace Smartmobili.Cocoa
 {
 
-    //public class GSXibElement : NSObject
-    //{
-    //    NSString type;
-    //    NSDictionary attributes;
-    //    NSString value;
-    //    NSMutableDictionary elements;
-    //    NSMutableArray values;
+    public class GSXibElement : NSObject
+    {
+        NSString _type;
+        NSDictionary _attributes;
+        NSString _value;
+        NSMutableDictionary _elements;
+        NSMutableArray _values;
 
-    //    public virtual GSXibElement InitWithTypeAndAttributes(NSString typeName, NSDictionary attribs);
+        public virtual GSXibElement InitWithTypeAndAttributes(NSString typeName, NSDictionary attribs)
+        {
+            GSXibElement self = this;
+
+            _type = typeName;
+            _attributes = attribs;
+            _elements = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+            _values = NSMutableArray.Alloc().Init();
+
+            return self;
+        }
 
 
-    //    public virtual NSString Type;
-        
-    //    public virtual NSString Value;
-        
-    //    public virtual NSDictionary Elements;
-        
-    //    public virtual NSArray Values;
+        public virtual NSString Type
+        {
+            get { return _type; }
+        }
 
-        
-    //    public virtual void AddElement(GSXibElement element);
-        
-    //    public virtual void SetElementForKey(GSXibElement element, NSString key);
-        
-    //    public virtual void SetValue(NSString text);
-        
-    //    public virtual NSString AttributeForKey(NSString key);
-        
-    //    public virtual GSXibElement ElementForKey(NSString key);
-    //}
+        public virtual NSString Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+
+        public virtual NSDictionary Elements
+        {
+            get { return _elements; }
+        }
+
+        public virtual NSArray Values
+        {
+            get { return _values; }
+        }
+
+        public virtual void AddElement(GSXibElement element)
+        {
+            _values.AddObject(element);
+        }
+
+        public virtual void SetElementForKey(GSXibElement element, NSString key)
+        {
+            _elements.SetObjectForKey(element, key);
+        }
+
+        public virtual NSString AttributeForKey(NSString key)
+        {
+            return (NSString)_attributes.ObjectForKey(key);
+        }
+
+        public virtual GSXibElement ElementForKey(NSString key)
+        {
+            return (GSXibElement)_elements.ObjectForKey(key);
+        }
+
+        public override int GetHashCode()
+        {
+            int hash1 = (_type != null) ? _type.GetHashCode() : 0;
+            int hash2 = (_attributes != null) ? _attributes.GetHashCode() : 0;
+            int hash3 = (_value != null) ? _value.GetHashCode() : 0;
+            int hash4 = (_elements != null) ? _elements.GetHashCode() : 0;
+            int hash5 = (_values != null) ? _values.GetHashCode() : 0;
+
+            int hash = 13;
+            hash = (hash * 7) + hash1;
+            hash = (hash * 7) + hash2;
+            hash = (hash * 7) + hash3;
+            hash = (hash * 7) + hash4;
+            hash = (hash * 7) + hash5;
+
+            return hash;
+        }
+    }
 
 
 
