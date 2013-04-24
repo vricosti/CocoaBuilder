@@ -27,7 +27,7 @@ namespace Smartmobili.Cocoa
 {
     //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSControl.h
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSControl.m
-    public class NSControl : NSView
+    public class NSControl : NSView, IAction
     {
         new public static Class Class = new Class(typeof(NSControl));
         

@@ -88,6 +88,7 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Foundation\NSAffineTransform.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
+    <Compile Include="IAction.cs" />
     <Compile Include="IBActionConnection.cs" />
     <Compile Include="IBActionInfo.cs" />
     <Compile Include="IBArchive.cs" />

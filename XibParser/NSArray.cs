@@ -30,7 +30,7 @@ namespace Smartmobili.Cocoa
 {
     public class NSArray : NSObject, IList<id>
     {
-        private readonly IList<id> _list = new List<id>();
+        protected readonly IList<id> _list = new List<id>();
 
         public NSArray()
         {
@@ -44,6 +44,20 @@ namespace Smartmobili.Cocoa
 
             this.Add(anObject);
         }
+
+        public virtual id LastObject()
+        {
+            id lastObj = null;
+
+            if (this.Count != 0)
+            {
+                return this[this.Count - 1];
+            }
+
+            return lastObj;
+        }
+
+
 
         public override id InitWithCoder(NSObjectDecoder decoder)
         {

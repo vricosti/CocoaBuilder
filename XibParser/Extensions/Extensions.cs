@@ -27,6 +27,14 @@ namespace System
 {
     public static class Extensions
     {
+        public static bool IsEqualToString(this string text, string text2)
+        { 
+            if (text == null || text2 == null)
+                return false;
+
+            return text.Equals(text2);
+        }
+
         public static bool ConvertFromYesNo(this string text)
         {
             bool ret = false;

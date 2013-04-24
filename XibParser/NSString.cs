@@ -64,6 +64,7 @@ namespace Smartmobili.Cocoa
             return Value;
         }
 
+        // c# string
         public bool Contains(NSString aString)
         {
           return (Value != null) ? Value.Contains(aString) : false;
@@ -77,6 +78,80 @@ namespace Smartmobili.Cocoa
         public NSString Replace(NSString oldValue, NSString newValue)
         {
             return (Value != null) ? Value.Replace(oldValue, newValue) : null;
+        }
+
+        // objc string
+        public uint Length
+        {
+            get { return (Value != null) ? (uint)Value.Length : 0; } 
+        }
+
+        public static NSString StringWithFormat(NSString format, params object[] args)
+        {
+            NSString str = new NSString();
+
+            if (format == null)
+                throw new ArgumentNullException("format");
+
+
+            return str;
+        }
+
+
+        public NSRange RangeOfString(NSString aString)
+        {
+            if (aString == null)
+                throw new ArgumentNullException("aString");
+
+            int idx = this.Value.IndexOf(aString);
+            if (idx == -1)
+                return new NSRange(0, 0);
+            else
+                return new NSRange((uint)idx, aString.Length);
+        }
+
+        public NSString SubstringToIndex(uint anIndex)
+        {
+            NSString str = null;
+
+            if (anIndex < 0 || anIndex > this.Length - 1)
+                throw new ArgumentNullException();
+
+            if (this.Value != null)
+            {
+                str = (NSString)this.Value.Substring((int)anIndex);
+            }
+
+            return str;
+        }
+
+        public NSString SubstringFromIndex(uint anIndex)
+        {
+            NSString str = "";
+
+            if (anIndex < 0 || anIndex > this.Length - 1)
+                throw new ArgumentNullException();
+
+            if (this.Value != null)
+            {
+                str = (NSString)this.Value.Substring((int)anIndex);
+            }
+
+            return str;
+        }
+
+
+
+        public NSString UppercaseString()
+        {
+            NSString str = null;
+
+            if (this.Value != null)
+            {
+                str = (NSString)this.Value.ToUpper();
+            }
+
+            return str;
         }
 
 

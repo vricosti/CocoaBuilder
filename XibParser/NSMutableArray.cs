@@ -43,6 +43,15 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
+
+        public virtual void RemoveLastObject()
+        {
+            if (this.Count == 0)
+                throw new ArgumentException();
+
+            _list.RemoveAt(this.Count - 1);
+        }
+
         //public NSMutableArray(NSObjectDecoder aDecoder)
         //    : base(aDecoder)
         //{

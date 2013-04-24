@@ -40,6 +40,23 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public bool RespondsToSelector(SEL aSelector)
+        {
+            return false;
+        }
+
+        public id PerformSelector(SEL aSelector)
+        {
+            return null;
+        }
+
+
+        public id PerformSelector(SEL aSelector, id anObject)
+        {
+            return null;
+        }
+
+
         public bool IsKindOfClass(Class aClass)
         {
             bool isKindOfClass = false;

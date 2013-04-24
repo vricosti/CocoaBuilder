@@ -5,15 +5,18 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class SEL
+    public interface IAction
     {
-        public SEL()
+        SEL Action
         {
+            get;
+            set;
         }
 
-        public static SEL SelectorFromString(NSString aSelectorName)
+        id Target
         {
-            return new SEL();
+            get;
+            set;
         }
     }
 }

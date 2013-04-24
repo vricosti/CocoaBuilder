@@ -26,14 +26,22 @@ using System.Xml.XPath;
 
 namespace Smartmobili.Cocoa
 {
-
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/Additions/GNUstepGUI/GSXibLoading.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSXibLoader.m
     public class GSXibElement : NSObject
     {
+        new public static Class Class = new Class(typeof(GSXibElement));
+
         NSString _type;
         NSDictionary _attributes;
         NSString _value;
         NSMutableDictionary _elements;
         NSMutableArray _values;
+
+        public static GSXibElement Alloc()
+        {
+            return new GSXibElement();
+        }
 
         public virtual GSXibElement InitWithTypeAndAttributes(NSString typeName, NSDictionary attribs)
         {
@@ -118,8 +126,8 @@ namespace Smartmobili.Cocoa
         public NSMutableDictionary Objects { get; set; }
         
         public NSMutableArray Stack { get; set; }
-        
-        public XElement CurrentElement { get; set; }
+
+        public GSXibElement CurrentElement { get; set; }
 
         public NSMutableDictionary Decoded { get; set; }
 
@@ -236,17 +244,52 @@ namespace Smartmobili.Cocoa
 
         public void ParserFoundCharacters(NSXMLParser parser, string foundCharacters)
         {
-            throw new NotImplementedException();
+            CurrentElement.Value = foundCharacters;
         }
 
         public void ParserDidStartElement(NSXMLParser parser, string elementName, string namespaceURI, string qualifiedName, NSDictionary attributeDict)
         {
-            throw new NotImplementedException();
+            GSXibElement element = GSXibElement.Alloc().InitWithTypeAndAttributes(elementName, attributeDict); //andAttributes: attributeDict];
+            NSString key = (NSString)attributeDict.ObjectForKey((NSString)@"key");
+            NSString refId = (NSString)attributeDict.ObjectForKey((NSString)@"id");
+
+            if (key != null)
+            {
+                CurrentElement.SetElementForKey(element, key);
+            }
+            else
+            {
+                // For Arrays
+                CurrentElement.AddElement(element);
+            }
+            if (refId != null)
+            {
+                Objects.SetObjectForKey(element, refId);
+            }
+
+             if (!@"archive".IsEqualToString(elementName) &&
+                 !@"data".IsEqualToString(elementName))
+             {
+                 // only used for the root element
+                 // push
+                 Stack.AddObject(CurrentElement);
+             }
+
+             if (!@"archive".IsEqualToString(elementName))
+             {
+                 CurrentElement = element;
+             }
         }
 
         public void ParserDidEndElement(NSXMLParser parser, string elementName, string namespaceURI, string qualifiedName)
         {
-            throw new NotImplementedException();
+            if (!@"archive".IsEqualToString(elementName) &&
+                 !@"data".IsEqualToString(elementName))
+            {
+                 // pop
+                CurrentElement = (GSXibElement)Stack.LastObject();
+                Stack.RemoveLastObject(); 
+            }
         }
 
 

@@ -28,7 +28,7 @@ namespace Smartmobili.Cocoa
 {
     //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ApplicationKit/Classes/NSCell_Class/Reference/NSCell.html
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSCell.m
-    public class NSCell : NSObject, INSNumber
+    public class NSCell : NSObject, INSNumber, IAction
     {
         new public static Class Class = new Class(typeof(NSCell));
 

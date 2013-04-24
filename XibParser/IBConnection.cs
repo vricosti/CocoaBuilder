@@ -26,11 +26,53 @@ namespace Smartmobili.Cocoa
 {
     public abstract class IBConnection : NSObject
     {
-        public string Label { get; set; }
+        protected NSString _label;
+        protected id _source;
+        protected id _destination;
 
-        public /*id*/object Source { get; set; }
+        public virtual NSString Label 
+        {
+            get { return _label; }
+        }
 
-        public /*id*/object Destination { get; set; }
+        public virtual id Source 
+        {
+            get { return _source; } 
+        }
+
+        public virtual id Destination 
+        {
+            get { return _destination; } 
+        }
+
+        public virtual NSNibConnector NibConnector
+        {
+            get 
+            {
+                NSString tag = this.Label;
+                NSRange colonRange = tag.RangeOfString(@":");
+                uint location = colonRange.Location;
+                NSNibConnector result = null;
+
+                if (location == 0)
+                  {
+                      result = (NSNibOutletConnector)NSNibOutletConnector.Alloc().Init(); 
+                  }
+                else
+                  {
+                    result = (NSNibControlConnector)NSNibControlConnector.Alloc().Init(); 
+                  }
+
+                result.Destination = this.Destination;
+                result.Source = this.Source;
+                result.Label = this.Label;
+                
+                return result;
+            }
+            
+        }
+
+
 
         public IBConnection()
         {
@@ -45,9 +87,18 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                Label = (NSString)aDecoder.DecodeObjectForKey("label");
-                Source = aDecoder.DecodeObjectForKey("source");
-                Destination = aDecoder.DecodeObjectForKey("destination");
+                if (aDecoder.ContainsValueForKey("label"))
+                {
+                    _label = (NSString)aDecoder.DecodeObjectForKey("label");
+                }
+                if (aDecoder.ContainsValueForKey("source"))
+                {
+                    _source = (id)aDecoder.DecodeObjectForKey("source");
+                }
+                if (aDecoder.ContainsValueForKey("destination"))
+                {
+                    _destination = (id)aDecoder.DecodeObjectForKey("destination");
+                }
             }
 
             return self;
