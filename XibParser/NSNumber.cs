@@ -24,9 +24,9 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSNumber : NSObject, NSCoding, INSNumber
+    public class NSNumber : NSObject, NSCoding, INSNumber, IEquatable<NSNumber>
     {
-        private object _number;
+        protected object _number;
 
         
 
@@ -74,6 +74,27 @@ namespace Smartmobili.Cocoa
         {
             _number = aFloat;
         }
+
+        # region IEquatable
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as NSNumber);
+        }
+
+        public bool Equals(NSNumber obj)
+        {
+            return obj != null && obj._number.Equals(this._number);
+        }
+
+        #endregion //IEquatable
+
+        public override int GetHashCode()
+        {
+            return (_number != null) ? _number.GetHashCode() : base.GetHashCode();
+        }
+
+
 
          [ObjcMethodAttribute("EncodeWithCoder")]
         public override void EncodeWithCoder(NSObjectDecoder aCoder)
