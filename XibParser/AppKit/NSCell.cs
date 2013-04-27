@@ -738,22 +738,20 @@ namespace Smartmobili.Cocoa
             {
                 id contents = (id)aDecoder.DecodeObjectForKey("NSContents");
 
-                //FIXME
-                //Weird I have to do this...
-                if (contents == null)
-                    contents = new NSString("");
-
-                if (contents.IsKindOfClass(NSString.Class))
+                //In objc messages can be send to nil object - so in this case I had to add a 
+                // test to check if contents variable is null or not
+                if (contents != null && contents.IsKindOfClass(NSString.Class))
                 {
                     InitTextCell((NSString)contents);
                 }
-                else if (contents.IsKindOfClass(NSImage.Class))
+                else if (contents != null && contents.IsKindOfClass(NSImage.Class))
                 {
                     InitImageCell((NSImage)contents);
                 }
                 else
                 {
-
+                    Init();
+                    this.ObjectValue = contents;
                 }
 
                 if (aDecoder.ContainsValueForKey("NSCellFlags"))

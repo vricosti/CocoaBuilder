@@ -26,18 +26,28 @@ namespace Smartmobili.Cocoa
 {
     public class NSXMLParser
     {
-        private INSXMLParser _nsXmlInterface;
+        protected INSXMLParser _nsXmlInterface;
 
-        private NSData _data;
+        protected NSData _data;
+
+        //protected SaxParser _saxParser;
+
 
         public static NSXMLParser Alloc()
         {
             return new NSXMLParser();
         }
 
+
         public NSXMLParser InitWithData(NSData aData)
         {
             _data = aData;
+
+            //string xml = "Convert _data.Bytes into string";
+            //_saxParser = new SaxParser(xmlText);
+            //_saxParser.StartElement += new SaxParserDelegate(this.StartElement);
+            //_saxParser.EndElement += new SaxParserDelegate(this.StartElement);
+
             return this;
         }
 
@@ -51,7 +61,10 @@ namespace Smartmobili.Cocoa
 
         public void Parse()
         {
+            //if (_saxParser == null || _nsXmlInterface == null)
+            //    return;
 
+            //_saxParser.Parse();
         }
 
 
