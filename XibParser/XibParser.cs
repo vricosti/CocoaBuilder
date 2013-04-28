@@ -42,14 +42,6 @@ namespace Smartmobili.Cocoa
 
         public IBArchive Deserialize()
         {
-            NSData data = NSData.Alloc().InitWithContentsOfFile(_nibPath);
-            if (data != null)
-            {
-                var xibUna = WSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
-            }
-
-
-
             IBArchive ibArchive = new IBArchive();
 
             var reader = new StringReader(_nibPath);

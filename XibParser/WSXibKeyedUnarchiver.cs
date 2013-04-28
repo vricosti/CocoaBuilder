@@ -255,12 +255,18 @@ namespace Smartmobili.Cocoa
 
             if (key != null)
             {
-                CurrentElement.SetElementForKey(element, key);
+                if (CurrentElement != null)
+                {
+                    CurrentElement.SetElementForKey(element, key);
+                }
             }
             else
             {
                 // For Arrays
-                CurrentElement.AddElement(element);
+                if (CurrentElement != null)
+                {
+                    CurrentElement.AddElement(element);
+                }
             }
             if (refId != null)
             {

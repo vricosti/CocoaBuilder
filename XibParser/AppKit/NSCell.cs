@@ -740,6 +740,7 @@ namespace Smartmobili.Cocoa
 
                 //In objc messages can be send to nil object - so in this case I had to add a 
                 // test to check if contents variable is null or not
+                // NSPopUpButtonCell doesn't have NSContents object
                 if (contents != null && contents.IsKindOfClass(NSString.Class))
                 {
                     InitTextCell((NSString)contents);
