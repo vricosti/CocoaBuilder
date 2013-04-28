@@ -13,13 +13,13 @@ namespace Smartmobili.Cocoa
 #if TEST
             //string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/Compose.xib";
             string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\ButtonTextAlign.xib";
-            
-            
-            //NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
-            //if (data != null)
-            //{
-            //    var xibUna = WSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
-            //}
+
+
+            NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
+            if (data != null)
+            {
+                var xibUna = WSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
+            }
 
             
             XibParser xibParser = new XibParser(xibPath);

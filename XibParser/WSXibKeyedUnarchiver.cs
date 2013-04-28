@@ -244,7 +244,10 @@ namespace Smartmobili.Cocoa
 
         public void ParserFoundCharacters(NSXMLParser parser, NSString foundCharacters)
         {
-            CurrentElement.Value = foundCharacters;
+            if (CurrentElement != null)
+            {
+                CurrentElement.Value = foundCharacters;
+            }
         }
 
         public void ParserDidStartElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
