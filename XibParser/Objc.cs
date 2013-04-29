@@ -20,10 +20,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    public class Objc
+    {
+        public static id SendMessage(id receiver, NSString aString, params object[] args)
+        {
+            id sel = null;
+
+            if (receiver != null && aString != null)
+            {
+                string methodName = (string)aString;
+                //MethodInfo dynMethod = this.GetType().GetMethod("Draw_" + itemType, BindingFlags.NonPublic | BindingFlags.Instance);
+                //dynMethod.Invoke(this, new object[] { methodParams });
+
+            }
+
+            return sel;
+        }
+
+
+
+    }
     public class Class
     {
         public Type InnerType { get; protected set; }

@@ -326,6 +326,7 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
+        //- (id) decodeObjectForXib: (GSXibElement*)element forClassName: (NSString*)classname withID: (NSString*)objID
         public virtual id DecodeObjectForXib(GSXibElement element, NSString classname, NSString objID)
         { 
             GSXibElement last;
@@ -347,7 +348,7 @@ namespace Smartmobili.Cocoa
 
             if (r != o)
             {
-                //[delegate unarchiver: self willReplaceObject: o withObject: r];
+                ((INSKeyedUnarchiverDelegate)dlgate).UnarchiverWillReplaceObject(this, o, r);
                 o = r;
                 if (objID != null)
                     Decoded.SetObjectForKey(o, objID);
@@ -356,6 +357,17 @@ namespace Smartmobili.Cocoa
             //r = Objc.SendMessage(o, "awakeAfterUsingCoder", this);
             //r = [o awakeAfterUsingCoder: self];
 
+            if (dlgate != null)
+            {
+                r = ((INSKeyedUnarchiverDelegate)dlgate).UnarchiverDidDecodeObject(this, o);
+                if (r != o)
+                {
+                    //[dlgate unarchiver: self willReplaceObject: o withObject: r];
+                    //ASSIGN(o, r);
+                    //if (objID != null)
+                    //[decoded setObject: o forKey: objID];
+                }
+            }
 
             if (objID != null)
             {

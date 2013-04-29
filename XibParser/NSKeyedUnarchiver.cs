@@ -26,7 +26,18 @@ namespace Smartmobili.Cocoa
 {
     //https://github.com/gnustep/gnustep-base/blob/master/Headers/Foundation/NSKeyedArchiver.h
     //https://github.com/gnustep/gnustep-base/blob/master/Source/NSKeyedUnarchiver.m
-    public class NSKeyedUnarchiver : NSCoder
+
+    public interface INSKeyedUnarchiverDelegate
+    {
+        Class UnarchiverCannotDecodeObjectOfClassName(NSKeyedUnarchiver anUnarchiver, NSString aName, NSArray classNames);
+        id UnarchiverDidDecodeObject(NSKeyedUnarchiver anUnarchiver, id anObject);
+        void UnarchiverDidFinish(NSKeyedUnarchiver anUnarchiver);
+        void UnarchiverWillFinish(NSKeyedUnarchiver anUnarchiver);
+        void UnarchiverWillReplaceObject(NSKeyedUnarchiver anUnarchiver, id anObject, id newObject);
+    }
+
+
+    public class NSKeyedUnarchiver : NSCoder, INSKeyedUnarchiverDelegate
     {
         new public static Class Class = new Class(typeof(NSKeyedUnarchiver));
         protected id _delegate;
@@ -174,6 +185,33 @@ namespace Smartmobili.Cocoa
         public override void decodeValueOfObjCType(string valueType, ref object data)
         {
             throw new NotImplementedException();
+        }
+
+
+        public virtual Class UnarchiverCannotDecodeObjectOfClassName(NSKeyedUnarchiver anUnarchiver, NSString aName, NSArray classNames)
+        {
+            return null;
+        }
+
+        public virtual id UnarchiverDidDecodeObject(NSKeyedUnarchiver anUnarchiver, id anObject)
+        {
+            return anObject;
+        }
+
+
+        public virtual void UnarchiverDidFinish(NSKeyedUnarchiver anUnarchiver)
+        {
+            
+        }
+
+        public virtual void UnarchiverWillFinish(NSKeyedUnarchiver anUnarchiver)
+        {
+            
+        }
+
+        public virtual void UnarchiverWillReplaceObject(NSKeyedUnarchiver anUnarchiver, id anObject, id newObject)
+        {
+            
         }
     }
 }
