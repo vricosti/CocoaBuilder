@@ -43,6 +43,9 @@ namespace Smartmobili.Cocoa
 
         protected IXmlReader _saxParser = null;
 
+        private StringBuilder _builder;
+
+        private bool _waitNextCall;
         //protected SaxParser _saxParser;
 
 
@@ -58,6 +61,7 @@ namespace Smartmobili.Cocoa
             string strAssemPath = System.IO.Path.Combine(strAssemDir, "AElfred.dll");
             Assembly assem = Assembly.LoadFrom(strAssemPath);
             _saxParser = SaxReaderFactory.CreateReader(assem, null);
+            _builder = new StringBuilder();
         }
 
 
@@ -107,23 +111,36 @@ namespace Smartmobili.Cocoa
 
         public void Characters(char[] ch, int start, int length)
         {
+            // Actually the sax parser is weird because sometimes the string is splitted.
+            // So we don't call ParserFoundCharacters from here but inside StartElement and EndElement 
+            // through CharactersWorkaround()
             if (_nsXmlInterface != null)
             {
-                NSString str = (NSString)new string(ch, start, length);
-                
-                if (str == "{{357, 418}, {480, 270}}")
-                {
-                    System.Diagnostics.Debug.WriteLine("bp");
-                }
-                _nsXmlInterface.ParserFoundCharacters(this, str);
+                _builder.Append(ch, start, length);
+
+                //The following lines are used to debug the sax parser when using Compose.xib
+                //NSString nodeText = _builder.ToString();
+                //if (nodeText == "{{357, 418}, {480, 270}}") { System.Diagnostics.Debug.WriteLine("bp"); }
             }
         }
+
+        public void CharactersWorkaround()
+        {
+            if (_builder.Length > 0)
+            {
+                _nsXmlInterface.ParserFoundCharacters(this, _builder.ToString());
+                _builder.Length = 0;
+            }
+        }
+
 
         public void StartElement(string uri, string localName, string qName, IAttributes atts)
         {
             //System.Diagnostics.Debug.WriteLine("StartElement");
             if (_nsXmlInterface != null)
             {
+                CharactersWorkaround();
+
                 NSMutableDictionary attributeDict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
                 for (int indx = 0; indx < atts.Length; indx++)
                 {
@@ -140,6 +157,8 @@ namespace Smartmobili.Cocoa
         {
             if (_nsXmlInterface != null)
             {
+                CharactersWorkaround();
+
                 _nsXmlInterface.ParserDidEndElement(this, localName, uri, qName);
             }
         }
@@ -172,6 +191,7 @@ namespace Smartmobili.Cocoa
         public void StartDocument()
         {
             System.Diagnostics.Debug.WriteLine("StartDocument");
+            _builder.Length = 0;
         }
 
         public void EndDocument()

@@ -146,8 +146,8 @@ namespace Smartmobili.Cocoa
 
         public static WSXibKeyedUnarchiver Alloc()
         {
-            //string strAssemDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            //string strLogPath = System.IO.Path.Combine(strAssemDir, "smi_parser_foundCharacters.log");
+            string strAssemDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string strLogPath = System.IO.Path.Combine(strAssemDir, "smi_parser_foundCharacters.log");
             //_tw = new StreamWriter(strLogPath);
 
             return new WSXibKeyedUnarchiver(false);
@@ -315,13 +315,5 @@ namespace Smartmobili.Cocoa
                 Stack.RemoveLastObject(); 
             }
         }
-
-
-       
-
-
-        
-
-        
     }
 }
