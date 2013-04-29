@@ -51,18 +51,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AElfred">
-      <HintPath>..\..\..\..\..\..\Developer\cygwin\home\Vincent\projects\CocoaBuilder\XibParser\lib\AElfred.dll</HintPath>
+      <HintPath>lib\AElfred.dll</HintPath>
     </Reference>
     <Reference Include="KellermanSoftware.Compare-NET-Objects">
       <HintPath>..\packages\CompareNETObjects.1.6.0.0\lib\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
     </Reference>
     <Reference Include="Org.System.Xml">
-      <HintPath>..\..\..\..\..\..\Developer\cygwin\home\Vincent\projects\CocoaBuilder\XibParser\lib\Org.System.Xml.dll</HintPath>
+      <HintPath>lib\Org.System.Xml.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Sax">
-      <HintPath>..\..\..\..\..\..\Developer\cygwin\home\Vincent\projects\CocoaBuilder\XibParser\lib\Sax.dll</HintPath>
+      <HintPath>lib\Sax.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

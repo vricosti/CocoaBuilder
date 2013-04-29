@@ -19,6 +19,7 @@
 */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -37,6 +38,8 @@ namespace Smartmobili.Cocoa
         NSString _value;
         NSMutableDictionary _elements;
         NSMutableArray _values;
+
+        
 
         public static GSXibElement Alloc()
         {
@@ -131,6 +134,8 @@ namespace Smartmobili.Cocoa
 
         public NSMutableDictionary Decoded { get; set; }
 
+        //static TextWriter _tw;
+
         public WSXibKeyedUnarchiver(bool shouldCallInit = true)
         {
             if (shouldCallInit)
@@ -141,6 +146,10 @@ namespace Smartmobili.Cocoa
 
         public static WSXibKeyedUnarchiver Alloc()
         {
+            //string strAssemDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            //string strLogPath = System.IO.Path.Combine(strAssemDir, "smi_parser_foundCharacters.log");
+            //_tw = new StreamWriter(strLogPath);
+
             return new WSXibKeyedUnarchiver(false);
         }
 
@@ -239,11 +248,17 @@ namespace Smartmobili.Cocoa
 
             theParser.Parse();
 
+            //_tw.Close();
             return this;
         }
 
         public void ParserFoundCharacters(NSXMLParser parser, NSString foundCharacters)
         {
+            //string chars = foundCharacters.Value.Replace("\n", "\\n");
+            //chars = chars.Replace("\r", "\\r");
+            //chars = chars.Replace("\t", "\\t");
+            //_tw.WriteLine("parser:foundCharacters: " + chars);
+
             if (CurrentElement != null)
             {
                 CurrentElement.Value = foundCharacters;

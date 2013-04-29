@@ -11,8 +11,8 @@ namespace Smartmobili.Cocoa
         static void Main(string[] args)
         {
 #if TEST
-            //string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/Compose.xib";
-            string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\ButtonTextAlign.xib";
+            string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/Compose.xib";
+            //string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\ButtonTextAlign.xib";
 
 
             NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);

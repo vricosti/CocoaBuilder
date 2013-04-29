@@ -107,11 +107,14 @@ namespace Smartmobili.Cocoa
 
         public void Characters(char[] ch, int start, int length)
         {
-            System.Diagnostics.Debug.WriteLine("Characters");
-
             if (_nsXmlInterface != null)
             {
                 NSString str = (NSString)new string(ch, start, length);
+                
+                if (str == "{{357, 418}, {480, 270}}")
+                {
+                    System.Diagnostics.Debug.WriteLine("bp");
+                }
                 _nsXmlInterface.ParserFoundCharacters(this, str);
             }
         }
@@ -135,7 +138,6 @@ namespace Smartmobili.Cocoa
 
         public void EndElement(string uri, string localName, string qName)
         {
-            System.Diagnostics.Debug.WriteLine("EndElement");
             if (_nsXmlInterface != null)
             {
                 _nsXmlInterface.ParserDidEndElement(this, localName, uri, qName);
