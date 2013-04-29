@@ -24,11 +24,31 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-base/blob/master/Headers/Foundation/NSKeyedArchiver.h
+    //https://github.com/gnustep/gnustep-base/blob/master/Source/NSKeyedUnarchiver.m
     public class NSKeyedUnarchiver : NSCoder
     {
+        new public static Class Class = new Class(typeof(NSKeyedUnarchiver));
+        protected id _delegate;
+
         public NSKeyedUnarchiver()
         {
 
+        }
+
+
+        public static Class ClassForClassName(NSString codedName)
+        {
+            Class cls = null;
+
+            return cls;
+        }
+
+
+        public virtual id Delegate
+        {
+            get { return _delegate; }
+            set { _delegate = value; }
         }
 
         public override bool AllowsKeyedCoding 

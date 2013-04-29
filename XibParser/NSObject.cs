@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
         public const int YES = 1;
     }
 
-    public class NSObject : id, NSCoding
+    public class NSObject : id, NSCoding2
     {
         public static Class Class = new Class(typeof(NSObject));
 

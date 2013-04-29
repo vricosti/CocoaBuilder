@@ -26,7 +26,7 @@ using System.Xml.Linq;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSCustomObject : NSObject, NSCoding
+    public class NSCustomObject : NSObject, NSCoding2
     {
         public string NSClassName { get; set; }
 

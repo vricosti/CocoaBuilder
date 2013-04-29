@@ -24,7 +24,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class IBActionInfo : NSObject, NSCoding
+    public class IBActionInfo : NSObject, NSCoding2
     {
         public string Name { get; set; }
 

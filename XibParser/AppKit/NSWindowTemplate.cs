@@ -36,7 +36,7 @@ namespace Smartmobili.Cocoa
     }
 
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSNibLoading.m
-    public class NSWindowTemplate : NSObject, NSCoding
+    public class NSWindowTemplate : NSObject, NSCoding2
     {
         NSBackingStoreType _backingStoreType;
         NSSize _maxSize;

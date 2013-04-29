@@ -24,7 +24,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSNumber : NSObject, NSCoding, INSNumber, IEquatable<NSNumber>
+    public class NSNumber : NSObject, NSCoding2, INSNumber, IEquatable<NSNumber>
     {
         protected object _number;
 

@@ -315,5 +315,58 @@ namespace Smartmobili.Cocoa
                 Stack.RemoveLastObject(); 
             }
         }
+
+        public id AllocObjectForClassName(NSString classname)
+        {
+            return null;
+        }
+
+        public virtual bool ReplaceObject(id oldObj, id newObj)
+        {
+            return false;
+        }
+
+        public virtual id DecodeObjectForXib(GSXibElement element, NSString classname, NSString objID)
+        { 
+            GSXibElement last;
+            id o, r;
+            id dlgate = this.Delegate;
+
+            o = AllocObjectForClassName(classname);
+            if (objID != null)
+                Decoded.SetObjectForKey(o, objID);
+
+            // push
+            last = CurrentElement;
+            CurrentElement = element;
+
+            r = ((NSCoding)o).InitWithCoder(this);
+
+            // pop
+            CurrentElement = last;
+
+            if (r != o)
+            {
+                //[delegate unarchiver: self willReplaceObject: o withObject: r];
+                o = r;
+                if (objID != null)
+                    Decoded.SetObjectForKey(o, objID);
+
+            }
+            //r = Objc.SendMessage(o, "awakeAfterUsingCoder", this);
+            //r = [o awakeAfterUsingCoder: self];
+
+
+            if (objID != null)
+            {
+                System.Diagnostics.Debug.WriteLine("XIB decoded object {0} for id {1}", o.ToString(), (string)objID);
+            }
+
+            return o;
+        }
+
+
+
+
     }
 }

@@ -33,7 +33,9 @@ using SaxConsts = Org.System.Xml.Sax.Constants;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSXMLParser : IContentHandler
+    //https://github.com/gnustep/gnustep-base/blob/master/Headers/Foundation/NSXMLParser.h
+    //https://github.com/gnustep/gnustep-base/blob/master/Source/NSXMLParser.m
+    public class NSXMLParser : NSObject, IContentHandler
     {
         protected INSXMLParser _nsXmlInterface;
 
@@ -43,10 +45,29 @@ namespace Smartmobili.Cocoa
 
         protected IXmlReader _saxParser = null;
 
+        protected id _delegate;
+
         private StringBuilder _builder;
 
-        private bool _waitNextCall;
-        //protected SaxParser _saxParser;
+        
+        
+
+        // Not used for the moment ...
+        // We use an good old Interface instead of reflection (see SetDelegate)
+        public virtual id Delegate
+        {
+            get { return _delegate; }
+            set { _delegate = value; }
+        }
+
+        public void SetDelegate(INSXMLParser nsXmlInterface)
+        {
+            _nsXmlInterface = nsXmlInterface;
+            if (_nsXmlInterface != null)
+            {
+            }
+        }
+
 
 
         public static NSXMLParser Alloc()
@@ -77,13 +98,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public void SetDelegate(INSXMLParser nsXmlInterface)
-        {
-            _nsXmlInterface = nsXmlInterface;
-            if (_nsXmlInterface != null)
-            {
-            }
-        }
+        
 
         
 
@@ -149,6 +164,11 @@ namespace Smartmobili.Cocoa
                     attributeDict.Add(key, val);
                 }
 
+                //SEL sel;
+                //if (Objc.RespondsToSelector(_delegate, "ParserDidStartElement", ref sel)) 
+                //{
+                //    sel.SendMessage(this, localName, uri, qName, attributeDict);
+                //}
                 _nsXmlInterface.ParserDidStartElement(this, localName, uri, qName, attributeDict);
             }
         }

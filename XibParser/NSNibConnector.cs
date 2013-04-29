@@ -26,7 +26,7 @@ namespace Smartmobili.Cocoa
 {
     //http://developer.apple.com/library/mac/#documentation/cocoa/reference/ApplicationKit/Classes/NSNibConnector_Class/Reference/Reference.html#//apple_ref/occ/cl/NSNibConnector
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSBundleAdditions.m
-    public class NSNibConnector : NSObject, NSCoding
+    public class NSNibConnector : NSObject, NSCoding2
     {
         new public static Class Class = new Class(typeof(NSNibConnector));
 

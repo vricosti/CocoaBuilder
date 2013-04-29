@@ -179,7 +179,7 @@ namespace Smartmobili.Cocoa
 
         private object CreateFromClassName(XElement xElement, string attrClass)
         {
-            NSCoding nsObj = null;
+            NSCoding2 nsObj = null;
 
             NSObjectDecoder decoder = new NSObjectDecoder(Document, xElement);
 
@@ -188,10 +188,10 @@ namespace Smartmobili.Cocoa
             Type t = Type.GetType("Smartmobili.Cocoa." + attrClass);
             if (t != null)
             {
-                nsObj = Activator.CreateInstance(t) as NSCoding;
+                nsObj = Activator.CreateInstance(t) as NSCoding2;
                 if (nsObj != null)
                 {
-                    nsObj = (NSCoding)nsObj.InitWithCoder(decoder);   
+                    nsObj = (NSCoding2)nsObj.InitWithCoder(decoder);   
                 }
                 else
                 {
