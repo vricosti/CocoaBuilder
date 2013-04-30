@@ -29,17 +29,17 @@ namespace Smartmobili.Cocoa
     {
         public static id SendMessage(id receiver, NSString aString, params object[] args)
         {
-            id sel = null;
+            id ret = null;
 
             if (receiver != null && aString != null)
             {
                 string methodName = (string)aString;
-                //MethodInfo dynMethod = this.GetType().GetMethod("Draw_" + itemType, BindingFlags.NonPublic | BindingFlags.Instance);
-                //dynMethod.Invoke(this, new object[] { methodParams });
+                MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+                ret = (id)dynMethod.Invoke(receiver, args);
 
             }
 
-            return sel;
+            return ret;
         }
 
 

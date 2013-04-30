@@ -288,6 +288,13 @@ namespace Smartmobili.Cocoa
             }
         }
 
+        [ObjcPropAttribute("boolValue", SetName = null)]
+        public virtual bool BoolValue
+        {
+            get { return false; }
+            
+        }
+
         [ObjcPropAttribute("StringValue", SetName = null)]
         public virtual NSString StringValue
         {

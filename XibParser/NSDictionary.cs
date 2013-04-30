@@ -86,6 +86,18 @@ namespace Smartmobili.Cocoa
             return new NSDictionary();
         }
 
+        public virtual id InitWithDictionary(NSDictionary aDictionary)
+        {
+            id self = this;
+
+            foreach (KeyValuePair<id, id> entry in aDictionary)
+            {
+                this.Add(entry.Key, entry.Value);
+            }
+
+            return self;
+        }
+
 
         public override id InitWithCoder(NSObjectDecoder decoder)
         {

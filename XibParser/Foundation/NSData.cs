@@ -34,7 +34,7 @@ namespace Smartmobili.Cocoa
     };
 
 
-    public class NSData
+    public class NSData : NSObject
     {
         public byte[] Bytes { get; protected set;}
 
@@ -57,11 +57,26 @@ namespace Smartmobili.Cocoa
             return new NSData();
         }
 
+        public static NSData DataWithBytes(byte[] bytes)
+        {
+            return NSData.Alloc().InitWithBytes(bytes);
+        }
+
         public static NSData DataWithContentsOfFile(string path)
         {
             NSError err = null;
             NSData nsData = NSData.Alloc().InitWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
             return nsData;
+        }
+
+
+        public NSData InitWithBytes(byte[] bytes)
+        {
+            NSData self = this;
+
+            this.Bytes = new byte[bytes.Length];
+
+            return self;
         }
 
         public NSData InitWithContentsOfFile(string path)

@@ -11,5 +11,6 @@ namespace Smartmobili.Cocoa
         float FloatValue { get; }
         int IntValue { get; }
         int IntegerValue { get; }
+        bool BoolValue { get; }
     }
 }

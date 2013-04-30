@@ -23,6 +23,21 @@ using System.Linq;
 using System.Text;
 
 
+namespace Smartmobili.Cocoa
+{
+    public static class Extensions
+    {
+        public static bool IsEqualToString(this NSString text, NSString text2)
+        {
+            if (text == null || text2 == null)
+                return false;
+
+            return text.Value.Equals(text2.Value);
+        }
+    }
+}
+
+
 namespace System
 {
     public static class Extensions
@@ -190,4 +205,5 @@ namespace System.Xml.Linq
 
 
     }
+
 }

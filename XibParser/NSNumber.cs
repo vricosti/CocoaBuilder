@@ -42,6 +42,8 @@ namespace Smartmobili.Cocoa
         [ObjcPropAttribute("IntValue", SetName = null)]
         public int IntValue { get { return _number.ToInt(); } }
 
+        [ObjcPropAttribute("BoolValue", SetName = null)]
+        public bool BoolValue { get { return _number.ToBool(); } }
 
         public NSNumber()
         {
