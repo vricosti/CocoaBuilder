@@ -626,20 +626,163 @@ namespace Smartmobili.Cocoa
         {
             NSArray values = element.Values;
             int max = values.Count;
+            id[] list = new id[max];
+            int i;
 
-            return null;
+            for (i = 0; i < max; i++)
+            {
+                list[i] = this.ObjectForXib((GSXibElement)values.ObjectAtIndex(i));
+                if (list[i] == null)
+                    System.Diagnostics.Trace.WriteLine(string.Format("No object for {0} at index {1}", values.ObjectAtIndex(i).ToString(), i));
+            }
+
+            return NSArray.ArrayWithObjects(list);
         }
 
         public virtual id _DecodeDictionaryOfObjectsForElement(GSXibElement element)
         {
-           
+            NSDictionary elements = element.Elements;
+            NSMutableDictionary dict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
 
-            return null;
+            foreach (KeyValuePair<id, id> kvp in elements)
+            {
+                NSString key = (NSString)kvp.Key;
+                id obj = this.ObjectForXib((GSXibElement)elements.ObjectForKey(key));
+                if (obj == null)
+                    System.Diagnostics.Trace.WriteLine(string.Format("No object for {0} at key {1}", elements.ObjectForKey(key).ToString(), key.Value));
+                else
+                    dict.SetObjectForKey(obj, key);
+            }
+
+            return dict;
         }
 
         public virtual NSString DecodeReferenceForKey(NSString aKey)
         {
-            return "";
+            GSXibElement element = CurrentElement.ElementForKey(aKey);
+            NSString objID;
+
+            if (element == null)
+                return null;
+
+            objID = element.AttributeForKey(@"id");
+            if (objID != null)
+            {
+                return objID;
+            }
+
+            objID = element.AttributeForKey(@"ref");
+            if (objID != null)
+            {
+                return objID;
+            }
+
+
+            return null;
+        }
+
+        public override bool ContainsValueForKey(NSString aKey)
+        {
+            GSXibElement element = CurrentElement.ElementForKey(aKey);
+            return (element != null);
+        }
+
+        public override id DecodeObjectForKey(NSString aKey)
+        {
+            GSXibElement element = CurrentElement.ElementForKey(aKey);
+            if (element == null)
+                return null;
+
+            return this.ObjectForXib(element);
+        }
+
+        public override bool DecodeBoolForKey(NSString aKey)
+         {
+             id o = this.DecodeObjectForKey(aKey);
+             if (o != null)
+             {
+                 if (o.IsKindOfClass(NSNumber.Class) == true)
+                 {
+                     return ((NSNumber)o).BoolValue;
+                 }
+             }
+
+             return false;
+         }
+
+        public override byte[] DecodeBytesForKey(NSString aKey, ref int lengthp)
+        {
+            id o = this.DecodeObjectForKey(aKey);
+            if (o != null)
+            {
+                if (o.IsKindOfClass(NSData.Class) == true)
+                {
+                    lengthp = ((NSData)o).Length;
+                    return ((NSData)o).Bytes;
+                }
+            }
+
+            lengthp = 0;
+            return null;
+        }
+
+        public override double DecodeDoubleForKey(NSString aKey)
+        {
+            id o = this.DecodeObjectForKey(aKey);
+            if (o != null)
+            {
+                if (o.IsKindOfClass(NSNumber.Class) == true)
+                {
+                    return ((NSNumber)o).DoubleValue;
+                }
+            }
+
+            return 0.0;
+        }
+
+        public override float DecodeFloatForKey(NSString aKey)
+        {
+            id o = this.DecodeObjectForKey(aKey);
+            if (o != null)
+            {
+                if (o.IsKindOfClass(NSNumber.Class) == true)
+                {
+                    return ((NSNumber)o).FloatValue;
+                }
+            }
+
+            return 0;
+        }
+
+        public override int DecodeIntForKey(NSString aKey)
+        {
+            id o = this.DecodeObjectForKey(aKey);
+            if (o != null)
+            {
+                if (o.IsKindOfClass(NSNumber.Class) == true)
+                {
+                    return ((NSNumber)o).IntValue;
+                }
+            }
+            return 0;
+        }
+
+        public override int DecodeInt32ForKey(NSString aKey)
+        {
+            return DecodeIntForKey(aKey);
+        }
+
+        public override long DecodeInt64ForKey(NSString aKey)
+        {
+            id o = this.DecodeObjectForKey(aKey);
+            if (o != null)
+            {
+                if (o.IsKindOfClass(NSNumber.Class) == true)
+                {
+                    return ((NSNumber)o).IntValue;
+                }
+            }
+            return 0;
         }
     }
 }

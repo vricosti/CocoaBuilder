@@ -37,6 +37,22 @@ namespace Smartmobili.Cocoa
            
         }
 
+        // TODO: implements InitWithobjects
+        public static NSArray ArrayWithObjects(id[] list)
+        {
+            if (list == null)
+                return null;
+
+            NSArray self = new NSArray();
+
+            foreach (id elm in list)
+            {
+                self.Add(elm);
+            }
+
+            return self;
+        }
+
         public virtual void AddObject(id anObject)
         {
             if (anObject == null)
@@ -57,7 +73,10 @@ namespace Smartmobili.Cocoa
             return lastObj;
         }
 
-
+        public virtual id ObjectAtIndex(int index)
+        {
+            return this[index];
+        }
 
         public override id InitWithCoder(NSObjectDecoder decoder)
         {

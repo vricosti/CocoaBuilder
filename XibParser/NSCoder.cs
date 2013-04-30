@@ -28,14 +28,14 @@ namespace Smartmobili.Cocoa
     {
         public abstract bool AllowsKeyedCoding { get; }
 
-        public abstract bool ContainsValueForKey(string key);
+        public abstract bool ContainsValueForKey(NSString key);
 
-        public abstract void DecodeArrayOfObjCType(string itemType, int count, ref object address);
+        public abstract void DecodeArrayOfObjCType(NSString itemType, int count, ref object address);
 
-        public abstract bool DecodeBoolForKey(string key);
+        public abstract bool DecodeBoolForKey(NSString key);
 
         //- (const uint8_t *)decodeBytesForKey:(NSString *)key returnedLength:(NSUInteger *)lengthp
-        public abstract byte[] DecodeBytesForKey(string key, ref int lengthp);
+        public abstract byte[] DecodeBytesForKey(NSString key, ref int lengthp);
 
         //- (void *)decodeBytesWithReturnedLength:(NSUInteger *)numBytes
         public abstract object[] DecodeBytesWithReturnedLength(ref int numBytes);
@@ -44,31 +44,31 @@ namespace Smartmobili.Cocoa
         //public abstract NSData();
 
         //- (double)decodeDoubleForKey:(NSString *)key
-        public abstract bool DecodeDoubleForKey(string key);
+        public abstract double DecodeDoubleForKey(NSString key);
 
         //- (float)decodeFloatForKey:(NSString *)key
-        public abstract bool DecodeFloatForKey(string key);
+        public abstract float DecodeFloatForKey(NSString key);
 
         //- (int32_t)decodeInt32ForKey:(NSString *)key
-        public abstract Int32 decodeInt32ForKey(string key);
+        public abstract Int32 DecodeInt32ForKey(NSString key);
 
         //- (int64_t)decodeInt64ForKey:(NSString *)key
-        public abstract Int64 DecodeInt64ForKey(string key);
+        public abstract Int64 DecodeInt64ForKey(NSString key);
 
         //- (NSInteger)decodeIntegerForKey:(NSString *)key
-        public abstract int DecodeIntegerForKey(string key);
+        public abstract int DecodeIntegerForKey(NSString key);
 
         //- (int)decodeIntForKey:(NSString *)key
-        public abstract int DecodeIntForKey(string key);
+        public abstract int DecodeIntForKey(NSString key);
 
         //- (id)decodeObject
-        public abstract object DecodeObject(string key);
+        public abstract id DecodeObject(NSString key);
 
         //- (id)decodeObjectForKey:(NSString *)key
-        public abstract object DecodeObjectForKey(string key);
+        public abstract id DecodeObjectForKey(NSString key);
 
         //- (id)decodeObjectOfClass:(Class)aClass forKey:(NSString *)key
-        public abstract object DecodeObjectOfClass(Type type, string key);
+        public abstract object DecodeObjectOfClass(Type type, NSString key);
 
         //- (id)decodeObjectOfClasses:(NSSet *)classes forKey:(NSString *)key
 
@@ -76,28 +76,28 @@ namespace Smartmobili.Cocoa
         public abstract NSPoint DecodePoint();
 
         //- (NSPoint)decodePointForKey:(NSString *)key
-        public abstract NSPoint DecodePointForKey(string key);
+        public abstract NSPoint DecodePointForKey(NSString key);
 
         //- (id)decodePropertyList
         public abstract object DecodePropertyList();
 
         //- (id)decodePropertyListForKey:(NSString *)key
-        public abstract object DecodePropertyListForKey(string key);
+        public abstract object DecodePropertyListForKey(NSString key);
 
         //- (NSRect)decodeRect
         public abstract NSRect DecodeRect();
 
         //- (NSRect)decodeRectForKey:(NSString *)key
-        public abstract NSRect DecodeRectForKey(string key);
+        public abstract NSRect DecodeRectForKey(NSString key);
 
         //- (NSSize)decodeSize
         public abstract NSSize DecodeSize();
 
         //- (NSSize)decodeSizeForKey:(NSString *)key
-        public abstract NSSize DecodeSizeForKey(string key);
+        public abstract NSSize DecodeSizeForKey(NSString key);
 
         //- (void)decodeValueOfObjCType:(const char *)valueType at:(void *)data
-        public abstract void decodeValueOfObjCType(string valueType, ref object data);
+        public abstract void decodeValueOfObjCType(NSString valueType, ref object data);
 
 
 

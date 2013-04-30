@@ -70,24 +70,24 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public override bool ContainsValueForKey(string key)
+        public override bool ContainsValueForKey(NSString key)
         {
             return false;
         }
 
 
 
-        public override void DecodeArrayOfObjCType(string itemType, int count, ref object address)
+        public override void DecodeArrayOfObjCType(NSString itemType, int count, ref object address)
         {
             throw new NotImplementedException();
         }
 
-        public override bool DecodeBoolForKey(string key)
+        public override bool DecodeBoolForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override byte[] DecodeBytesForKey(string key, ref int lengthp)
+        public override byte[] DecodeBytesForKey(NSString key, ref int lengthp)
         {
             throw new NotImplementedException();
         }
@@ -97,47 +97,47 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override bool DecodeDoubleForKey(string key)
+        public override double DecodeDoubleForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override bool DecodeFloatForKey(string key)
+        public override float DecodeFloatForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override int decodeInt32ForKey(string key)
+        public override int DecodeInt32ForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override long DecodeInt64ForKey(string key)
+        public override long DecodeInt64ForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override int DecodeIntegerForKey(string key)
+        public override int DecodeIntegerForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override int DecodeIntForKey(string key)
+        public override int DecodeIntForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override object DecodeObject(string key)
+        public override id DecodeObject(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override object DecodeObjectForKey(string key)
+        public override id DecodeObjectForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override object DecodeObjectOfClass(Type type, string key)
+        public override object DecodeObjectOfClass(Type type, NSString key)
         {
             throw new NotImplementedException();
         }
@@ -147,7 +147,7 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override NSPoint DecodePointForKey(string key)
+        public override NSPoint DecodePointForKey(NSString key)
         {
             throw new NotImplementedException();
         }
@@ -157,7 +157,7 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override object DecodePropertyListForKey(string key)
+        public override object DecodePropertyListForKey(NSString key)
         {
             throw new NotImplementedException();
         }
@@ -167,7 +167,7 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override NSRect DecodeRectForKey(string key)
+        public override NSRect DecodeRectForKey(NSString key)
         {
             throw new NotImplementedException();
         }
@@ -177,12 +177,12 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override NSSize DecodeSizeForKey(string key)
+        public override NSSize DecodeSizeForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override void decodeValueOfObjCType(string valueType, ref object data)
+        public override void decodeValueOfObjCType(NSString valueType, ref object data)
         {
             throw new NotImplementedException();
         }
