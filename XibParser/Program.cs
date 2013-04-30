@@ -18,7 +18,8 @@ namespace Smartmobili.Cocoa
             NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
             if (data != null)
             {
-                var xibUna = WSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
+                var u = WSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
+                id container = u.DecodeObjectForKey(@"IBDocument.Objects");
             }
 
             

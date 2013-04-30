@@ -318,7 +318,15 @@ namespace Smartmobili.Cocoa
 
         public id AllocObjectForClassName(NSString classname)
         {
-            return null;
+            id nsObj = null;
+
+            Type t = Type.GetType("Smartmobili.Cocoa." + classname);
+            if (t != null)
+            {
+                nsObj = Activator.CreateInstance(t) as id;
+            }
+
+            return nsObj;
         }
 
         public virtual bool ReplaceObject(id oldObj, id newObj)
