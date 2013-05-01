@@ -45,6 +45,13 @@ namespace Smartmobili.Cocoa
 
         public bool EncodedWithXMLCoder { get; set; }
 
+
+
+        public static NSObject Alloc() 
+        { 
+            return new NSObject(); 
+        }
+
         public NSObject()
         {
         }
@@ -61,44 +68,34 @@ namespace Smartmobili.Cocoa
         }
 
 
+        
+
         public virtual void EncodeWithCoder(NSObjectDecoder aCoder)
         {
 
         }
 
-        public virtual id InitWithCoder(NSObjectDecoder aDecoder)
+        public virtual id InitWithCoder(NSCoder aDecoder)
         {
-            var xElement = aDecoder.XmlElement;
-            NSString id = xElement.AttributeValueOrDefault("id", null);
-            if (id != null)
-            {
-                RefId = id;
-                if (!aDecoder.Document.ListOfReferenceId.ContainsKey(id))
-                {
-                    aDecoder.Document.ListOfReferenceId.Add(id, this);
-                }
-
-                //TODO : FIXME
-                //if (id == "0")
-                //{
-                //    System.Diagnostics.Debug.WriteLine("id = 0");
-                //}
-                
-                //var kvp = decoder.Document.ListOfReferenceId.Where(o => o.Key.Equals(id)).FirstOrDefault();
-                //if (kvp.Key == null)
-                //{
-                //    decoder.Document.ListOfReferenceId.Add(id, this);
-                //}
-                //else
-                //{
-                //    System.Diagnostics.Debug.WriteLine("TODO: FIXME");
-                //}
-            }
+            //var xElement = aDecoder.XmlElement;
+            //NSString id = xElement.AttributeValueOrDefault("id", null);
+            //if (id != null)
+            //{
+            //    RefId = id;
+            //    if (!aDecoder.Document.ListOfReferenceId.ContainsKey(id))
+            //    {
+            //        aDecoder.Document.ListOfReferenceId.Add(id, this);
+            //    }
+            //}
 
             return this;
         }
 
-
+        public virtual id AwakeAfterUsingCoder(NSCoder aDecoder)
+        {
+            id self = this;
+            return self;
+        }
        
 
 

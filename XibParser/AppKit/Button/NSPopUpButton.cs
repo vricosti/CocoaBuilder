@@ -45,10 +45,17 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcProp("menu")]
-        public NSMenu Menu 
+        public override NSMenu Menu 
         {
-            get { return ((NSPopUpButtonCell)_cell).Menu; }
-            set { ((NSPopUpButtonCell)_cell).Menu = value; }
+            get 
+            {
+                return (_cell  != null) ? ((NSPopUpButtonCell)_cell).Menu : null; 
+            }
+            set 
+            { 
+                if (_cell != null)
+                    ((NSPopUpButtonCell)_cell).Menu = value; 
+            }
         }
 
         //[ObjcProp("pullsDown")]

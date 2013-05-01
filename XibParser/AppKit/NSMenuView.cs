@@ -37,7 +37,7 @@ namespace Smartmobili.Cocoa
         private NSMenu _attachedMenu;
 
 
-        public static NSMenuView Alloc()
+        new public static NSMenuView Alloc()
         {
             return new NSMenuView();
         }
@@ -48,7 +48,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public id InitWithFrame(NSRect aFrame)
+        public override id InitWithFrame(NSRect aFrame)
         {
             id self = this;
 

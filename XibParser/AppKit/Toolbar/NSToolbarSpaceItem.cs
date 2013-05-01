@@ -26,6 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSToolbarSpaceItem : NSToolbarItem
     {
+        new public static Class Class = new Class(typeof(NSToolbarSpaceItem));
+
         public NSToolbarSpaceItem()
         {
         }

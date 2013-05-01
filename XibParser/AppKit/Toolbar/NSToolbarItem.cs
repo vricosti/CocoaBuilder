@@ -29,6 +29,8 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSToolbarItem.m
     public class NSToolbarItem : NSObject
     {
+        new public static Class Class = new Class(typeof(NSToolbarItem));
+
         bool _autovalidates;
         NSString _itemIdentifier;
         NSString _label;
@@ -151,7 +153,7 @@ namespace Smartmobili.Cocoa
             
         //}
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
@@ -168,8 +170,8 @@ namespace Smartmobili.Cocoa
                 Image = (NSImage)aDecoder.DecodeObjectForKey("NSToolbarItemImage");
                 //Target = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemTarget");
                 //Action = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemAction");
-                MinSize = aDecoder.DecodeSizeForKey("NSToolbarItemMinSize");
-                MaxSize = aDecoder.DecodeSizeForKey("NSToolbarItemMaxSize");
+                MinSize = (NSSize)(NSString)aDecoder.DecodeObjectForKey("NSToolbarItemMinSize");
+                MaxSize = (NSSize)(NSString)aDecoder.DecodeObjectForKey("NSToolbarItemMaxSize");
                 Enabled = aDecoder.DecodeBoolForKey("NSToolbarItemEnabled");
                 Autovalidates = aDecoder.DecodeBoolForKey("NSToolbarItemAutovalidates");
                 Tag = aDecoder.DecodeIntForKey("NSToolbarItemTag");

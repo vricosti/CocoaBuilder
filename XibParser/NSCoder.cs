@@ -62,7 +62,7 @@ namespace Smartmobili.Cocoa
         public abstract int DecodeIntForKey(NSString key);
 
         //- (id)decodeObject
-        public abstract id DecodeObject(NSString key);
+        public abstract id DecodeObject();
 
         //- (id)decodeObjectForKey:(NSString *)key
         public abstract id DecodeObjectForKey(NSString key);
@@ -97,10 +97,8 @@ namespace Smartmobili.Cocoa
         public abstract NSSize DecodeSizeForKey(NSString key);
 
         //- (void)decodeValueOfObjCType:(const char *)valueType at:(void *)data
-        public abstract void decodeValueOfObjCType(NSString valueType, ref object data);
+        public abstract void DecodeValueOfObjCType(NSString valueType, ref object data);
 
-
-
-
+        public abstract void DecodeValueOfObjCType<T>(NSString valueType, ref T data);
     }
 }

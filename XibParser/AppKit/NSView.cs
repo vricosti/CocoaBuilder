@@ -24,6 +24,8 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
+//https://github.com/gnustep/gnustep-gui/blob/master/Source/NSView.m
+
 namespace Smartmobili.Cocoa
 {
     [FlagsAttribute]
@@ -153,7 +155,7 @@ namespace Smartmobili.Cocoa
 
         public NSView()
         {
-           Init();
+           //Init();
         }
 
         public override id Init()
@@ -208,9 +210,12 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            id self = this;
+
+            if (base.InitWithCoder(aDecoder) == null)
+                return null;
 
             if (aDecoder.AllowsKeyedCoding)
             {
@@ -249,7 +254,7 @@ namespace Smartmobili.Cocoa
                 Superview = aDecoder.DecodeObjectForKey("NSSuperview");
             }
 
-            return this;
+            return self;
         }
 
 

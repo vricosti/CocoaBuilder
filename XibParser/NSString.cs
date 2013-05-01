@@ -89,6 +89,54 @@ namespace Smartmobili.Cocoa
             Value = value;
         }
 
+        public virtual id InitWithString(NSString aString)
+        {
+            id self = this;
+
+            if (aString != null)
+            {
+                Value = aString.Value;
+            }
+
+            return self;
+        }
+
+        public override id InitWithCoder(NSCoder aCoder)
+        {
+            id self = this;
+
+            if (aCoder.AllowsKeyedCoding)
+            {
+                if (aCoder.ContainsValueForKey(@"NS.string"))
+                {
+                    throw new NotImplementedException("NSString:InitWithCoder:");
+                    //FIXME
+                    //NSString str = (NSString)((NSKeyedUnarchiver)aCoder)._DecodePropertyListForKey(@"NS.string");
+                    //self = InitWithString(str);
+                }
+                else if (aCoder.ContainsValueForKey(@"NS.bytes"))
+                {
+                    id bytes = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(@"NS.bytes");
+                     if (bytes.IsKindOfClass(NSString.Class))
+                     {
+                         self = InitWithString((NSString)bytes);
+                     }
+                     else
+                     {
+                         throw new NotImplementedException("NSString:InitWithCoder");
+                         // FIXME
+                         //self = InitWithData((NSData)bytes, );
+                         //self = [self initWithData: (NSData*)bytes  encoding: NSUTF8StringEncoding];
+                     }
+                }
+            }
+
+            return self;
+        }
+
+
+
+
         public override string ToString()
         {
             return Value;

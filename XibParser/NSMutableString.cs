@@ -37,26 +37,26 @@ namespace Smartmobili.Cocoa
         {
         }
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
-        {
-            base.InitWithCoder(aDecoder);
+        //public override id InitWithCoder(NSCoder aDecoder)
+        //{
+        //    base.InitWithCoder(aDecoder);
 
-            foreach (var xElement in aDecoder.XmlElement.Elements())
-            {
-                string key = xElement.Attribute("key").Value;
-                switch (key)
-                {
+        //    foreach (var xElement in aDecoder.XmlElement.Elements())
+        //    {
+        //        string key = xElement.Attribute("key").Value;
+        //        switch (key)
+        //        {
 
-                    case "NS.bytes": { Value = xElement.Value; break; }
+        //            case "NS.bytes": { Value = xElement.Value; break; }
 
-                    default:
-                        System.Diagnostics.Debug.WriteLine("NSMutableString : unknown key " + key);
-                        break;
+        //            default:
+        //                System.Diagnostics.Debug.WriteLine("NSMutableString : unknown key " + key);
+        //                break;
 
-                }
-            }
-            return this;
-        }
+        //        }
+        //    }
+        //    return this;
+        //}
 
         // implicit NSMutableString to string conversion operator
         public static implicit operator string(NSMutableString nsString)  

@@ -52,7 +52,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public static NSData Alloc()
+        new public static NSData Alloc()
         {
             return new NSData();
         }

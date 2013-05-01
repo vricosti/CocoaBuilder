@@ -84,6 +84,9 @@
     <Compile Include="AppKit\NSMenuView.cs" />
     <Compile Include="AppKit\NSNotification.cs" />
     <Compile Include="AppKit\NSPanel.cs" />
+    <Compile Include="AppKit\NSSegmentedCell.cs" />
+    <Compile Include="AppKit\NSSegmentedControl.cs" />
+    <Compile Include="AppKit\NSSegmentItem.cs" />
     <Compile Include="AppKit\Toolbar\GSToolbarButton.cs" />
     <Compile Include="AppKit\Button\NSButton.cs" />
     <Compile Include="AppKit\Button\NSButtonCell.cs" />

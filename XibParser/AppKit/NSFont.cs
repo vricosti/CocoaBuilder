@@ -34,7 +34,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public static NSFont Alloc()
+        new public static NSFont Alloc()
         {
             return new NSFont();
         }

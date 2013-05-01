@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSNotification
+    public class NSNotification : NSObject
     {
+        new public static Class Class = new Class(typeof(NSNotification));
+
         public NSNotification()
         {
         }

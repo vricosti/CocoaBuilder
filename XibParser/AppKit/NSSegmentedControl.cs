@@ -24,13 +24,33 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSToolbarSeparatorItem : NSToolbarItem
+    public class NSSegmentedControl : NSControl
     {
-        new public static Class Class = new Class(typeof(NSToolbarSeparatorItem));
+        new public static Class Class = new Class(typeof(NSSegmentedControl));
 
-        public NSToolbarSeparatorItem()
+        private static Class segmentedControlCellClass;
+
+
+        static NSSegmentedControl() { Initialize(); }
+        new static void Initialize()
         {
-
+            segmentedControlCellClass = NSSegmentedCell.Class;
         }
+
+
+        new public static Class CellClass
+        {
+            get { return segmentedControlCellClass; }
+        }
+
+        //public int SegmentCount
+        //{
+        //    get { [_cell setSegmentCount: count]; }
+        //    set { ((NSButtonCell)_cell).HighlightsBy = value; }
+        //}
+
+
+
+
     }
 }

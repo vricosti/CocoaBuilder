@@ -62,6 +62,11 @@ namespace Smartmobili.Cocoa
         //      </object>
         /////////////////////////////////////////////////////////////////////////////////
 
+        new public static NSDictionary Alloc()
+        {
+            return new NSDictionary();
+        }
+
         public NSDictionary()
         {
             Init();
@@ -81,11 +86,6 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public static NSDictionary Alloc()
-        {
-            return new NSDictionary();
-        }
-
         public virtual id InitWithDictionary(NSDictionary aDictionary)
         {
             id self = this;
@@ -99,78 +99,150 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSObjectDecoder decoder)
+        public override id InitWithCoder(NSCoder aCoder)
         {
-            base.InitWithCoder(decoder);
+            id self = this;
 
-            var xElement = decoder.XmlElement;
-            var firstElem = xElement.Elements().FirstOrDefault();
-
-            if (firstElem != null)
+            if (aCoder.AllowsKeyedCoding)
             {
-                var keyAttr = firstElem.Attributes("key").FirstOrDefault();
+                id keys = null;
+                id objects = null;
 
-                XElement[] dictSortedKeyElements = new XElement[0];
-                XElement[] dictValueElements = new XElement[0];
-
-                if (xElement.Name == "object")
+                if (aCoder.ContainsValueForKey(@"NS.keys"))
                 {
-                    if ((xElement.Descendants().Count() > 0 && firstElem.Name == "bool"
-                        && keyAttr != null && keyAttr.Value == "EncodedWithXMLCoder" && firstElem.Value == "YES"))
-                    {
-                        //System.Diagnostics.Debug.WriteLine("NSMutableDictionary");
-
-                        var dictSortedKeyNode = xElement.Elements().Where(e => (string)e.Attribute("key") == "dict.sortedKeys").ToArray();
-                        var dictValueNode = xElement.Elements().Where(e => (string)e.Attribute("key") == "dict.values").ToArray();
-                        if (dictSortedKeyNode.Count() == 1 && dictValueNode.Count() == 1)
-                        {
-                            dictSortedKeyElements = dictSortedKeyNode.Elements().Where(e => e.Name != "bool").ToArray();
-                            dictValueElements = dictValueNode.Elements().Where(e => e.Name != "bool").ToArray();
-                        }
-                    }
-                    else
-                    {
-                        dictSortedKeyElements = xElement.Elements().Where(c =>
-                           ((string)c.Attribute("key")).StartsWith("NS.key.")).OrderBy(c => (string)c.Attribute("key")).ToArray();
-
-                        dictValueElements = xElement.Elements().Where(c =>
-                           ((string)c.Attribute("key")).StartsWith("NS.object.")).OrderBy(c => (string)c.Attribute("key")).ToArray();
-                    }
-
-                    if ((dictSortedKeyElements.Count() == dictValueElements.Count()) &&
-                       (dictSortedKeyElements.Count() > 0))
-                    {
-                        for (int i = 0; i < dictSortedKeyElements.Count(); i++)
-                        {
-                            id keyObj = (id)decoder.Create(dictSortedKeyElements[i]);
-                            id valueObj = (id)decoder.Create(dictValueElements[i]);
-                            Add(keyObj, valueObj);
-                        }
-                    }
+                    keys = ((NSKeyedUnarchiver)aCoder)._DecodeArrayOfObjectsForKey(@"NS.keys");
+                    objects = ((NSKeyedUnarchiver)aCoder)._DecodeArrayOfObjectsForKey(@"NS.objects");
                 }
-                else if (xElement.Name == "dictionary")
+                else if (aCoder.ContainsValueForKey(@"dict.sortedKeys"))
                 {
-                    foreach (var xElm in decoder.XmlElement.Elements())
+                    keys = aCoder.DecodeObjectForKey(@"dict.sortedKeys");
+                    objects = aCoder.DecodeObjectForKey(@"dict.values");
+                }
+
+                if (keys == null)
+                {
+                    uint i = 0;
+                    NSString key;
+                    id val;
+
+                    keys = NSMutableArray.ArrayWithCapacity(2);
+                    objects = NSMutableArray.ArrayWithCapacity(2);
+
+                    key = (NSString)string.Format(@"NS.object.{0}", i); 
+                    val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
+
+                    while (val != null)
                     {
-                        NSString key = xElm.AttributeValueOrDefault("key", null);
-                        if (!string.IsNullOrWhiteSpace(key))
-                        {
-                            id valueObj = (id)decoder.Create(xElm);
-                            Add(key, valueObj);
-                        }
+                        ((NSMutableArray)objects).AddObject(val); 
+                        key = (NSString)string.Format(@"NS.key.{0}", i);
+                        val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
+                        ((NSMutableArray)keys).AddObject(val);
+                        i++;
+                        key = (NSString)string.Format(@"NS.object.{0}", i);
+                        val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
                     }
                 }
 
-
-
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Empty dictionary");
+                return InitWithObjects((NSArray)objects, (NSArray)keys);
+                //return [self initWithObjects: objects forKeys: keys];;
             }
 
-            return this;
+
+            return self;
         }
+
+        public virtual id InitWithObjects(NSArray objects, NSArray keys)
+        {
+            id self = this;
+
+            if (objects != null && keys != null && (objects.Count == keys.Count))
+            {
+                for (int i = 0; i < objects.Count; i++)
+                {
+                    id key = keys.ObjectAtIndex(i);
+                    id val = objects.ObjectAtIndex(i);
+                    if (key == null || val == null)
+                        throw new ArgumentNullException();
+
+                    this.Add(key, val);
+                }
+            }
+
+            return self;
+        }
+
+        //public override id InitWithCoder(NSCoder decoder)
+        //{
+        //    base.InitWithCoder(decoder);
+
+        //    //var xElement = decoder.XmlElement;
+        //    //var firstElem = xElement.Elements().FirstOrDefault();
+
+        //    //if (firstElem != null)
+        //    //{
+        //    //    var keyAttr = firstElem.Attributes("key").FirstOrDefault();
+
+        //    //    XElement[] dictSortedKeyElements = new XElement[0];
+        //    //    XElement[] dictValueElements = new XElement[0];
+
+        //    //    if (xElement.Name == "object")
+        //    //    {
+        //    //        if ((xElement.Descendants().Count() > 0 && firstElem.Name == "bool"
+        //    //            && keyAttr != null && keyAttr.Value == "EncodedWithXMLCoder" && firstElem.Value == "YES"))
+        //    //        {
+        //    //            //System.Diagnostics.Debug.WriteLine("NSMutableDictionary");
+
+        //    //            var dictSortedKeyNode = xElement.Elements().Where(e => (string)e.Attribute("key") == "dict.sortedKeys").ToArray();
+        //    //            var dictValueNode = xElement.Elements().Where(e => (string)e.Attribute("key") == "dict.values").ToArray();
+        //    //            if (dictSortedKeyNode.Count() == 1 && dictValueNode.Count() == 1)
+        //    //            {
+        //    //                dictSortedKeyElements = dictSortedKeyNode.Elements().Where(e => e.Name != "bool").ToArray();
+        //    //                dictValueElements = dictValueNode.Elements().Where(e => e.Name != "bool").ToArray();
+        //    //            }
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            dictSortedKeyElements = xElement.Elements().Where(c =>
+        //    //               ((string)c.Attribute("key")).StartsWith("NS.key.")).OrderBy(c => (string)c.Attribute("key")).ToArray();
+
+        //    //            dictValueElements = xElement.Elements().Where(c =>
+        //    //               ((string)c.Attribute("key")).StartsWith("NS.object.")).OrderBy(c => (string)c.Attribute("key")).ToArray();
+        //    //        }
+
+        //    //        if ((dictSortedKeyElements.Count() == dictValueElements.Count()) &&
+        //    //           (dictSortedKeyElements.Count() > 0))
+        //    //        {
+        //    //            for (int i = 0; i < dictSortedKeyElements.Count(); i++)
+        //    //            {
+        //    //                id keyObj = (id)decoder.Create(dictSortedKeyElements[i]);
+        //    //                id valueObj = (id)decoder.Create(dictValueElements[i]);
+        //    //                Add(keyObj, valueObj);
+        //    //            }
+        //    //        }
+        //    //    }
+        //    //    else if (xElement.Name == "dictionary")
+        //    //    {
+        //    //        foreach (var xElm in decoder.XmlElement.Elements())
+        //    //        {
+        //    //            NSString key = xElm.AttributeValueOrDefault("key", null);
+        //    //            if (!string.IsNullOrWhiteSpace(key))
+        //    //            {
+        //    //                id valueObj = (id)decoder.Create(xElm);
+        //    //                Add(key, valueObj);
+        //    //            }
+        //    //        }
+        //    //    }
+
+
+
+        //    //}
+        //    //else
+        //    //{
+        //    //    System.Diagnostics.Debug.WriteLine("Empty dictionary");
+        //    //}
+
+        //    return this;
+        //}
 
         public virtual void SetObjectForKey(id anObject, id aKey)
         {

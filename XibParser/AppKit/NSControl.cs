@@ -502,7 +502,7 @@ namespace Smartmobili.Cocoa
             get { return ((NSCell)SelectedCell).MouseDownFlags; }
         }
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             id self = this;
 

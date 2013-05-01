@@ -26,19 +26,21 @@ using System.Xml.Linq;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSMutableArray : NSArray //: NSArray
+    public class NSMutableArray : NSArray 
     {
+        new public static Class Class = new Class(typeof(NSMutableArray));
+
         public NSMutableArray()
         {
             
         }
 
-        public static NSMutableArray Alloc()
+        new public static NSMutableArray Alloc()
         {
             return new NSMutableArray();
         }
 
-        public NSMutableArray Init()
+        public override id Init()
         {
             return this;
         }
@@ -51,6 +53,33 @@ namespace Smartmobili.Cocoa
 
             _list.RemoveAt(this.Count - 1);
         }
+
+
+        public virtual void RemoveObjectAtIndex(uint anIndex)
+        {
+            _list.RemoveAt((int)anIndex);
+        }
+
+        public virtual void RemoveObjectsInRange(NSRange aRange)
+        {
+            uint i;
+            uint s = aRange.Location;
+            uint c = (uint)this.Count;
+
+            i = aRange.Location + aRange.Length;
+
+            if (c < i)
+                i = c;
+
+            if (i > s)
+            {
+                while (i-- > s)
+                {
+                    this.RemoveObjectAtIndex(i);
+                }
+            }
+        }
+
 
         //public NSMutableArray(NSObjectDecoder aDecoder)
         //    : base(aDecoder)

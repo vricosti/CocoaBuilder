@@ -33,6 +33,6 @@ namespace Smartmobili.Cocoa
     public interface NSCoding2
     {
         void EncodeWithCoder(NSObjectDecoder encoder);
-        id InitWithCoder(NSObjectDecoder decoder);
+        id InitWithCoder(NSCoder decoder);
     }
 }

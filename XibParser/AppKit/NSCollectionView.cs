@@ -27,6 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSCollectionView : NSView
     {
+        new public static Class Class = new Class(typeof(NSCollectionView));
+
         public NSCollectionView()
         {
 

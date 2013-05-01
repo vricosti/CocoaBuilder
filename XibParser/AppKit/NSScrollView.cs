@@ -27,6 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSScrollView : NSView
     {
+        new public static Class Class = new Class(typeof(NSScrollView));
+
 #pragma warning disable 0649
 
         struct NSScrollViewFlags
@@ -115,7 +117,7 @@ namespace Smartmobili.Cocoa
         {
         }
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

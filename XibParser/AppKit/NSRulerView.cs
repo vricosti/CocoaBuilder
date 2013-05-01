@@ -26,6 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSRulerView : NSView
     {
+        new public static Class Class = new Class(typeof(NSRulerView));
+
         public NSRulerView()
         {
 

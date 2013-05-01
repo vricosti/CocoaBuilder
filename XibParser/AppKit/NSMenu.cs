@@ -29,6 +29,8 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSMenu.m
     public class NSMenu : NSObject
     {
+        new public static Class Class = new Class(typeof(NSMenu));
+
         public struct GSMenuFlags
         {
             [BitfieldLength(1)]
@@ -48,8 +50,6 @@ namespace Smartmobili.Cocoa
             [BitfieldLength(25)]
             public uint unused;
         }
-
-        new public static Class Class = new Class(typeof(NSMenu));
 
         protected NSString _title;
         protected NSMutableArray _items;
@@ -92,7 +92,7 @@ namespace Smartmobili.Cocoa
             set { menuBarVisible = value; }
         }
 
-        public static NSMenu Alloc()
+        new public static NSMenu Alloc()
         {
             return new NSMenu();
         }
@@ -132,7 +132,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

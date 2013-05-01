@@ -27,6 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSCollectionViewItem : NSViewController
     {
+        new public static Class Class = new Class(typeof(NSCollectionViewItem));
+
         public NSCollectionView CollectionView { get; set; }
 
         public /*id*/object RepresentedObject { get; set; }

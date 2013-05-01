@@ -54,7 +54,7 @@ namespace Smartmobili.Cocoa
             Localizations = new NSMutableDictionary();
         }
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             id self = this;
 

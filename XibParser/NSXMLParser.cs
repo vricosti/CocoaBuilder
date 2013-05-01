@@ -70,7 +70,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public static NSXMLParser Alloc()
+        new public static NSXMLParser Alloc()
         {
             return new NSXMLParser();
         }
@@ -167,7 +167,7 @@ namespace Smartmobili.Cocoa
                 //SEL sel;
                 //if (Objc.RespondsToSelector(_delegate, "ParserDidStartElement", ref sel)) 
                 //{
-                //    sel.SendMessage(this, localName, uri, qName, attributeDict);
+                //    sel.MsgSend(this, localName, uri, qName, attributeDict);
                 //}
                 _nsXmlInterface.ParserDidStartElement(this, localName, uri, qName, attributeDict);
             }

@@ -9,6 +9,8 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-base/blob/master/Headers/Foundation/NSAttributedString.h
     public class NSAttributedString : NSObject
     {
+        new public static Class Class = new Class(typeof(NSAttributedString));
+
         protected NSString _string;
 
 
@@ -18,7 +20,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public static NSAttributedString Alloc()
+        new public static NSAttributedString Alloc()
         {
             return new NSAttributedString();
         }

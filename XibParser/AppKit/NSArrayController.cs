@@ -27,6 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSArrayController : NSObjectController
     {
+        new public static Class Class = new Class(typeof(NSArrayController));
+
         public bool AvoidsEmptySelection { get; set; }
 
         public bool PreservesSelection { get; set; }
@@ -42,7 +44,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

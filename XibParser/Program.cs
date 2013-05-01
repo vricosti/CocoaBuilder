@@ -10,16 +10,19 @@ namespace Smartmobili.Cocoa
     {
         static void Main(string[] args)
         {
-#if TEST
-            string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/Compose.xib";
-            //string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\ButtonTextAlign.xib";
+//#if TEST
+            //string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/Compose.xib";
+            string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\Compose.xib";
 
 
             NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
             if (data != null)
             {
                 var u = WSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
-                id container = u.DecodeObjectForKey(@"IBDocument.Objects");
+                NSMutableArray rootObjects = (NSMutableArray)u.DecodeObjectForKey(@"IBDocument.RootObjects");
+
+                NSWindowTemplate nsWindow2 = (NSWindowTemplate)rootObjects.Where(o =>
+                (o != null) && (o.GetType() == typeof(NSWindowTemplate))).FirstOrDefault();
             }
 
             
@@ -64,7 +67,7 @@ namespace Smartmobili.Cocoa
                     }
                 }
             }
-#endif
+//#endif
         }
     }
 }

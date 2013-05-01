@@ -127,7 +127,7 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override id DecodeObject(NSString key)
+        public override id DecodeObject()
         {
             throw new NotImplementedException();
         }
@@ -147,9 +147,17 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override NSPoint DecodePointForKey(NSString key)
+        public override NSPoint DecodePointForKey(NSString aKey)
         {
-            throw new NotImplementedException();
+            NSPoint point = new NSPoint();
+
+            NSString val = (NSString)DecodeObjectForKey(aKey);
+            if (val != null)
+            {
+                point = (NSPoint)val;
+            }
+
+            return point;
         }
 
         public override object DecodePropertyList()
@@ -167,9 +175,17 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override NSRect DecodeRectForKey(NSString key)
+        public override NSRect DecodeRectForKey(NSString aKey)
         {
-            throw new NotImplementedException();
+            NSRect rect = new NSSize();
+
+            NSString val = (NSString)DecodeObjectForKey(aKey);
+            if (val != null)
+            {
+                rect = (NSRect)val;
+            }
+
+            return rect;
         }
 
         public override NSSize DecodeSize()
@@ -177,16 +193,28 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override NSSize DecodeSizeForKey(NSString key)
+        public override NSSize DecodeSizeForKey(NSString aKey)
+        {
+            NSSize aSize = new NSSize();
+
+            NSString val = (NSString)DecodeObjectForKey(aKey);
+            if (val != null)
+            {
+                aSize = (NSSize)val;
+            }
+
+            return aSize;
+        }
+
+        public override void DecodeValueOfObjCType(NSString valueType, ref object data)
         {
             throw new NotImplementedException();
         }
 
-        public override void decodeValueOfObjCType(NSString valueType, ref object data)
+        public override void DecodeValueOfObjCType<T>(NSString valueType, ref T data)
         {
-            throw new NotImplementedException();
-        }
 
+        }
 
         public virtual Class UnarchiverCannotDecodeObjectOfClassName(NSKeyedUnarchiver anUnarchiver, NSString aName, NSArray classNames)
         {
@@ -212,6 +240,21 @@ namespace Smartmobili.Cocoa
         public virtual void UnarchiverWillReplaceObject(NSKeyedUnarchiver anUnarchiver, id anObject, id newObject)
         {
             
+        }
+
+        public virtual id _DecodeArrayOfObjectsForKey(NSString aKey)
+        {
+            return null;
+        }
+
+        public virtual id _DecodeArrayOfObjectsForElement(GSXibElement element)
+        {
+            return null;
+        }
+
+        public virtual id _DecodeDictionaryOfObjectsForElement(GSXibElement element)
+        {
+            return null;
         }
     }
 }

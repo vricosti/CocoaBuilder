@@ -26,6 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSNumber : NSObject, NSCoding2, INSNumber, IEquatable<NSNumber>
     {
+        new public static Class Class = new Class(typeof(NSNumber));
+
         protected object _number;
 
         
@@ -105,11 +107,11 @@ namespace Smartmobili.Cocoa
         }
 
         [ObjcMethodAttribute("InitWithCoder")]
-        public override id InitWithCoder(NSObjectDecoder decoder)
+        public override id InitWithCoder(NSCoder decoder)
         {
             base.InitWithCoder(decoder);
 
-            _number = decoder.XmlElement.Value;
+            //_number = decoder.XmlElement.Value;
 
             return this;
         }

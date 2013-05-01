@@ -65,7 +65,7 @@ namespace Smartmobili.Cocoa
         //                    <string>id</string>
         //                    <string>id</string>
         //                </object>
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             id self = this;
 

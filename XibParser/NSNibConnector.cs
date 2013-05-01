@@ -53,7 +53,7 @@ namespace Smartmobili.Cocoa
             set { _tag = value; }
         }
 
-        public static NSNibConnector Alloc()
+        new public static NSNibConnector Alloc()
         {
             return new NSNibConnector();
         }
@@ -75,7 +75,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             //base.InitWithCoder(aDecoder);
 
@@ -107,7 +107,7 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSNibControlConnector));
 
-        public static NSNibControlConnector Alloc()
+        new public static NSNibControlConnector Alloc()
         {
             return new NSNibControlConnector();
         }
@@ -124,7 +124,7 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSNibOutletConnector));
 
-        public static NSNibOutletConnector Alloc()
+        new public static NSNibOutletConnector Alloc()
         {
             return new NSNibOutletConnector();
         }

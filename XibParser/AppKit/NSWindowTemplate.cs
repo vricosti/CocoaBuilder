@@ -38,6 +38,8 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSNibLoading.m
     public class NSWindowTemplate : NSObject, NSCoding2
     {
+        new public static Class Class = new Class(typeof(NSWindowTemplate));
+
         NSBackingStoreType _backingStoreType;
         NSSize _maxSize;
         NSSize _minSize;
@@ -177,7 +179,7 @@ namespace Smartmobili.Cocoa
             base.EncodeWithCoder(aCoder);
         }
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

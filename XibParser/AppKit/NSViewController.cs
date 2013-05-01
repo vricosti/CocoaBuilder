@@ -26,6 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSViewController : NSResponder
     {
+        new public static Class Class = new Class(typeof(NSViewController));
+
         public NSViewController()
         {
 

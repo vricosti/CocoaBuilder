@@ -27,6 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSClipView : NSView
     {
+        new public static Class Class = new Class(typeof(NSClipView));
+
         public NSView DocumentView { get; set; }
 
         public NSClipView()

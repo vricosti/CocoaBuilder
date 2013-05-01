@@ -27,21 +27,32 @@ namespace Smartmobili.Cocoa
 {
     public class Objc
     {
-        public static id SendMessage(id receiver, NSString aString, params object[] args)
+        public static id MsgSend(id receiver, NSString aString, params object[] args)
         {
             id ret = null;
 
             if (receiver != null && aString != null)
             {
                 string methodName = (string)aString;
-                MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
-                ret = (id)dynMethod.Invoke(receiver, args);
+                MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
+                if (dynMethod != null)
+                {
+                    ret = (id)dynMethod.Invoke(receiver, args);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(string.Format("cannot find {0}", methodName));
+                }
 
             }
 
             return ret;
         }
 
+        public static NSString Encode(Type type)
+        {
+            return "";
+        }
 
 
     }

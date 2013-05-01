@@ -38,6 +38,6 @@ namespace Smartmobili.Cocoa
 
     public class NSWindow : NSResponder
     {
-
+        new public static Class Class = new Class(typeof(NSWindow));
     }
 }

@@ -28,6 +28,8 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSMenuItem.m
     public class NSMenuItem : NSObject
     {
+        new public static Class Class = new Class(typeof(NSMenuItem));
+
         protected NSMenu _menu;
         protected NSString _title;
         protected NSString _keyEquivalent;
@@ -80,7 +82,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

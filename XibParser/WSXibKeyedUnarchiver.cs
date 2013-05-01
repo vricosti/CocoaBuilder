@@ -41,7 +41,7 @@ namespace Smartmobili.Cocoa
 
         
 
-        public static GSXibElement Alloc()
+        new public static GSXibElement Alloc()
         {
             return new GSXibElement();
         }
@@ -53,7 +53,7 @@ namespace Smartmobili.Cocoa
             _type = typeName;
             _attributes = attribs;
             _elements = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
-            _values = NSMutableArray.Alloc().Init();
+            _values = (NSMutableArray)NSMutableArray.Alloc().Init();
 
             return self;
         }
@@ -144,7 +144,7 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public static WSXibKeyedUnarchiver Alloc()
+        new public static WSXibKeyedUnarchiver Alloc()
         {
             string strAssemDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string strLogPath = System.IO.Path.Combine(strAssemDir, "smi_parser_foundCharacters.log");
@@ -349,7 +349,7 @@ namespace Smartmobili.Cocoa
             last = CurrentElement;
             CurrentElement = element;
 
-            r = Objc.SendMessage(o, "InitWithCoder", this);
+            r = Objc.MsgSend(o, "InitWithCoder", this);
             //r = ((NSCoding)o).InitWithCoder(this);
 
             // pop
@@ -357,7 +357,7 @@ namespace Smartmobili.Cocoa
 
             if (r != o)
             {
-                Objc.SendMessage(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
                 //((INSKeyedUnarchiverDelegate)dlgate).UnarchiverWillReplaceObject(this, o, r);
                 o = r;
                 if (objID != null)
@@ -366,10 +366,10 @@ namespace Smartmobili.Cocoa
             }
 
             //r = [o awakeAfterUsingCoder: self];
-            r = Objc.SendMessage(o, "AwakeAfterUsingCoder", this);
+            r = Objc.MsgSend(o, "AwakeAfterUsingCoder", this);
             if (r != o)
             {
-                Objc.SendMessage(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
                 //((INSKeyedUnarchiverDelegate)dlgate).UnarchiverWillReplaceObject(this, o, r);
                 o = r;
                 if (objID != null)
@@ -381,10 +381,10 @@ namespace Smartmobili.Cocoa
             if (dlgate != null)
             {
                 //r = ((INSKeyedUnarchiverDelegate)dlgate).UnarchiverDidDecodeObject(this, o);
-                r = Objc.SendMessage(dlgate, "UnarchiverDidDecodeObject", this, o);
+                r = Objc.MsgSend(dlgate, "UnarchiverDidDecodeObject", this, o);
                 if (r != o)
                 {
-                    Objc.SendMessage(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                    Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
                     o = r;
                     if (objID != null)
                         Decoded.SetObjectForKey(o, objID);
@@ -412,7 +412,7 @@ namespace Smartmobili.Cocoa
             r = ((NSDictionary)o).InitWithDictionary((NSDictionary)_DecodeDictionaryOfObjectsForElement(element));
             if (r != o)
             {
-                Objc.SendMessage(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
                 //((INSKeyedUnarchiverDelegate)dlgate).UnarchiverWillReplaceObject(this, o, r);
                 o = r;
                 if (objID != null)
@@ -420,10 +420,10 @@ namespace Smartmobili.Cocoa
             }
 
             //r = [o awakeAfterUsingCoder: self];
-            r = Objc.SendMessage(o, "AwakeAfterUsingCoder", this);
+            r = Objc.MsgSend(o, "AwakeAfterUsingCoder", this);
             if (r != o)
             {
-                Objc.SendMessage(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
                 o = r;
                 if (objID != null)
                     Decoded.SetObjectForKey(o, objID);
@@ -433,10 +433,10 @@ namespace Smartmobili.Cocoa
             if (dlgate != null)
             {
                 //r = ((INSKeyedUnarchiverDelegate)dlgate).UnarchiverDidDecodeObject(this, o);
-                r = Objc.SendMessage(dlgate, "UnarchiverDidDecodeObject", this, o);
+                r = Objc.MsgSend(dlgate, "UnarchiverDidDecodeObject", this, o);
                 if (r != o)
                 {
-                    Objc.SendMessage(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                    Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
                     o = r;
                     if (objID != null)
                         Decoded.SetObjectForKey(o, objID);
@@ -481,7 +481,7 @@ namespace Smartmobili.Cocoa
                 NSString type = element.AttributeForKey(@"type");
                 id newObj = element.Value;
 
-                if (type.IsEqualToString(@"base64-UTF8"))
+                if (type != null && type.IsEqualToString(@"base64-UTF8"))
                 {
                     //FIXME
                     //    NSData d = [newObj dataUsingEncoding: NSASCIIStringEncoding];
@@ -623,14 +623,14 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
-        public virtual id _DecodeArrayOfObjectsForKey(NSString aKey)
+        public override id _DecodeArrayOfObjectsForKey(NSString aKey)
         {
             // FIXME: This is wrong but the only way to keep the code for
             // [NSArray-initWithCoder:] working
             return _DecodeArrayOfObjectsForElement(CurrentElement);
         }
 
-        public virtual id _DecodeArrayOfObjectsForElement(GSXibElement element)
+        public override id _DecodeArrayOfObjectsForElement(GSXibElement element)
         {
             NSArray values = element.Values;
             int max = values.Count;
@@ -647,7 +647,7 @@ namespace Smartmobili.Cocoa
             return NSArray.ArrayWithObjects(list);
         }
 
-        public virtual id _DecodeDictionaryOfObjectsForElement(GSXibElement element)
+        public override id _DecodeDictionaryOfObjectsForElement(GSXibElement element)
         {
             NSDictionary elements = element.Elements;
             NSMutableDictionary dict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();

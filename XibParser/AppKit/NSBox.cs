@@ -75,6 +75,8 @@ namespace Smartmobili.Cocoa
 
     public class NSBox : NSView
     {
+        new public static Class Class = new Class(typeof(NSBox));
+
         public NSBorderType BorderType { get; set; }
 
         public NSBoxType BoxType { get; set; }
@@ -95,7 +97,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

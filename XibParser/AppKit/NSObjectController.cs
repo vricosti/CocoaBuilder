@@ -26,6 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSObjectController : NSController
     {
+        new public static Class Class = new Class(typeof(NSObjectController));
+
         public NSObjectController()
         {
 

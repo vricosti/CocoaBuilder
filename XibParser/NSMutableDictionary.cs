@@ -29,9 +29,15 @@ namespace Smartmobili.Cocoa
 {
     public class NSMutableDictionary : NSDictionary
     {
+       
+        new public static NSMutableDictionary Alloc()
+        {
+            return new NSMutableDictionary(false);
+        }
+
         public NSMutableDictionary()
         {
-            Init();
+
         }
 
         public NSMutableDictionary(bool shouldCallInit)
@@ -42,10 +48,7 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        new public static NSMutableDictionary Alloc()
-        {
-            return new NSMutableDictionary(false);
-        }
+        
 
     }
 }

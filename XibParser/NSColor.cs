@@ -26,6 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSColor : NSObject
     {
+        new public static Class Class = new Class(typeof(NSColor));
+
         //<int key="NSColorSpace">3</int>
         //<bytes key="NSWhite">MCAwLjUxAA</bytes>
 
@@ -48,24 +50,24 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSObjectDecoder decoder)
+        public override id InitWithCoder(NSCoder decoder)
         {
             base.InitWithCoder(decoder);
 
-            foreach (var xElement in decoder.XmlElement.Elements())
-            {
-                string key = xElement.Attribute("key").Value;
-                switch (key)
-                {
+            //foreach (var xElement in decoder.XmlElement.Elements())
+            //{
+            //    string key = xElement.Attribute("key").Value;
+            //    switch (key)
+            //    {
 
                    
 
-                    default:
-                        System.Diagnostics.Debug.WriteLine("NSColor : unknown key " + key);
-                        break;
+            //        default:
+            //            System.Diagnostics.Debug.WriteLine("NSColor : unknown key " + key);
+            //            break;
 
-                }
-            }
+            //    }
+            //}
 
             return this;
         }

@@ -27,11 +27,28 @@ namespace Smartmobili.Cocoa
 {
     public class NSCustomView : NSView
     {
+        new public static Class Class = new Class(typeof(NSCustomView));
+
+        protected NSString className;
+        protected id realObject;
+        protected id extension;
+
         public NSCustomView()
         {
+
         }
 
+        public override id AwakeAfterUsingCoder(NSCoder aDecoder)
+        {
+            id self = this;
+#if DEBUG
+            //NSLog (@"%x awakeAfterUsingCoder NSCustomView: className = %@, realObject = %@, extension = %@", self, className, realObject, extension);
+#endif
 
+            //FIXME : What is objects ???
+            //[objects addObject:self];
+            return self;
+        }
 
 
 

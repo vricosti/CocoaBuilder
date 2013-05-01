@@ -42,6 +42,8 @@ namespace Smartmobili.Cocoa
 
     public class NSToolbar : NSObject
     {
+        new public static Class Class = new Class(typeof(NSToolbar));
+
         public NSString Identifier { get; set; }
 
         public string Delegate { get; set; }
@@ -92,7 +94,7 @@ namespace Smartmobili.Cocoa
            
         //}
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

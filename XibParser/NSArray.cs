@@ -28,14 +28,28 @@ using System.Collections;
 
 namespace Smartmobili.Cocoa
 {
+
     public class NSArray : NSObject, IList<id>
     {
-        protected readonly IList<id> _list = new List<id>();
+        new public static Class Class = new Class(typeof(NSArray));
+
+        protected  IList<id> _list = new List<id>();
 
         public NSArray()
         {
            
         }
+
+        new public static NSArray Alloc()
+        {
+            return new NSArray();
+        }
+
+        public static NSArray ArrayWithCapacity(uint numItems)
+        {
+            return (NSArray)Alloc().InitWithCapacity(numItems);
+        }
+
 
         // TODO: implements InitWithobjects
         public static NSArray ArrayWithObjects(id[] list)
@@ -75,25 +89,88 @@ namespace Smartmobili.Cocoa
 
         public virtual id ObjectAtIndex(int index)
         {
-            return this[index];
+            id obj = this[index];
+            return obj;
         }
 
-        public override id InitWithCoder(NSObjectDecoder decoder)
+        public virtual id InitWithArray(NSArray anArray)
         {
-            base.InitWithCoder(decoder);
+            id self = this;
 
-            var xElement = decoder.XmlElement;
-            var nodes = xElement.Elements();
-            foreach (var node in nodes)
+            _list = new List<id>((int)anArray.Count);
+            foreach (var arr in anArray)
             {
-                if (node.Name == "bool" && node.Attribute("key") != null)
-                    continue;
-
-                Add((id)decoder.Create(node));
+                _list.Add(arr);
             }
 
-            return this;
+            return self;
         }
+
+        public virtual id InitWithCapacity(uint numItems)
+        {
+            id self = this;
+
+            _list = new List<id>((int)numItems);
+
+            return self;
+        }
+
+        public override id InitWithCoder(NSCoder aCoder)
+        {
+            id self = this;
+
+            if (aCoder.AllowsKeyedCoding)
+            {
+                id array = ((NSKeyedUnarchiver)aCoder)._DecodeArrayOfObjectsForKey(@"NS.objects");
+                if (array == null)
+                {
+                    uint i = 0;
+                    NSString key;
+                    id val;
+
+                    array = NSMutableArray.ArrayWithCapacity(2);
+                    key = (NSString)string.Format(@"NS.object.{0}", i);
+                    val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
+                    //array = [NSMutableArray arrayWithCapacity: 2];
+                    //key = [NSString stringWithFormat: @"NS.object.%u", i];
+                    //val = [(NSKeyedUnarchiver*)aCoder decodeObjectForKey: key];
+
+                    while (val != null)
+                    {
+                        ((NSMutableArray)array).AddObject(val);
+                        i++;
+                        key = (NSString)string.Format(@"NS.object.{0}", i);
+                        val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
+                    }
+                }
+
+                self = InitWithArray((NSArray)array);
+            }
+            else
+            {
+
+            }
+
+            return self;
+        }
+
+
+        //public override id InitWithCoder(NSCoder decoder)
+        //{
+        //    //base.InitWithCoder(decoder);
+
+        //    //var xElement = decoder.XmlElement;
+        //    //var nodes = xElement.Elements();
+        //    //foreach (var node in nodes)
+        //    //{
+        //    //    if (node.Name == "bool" && node.Attribute("key") != null)
+        //    //        continue;
+
+        //    //    Add((id)decoder.Create(node));
+        //    //}
+
+        //    return this;
+        //}
 
 
         

@@ -29,14 +29,18 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSTextField));
 
-        public NSTextFieldCell Cell { get; set; }
+        new public NSTextFieldCell Cell 
+        { 
+            get; 
+            set; 
+        }
  
         public NSTextField()
         {
 
         }
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

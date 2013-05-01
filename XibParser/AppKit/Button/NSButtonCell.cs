@@ -511,7 +511,7 @@ namespace Smartmobili.Cocoa
 
 
         //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSButtonCell.m
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             base.InitWithCoder(aDecoder);
 

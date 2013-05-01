@@ -28,6 +28,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSCustomResource : NSObject
     {
+        new public static Class Class = new Class(typeof(NSCustomResource));
+
         private NSString _className;
         private NSString _resourceName;
 
@@ -54,7 +56,7 @@ namespace Smartmobili.Cocoa
             
         //}
 
-        public override id InitWithCoder(NSObjectDecoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
 
             NSObject realObject = null;

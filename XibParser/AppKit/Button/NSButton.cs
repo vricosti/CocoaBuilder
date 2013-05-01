@@ -133,17 +133,17 @@ namespace Smartmobili.Cocoa
         //
         // Setting the State
         //
-        public int IntValue
+        public override int IntValue
         {
             set { this.State = value; }
         }
 
-        public float FloatValue
+        public override float FloatValue
         {
             set { this.State = (int)value; }
         }
 
-        public double DoubleValue
+        public override double DoubleValue
         {
             set { this.State = (int)value; }
         }
@@ -176,7 +176,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        //public override id InitWithCoder(NSObjectDecoder aDecoder)
+        //public override id InitWithCoder(NSCoder aDecoder)
         //{
         //    base.InitWithCoder(aDecoder);
 

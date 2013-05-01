@@ -26,9 +26,36 @@ using System.Xml.Linq;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSNibLoading.m
+    //https://github.com/gnustep/gnustep-gui/blob/master/Model/IBClasses.m
     public class NSCustomObject : NSObject, NSCoding2
     {
-        public string NSClassName { get; set; }
+        new public static Class Class = new Class(typeof(NSCustomObject));
+
+        protected NSString _className;
+        protected NSString _extension;
+        protected id _object;
+
+
+        public virtual NSString ClassName 
+        {
+            get { return _className; }
+            set { _className = value; } 
+        }
+
+        public virtual NSString Extension
+        {
+            get { return _extension; }
+            set { _extension = value; }
+        }
+
+        public virtual id RealObject
+        {
+            get { return _object; }
+            set { _object = value; }
+        }
+
+
 
         public NSCustomObject()
         {
@@ -40,20 +67,48 @@ namespace Smartmobili.Cocoa
             base.EncodeWithCoder(aCoder);
         }
 
-        public override id InitWithCoder(NSObjectDecoder decoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(decoder);
+            id self = this;
 
-            var xElement = decoder.XmlElement;
-            var xNSClassName = xElement.Descendants().Where(c =>
-                   ((string)c.Attribute("key")) == "NSClassName").FirstOrDefault();
-            if (xNSClassName != null)
+            if (aDecoder.AllowsKeyedCoding)
             {
-                NSClassName = xNSClassName.Value;
+                _className = (NSString)aDecoder.DecodeObjectForKey(@"NSClassName");
+                _extension = (NSString)aDecoder.DecodeObjectForKey(@"NSExtension");
+                _object = aDecoder.DecodeObjectForKey(@"NSObject");
+            }
+            else
+            {
+
             }
 
-            return this;
+
+            //base.InitWithCoder(decoder);
+
+            //var xElement = decoder.XmlElement;
+            //var xNSClassName = xElement.Descendants().Where(c =>
+            //       ((string)c.Attribute("key")) == "NSClassName").FirstOrDefault();
+            //if (xNSClassName != null)
+            //{
+            //    _className = xNSClassName.Value;
+            //}
+
+            return self;
         }
+
+
+        public override id AwakeAfterUsingCoder(NSCoder aDecoder)
+        {
+            id self = this;
+#if DEBUG
+              //NSLog (@"%x awakeAfterUsingCoder NSCustomObject: className = %@, realObject = %@, extension = %@", self, className, realObject, extension);
+#endif
+
+            //FIXME : What is objects ???
+            //[objects addObject:self];
+            return self;
+        }
+
 
 
 
@@ -66,7 +121,7 @@ namespace Smartmobili.Cocoa
                    ((string)c.Attribute("key")) == "NSClassName").FirstOrDefault();
             if (xNSClassName != null)
             {
-                nsObj.NSClassName = xNSClassName.Value;
+                nsObj._className = xNSClassName.Value;
             }
 
             return nsObj;
