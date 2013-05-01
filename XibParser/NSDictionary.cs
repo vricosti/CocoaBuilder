@@ -27,6 +27,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSDictionary : NSObject, IDictionary<id, id>
     {
+        new public static Class Class = new Class(typeof(NSDictionary));
+
         protected Dictionary<id, id> _dict = new Dictionary<id, id>();
 
         //////////////////////////////////////////////////////////////////////////////////
@@ -69,16 +71,8 @@ namespace Smartmobili.Cocoa
 
         public NSDictionary()
         {
-            Init();
-
         }
-        public NSDictionary(bool shouldCallInit)
-        {
-            if (shouldCallInit)
-            {
-                Init();
-            }
-        }
+        
 
         public NSDictionary(NSArray sortedKeys, NSMutableArray values)
             : this()

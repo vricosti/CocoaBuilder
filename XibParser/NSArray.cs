@@ -61,7 +61,7 @@ namespace Smartmobili.Cocoa
 
             foreach (id elm in list)
             {
-                self.Add(elm);
+                self.AddObject(elm);
             }
 
             return self;

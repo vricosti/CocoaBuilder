@@ -32,9 +32,13 @@ namespace Smartmobili.Cocoa
         //<bytes key="NSWhite">MCAwLjUxAA</bytes>
 
 
+        new public static NSColor Alloc()
+        {
+            return new NSColor();
+        }
+
         public NSColor()
         {
-
         }
 
 

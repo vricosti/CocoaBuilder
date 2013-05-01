@@ -26,6 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public class NSFileWrapper
     {
+        new public static Class Class = new Class(typeof(NSFileWrapper));
+
         protected NSFileWrapper()
         {
         }
