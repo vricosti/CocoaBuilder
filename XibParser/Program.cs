@@ -22,7 +22,7 @@ namespace Smartmobili.Cocoa
                 NSMutableArray rootObjects = (NSMutableArray)u.DecodeObjectForKey(@"IBDocument.RootObjects");
 
                 NSWindowTemplate nsWindow = (NSWindowTemplate)rootObjects.Where(o =>
-                (o != null) && (o.GetType() == typeof(NSWindowTemplate))).FirstOrDefault();
+                (o != null) && (o.IsKindOfClass(NSWindowTemplate.Class))).FirstOrDefault();
                 if (nsWindow != null)
                 {
                     if (nsWindow.View != null)
