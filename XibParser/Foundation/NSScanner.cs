@@ -25,10 +25,17 @@ using System.Text;
 namespace Smartmobili.Cocoa
 {
     //https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSScanner_Class/Reference/Reference.html
+    //https://github.com/gnustep/gnustep-base/blob/master/Source/NSScanner.m
     public class NSScanner : NSObject
     {
         new public static Class Class = new Class(typeof(NSScanner));
         new public static NSScanner Alloc() { return new NSScanner(); }
+
+        uint _scanLocation;
+        //unichar _decimal;
+        bool _caseSensitive;
+        bool _isUnicode;
+
 
         protected string _string;
 
