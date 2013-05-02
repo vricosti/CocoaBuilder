@@ -75,7 +75,20 @@ namespace Smartmobili.Cocoa
 
         public virtual bool FileExistsAtPath(NSString aPath, ref bool isDirectory)
         {
-            return false;
+            bool exists = false;
+
+            if (System.IO.File.Exists(aPath))
+            {
+                exists = true;
+                isDirectory = false;
+            }
+            else if (System.IO.Directory.Exists(aPath))
+            {
+                exists = true;
+                isDirectory = true;
+            }
+            
+            return exists;
         }
 
 
