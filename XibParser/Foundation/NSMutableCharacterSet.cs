@@ -24,17 +24,15 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSFileWrapper : NSObject
+    public class NSMutableCharacterSet : NSCharacterSet
     {
-        new public static Class Class = new Class(typeof(NSFileWrapper));
-        new public static NSFileWrapper Alloc() { return new NSFileWrapper(); }
+        new public static Class Class = new Class(typeof(NSMutableCharacterSet));
+        new public static NSMutableCharacterSet Alloc() { return new NSMutableCharacterSet(); }
 
-        protected NSFileWrapper()
+        public virtual void AddCharactersInString(NSString aString)
         {
+            _string = _string + aString;
         }
 
-        
-
-        //public NSFileWrapper Initi
     }
 }

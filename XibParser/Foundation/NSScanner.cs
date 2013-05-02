@@ -31,6 +31,7 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSScanner));
         new public static NSScanner Alloc() { return new NSScanner(); }
 
+        NSCharacterSet _charactersToBeSkipped;
         uint _scanLocation;
         //unichar _decimal;
         bool _caseSensitive;
@@ -55,8 +56,85 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+//        #define	skipToNextField()	({\
+//  while (_scanLocation < myLength() && _charactersToBeSkipped != nil \
+//    && (*_skipImp)(_charactersToBeSkipped, memSel, myCharacter(_scanLocation)))\
+//    _scanLocation++;\
+//  (_scanLocation >= myLength()) ? NO : YES;\
+//})
+
+        private bool SkipToNextField()
+        {
+            while (_scanLocation < _string.Length && 
+                 _charactersToBeSkipped != null &&
+                 !_charactersToBeSkipped.CharacterIsMember(_string[(int)_scanLocation]))
+                 _scanLocation++;
+
+            return (_scanLocation >= _string.Length) ? false : true;
+        }
+
+
+        private bool _ScanInt(ref int value)
+        {
+            uint num = 0;
+            uint limit = UInt32.MaxValue / 10;
+            bool negative = false;
+            bool overflow = false;
+            bool got_digits = false;
+
+            if (_scanLocation <_string.Length)
+            {
+                switch (_string[(int)_scanLocation])
+                {
+                    case '+':
+                        _scanLocation++;
+                        break;
+                    case '-':
+                        negative = true;
+                        _scanLocation++;
+                        break;
+                }
+            }
+            /* Process digits */
+            while (_scanLocation < _string.Length)
+            {
+                char digit = _string[(int)_scanLocation];
+
+                if ((digit < '0') || (digit > '9'))
+                    break;
+                if (!overflow)
+                {
+                    if (num >= limit)
+                        overflow = true;
+                    else
+                        num = (uint) (num * 10 + (digit - '0'));
+                }
+                _scanLocation++;
+                got_digits = true;
+            }
+            if (!got_digits)
+                return false;
+            if (value != null)
+            {
+                if (overflow || (num > (negative ? UInt32.MinValue : UInt32.MaxValue)))
+                    value = negative ? Int32.MinValue : Int32.MaxValue;
+                else if (negative)
+                    value = (int)-num;
+                else
+                    value = (int)num;
+            }
+            return true;
+
+        }
+
+
         public virtual bool ScanInt(ref int value)
         {
+            uint saveScanLocation = _scanLocation;
+
+            if (SkipToNextField() && _ScanInt(ref value))
+                return true;
+            _scanLocation = saveScanLocation;
             return false;
         }
 

@@ -243,6 +243,30 @@ namespace Smartmobili.Cocoa
         }
 
         // objc string
+
+        public virtual NSString PathExtension()
+        {
+            return (NSString)System.IO.Path.GetExtension(this.Value);
+        }
+
+         public virtual NSString StringByDeletingPathExtension()
+        {
+            return (NSString)System.IO.Path.GetFileNameWithoutExtension(this.Value);
+        }
+        
+
+        public virtual NSString StringByAppendingPathComponent(NSString aString)
+        {
+            NSString path = @"";
+
+            if (aString != null && aString.Value != null)
+            {
+                path = System.IO.Path.Combine(Value, aString);
+            }
+
+            return path;
+        }
+
         public uint Length
         {
             get { return (Value != null) ? (uint)Value.Length : 0; } 

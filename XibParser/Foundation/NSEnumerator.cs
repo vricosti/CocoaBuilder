@@ -24,17 +24,10 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSFileWrapper : NSObject
+    public abstract class NSEnumerator : NSObject
     {
-        new public static Class Class = new Class(typeof(NSFileWrapper));
-        new public static NSFileWrapper Alloc() { return new NSFileWrapper(); }
+        public abstract NSArray AllObjects();
+        public abstract id NextObject();
 
-        protected NSFileWrapper()
-        {
-        }
-
-        
-
-        //public NSFileWrapper Initi
     }
 }

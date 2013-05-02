@@ -58,7 +58,7 @@ namespace Smartmobili.Cocoa
 
                 //FIXME
                 //NSColor.WhiteColor
-                //NSColorList._LoadAvailableColorLists(null);
+                NSColorList._LoadAvailableColorLists(null);
 
                 return a;
             }
@@ -77,19 +77,114 @@ namespace Smartmobili.Cocoa
             int i = 0;
             bool st = false;
             NSColor color = null;
-            //NSCharacterSet newlineSet = [NSCharacterSet characterSetWithCharactersInString: @"\n"];
+            NSCharacterSet newlineSet = NSCharacterSet.CharacterSetWithCharactersInString(@"\n");
             NSScanner scanner = (NSScanner)NSScanner.ScannerWithString(NSString.StringWithContentsOfFile(_fullFileName));
 
-           if (scanner.ScanInt(ref nColors) == false)
-           {
-               //NSLog(@"Unable to read color file at \"%@\" -- unknown format.", _fullFileName);
-               return false;
-           }
-            
+            if (scanner.ScanInt(ref nColors) == false)
+            {
+                //NSLog(@"Unable to read color file at \"%@\" -- unknown format.", _fullFileName);
+                return false;
+            }
+
 
             return (i == nColors);
         }
 
+        private static NSArray NSSearchPathForDirectoriesInDomains(
+            NSSearchPathDirectory directory, 
+            NSSearchPathDomainMask domainMask, 
+            bool expandTilde)
+        {
+            return null;
+        }
 
+
+        public virtual id InitWithName(NSString aName)
+        {
+            return InitWithName(aName, null);
+        }
+
+        public virtual id InitWithName(NSString aName, NSString aPath)
+        {
+            id self = this;
+
+            return self;
+        }
+
+
+        private static void _LoadAvailableColorLists(NSNotification aNotification)
+        {
+            //[_colorListLock lock];
+            /* FIXME ... we should ensure that we get housekeeping notifications */
+            if (_availableColorLists != null && aNotification == null)
+            {
+                // Nothing to do ... already loaded
+                //[_colorListLock unlock];
+            }
+            else
+            {
+                NSString dir;
+                NSString file;
+                NSEnumerator e;
+                NSFileManager fm = NSFileManager.DefaultManager;
+                NSDirectoryEnumerator de;
+                NSColorList newList;
+
+                if (_availableColorLists == null)
+                {
+                    // Create the global array of color lists
+                    _availableColorLists = (NSMutableArray)NSMutableArray.Alloc().Init();
+                }
+                else
+                {
+                    _availableColorLists.RemoveAllObjects(); ;
+                }
+
+                /*
+                 * Keep any pre-loaded system color list.
+                 */
+                if (themeColorList != null)
+                {
+                    _availableColorLists.AddObject(themeColorList);
+                }
+
+                /*
+                 * Load color lists found in standard paths into the array
+                 * FIXME: Check exactly where in the directory tree we should scan.
+                 */
+                e = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSLibraryDirectory, NSSearchPathDomainMask.NSAllDomainsMask, true).ObjectEnumerator();
+
+                while ((dir = (NSString)e.NextObject()) != null)
+                {
+                    bool flag = false;
+
+                    dir = dir.StringByAppendingPathComponent(@"Colors");
+                    if (!fm.FileExistsAtPath(dir, ref flag) || !flag)
+                    {
+                        // Only process existing directories
+                        continue;
+                    }
+
+                    de = fm.EnumeratorAtPath(dir);
+                    while ((file = (NSString)de.NextObject()) != null)
+                    {
+                        if (file.PathExtension().IsEqualToString(@"clr"))
+                        {
+                            NSString name;
+
+                            name = file.StringByDeletingPathExtension();
+                            newList = (NSColorList)NSColorList.Alloc().InitWithName(name, dir.StringByAppendingPathComponent(file));
+                            _availableColorLists.AddObject(newList);
+                        }
+                    }
+                }
+
+                if (defaultSystemColorList != null)
+                {
+                    _availableColorLists.AddObject(defaultSystemColorList);
+                }
+                //[_colorListLock unlock];
+            }
+        }
     }
 }

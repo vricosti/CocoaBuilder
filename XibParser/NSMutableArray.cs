@@ -54,6 +54,10 @@ namespace Smartmobili.Cocoa
             _list.RemoveAt(this.Count - 1);
         }
 
+        public virtual void RemoveAllObjects()
+        {
+            _list.Clear();
+        }
 
         public virtual void RemoveObjectAtIndex(uint anIndex)
         {

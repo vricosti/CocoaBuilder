@@ -100,7 +100,11 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Foundation\NSAffineTransform.cs" />
     <Compile Include="Foundation\NSCharacterSet.cs" />
+    <Compile Include="Foundation\NSEnumerator.cs" />
+    <Compile Include="Foundation\NSFileManager.cs" />
     <Compile Include="Foundation\NSLock.cs" />
+    <Compile Include="Foundation\NSMutableCharacterSet.cs" />
+    <Compile Include="Foundation\NSPathUtilities.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
     <Compile Include="Foundation\NSScanner.cs" />
     <Compile Include="IAction.cs" />

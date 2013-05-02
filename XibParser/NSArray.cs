@@ -155,22 +155,10 @@ namespace Smartmobili.Cocoa
         }
 
 
-        //public override id InitWithCoder(NSCoder decoder)
-        //{
-        //    //base.InitWithCoder(decoder);
-
-        //    //var xElement = decoder.XmlElement;
-        //    //var nodes = xElement.Elements();
-        //    //foreach (var node in nodes)
-        //    //{
-        //    //    if (node.Name == "bool" && node.Attribute("key") != null)
-        //    //        continue;
-
-        //    //    Add((id)decoder.Create(node));
-        //    //}
-
-        //    return this;
-        //}
+        public virtual NSEnumerator ObjectEnumerator()
+        {
+            return (NSEnumerator)NSArrayEnumerator.Alloc().InitWithArray(this);
+        }
 
 
         
@@ -263,45 +251,44 @@ namespace Smartmobili.Cocoa
         }
     }
 
+    class NSArrayEnumerator : NSEnumerator
+    {
+        new public static NSArrayEnumerator Alloc() { return new NSArrayEnumerator(); }
+
+        protected NSArray _array;
+        protected int _curIndex;
+
+        public id InitWithArray(NSArray anArray)
+        {
+            id self = this;
+
+            _array = anArray;
+
+            return self;
+        }
 
 
-    //public class NSArray : List<object>
-    //{
+         public override NSArray AllObjects()
+         {
+             return _array;
+         }
 
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="xmlReader"></param>
-    //    /// <returns></returns>
-    //    public static NSArray Create(XElement xElement)
-    //    {
-    //        NSArray nsArray = new NSArray();
+         public override id NextObject()
+         {
+             id nextObj = null;
 
-    //        var descendants = xElement.Descendants();
-    //        foreach (var desc in descendants)
-    //        {
-    //            if (desc.Name == "bool" && desc.Attribute("key") != null)
-    //                continue;
-                
-    //            nsArray.Add(desc.Value);
+             if (_array == null)
+                 return null;
 
-    //        }
+             if (_curIndex < _array.Count)
+             {
+                 nextObj = _array.ObjectAtIndex(_curIndex++);
+             }
 
+             return nextObj;
+         }
 
-    //        //var descNodes = xElement.DescendantNodes();
+    }
 
-
-    //        //  <array key="IBDocument.PluginDependencies">
-    //        //      <string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-    //        //  </array>
-    //        //              OR
-    //        //  <object class="NSArray" key="IBDocument.PluginDependencies">
-    //        //      <bool key="EncodedWithXMLCoder">YES</bool>
-    //        //      <string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-    //        //  </object>
-
-
-    //        return nsArray;
-    //    }
-    //}
+    
 }
