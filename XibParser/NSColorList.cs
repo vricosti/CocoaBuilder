@@ -29,6 +29,7 @@ namespace Smartmobili.Cocoa
     public class NSColorList : NSObject
     {
         new public static Class Class = new Class(typeof(NSColorList));
+        new public static NSColorList Alloc() { return new NSColorList(); }
 
         protected NSString _name;
         protected NSString _fullFileName;
