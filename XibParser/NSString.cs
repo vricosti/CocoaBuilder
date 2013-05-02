@@ -57,9 +57,17 @@ namespace Smartmobili.Cocoa
     public class NSString : NSObject, INSNumber, IEquatable<NSString>
     {
         new public static Class Class = new Class(typeof(NSString));
-        
+        new public static NSString Alloc() { return new NSString(); }
 
-        
+        private readonly string byteOrderMark = "\ufeff";
+        private readonly string byteOrderMarkSwapped = "\ufffe";
+
+        //private static const unichar byteOrderMark = 0xFEFF;
+        //private static const unichar byteOrderMarkSwapped = 0xFFFE;
+
+
+        protected static NSStringEncoding _DefaultStringEncoding;
+
         public string Value { get; set; }
 
         [ObjcPropAttribute("DoubleValue", SetName = null)]
@@ -76,7 +84,16 @@ namespace Smartmobili.Cocoa
 
         [ObjcPropAttribute("IntegerValue", SetName = null)]
         public bool BoolValue { get { return Value.ToBool(); } }
-       
+
+
+        static NSString() { Initialize(); }
+
+        new static void Initialize()
+        {
+            _DefaultStringEncoding = NSStringEncoding.NSASCIIStringEncoding;
+        }
+
+
 
         public NSString()
         {
@@ -88,6 +105,73 @@ namespace Smartmobili.Cocoa
         {
             Value = value;
         }
+
+        public static NSString StringWithContentsOfFile(NSString path)
+        {
+            return (NSString)Alloc().InitWithContentsOfFile(path);
+        }
+
+        public virtual id InitWithContentsOfFile(NSString path)
+        {
+            id self = this;
+
+            NSStringEncoding enc = _DefaultStringEncoding;
+            NSData d = null;
+            uint len = 0;
+            byte[] data_bytes = null;
+
+            d = NSData.Alloc().InitWithContentsOfFile(path);
+            if (d == null)
+                return null;
+            len = (uint)d.Length;
+            if (len == 0)
+            {
+                return (NSString)@"";
+            }
+            data_bytes = d.Bytes;
+            if (data_bytes != null && len >= 2)
+            {
+                string data_ucs2chars = Encoding.UTF8.GetString(data_bytes);
+                if (data_ucs2chars.StartsWith(byteOrderMark) || 
+                    data_ucs2chars.StartsWith(byteOrderMarkSwapped))
+                {
+                    enc = NSStringEncoding.NSUnicodeStringEncoding;
+                }
+                else if (len >= 3
+                    && data_bytes[0] == 0xEF
+                    && data_bytes[1] == 0xBB
+                    && data_bytes[2] == 0xBF)
+                {
+                    enc = NSStringEncoding.NSUTF8StringEncoding;
+                }
+            }
+
+            self = InitWithData(d,enc);
+
+            return self;
+        }
+
+        public virtual id InitWithData(NSData data, NSStringEncoding encoding)
+        {
+            return InitWithBytes(data.Bytes, (uint)data.Length, encoding);
+        }
+
+        public virtual id InitWithBytes(byte[] bytes, uint length, NSStringEncoding encoding)
+        {
+            id self = this;
+
+            if (length == 0)
+            {
+                Value = @"";
+            }
+            else
+            {
+                Value = Encoding.UTF8.GetString(bytes, 0, (int)length);
+            }
+
+            return self;
+        }
+
 
         public virtual id InitWithString(NSString aString)
         {

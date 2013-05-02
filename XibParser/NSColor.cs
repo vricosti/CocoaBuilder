@@ -27,22 +27,7 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSColor.h
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSColor.m
 
-    public enum NSControlTint : uint 
-    {
-        NSDefaultControlTint,
-        NSBlueControlTint,
-        NSGraphiteControlTint = 6,
-        NSClearControlTint
-    }
-
-    public enum NSControlSize : uint
-    {
-        NSRegularControlSize,
-        NSSmallControlSize,
-        NSMiniControlSize
-    }
-
-
+    
     public class NSColor : NSObject
     {
         new public static Class Class = new Class(typeof(NSColor));

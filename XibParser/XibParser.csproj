@@ -99,7 +99,10 @@
     </Compile>
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Foundation\NSAffineTransform.cs" />
+    <Compile Include="Foundation\NSCharacterSet.cs" />
+    <Compile Include="Foundation\NSLock.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
+    <Compile Include="Foundation\NSScanner.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="IBActionConnection.cs" />
     <Compile Include="IBActionInfo.cs" />
@@ -127,6 +130,7 @@
     <Compile Include="NSCoder.cs" />
     <Compile Include="NSCoding.cs" />
     <Compile Include="Foundation\NSData.cs" />
+    <Compile Include="NSColorList.cs" />
     <Compile Include="NSDateFormatter.cs" />
     <Compile Include="NSDictionary.cs" />
     <Compile Include="NSError.cs" />

@@ -42,5 +42,53 @@ namespace Smartmobili.Cocoa
 
         // This object contains the keys (=color names) in order
         protected NSMutableArray _orderedColorKeys;
+
+        static NSMutableArray _availableColorLists = null;
+        //static NSLock _colorListLock = null;
+
+        static NSColorList defaultSystemColorList = null;
+        static NSColorList themeColorList = null;
+
+        public static NSArray AvailableColorLists
+        {
+            get
+            {
+                NSArray a = null;
+
+                //FIXME
+                //NSColor.WhiteColor
+                //NSColorList._LoadAvailableColorLists(null);
+
+                return a;
+            }
+        }
+
+
+        public virtual bool _ReadTextColorFile(NSString filepath)
+        {
+            int nColors = 0;
+            int method = 0;
+            float r = 0;
+            float g = 0;
+            float b = 0;
+            float alpha = 0;
+            NSString cname = null;
+            int i = 0;
+            bool st = false;
+            NSColor color = null;
+            //NSCharacterSet newlineSet = [NSCharacterSet characterSetWithCharactersInString: @"\n"];
+            NSScanner scanner = (NSScanner)NSScanner.ScannerWithString(NSString.StringWithContentsOfFile(_fullFileName));
+
+           if (scanner.ScanInt(ref nColors) == false)
+           {
+               //NSLog(@"Unable to read color file at \"%@\" -- unknown format.", _fullFileName);
+               return false;
+           }
+            
+
+            return (i == nColors);
+        }
+
+
     }
 }
