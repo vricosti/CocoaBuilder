@@ -26,6 +26,7 @@ namespace Smartmobili.Cocoa
 {
     public class NSMutableString : NSString
     {
+        new public static Class Class = new Class(typeof(NSMutableString));
 
         public NSMutableString()
         {
