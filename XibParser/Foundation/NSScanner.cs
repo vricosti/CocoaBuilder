@@ -138,6 +138,12 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
+        public virtual bool ScanFloat(ref float value)
+        {
+            
+            return false;
+        }
+
 
     }
 }

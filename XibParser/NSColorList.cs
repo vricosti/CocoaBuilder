@@ -113,6 +113,33 @@ namespace Smartmobili.Cocoa
                 return false;
             }
 
+            for (i = 0; i < nColors; i++)
+            {
+                if (scanner.ScanInt(ref method) == false)
+                {
+                    //NSLog(@"Unable to read color file at \"%@\" -- unknown format.", _fullFileName);
+                    break;
+                }
+                //FIXME- replace this by switch on method to different
+                //       NSColor initializers
+                if (method != 0)
+                {
+                    //NSLog(@"Unable to read color file at \"%@\" -- only RGBA form " @"supported.", _fullFileName);
+                    break;
+                }
+                st = scanner.ScanFloat(ref r);
+                st = st && scanner.ScanFloat(ref g);
+                st = st && scanner.ScanFloat(ref b);
+                st = st && scanner.ScanFloat(ref alpha);
+                //st = st && [scanner scanUpToCharactersFromSet: newlineSet intoString: &cname];
+                if (st == false)
+                {
+                    //NSLog(@"Unable to read color file at \"%@\" -- unknown format.", _fullFileName);
+                    break;
+                }
+                //color = [NSColor colorWithCalibratedRed: r green: g blue: b alpha: alpha];
+                //[self insertColor: color key: cname atIndex: i];
+            }
 
             return (i == nColors);
         }
@@ -146,12 +173,13 @@ namespace Smartmobili.Cocoa
 
         private static void _LoadAvailableColorLists(NSNotification aNotification)
         {
-            //[_colorListLock lock];
+            _colorListLock.Lock();
+
             /* FIXME ... we should ensure that we get housekeeping notifications */
             if (_availableColorLists != null && aNotification == null)
             {
                 // Nothing to do ... already loaded
-                //[_colorListLock unlock];
+                _colorListLock.Unlock();
             }
             else
             {
@@ -215,7 +243,7 @@ namespace Smartmobili.Cocoa
                 {
                     _availableColorLists.AddObject(defaultSystemColorList);
                 }
-                //[_colorListLock unlock];
+                _colorListLock.Unlock();
             }
         }
     }
