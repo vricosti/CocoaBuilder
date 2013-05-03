@@ -45,10 +45,11 @@ namespace Smartmobili.Cocoa
         protected NSMutableArray _orderedColorKeys;
 
         static NSMutableArray _availableColorLists = null;
-        //static NSLock _colorListLock = null;
+        static NSLock _colorListLock = new NSLock();
 
         static NSColorList defaultSystemColorList = null;
         static NSColorList themeColorList = null;
+
 
         public static NSArray AvailableColorLists
         {
@@ -63,6 +64,32 @@ namespace Smartmobili.Cocoa
                 return a;
             }
         }
+
+
+        public static NSColorList ColorListNamed(NSString name)
+        {
+            NSColorList r;
+            NSEnumerator e;
+
+            // Serialize access to color list
+            _colorListLock.Lock();
+
+            NSColorList._LoadAvailableColorLists(null);
+            e = _availableColorLists.ObjectEnumerator();
+
+            while ((r = (NSColorList)e.NextObject()) != null)
+            {
+                if (r.Name.IsEqualToString(name))
+                {
+                    break;
+                }
+            }
+
+            _colorListLock.Unlock();
+
+            return r;
+        }
+
 
 
         public virtual bool _ReadTextColorFile(NSString filepath)
@@ -111,6 +138,11 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+
+        public virtual NSString Name
+        {
+            get { return _name; }
+        }
 
         private static void _LoadAvailableColorLists(NSNotification aNotification)
         {

@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Smartmobili.Cocoa
 {
@@ -28,7 +29,16 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSLock));
 
+        readonly object locker = new object();
 
+        public virtual void Lock()
+        {
+            Monitor.Enter(locker);
+        }
 
+        public virtual void Unlock()
+        {
+            Monitor.Exit(locker);
+        }
     }
 }
