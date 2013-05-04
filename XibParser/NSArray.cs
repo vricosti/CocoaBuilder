@@ -45,6 +45,11 @@ namespace Smartmobili.Cocoa
             return new NSArray();
         }
 
+        public static NSArray ArrayWithArray(NSArray anArray)
+        {
+            return (NSArray)Alloc().InitWithArray(anArray);
+        }
+
         public static NSArray ArrayWithCapacity(uint numItems)
         {
             return (NSArray)Alloc().InitWithCapacity(numItems);
@@ -85,6 +90,25 @@ namespace Smartmobili.Cocoa
             }
 
             return lastObj;
+        }
+
+        public virtual bool ContainsObject(id anObject)
+        {
+            bool found = false;
+
+            found = _list.Contains(anObject);
+
+            return found;
+        }
+
+        public virtual uint IndexOfObject(id anObject)
+        {
+            uint foundIndex = NS.NSNotFound;
+            int idx = _list.IndexOf(anObject);
+            if (idx != -1)
+                foundIndex = (uint)idx;
+
+            return foundIndex;
         }
 
         public virtual id ObjectAtIndex(int index)

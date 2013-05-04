@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
 
         public virtual void AddCharactersInString(NSString aString)
         {
-            _string = _string + aString;
+            _charList.AddRange(aString.Value.ToList<char>());
         }
 
     }

@@ -38,7 +38,7 @@ namespace Smartmobili.Cocoa
         bool _isUnicode;
 
 
-        protected string _string;
+        protected NSString _string;
 
 
 
@@ -67,7 +67,7 @@ namespace Smartmobili.Cocoa
         {
             while (_scanLocation < _string.Length && 
                  _charactersToBeSkipped != null &&
-                 !_charactersToBeSkipped.CharacterIsMember(_string[(int)_scanLocation]))
+                 _charactersToBeSkipped.CharacterIsMember(_string[_scanLocation]))
                  _scanLocation++;
 
             return (_scanLocation >= _string.Length) ? false : true;
@@ -84,7 +84,7 @@ namespace Smartmobili.Cocoa
 
             if (_scanLocation <_string.Length)
             {
-                switch (_string[(int)_scanLocation])
+                switch (_string[_scanLocation])
                 {
                     case '+':
                         _scanLocation++;
@@ -98,7 +98,7 @@ namespace Smartmobili.Cocoa
             /* Process digits */
             while (_scanLocation < _string.Length)
             {
-                char digit = _string[(int)_scanLocation];
+                char digit = _string[_scanLocation];
 
                 if ((digit < '0') || (digit > '9'))
                     break;
@@ -144,6 +144,34 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
+        public virtual bool ScanUpToCharactersFromSet(NSCharacterSet stopSet, ref NSString stringValue)
+        {
+            uint saveScanLocation = _scanLocation;
+            uint start;
 
+            if (!SkipToNextField())
+                return false;
+
+            start = _scanLocation;
+            while (_scanLocation < _string.Length)
+            {
+                if (stopSet.CharacterIsMember(_string[_scanLocation]))
+                    break;
+                _scanLocation++;
+            }
+
+            if (_scanLocation == start)
+            {
+                _scanLocation = saveScanLocation;
+                return false;
+            }
+
+            NSRange range = new NSRange();
+            range.Location = start;
+            range.Length = _scanLocation - start;
+            stringValue = _string.SubstringWithRange(range);
+
+            return true;
+        }
     }
 }

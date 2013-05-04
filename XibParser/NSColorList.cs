@@ -131,26 +131,21 @@ namespace Smartmobili.Cocoa
                 st = st && scanner.ScanFloat(ref g);
                 st = st && scanner.ScanFloat(ref b);
                 st = st && scanner.ScanFloat(ref alpha);
-                //st = st && [scanner scanUpToCharactersFromSet: newlineSet intoString: &cname];
+                st = st && scanner.ScanUpToCharactersFromSet(newlineSet, ref cname);
                 if (st == false)
                 {
                     //NSLog(@"Unable to read color file at \"%@\" -- unknown format.", _fullFileName);
                     break;
                 }
-                //color = [NSColor colorWithCalibratedRed: r green: g blue: b alpha: alpha];
-                //[self insertColor: color key: cname atIndex: i];
+
+                color = NSColor.ColorWithCalibratedRed(r, g, b, alpha);
+                InsertColor(color, cname, (uint)i);
             }
 
             return (i == nColors);
         }
 
-        private static NSArray NSSearchPathForDirectoriesInDomains(
-            NSSearchPathDirectory directory, 
-            NSSearchPathDomainMask domainMask, 
-            bool expandTilde)
-        {
-            return null;
-        }
+
 
 
         public virtual id InitWithName(NSString aName)
@@ -158,9 +153,79 @@ namespace Smartmobili.Cocoa
             return InitWithName(aName, null);
         }
 
-        public virtual id InitWithName(NSString aName, NSString aPath)
+        public virtual id InitWithName(NSString name, NSString path)
         {
             id self = this;
+            NSColorList cl = null;
+            bool could_load = false;
+
+            _name = name;
+            if (path != null)
+            {
+                bool isDir = false;
+                // previously impl wrongly expected directory containing color file
+                // rather than color file; we support this for apps that rely on it
+                if ((NSFileManager.DefaultManager.FileExistsAtPath(path, ref isDir) == false) || isDir == true)
+                {
+                    //NSLog(@"NSColorList -initWithName:fromFile: warning: excluding " @"filename from path (%@) is deprecated.", path);
+                    _fullFileName = path.StringByAppendingPathComponent(name).StringByAppendingPathExtension(@"clr");
+                }
+                else
+                {
+                    _fullFileName = path;
+                }
+
+                // Unarchive the color list
+
+                // TODO [Optm]: Rewrite to initialize directly without unarchiving 
+                // in another object
+                try
+                {
+                    //FIXME
+                    //cl = (NSColorList) NSUnarchiver.UnarchiveObjectWithFile(_fullFileName);
+                }
+                catch (Exception ex)
+                {
+                    cl = null;
+                }
+
+
+                if ((cl != null) && (cl.IsKindOfClass(NSColorList.Class)))
+                {
+                    could_load = true;
+
+                    _is_editable = NSFileManager.DefaultManager.IsWritableFileAtPath(_fullFileName);
+
+                    _colorDictionary = NSMutableDictionary.DictionaryWithDictionary(cl._colorDictionary);
+
+                    _orderedColorKeys = NSMutableArray.ArrayWithArray(cl._orderedColorKeys);
+                }
+                else if (NSFileManager.DefaultManager.FileExistsAtPath(path))
+                {
+                    _colorDictionary = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+                    _orderedColorKeys = (NSMutableArray)NSMutableArray.Alloc().Init();
+                    _is_editable = true;
+
+                    if (_ReadTextColorFile(_fullFileName))
+                    {
+                        could_load = true;
+                        _is_editable = NSFileManager.DefaultManager.IsWritableFileAtPath(_fullFileName);
+                    }
+                    else
+                    {
+                        _colorDictionary = null;
+                        _orderedColorKeys = null;
+                    }
+                }
+            }
+
+            if (could_load == false)
+            {
+                _fullFileName = null;
+                _colorDictionary = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+                _orderedColorKeys = (NSMutableArray)NSMutableArray.Alloc().Init();
+                _is_editable = true;
+            }
 
             return self;
         }
@@ -170,6 +235,173 @@ namespace Smartmobili.Cocoa
         {
             get { return _name; }
         }
+
+
+        public virtual NSArray AllKeys
+        {
+            get { return NSArray.ArrayWithArray(_orderedColorKeys); }
+        }
+
+        public virtual NSColor ColorWithKey(NSString key)
+        {
+            return (NSColor)_colorDictionary.ObjectForKey(key);
+        }
+
+        public virtual void InsertColor(NSColor color, NSString key, uint location)
+        {
+            NSNotification n = null;
+
+            if (_is_editable == false)
+                throw new Exception(@"Color list cannot be edited");
+
+            _colorDictionary.SetObjectForKey(color, key);
+            _orderedColorKeys.RemoveObject(key);
+            _orderedColorKeys.InsertObject(key, location);
+
+
+            // We don't support notifs for now ...
+            //n = NSNotification.NotificationWithName(@"NSColorListDidChangeNotification", this, null);
+            //NSNotificationQueue.DefaultQueue.EnqueueNotification(n, NSPostASAP, NSNotificationCoalescingOnSender, null);
+        }
+
+        public virtual void RemoveColorWithKey(NSString key)
+        {
+            NSNotification n = null;
+
+            if (_is_editable == false)
+                throw new Exception(@"Color list cannot be edited");
+
+            _colorDictionary.RemoveObjectForKey(key);
+            _orderedColorKeys.RemoveObject(key);
+
+            // We don't support notifs for now ...
+            //n = NSNotification.NotificationWithName(@"NSColorListDidChangeNotification", this, null);
+            //NSNotificationQueue.DefaultQueue.EnqueueNotification(n, NSPostASAP, NSNotificationCoalescingOnSender, null);
+        }
+
+        public virtual void SetColor(NSColor aColor, NSString key)
+        {
+            NSNotification n = null;
+
+            if (_is_editable == false)
+                throw new Exception(@"Color list cannot be edited");
+            _colorDictionary.SetObjectForKey(aColor, key);
+
+            if (_orderedColorKeys.ContainsObject(key) == false)
+                _orderedColorKeys.AddObject(key);
+
+            // We don't support notifs for now ...
+            //n = NSNotification.NotificationWithName(@"NSColorListDidChangeNotification", this, null);
+            //NSNotificationQueue.DefaultQueue.EnqueueNotification(n, NSPostASAP, NSNotificationCoalescingOnSender, null);
+        }
+
+
+        public virtual bool IsEditable
+        {
+            get { return _is_editable; }
+        }
+
+        public virtual bool WriteToFile(NSString path)
+        {
+            NSFileManager fm = NSFileManager.DefaultManager;
+            NSString tmpPath = @"";
+            bool isDir = false;
+            bool success = false;
+            bool path_is_standard = true;
+
+            /*
+             * We need to initialize before saving, to avoid the new file being 
+             * counted as a different list thus making us appear twice
+             */
+            NSColorList._LoadAvailableColorLists(null);
+
+            if (path == null)
+            {
+                NSArray paths;
+
+                // FIXME the standard path for saving color lists?
+                paths = NSSearchPathForDirectoriesInDomains(
+                    NSSearchPathDirectory.NSLibraryDirectory,
+                    NSSearchPathDomainMask.NSUserDomainMask, true);
+
+                if (paths.Count == 0)
+                {
+                    //NSLog (@"Failed to find Library directory for user");
+                    return false;	// No directory to save to.
+                }
+                path = ((NSString)paths.ObjectAtIndex(0)).StringByAppendingPathComponent(@"Colors");
+                isDir = true;
+            }
+            else
+            {
+                fm.FileExistsAtPath(path, ref isDir);
+            }
+
+            if (isDir)
+            {
+                _fullFileName = path.StringByAppendingPathComponent(_name).StringByAppendingPathExtension(@"clr");
+            }
+            else // it is a file
+            {
+                if (path.PathExtension().IsEqualToString(@"clr") == true)
+                {
+                    _fullFileName = path;
+                }
+                else
+                {
+                    _fullFileName = path.StringByDeletingPathExtension().StringByAppendingPathExtension(@"clr");
+                }
+                path = path.StringByDeletingLastPathComponent();
+            }
+
+            // Check if the path is a standard path
+            if (path.LastPathComponent().IsEqualToString(@"Colors") == false)
+            {
+                path_is_standard = false;
+            }
+            else
+            {
+                tmpPath = path.StringByDeletingLastPathComponent();
+                if (!NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSLibraryDirectory, NSSearchPathDomainMask.NSAllDomainsMask, true).ContainsObject(tmpPath))
+                {
+                    path_is_standard = false;
+                }
+            }
+
+            /*
+             * If path is standard and it does not exist, try to create it.
+             * System standard paths should always be assumed to exist; 
+             * this will normally then only try to create user paths.
+             */
+            if (path_is_standard && (fm.FileExistsAtPath(path) == false))
+            {
+                NSError err = null;
+                if (fm.CreateDirectoryAtPath(path, true, null, ref err))
+                {
+                    //NSLog (@"Created standard directory %@", path);
+                }
+                else
+                {
+                    //NSLog (@"Failed attempt to create directory %@", path);
+                }
+            }
+
+            //success = [NSArchiver archiveRootObject: self  toFile: _fullFileName];
+
+            if (success && path_is_standard)
+            {
+                _colorListLock.Lock();
+                if (_availableColorLists.ContainsObject(this) == false)
+                    _availableColorLists.AddObject(this);
+
+
+                _colorListLock.Unlock();
+                return true;
+            }
+
+            return success;
+        }
+
 
         private static void _LoadAvailableColorLists(NSNotification aNotification)
         {
@@ -212,7 +444,9 @@ namespace Smartmobili.Cocoa
                  * Load color lists found in standard paths into the array
                  * FIXME: Check exactly where in the directory tree we should scan.
                  */
-                e = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSLibraryDirectory, NSSearchPathDomainMask.NSAllDomainsMask, true).ObjectEnumerator();
+                e = NSSearchPathForDirectoriesInDomains(
+                    NSSearchPathDirectory.NSLibraryDirectory,
+                    NSSearchPathDomainMask.NSAllDomainsMask, true).ObjectEnumerator();
 
                 while ((dir = (NSString)e.NextObject()) != null)
                 {
@@ -245,6 +479,14 @@ namespace Smartmobili.Cocoa
                 }
                 _colorListLock.Unlock();
             }
+        }
+
+        private static NSArray NSSearchPathForDirectoriesInDomains(
+            NSSearchPathDirectory directory,
+            NSSearchPathDomainMask domainMask,
+            bool expandTilde)
+        {
+            return null;
         }
     }
 }

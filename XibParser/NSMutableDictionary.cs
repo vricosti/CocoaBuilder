@@ -40,5 +40,23 @@ namespace Smartmobili.Cocoa
         {
 
         }
+
+
+        public static NSMutableDictionary DictionaryWithDictionary(NSDictionary anotherDic)
+        {
+            return (NSMutableDictionary)Alloc().InitWithDictionary(anotherDic);
+        }
+
+        public virtual void RemoveObjectForKey(id aKey)
+        {
+            if (aKey == null)
+                throw new ArgumentNullException();
+
+            if (this.ContainsKey(aKey))
+            {
+                _dict.Remove(aKey);
+            }
+        }
+       
     }
 }

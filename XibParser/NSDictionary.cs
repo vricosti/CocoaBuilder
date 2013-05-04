@@ -262,14 +262,18 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public void Add(id key, id value)
+        public void Add(id aKey, id value)
         {
-            _dict.Add(key, value);
+            _dict.Add(aKey, value);
         }
 
-        public bool ContainsKey(id key)
+        public bool ContainsKey(id aKey)
         {
-            return _dict.ContainsKey(key);
+            bool contains = false;
+
+            contains = _dict.ContainsKey(aKey);
+            
+            return contains;
         }
 
         public ICollection<id> Keys
@@ -277,14 +281,14 @@ namespace Smartmobili.Cocoa
             get { return _dict.Keys; }
         }
 
-        public bool Remove(id key)
+        public virtual bool Remove(id aKey)
         {
-            return _dict.Remove(key);
+            return _dict.Remove(aKey);
         }
 
-        public bool TryGetValue(id key, out id value)
+        public virtual bool TryGetValue(id aKey, out id value)
         {
-            return _dict.TryGetValue(key, out value);
+            return _dict.TryGetValue(aKey, out value);
         }
 
         public ICollection<id> Values
@@ -292,15 +296,15 @@ namespace Smartmobili.Cocoa
             get { return _dict.Values; }
         }
 
-        public id this[id key]
+        public id this[id aKey]
         {
             get
             {
-                return _dict[key];
+                return _dict[aKey];
             }
             set
             {
-                _dict[key] = value;
+                _dict[aKey] = value;
             }
         }
 

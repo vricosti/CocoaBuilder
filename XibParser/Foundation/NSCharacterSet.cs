@@ -29,7 +29,7 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSCharacterSet));
         new public static NSCharacterSet Alloc() { return new NSCharacterSet(); }
 
-        protected NSString _string = @"";
+        protected List<char> _charList = new List<char>("");
 
 
         public static NSCharacterSet CharacterSetWithCharactersInString(NSString aString)
@@ -42,7 +42,7 @@ namespace Smartmobili.Cocoa
 
         public virtual bool CharacterIsMember(Char aCharacter)
         {
-            return false;
+            return (_charList.Contains(aCharacter));
         }
 
     }

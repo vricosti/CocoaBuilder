@@ -31,20 +31,23 @@ namespace Smartmobili.Cocoa
     public class NSColor : NSObject
     {
         new public static Class Class = new Class(typeof(NSColor));
+        new public static NSColor Alloc() { return new NSColor(); }
 
         //<int key="NSColorSpace">3</int>
         //<bytes key="NSWhite">MCAwLjUxAA</bytes>
 
 
-        new public static NSColor Alloc()
-        {
-            return new NSColor();
-        }
+        
 
         public NSColor()
         {
         }
 
+
+        public static NSColor ColorWithCalibratedRed(float red, float green, float blue, float alpha)
+        {
+            return null;
+        }
 
         public static NSColor TextColor
         {

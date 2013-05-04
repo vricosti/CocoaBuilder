@@ -46,6 +46,11 @@ namespace Smartmobili.Cocoa
         }
 
 
+        new public static NSMutableArray ArrayWithArray(NSArray anArray)
+        {
+            return (NSMutableArray)Alloc().InitWithArray(anArray);
+        }
+
         public virtual void RemoveLastObject()
         {
             if (this.Count == 0)
@@ -53,6 +58,16 @@ namespace Smartmobili.Cocoa
 
             _list.RemoveAt(this.Count - 1);
         }
+
+        public virtual void RemoveObject(id anObject)
+        {
+            uint foundIndex = IndexOfObject(anObject);
+            if (foundIndex != NS.NSNotFound)
+            {
+                RemoveObjectAtIndex(foundIndex);
+            }
+        }
+
 
         public virtual void RemoveAllObjects()
         {
@@ -82,6 +97,14 @@ namespace Smartmobili.Cocoa
                     this.RemoveObjectAtIndex(i);
                 }
             }
+        }
+
+        public virtual void InsertObject(id anObject, uint index)
+        {
+            if (anObject == null)
+                throw new ArgumentNullException();
+
+            _list.Insert((int)index, anObject);
         }
 
 

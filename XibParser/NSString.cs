@@ -53,6 +53,21 @@ namespace Smartmobili.Cocoa
         NSProprietaryStringEncoding = 65536
     }
 
+    public enum NSStringCompareOptions : uint
+    {
+        NSDefaultSearch = 0, // Doesn't exist in cocoa
+
+        NSCaseInsensitiveSearch = 1,
+        NSLiteralSearch = 2,
+        NSBackwardsSearch = 4,
+        NSAnchoredSearch = 8,
+        NSNumericSearch = 64,
+        NSDiacriticInsensitiveSearch = 128,
+        NSWidthInsensitiveSearch = 256,
+        NSForcedOrderingSearch = 512,
+        NSRegularExpressionSearch = 1024
+    }
+
 
     public class NSString : NSObject, INSNumber, IEquatable<NSString>
     {
@@ -93,6 +108,15 @@ namespace Smartmobili.Cocoa
             _DefaultStringEncoding = NSStringEncoding.NSASCIIStringEncoding;
         }
 
+        static NSCharacterSet rPathSeps = null;
+        static NSCharacterSet PathSeps()
+        {
+            if (rPathSeps == null)
+            {
+                rPathSeps = NSCharacterSet.CharacterSetWithCharactersInString("/\\");
+            }
+            return rPathSeps;
+        }
 
 
         public NSString()
@@ -218,8 +242,18 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual Char CharacterAtIndex(uint index)
+        {
+            return this[index];
+        }
 
-
+        public char this[uint index] 
+        {
+            get
+            {
+                return Value[(int)index];
+            }
+        }
 
         public override string ToString()
         {
@@ -244,16 +278,133 @@ namespace Smartmobili.Cocoa
 
         // objc string
 
+
+        public virtual NSRange RangeOfCharacterFromSet(NSCharacterSet aSet)
+        {
+            NSRange all = new NSRange(0, Length);
+            return RangeOfCharacterFromSet(aSet, (NSStringCompareOptions)0, all);       
+        }
+
+
+        public virtual NSRange RangeOfCharacterFromSet(NSCharacterSet aSet, NSStringCompareOptions mask)
+        {
+            NSRange all = new NSRange(0, Length);
+            return RangeOfCharacterFromSet(aSet, mask, all);       
+        }
+
+        public virtual NSRange RangeOfCharacterFromSet(NSCharacterSet aSet, NSStringCompareOptions options, NSRange aRange)
+        {
+            int	i = 0;
+            uint	start = 0;
+            uint	stop = 0;
+            int		step = 0;
+            NSRange range = new NSRange();
+            uint mask = (uint)options;
+
+            i = (int)this.Length;
+            if ((mask & (uint)NSStringCompareOptions.NSBackwardsSearch) == (uint)NSStringCompareOptions.NSBackwardsSearch)
+            {
+                start = (aRange.Location + aRange.Length) - 1;
+                stop = aRange.Location - 1; 
+                step = -1;
+            }
+            else
+            {
+                start = aRange.Location;
+                stop = (aRange.Location + aRange.Length); 
+                step = 1;
+            }
+            range.Location = NS.NSNotFound;
+            range.Length = 0;
+
+            for (i = (int)start; i != stop; i += step)
+            {
+                Char character = CharacterAtIndex((uint)i);
+                if (aSet.CharacterIsMember(character))
+                {
+                    range = new NSRange((uint)i, 1);
+                    break;
+                }
+            }
+
+            return range;
+        }
+
+
+        private bool PathSepMember(Char character)
+        {
+            return (character == '\\' || character == '/');
+        }
+
         public virtual NSString PathExtension()
         {
             return (NSString)System.IO.Path.GetExtension(this.Value);
+        }
+
+        public virtual NSString LastPathComponent()
+        {
+            uint l = this.Length;
+            NSRange range;
+            uint i = 0;
+
+            if (l == 0)
+                return @"";
+
+            ///////////////////////////////////////////////////////////////////////////////
+            // Warning we don't handle the case "scratch///" the should return "scratch"
+            // TODO : do not use GetPathRoot and implements rootOf(this, l);
+            ///////////////////////////////////////////////////////////////////////////////
+            string pathRoot = System.IO.Path.GetPathRoot(this.Value);
+            i = (uint)pathRoot.Length - 1;
+            while (l > i && PathSepMember(this[l - 1]) ==  true)
+            {
+                l--;
+            }
+
+            if (i == l)
+            {
+                if (CharacterAtIndex(0) == '~' && PathSepMember(CharacterAtIndex(i - 1)) == true)
+                {
+                     return SubstringToIndex(i-1);
+                }
+                return SubstringToIndex(i);
+            }
+
+            range = RangeOfCharacterFromSet(PathSeps(), NSStringCompareOptions.NSBackwardsSearch, new NSRange(i, l - i));
+            if (range.Length > 0)
+            {
+                // Found separator ... adjust to point to component.
+                i = range.Location + range.Length;
+            }
+
+            return SubstringWithRange(new NSRange(i, l-i));
+        }
+
+
+        public virtual NSString StringByDeletingLastPathComponent()
+        {
+            uint length = 0;
+
+            length = this.Length;
+            if (length == 0)
+            {
+                return @"";
+            }
+
+
+
+            return null;
         }
 
          public virtual NSString StringByDeletingPathExtension()
         {
             return (NSString)System.IO.Path.GetFileNameWithoutExtension(this.Value);
         }
-        
+
+         public virtual NSString StringByAppendingPathExtension(NSString anExtension)
+         {
+             return System.IO.Path.Combine(this.Value, anExtension.Value);
+         }
 
         public virtual NSString StringByAppendingPathComponent(NSString aString)
         {
@@ -301,6 +452,17 @@ namespace Smartmobili.Cocoa
                 return new NSRange(0, 0);
             else
                 return new NSRange((uint)idx, aString.Length);
+        }
+
+
+        public NSString SubstringWithRange(NSRange aRange)
+        {
+            if (aRange.Location < 0 || aRange.Location > this.Value.Length - 1)
+                throw new IndexOutOfRangeException();
+            if (aRange.Length == 0)
+                return @"";
+
+            return this.Value.Substring((int)aRange.Location, (int)aRange.Length);
         }
 
         public NSString SubstringToIndex(uint anIndex)

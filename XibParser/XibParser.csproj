@@ -135,6 +135,7 @@
     <Compile Include="NSCoding.cs" />
     <Compile Include="Foundation\NSData.cs" />
     <Compile Include="NSColorList.cs" />
+    <Compile Include="NSConstants.cs" />
     <Compile Include="NSDateFormatter.cs" />
     <Compile Include="NSDictionary.cs" />
     <Compile Include="NSError.cs" />

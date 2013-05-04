@@ -19,6 +19,7 @@
 */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -73,6 +74,33 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public virtual bool IsWritableFileAtPath(NSString aPath)
+        {
+            bool isWrite = false;
+
+            FileAttributes fileAttributes = File.GetAttributes(aPath);
+            if ((fileAttributes & FileAttributes.ReadOnly) != FileAttributes.ReadOnly)
+            {
+                try
+                {
+                    FileStream currentWriteableFile = File.OpenWrite(aPath);
+                    isWrite = true;
+                }
+                catch
+                {
+                    isWrite = false;
+                }
+            }
+
+            return isWrite;
+        }
+
+        public virtual bool FileExistsAtPath(NSString aPath)
+        {
+            bool isDir = false;
+            return FileExistsAtPath(aPath, ref isDir);
+        }
+
         public virtual bool FileExistsAtPath(NSString aPath, ref bool isDirectory)
         {
             bool exists = false;
@@ -89,6 +117,12 @@ namespace Smartmobili.Cocoa
             }
             
             return exists;
+        }
+
+
+        public virtual bool CreateDirectoryAtPath(NSString path, bool createIntermediates, NSDictionary attributes, ref NSError error)
+        {
+            return false;
         }
 
 
