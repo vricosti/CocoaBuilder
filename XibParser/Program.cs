@@ -10,7 +10,7 @@ namespace Smartmobili.Cocoa
     {
         static void Main(string[] args)
         {
-#if TEST
+//#if TEST
 
 #if TEST_PATH
             NSString strPath = @"";
@@ -44,7 +44,7 @@ namespace Smartmobili.Cocoa
             NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
             if (data != null)
             {
-                var u = WSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
+                var u = GSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
                 NSMutableArray rootObjects = (NSMutableArray)u.DecodeObjectForKey(@"IBDocument.RootObjects");
 
                 NSWindowTemplate nsWindow = (NSWindowTemplate)rootObjects.Where(o =>
@@ -84,7 +84,7 @@ namespace Smartmobili.Cocoa
                     }
                 }
             }
-#endif
+//#endif
         }
     }
 }

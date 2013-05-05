@@ -124,7 +124,7 @@ namespace Smartmobili.Cocoa
 
     //https://github.com/gnustep/gnustep-gui/blob/master/Headers/Additions/GNUstepGUI/GSXibLoading.h
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSXibLoader.m
-    public class WSXibKeyedUnarchiver : NSKeyedUnarchiver, INSXMLParser
+    public class GSXibKeyedUnarchiver : NSKeyedUnarchiver, INSXMLParser
     {
         public NSMutableDictionary Objects { get; set; }
         
@@ -136,7 +136,7 @@ namespace Smartmobili.Cocoa
 
         //static TextWriter _tw;
 
-        public WSXibKeyedUnarchiver(bool shouldCallInit = true)
+        public GSXibKeyedUnarchiver(bool shouldCallInit = true)
         {
             if (shouldCallInit)
             {
@@ -144,13 +144,13 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        new public static WSXibKeyedUnarchiver Alloc()
+        new public static GSXibKeyedUnarchiver Alloc()
         {
             string strAssemDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string strLogPath = System.IO.Path.Combine(strAssemDir, "smi_parser_foundCharacters.log");
             //_tw = new StreamWriter(strLogPath);
 
-            return new WSXibKeyedUnarchiver(false);
+            return new GSXibKeyedUnarchiver(false);
         }
 
         private NSData PreProcessXib(NSData data)
@@ -228,7 +228,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public WSXibKeyedUnarchiver InitForReadingWithData(NSData data)
+        public GSXibKeyedUnarchiver InitForReadingWithData(NSData data)
         {
             NSData theData = data;
 
