@@ -196,7 +196,7 @@
     <Compile Include="SEL.cs" />
     <Compile Include="Utils\Bitfields.cs" />
     <Compile Include="Utils\KeyedList.cs" />
-    <Compile Include="WSXibKeyedUnarchiver.cs" />
+    <Compile Include="GSXibKeyedUnarchiver.cs" />
     <Compile Include="XibParser.cs" />
   </ItemGroup>
   <ItemGroup>
