@@ -10,7 +10,7 @@ namespace Smartmobili.Cocoa
     {
         static void Main(string[] args)
         {
-//#if TEST
+#if TEST
 
 #if TEST_PATH
             NSString strPath = @"";
@@ -84,7 +84,7 @@ namespace Smartmobili.Cocoa
                     }
                 }
             }
-//#endif
+#endif
         }
     }
 }
