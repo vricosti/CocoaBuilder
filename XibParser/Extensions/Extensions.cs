@@ -40,6 +40,8 @@ namespace Smartmobili.Cocoa
 
 namespace System
 {
+    public delegate bool Predicate4<in T>(T obj);
+
     public static class Extensions
     {
         public static bool IsEqualToString(this string text, string text2)
