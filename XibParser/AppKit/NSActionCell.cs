@@ -70,6 +70,24 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public override void EncodeWithCoder(NSCoder aCoder)
+        {
+            base.EncodeWithCoder(aCoder);
+            if (aCoder.AllowsKeyedCoding)
+            {
+                aCoder.EncodeInteger(Tag, "NSTag");
+                if (Target != null)
+                {
+                    aCoder.EncodeObject(Target, "NSTarget");
+                }
+                if (Action != null)
+                {
+                    aCoder.EncodeObject(SEL.StringFromSelector(this.Action), "NSAction");
+                }
+                aCoder.EncodeObject(_control_view, "NSControlView");
+            }
+        }
+
         public override id InitWithCoder(NSCoder aDecoder)
         {
             id self = this;
@@ -90,32 +108,14 @@ namespace Smartmobili.Cocoa
                 if (aDecoder.ContainsValueForKey("NSAction"))
                 {
                     NSString action = (NSString)aDecoder.DecodeObjectForKey("NSAction");
-                    //NSString *action = [aDecoder decodeObjectForKey: @"NSAction"];
-                    //[self setAction: NSSelectorFromString(action)];
+                    this.Action = SEL.SelectorFromString(action);
                 }
             }
 
             return self;
         }
 
-        public override void EncodeWithCoder(NSObjectDecoder aCoder)
-        {
-            base.EncodeWithCoder(aCoder);
-            if (aCoder.AllowsKeyedCoding)
-            {
-                //  [aCoder encodeInteger: [self tag] forKey: @"NSTag"];
-                //  if ([self target] != nil)
-                //{
-                //  [aCoder encodeObject: [self target] forKey: @"NSTarget"];
-                //}
-                //  if ([self action] != NULL)
-                //{
-                //  [aCoder encodeObject: NSStringFromSelector([self action]) forKey: @"NSAction"];
-                //}
-                //  [aCoder encodeObject: _control_view forKey: @"NSControlView"];
-                //}
-            }
-        }
+        
 
 
         protected void _UpdateCell()

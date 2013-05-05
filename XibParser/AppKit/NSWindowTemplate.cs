@@ -174,7 +174,7 @@ namespace Smartmobili.Cocoa
             
         }
 
-        public override void EncodeWithCoder(NSObjectDecoder aCoder)
+        public override void EncodeWithCoder(NSCoder aCoder)
         {
             base.EncodeWithCoder(aCoder);
         }

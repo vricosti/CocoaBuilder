@@ -68,9 +68,9 @@ namespace Smartmobili.Cocoa
         }
 
 
-        
 
-        public virtual void EncodeWithCoder(NSObjectDecoder aCoder)
+
+        public virtual void EncodeWithCoder(NSCoder aCoder)
         {
 
         }

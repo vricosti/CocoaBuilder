@@ -74,6 +74,30 @@ namespace Smartmobili.Cocoa
 
         }
 
+        public override void EncodeWithCoder(NSCoder aCoder)
+        {
+            if (aCoder.AllowsKeyedCoding)
+            {
+                if (_src != null)
+                {
+                    aCoder.EncodeObject(_src, @"NSSource");
+                }
+                if (_dst != null)
+                {
+                    aCoder.EncodeObject(_dst, @"NSDestination");
+                }
+                if (_tag != null)
+                {
+                    aCoder.EncodeObject(_tag, @"NSLabel");
+                }
+            }
+            else
+            {
+                aCoder.EncodeObject(_src);
+                aCoder.EncodeObject(_dst);
+                aCoder.EncodeObject(_tag);
+            }
+        }
 
         public override id InitWithCoder(NSCoder aDecoder)
         {

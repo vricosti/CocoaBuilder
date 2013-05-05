@@ -123,6 +123,38 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public override void EncodeWithCoder(NSCoder aCoder)
+        {
+            if (aCoder.AllowsKeyedCoding)
+            {
+                if (_label != null)
+                    aCoder.EncodeObject(_label, @"NSSegmentItemLabel");
+                if (_image != null)
+                    aCoder.EncodeObject(_image, @"NSSegmentItemImage");
+                if (_menu != null)
+                    aCoder.EncodeObject(_menu, @"NSSegmentItemMenu");
+                if (_enabled)
+                    aCoder.EncodeBool(true, @"NSSegmentItemEnabled");
+                else
+                    aCoder.EncodeBool(true, @"NSSegmentItemDisabled");
+                if (_selected)
+                    aCoder.EncodeBool(true, @"NSSegmentItemSelected");
+                if (_width != 0.0)
+                    aCoder.EncodeFloat(_width, @"NSSegmentItemWidth");
+                if (_tag != 0)
+                    aCoder.EncodeInt(_tag, @"NSSegmentItemTag");
+            }
+            else
+            {
+                aCoder.EncodeObject(_label);
+                aCoder.EncodeObject(_image);
+                aCoder.EncodeObject(_menu);
+                aCoder.EncodeValueOfObjCType<bool>(ref _enabled);
+                aCoder.EncodeValueOfObjCType<bool>(ref _selected);
+                aCoder.EncodeValueOfObjCType<float>(ref _width);
+                aCoder.EncodeValueOfObjCType<int>(ref _tag);
+            }
+        }
         public override id InitWithCoder(NSCoder aDecoder)
         {
             id self = this;
