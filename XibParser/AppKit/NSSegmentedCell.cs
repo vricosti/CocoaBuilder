@@ -387,11 +387,11 @@ namespace Smartmobili.Cocoa
 
                 _segmentCellFlags._tracking_mode = (uint)NSSegmentSwitchTracking.NSSegmentSwitchTrackingSelectOne;
                 _items = (NSMutableArray)aDecoder.DecodeObject();
-                aDecoder.DecodeValueOfObjCType<int>(Objc.Encode(typeof(int)), ref _selected_segment);
+                aDecoder.DecodeValueOfObjCType<int>(ref _selected_segment);
                 if (_selected_segment != -1)
                     SelectedSegment = _selected_segment;
 
-                aDecoder.DecodeValueOfObjCType<int>(Objc.Encode(typeof(int)), ref style);
+                aDecoder.DecodeValueOfObjCType<int>(ref style);
                 _segmentCellFlags._style = (uint)style;
             }
 

@@ -153,10 +153,10 @@ namespace Smartmobili.Cocoa
                 _label = (NSString)aDecoder.DecodeObject();
                 _image = (NSImage)aDecoder.DecodeObject();
                 _menu = (NSMenu)aDecoder.DecodeObject();
-                aDecoder.DecodeValueOfObjCType<bool>(Objc.Encode(typeof(bool)), ref _enabled);
-                aDecoder.DecodeValueOfObjCType<bool>(Objc.Encode(typeof(bool)), ref _selected);
-                aDecoder.DecodeValueOfObjCType<float>(Objc.Encode(typeof(float)), ref _width);
-                aDecoder.DecodeValueOfObjCType<int>(Objc.Encode(typeof(float)), ref _tag);
+                aDecoder.DecodeValueOfObjCType<bool>(ref _enabled);
+                aDecoder.DecodeValueOfObjCType<bool>(ref _selected);
+                aDecoder.DecodeValueOfObjCType<float>(ref _width);
+                aDecoder.DecodeValueOfObjCType<int>(ref _tag);
             }
 
             return self;

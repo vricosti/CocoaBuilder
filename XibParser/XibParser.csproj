@@ -107,6 +107,7 @@
     <Compile Include="Foundation\NSPathUtilities.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
     <Compile Include="Foundation\NSScanner.cs" />
+    <Compile Include="Foundation\NSUnarchiver.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="IBActionConnection.cs" />
     <Compile Include="IBActionInfo.cs" />

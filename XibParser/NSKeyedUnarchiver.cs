@@ -77,7 +77,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public override void DecodeArrayOfObjCType(NSString itemType, int count, ref object address)
+        public override void DecodeArrayOfObjCType<T>(uint count, ref T[] array)
         {
             throw new NotImplementedException();
         }
@@ -137,10 +137,10 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override object DecodeObjectOfClass(Type type, NSString key)
-        {
-            throw new NotImplementedException();
-        }
+        //public override object DecodeObjectOfClass(Type type, NSString key)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public override NSPoint DecodePoint()
         {
@@ -160,12 +160,12 @@ namespace Smartmobili.Cocoa
             return point;
         }
 
-        public override object DecodePropertyList()
+        public override id DecodePropertyList()
         {
             throw new NotImplementedException();
         }
 
-        public override object DecodePropertyListForKey(NSString key)
+        public override id DecodePropertyListForKey(NSString key)
         {
             throw new NotImplementedException();
         }
@@ -206,14 +206,11 @@ namespace Smartmobili.Cocoa
             return aSize;
         }
 
-        public override void DecodeValueOfObjCType(NSString valueType, ref object data)
+      
+
+        public override void DecodeValueOfObjCType<T>(ref T data)
         {
             throw new NotImplementedException();
-        }
-
-        public override void DecodeValueOfObjCType<T>(NSString valueType, ref T data)
-        {
-
         }
 
         public virtual Class UnarchiverCannotDecodeObjectOfClassName(NSKeyedUnarchiver anUnarchiver, NSString aName, NSArray classNames)
