@@ -26,8 +26,8 @@ namespace Smartmobili.Cocoa
 {
     public abstract class NSEnumerator : NSObject
     {
-        public abstract NSArray AllObjects();
-        public abstract id NextObject();
+        public virtual NSArray AllObjects() { return null; }
+        public virtual id NextObject() { return null; }
 
     }
 }

@@ -481,6 +481,40 @@ namespace Smartmobili.Cocoa
             }
         }
 
+        public static void _SetDefaultSystemColorList(NSColorList aList)
+        {
+            _colorListLock.Lock();
+            if (defaultSystemColorList != aList)
+            {
+                if (defaultSystemColorList != null
+                  && _availableColorLists.LastObject() == defaultSystemColorList)
+                {
+                    _availableColorLists.RemoveLastObject();
+                }
+                defaultSystemColorList = aList;
+                _availableColorLists.AddObject(aList);
+            }
+            _colorListLock.Unlock();
+        }
+
+        public static void _SetThemeSystemColorList(NSColorList aList)
+        {
+            _colorListLock.Lock();
+            if (themeColorList != aList)
+            {
+                if (themeColorList != null && _availableColorLists.Count > 0
+                  && _availableColorLists.ObjectAtIndex(0) == themeColorList)
+                {
+                    _availableColorLists.RemoveObjectAtIndex(0);
+                }
+                themeColorList = aList;
+                _availableColorLists.InsertObject(aList, 0);
+            }
+            _colorListLock.Unlock();
+        }
+
+
+
         private static NSArray NSSearchPathForDirectoriesInDomains(
             NSSearchPathDirectory directory,
             NSSearchPathDomainMask domainMask,

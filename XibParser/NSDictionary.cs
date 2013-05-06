@@ -165,6 +165,16 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+
+
+        public virtual id InitWithObjectsAndKeys(params id[] objkey)
+        {
+            id self = this;
+
+            return self;
+        }
+
+
         //public override id InitWithCoder(NSCoder decoder)
         //{
         //    base.InitWithCoder(decoder);
@@ -237,6 +247,12 @@ namespace Smartmobili.Cocoa
 
         //    return this;
         //}
+
+        public virtual NSEnumerator KeyEnumerator()
+        {
+            return (NSEnumerator)NSDictionaryEnumerator.Alloc().InitWithDictionary(this);
+        }
+
 
         public virtual void SetObjectForKey(id anObject, id aKey)
         {
@@ -373,5 +389,41 @@ namespace Smartmobili.Cocoa
         }
 
         #endregion
+    }
+
+    public class NSDictionaryEnumerator : NSEnumerator
+    {
+        new public static NSDictionaryEnumerator Alloc() { return new NSDictionaryEnumerator(); }
+
+        protected NSDictionary _dict;
+        protected int _curIndex;
+
+        public id InitWithDictionary(NSDictionary aDictionary)
+        {
+            id self = this;
+
+            _dict = aDictionary;
+            _curIndex = 0;
+
+            return self;
+        }
+
+
+        public override id NextObject()
+        {
+            id nextObj = null;
+
+            if (_dict == null)
+                 return null;
+
+             if (_curIndex < _dict.Count)
+             {
+                 var kvp = _dict.ElementAt(_curIndex++);
+                 nextObj = kvp.Key;
+             }
+
+            return nextObj;
+        }
+
     }
 }
