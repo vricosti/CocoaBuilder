@@ -97,8 +97,35 @@ namespace Smartmobili.Cocoa
         [ObjcPropAttribute("IntegerValue", SetName = null)]
         public int IntegerValue { get { return Value.ToInt(); } }
 
-        [ObjcPropAttribute("IntegerValue", SetName = null)]
-        public bool BoolValue { get { return Value.ToBool(); } }
+        [ObjcPropAttribute("BoolValue", SetName = null)]
+        public bool BoolValue 
+        { 
+            get 
+            { 
+                //return Value.ConvertFromYesNo();
+                uint length = Length;
+
+                if (length > 0)
+                {
+                    uint index;
+                    for (index = 0; index < length; index++)
+                    {
+                        Char c = this.CharacterAtIndex(index);
+
+                        if (c > 'y')
+                        {
+                            break;
+                        }
+                        if (c.ToString().IndexOfAny(new char[] { '1','2','3','4','5','6','7','8','9','y','Y','t','T' }) != -1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            } 
+        }
 
 
         static NSString() { Initialize(); }
