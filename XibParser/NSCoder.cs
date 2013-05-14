@@ -32,6 +32,11 @@ namespace Smartmobili.Cocoa
         public virtual void DecodeValueOfObjCType<T>(ref T data) 
         {}
 
+        public virtual void DecodeValueOfObjCType2<T>(out T data)
+        { 
+            data = default(T);
+        }
+
         public virtual void EncodeDataObject(NSData data) 
         { }
 

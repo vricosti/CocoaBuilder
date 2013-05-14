@@ -223,6 +223,15 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual id InitWithCString(char[] chars)
+        {
+            id self = this;
+
+            string str = new string(chars);
+            this.Value = str;
+
+            return self;
+        }
 
         public virtual id InitWithString(NSString aString)
         {

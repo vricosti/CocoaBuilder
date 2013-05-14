@@ -144,6 +144,12 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
+        public virtual bool ScanDouble(ref double value)
+        {
+
+            return false;
+        }
+
         public virtual bool ScanUpToCharactersFromSet(NSCharacterSet stopSet, ref NSString stringValue)
         {
             uint saveScanLocation = _scanLocation;

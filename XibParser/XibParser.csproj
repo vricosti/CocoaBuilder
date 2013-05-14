@@ -79,11 +79,13 @@
     <Compile Include="AppKit\Button\NSPopUpButtonCell.cs" />
     <Compile Include="AppKit\INSMenuView.cs" />
     <Compile Include="AppKit\NSApplication.cs" />
+    <Compile Include="AppKit\NSColorSpace.cs" />
     <Compile Include="AppKit\NSMenuItemCell.cs" />
     <Compile Include="AppKit\NSMenuPanel.cs" />
     <Compile Include="AppKit\NSMenuView.cs" />
     <Compile Include="AppKit\NSNotification.cs" />
     <Compile Include="AppKit\NSPanel.cs" />
+    <Compile Include="AppKit\NSPasteboard.cs" />
     <Compile Include="AppKit\NSSegmentedCell.cs" />
     <Compile Include="AppKit\NSSegmentedControl.cs" />
     <Compile Include="AppKit\NSSegmentItem.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Foundation\NSAffineTransform.cs" />
     <Compile Include="Foundation\NSCharacterSet.cs" />
     <Compile Include="Foundation\NSEnumerator.cs" />
+    <Compile Include="Foundation\NSException.cs" />
     <Compile Include="Foundation\NSFileManager.cs" />
     <Compile Include="Foundation\NSLock.cs" />
     <Compile Include="Foundation\NSMutableCharacterSet.cs" />
