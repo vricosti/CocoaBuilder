@@ -126,7 +126,7 @@ namespace Smartmobili.Cocoa
             NSColorClass = Class;
 
             // Set the version number
-            //[self setVersion: 3];
+            //[self setVersion: 3);
 
             // ignore alpha by default
             gnustep_gui_ignores_alpha = true;
@@ -138,9 +138,9 @@ namespace Smartmobili.Cocoa
             DefaultsDidChange(null);
 
 
-            //[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(defaultsDidChange:) name: NSUserDefaultsDidChangeNotification object: nil];
+            //[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(defaultsDidChange:) name: NSUserDefaultsDidChangeNotification object: null);
             // watch for themes which may provide new system color lists
-            //[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(themeDidActivate:) name: GSThemeDidActivateNotification object: nil];
+            //[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(themeDidActivate:) name: GSThemeDidActivateNotification object: null);
 
         }
 
@@ -338,7 +338,7 @@ namespace Smartmobili.Cocoa
             {
                 default:
                 case NSControlTint.NSDefaultControlTint:
-                    return ColorForControlTint(currentControlTint);
+                    return ColorForControlTint(CurrentControlTint);
                 case NSControlTint.NSGraphiteControlTint:
                 // FIXME
                 case NSControlTint.NSClearControlTint:
@@ -379,333 +379,261 @@ namespace Smartmobili.Cocoa
             get { return ColorWithCalibratedRed(0.6f, 0.4f, 0.2f, 1.0f); }
         }
 
-        /**<p>Returns a NSColor in a NSCalibratedWhiteColorSpace space name.
-        with white and alpha values set as 0.0 and 1.0 respectively.</p>
-        <p>See Also : +colorWithCalibratedWhite:alpha:</p>
-        */
+       
         public static NSColor ClearColor
         {
             get { return ColorWithCalibratedWhite(0.0f, 0.0f); }
         }
 #if TEMP2        
 
-/**<p>Returns a NSColor in a NSCalibratedRGBColorSpace space name.
-  with red, green, blue and alpha values set as 0.0, 1.0, 1.0 and 1.0
-  respectively.</p><p>See Also : +colorWithCalibratedRed:green:blue:alpha:</p>
-*/
-+ (NSColor*) cyanColor
-{
-  return [self colorWithCalibratedRed: 0.0
-			        green: 1.0
-				 blue: 1.0
-			        alpha: 1.0];
-}
 
-/**<p>Returns a NSColor in a NSCalibratedWhiteColorSpace space name.
-  with white and alpha values set as NSDarkGray and 1.0 respectively. </p>
-  <p>See Also : +colorWithCalibratedWhite:alpha:</p>
-*/
-+ (NSColor*) darkGrayColor
+public static NSColor CyanColor
 {
-  return [self colorWithCalibratedWhite: NSDarkGray alpha: 1.0];
-}
-
-/**<p>Returns a NSColor in a NSCalibratedWhiteColorSpace space name.
-  with white and alpha values set as NSGray and 1.0 respectively. </p>
-  <p>See Also: +colorWithCalibratedWhite:alpha:</p>
-*/
-+ (NSColor*) grayColor
-{
-  return [self colorWithCalibratedWhite: NSGray alpha: 1.0];
-}
-
-/**<p>Returns a NSColor in a  NSCalibratedRGBColorSpace space name.
-  with red, green, blue and alpha values set as 0.0, 1.0, 0.0 and 1.0
-  respectively </p><p>See Also: +colorWithCalibratedRed:green:blue:alpha:</p>
-*/
-+ (NSColor*) greenColor
-{
-  return [self colorWithCalibratedRed: 0.0
-			        green: 1.0
-				 blue: 0.0
-			        alpha: 1.0];
-}
-
-/**<p>Returns a NSColor in a NSCalibratedWhiteColorSpace space name.
-  with white and alpha values set as NSLightGray and 1.0 respectively </p>
-  <p>See Also : +colorWithCalibratedRed:green:blue:alpha:</p>
-*/
-+ (NSColor*) lightGrayColor
-{
-  return [self colorWithCalibratedWhite: NSLightGray alpha: 1];
-}
-
-/**<p>Returns a NSColor in a NSCalibratedRGBColorSpace space name.
-  with red, green, blue and alpha values set as 1.0, 0.0, 1.0 and 1.0
-  respectively.</p><p>See Also : +colorWithCalibratedRed:green:blue:alpha:</p>
-*/
-+ (NSColor*) magentaColor
-{
-  return [self colorWithCalibratedRed: 1.0
-			        green: 0.0
-				 blue: 1.0
-			        alpha: 1.0];
+   get { return ColorWithCalibratedRed(0.0f ,1.0f ,1.0f ,1.0f); }
 }
 
 
-/**<p>Returns a NSColor in a NSCalibratedRGBColorSpace space name.
-  with red, green, blue and alpha values set as 1.0, 0.5, 0.0 and 1.0
-  respectively.</p><p>See Also: +colorWithCalibratedRed:green:blue:alpha:</p>
-*/
-+ (NSColor*) orangeColor
+public static NSColor DarkGrayColor
 {
-  return [self colorWithCalibratedRed: 1.0
-			        green: 0.5
-				 blue: 0.0
-			        alpha: 1.0];
+  get { return ColorWithCalibratedWhite(NSDarkGray ,1.0f); }
 }
 
 
-/**<p>Returns a NSColor in a NSCalibratedRGBColorSpace space name.
-  with red, green, blue and alpha values set as 0.5, 0.0, 0.5 and 1.0
-  respectively.</p><p>See Also : +colorWithCalibratedRed:green:blue:alpha:</p>
-*/
-+ (NSColor*) purpleColor
+public static NSColor GrayColor
 {
-  return [self colorWithCalibratedRed: 0.5
-			        green: 0.0
-				 blue: 0.5
-			        alpha: 1.0];
+  get { return ColorWithCalibratedWhite(NSGray ,1.0f); }
 }
 
 
-/**<p>Returns a NSColor in a NSCalibratedRGBColorSpace space name.
-  with red, green, blue and alpha values set as 1.0, 0.0, 0.0 and 1.0
-  respectively </p><p>See Also: +colorWithCalibratedRed:green:blue:alpha:</p>
-*/
-+ (NSColor*) redColor
+public static NSColor GreenColor
 {
-  return [self colorWithCalibratedRed: 1.0
-			        green: 0.0
-				 blue: 0.0
-			        alpha: 1.0];
-}
-
-/**<p>Returns a NSColor in a NSCalibratedWhiteColorSpace space name.
-  with white and alpha values set as NSWhite and 1.0 respectively. </p>
-  <p>See Also : +colorWithCalibratedWhite:alpha:</p>
-*/
-+ (NSColor*) whiteColor
-{
-  return [self colorWithCalibratedWhite: NSWhite alpha: 1.0];
+  get { return ColorWithCalibratedRed(0.0f, 1.0f, 0.0f, 1.0f); }
 }
 
 
-/**<p>Returns a NSColor in a NSCalibratedRGBColorSpace space name.
-  with red, green, blue and alpha values set as 1.0, 0.0, 0.0 and 1.0
-  respectively.</p><p>See Also : +colorWithCalibratedRed:green:blue:alpha:</p>
-*/
-+ (NSColor*) yellowColor
+public static NSColor LightGrayColor
 {
-  return [self colorWithCalibratedRed: 1.0
-			        green: 1.0
-				 blue: 0.0
-			        alpha: 1.0];
+  get { return ColorWithCalibratedWhite(NSLightGray ,1.0f); }
 }
 
 
-/** Returns whether TODO
- *<p>See Also: +setIgnoresAlpha:</p>
- */
-+ (BOOL) ignoresAlpha
+public static NSColor MagentaColor
 {
-  return gnustep_gui_ignores_alpha;
+  get { return ColorWithCalibratedRed(1.0f, 0.0f, 1.0f, 1.0f); }
 }
 
-/** TODO
- *<p>See Also: +ignoresAlpha</p>
- */
-+ (void) setIgnoresAlpha: (BOOL)flag
+public static NSColor OrangeColor
 {
-  gnustep_gui_ignores_alpha = flag;
+  get { return ColorWithCalibratedRed(1.0f, 0.5f, 0.0f, 1.0f); }
 }
 
-/**<p>Returns the NSColor on the NSPasteboard pasteBoard
-   or nil if it does not exists.</p><p>See Also: -writeToPasteboard:</p>
- */
-+ (NSColor*) colorFromPasteboard: (NSPasteboard *)pasteBoard
+
+public static NSColor PurpleColor
 {
-  NSData *colorData = [pasteBoard dataForType: NSColorPboardType];
-
-  // FIXME: This should better use the description format
-  if (colorData != nil)
-    return [NSUnarchiver unarchiveObjectWithData: colorData];
-
-  return nil;
+   get { return ColorWithCalibratedRed(0.5f, 0.0f, 0.5f, 1.0f); }
 }
+
+
+
+public static NSColor RedColor
+{
+   get { return ColorWithCalibratedRed(1.0f, 0.0f,0.0f,1.0f); }
+}
+
+public static NSColor WhiteColor
+{
+   get { return ColorWithCalibratedWhite(NSWhite ,1.0f); }
+}
+
+
+public static NSColor YellowColor
+{
+   get { return ColorWithCalibratedRed(1.0f,1.0f,0.0f,1.0f); }
+}
+
+
+
+public static bool IgnoresAlpha
+{
+    get { return gnustep_gui_ignores_alpha; }
+    set { gnustep_gui_ignores_alpha = value; }
+}
+
+
+
+
+//public static NSColor colorFromPasteboard(NSPasteboard pasteBoard)
+//{
+//  NSData *colorData = [pasteBoard dataForType(NSColorPboardType);
+
+//  // FIXME(This should better use the description format
+//  if (colorData != null)
+//    return [NSUnarchiver unarchiveObjectWithData(colorData);
+
+//  return null;
+//}
 
 //
 // System colors stuff.
 //
-+ (NSColor*) alternateSelectedControlColor
+public static NSColor AlternateSelectedControlColor
 {
-  return systemColorWithName(@"alternateSelectedControlColor");
+  get { return SystemColorWithName(@"alternateSelectedControlColor"); }
 }
 
-+ (NSColor*) alternateSelectedControlTextColor
+public static NSColor AlternateSelectedControlTextColor
 {
-  return systemColorWithName(@"alternateSelectedControlTextColor");
+  get { return SystemColorWithName(@"alternateSelectedControlTextColor"); }
 }
 
-+ (NSColor*) controlBackgroundColor
+public static NSColor ControlBackgroundColor
 {
-  return systemColorWithName(@"controlBackgroundColor");
+  get { return SystemColorWithName(@"controlBackgroundColor"); }
 }
 
-+ (NSColor*) controlColor
+public static NSColor ControlColor
 {
-  return systemColorWithName(@"controlColor");
+  get { return SystemColorWithName(@"controlColor"); }
 }
 
-+ (NSColor*) controlHighlightColor
+public static NSColor ControlHighlightColor
 {
-  return systemColorWithName(@"controlHighlightColor");
+  get { return SystemColorWithName(@"controlHighlightColor"); }
 }
 
-+ (NSColor*) controlLightHighlightColor
+public static NSColor ControlLightHighlightColor
 {
-  return systemColorWithName(@"controlLightHighlightColor");
+  get { return SystemColorWithName(@"controlLightHighlightColor"); }
 }
 
-+ (NSColor*) controlShadowColor
+public static NSColor ControlShadowColor
 {
-  return systemColorWithName(@"controlShadowColor");
+  get { return SystemColorWithName(@"controlShadowColor"); }
 }
 
-+ (NSColor*) controlDarkShadowColor
+public static NSColor ControlDarkShadowColor
 {
-  return systemColorWithName(@"controlDarkShadowColor");
+  get { return SystemColorWithName(@"controlDarkShadowColor"); }
 }
 
-+ (NSColor*) controlTextColor
+public static NSColor ControlTextColor
 {
-  return systemColorWithName(@"controlTextColor");
+  get { return SystemColorWithName(@"controlTextColor"); }
 }
 
-+ (NSColor*) disabledControlTextColor
+public static NSColor disabledControlTextColor
 {
-  return systemColorWithName(@"disabledControlTextColor");
+  get { return SystemColorWithName(@"disabledControlTextColor"); }
 }
 
-+ (NSColor*) gridColor
+public static NSColor gridColor
 {
-  return systemColorWithName(@"gridColor");
+  get { return SystemColorWithName(@"gridColor"); }
 }
 
-+ (NSColor*) headerColor
+public static NSColor headerColor
 {
-  return systemColorWithName(@"headerColor");
+  get { return SystemColorWithName(@"headerColor"); }
 }
 
-+ (NSColor*) headerTextColor
+public static NSColor headerTextColor
 {
-  return systemColorWithName(@"headerTextColor");
+  get { return SystemColorWithName(@"headerTextColor"); }
 }
 
-+ (NSColor*) highlightColor
+public static NSColor highlightColor
 {
-  return systemColorWithName(@"highlightColor");
+  get { return SystemColorWithName(@"highlightColor"); }
 }
 
-+ (NSColor*) keyboardFocusIndicatorColor
+public static NSColor keyboardFocusIndicatorColor
 {
-  return systemColorWithName(@"keyboardFocusIndicatorColor");
+  get { return SystemColorWithName(@"keyboardFocusIndicatorColor"); }
 }
 
-+ (NSColor*) knobColor
+public static NSColor knobColor
 {
-  return systemColorWithName(@"knobColor");
+  get { return SystemColorWithName(@"knobColor"); }
 }
 
-+ (NSColor*) scrollBarColor
+public static NSColor scrollBarColor
 {
-  return systemColorWithName(@"scrollBarColor");
+  get { return SystemColorWithName(@"scrollBarColor"); }
 }
 
-+ (NSColor*) secondarySelectedControlColor
+public static NSColor secondarySelectedControlColor
 {
-  return systemColorWithName(@"secondarySelectedControlColor");
+  get { return SystemColorWithName(@"secondarySelectedControlColor"); }
 }
 
-+ (NSColor*) selectedControlColor
+public static NSColor selectedControlColor
 {
-  return systemColorWithName(@"selectedControlColor");
+  get { return SystemColorWithName(@"selectedControlColor"); }
 }
 
-+ (NSColor*) selectedControlTextColor
+public static NSColor selectedControlTextColor
 {
-  return systemColorWithName(@"selectedControlTextColor");
+  get { return SystemColorWithName(@"selectedControlTextColor"); }
 }
 
-+ (NSColor*) selectedKnobColor
+public static NSColor selectedKnobColor
 {
-  return systemColorWithName(@"selectedKnobColor");
+  get { return SystemColorWithName(@"selectedKnobColor"); }
 }
 
-+ (NSColor*) selectedMenuItemColor
+public static NSColor selectedMenuItemColor
 {
-  return systemColorWithName(@"selectedMenuItemColor");
+  get { return SystemColorWithName(@"selectedMenuItemColor"); }
 }
 
-+ (NSColor*) selectedMenuItemTextColor
+public static NSColor selectedMenuItemTextColor
 {
-  return systemColorWithName(@"selectedMenuItemTextColor");
+  get { return SystemColorWithName(@"selectedMenuItemTextColor"); }
 }
 
-+ (NSColor*) selectedTextBackgroundColor
+public static NSColor selectedTextBackgroundColor
 {
-  return systemColorWithName(@"selectedTextBackgroundColor");
+  get { return SystemColorWithName(@"selectedTextBackgroundColor"); }
 }
 
-+ (NSColor*) selectedTextColor
+public static NSColor selectedTextColor
 {
-  return systemColorWithName(@"selectedTextColor");
+  get { return SystemColorWithName(@"selectedTextColor"); }
 }
 
-+ (NSColor*) shadowColor
+public static NSColor shadowColor
 {
-  return systemColorWithName(@"shadowColor");
+  get { return SystemColorWithName(@"shadowColor"); }
 }
 
-+ (NSColor*) textBackgroundColor
+public static NSColor textBackgroundColor
 {
-  return systemColorWithName(@"textBackgroundColor");
+  get { return SystemColorWithName(@"textBackgroundColor"); }
 }
 
-+ (NSColor*) textColor
+public static NSColor textColor
 {
-  return systemColorWithName(@"textColor");
+  get { return SystemColorWithName(@"textColor"); }
 }
 
-+ (NSColor *)windowBackgroundColor
+public static NSColor WindowBackgroundColor
 {
-  return systemColorWithName(@"windowBackgroundColor");
+  get { return SystemColorWithName(@"windowBackgroundColor"); }
 }
 
-+ (NSColor*) windowFrameColor
+public static NSColor windowFrameColor
 {
-  return systemColorWithName(@"windowFrameColor");
+  get { return SystemColorWithName(@"windowFrameColor"); }
 }
 
-+ (NSColor*) windowFrameTextColor
+public static NSColor windowFrameTextColor
 {
-  return systemColorWithName(@"windowFrameTextColor");
+  get { return SystemColorWithName(@"windowFrameTextColor"); }
 }
 
-+ (NSArray*) controlAlternatingRowBackgroundColors
+public static NSArray ControlAlternatingRowBackgroundColors
 {
-  return [NSArray arrayWithObjects: systemColorWithName(@"rowBackgroundColor"), 
-		  systemColorWithName(@"alternateRowBackgroundColor"), nil];
+  get { return NSArray.ArrayWithObjects(SystemColorWithName(@"rowBackgroundColor"), SystemColorWithName(@"alternateRowBackgroundColor"), null); }
 }
 
 ////////////////////////////////////////////////////////////
@@ -713,330 +641,298 @@ namespace Smartmobili.Cocoa
 // Instance methods
 //
 
-- (id) copyWithZone: (NSZone*)aZone
+
+
+//- (NSString*) description
+//{
+//  [self subclassResponsibility(_cmd);
+//  return null;
+//}
+
+
+public virtual void GetCyan(float cyan,float magenta, float yellow, float black,float alpha)
 {
-  if (NSShouldRetainWithZone(self, aZone))
-    {
-      return RETAIN(self);
-    }
+  //[NSException raise: NSInternalInconsistencyException format: @"Called getCyan:magenta:yellow:black:alpha: on non-CMYK colour");
+}
+
+
+public virtual void GetHue( float hue, float saturation, float brightness,float alpha)
+{
+  //[NSException raise: NSInternalInconsistencyException format: @"Called getHue:saturation:brightness:alpha: on non-RGB colour");
+}
+
+
+public virtual void GetRed(float red, float green,float blue,float alpha
+{
+  //[NSException raise: NSInternalInconsistencyException format: @"Called getRed:green:blue:alpha: on non-RGB colour");
+}
+
+
+public virtual void GetWhite(float white,float alpha)
+{
+  //[NSException raise: NSInternalInconsistencyException format: @"Called getWhite:alpha: on non-grayscale colour");
+}
+
+public virtual bool IsEqual(id other)
+{
+  if (other == this)
+    return true;
+  if (other.IsKindOfClass(NSColorClass) == true)
+    return false;
   else
     {
-      return NSCopyObject(self, 0, aZone);
+      //[self subclassResponsibility: _cmd);
+      return true;
     }
 }
 
-- (NSString*) description
+public virtual float AlphaComponent
 {
-  [self subclassResponsibility: _cmd];
-  return nil;
+  get { return 1.0f; }
 }
 
-/**<p>Gets the cyan, magenta, yellow,black and alpha values from the NSColor.
- Raises a NSInternalInconsistencyException if the NSColor is not a CYMK color
- </p>
- */
-- (void) getCyan: (CGFloat*)cyan
-	 magenta: (CGFloat*)magenta
-	  yellow: (CGFloat*)yellow
-	   black: (CGFloat*)black
-	   alpha: (CGFloat*)alpha
+
+public virtual float BlackComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-    format: @"Called getCyan:magenta:yellow:black:alpha: on non-CMYK colour"];
+     get 
+     { 
+         //[NSException raise: NSInternalInconsistencyException format: @"Called blackComponent on non-CMYK colour");
+         return 0.0f;
+     }
 }
 
-/**<p>Gets the hue, saturation, brightness and alpha values from the NSColor.
- Raises a NSInternalInconsistencyException if the NSColor is not a RGB color
- </p>
- */
-- (void) getHue: (CGFloat*)hue
-     saturation: (CGFloat*)saturation
-     brightness: (CGFloat*)brightness
-	  alpha: (CGFloat*)alpha
+
+public virtual float blueComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-    format: @"Called getHue:saturation:brightness:alpha: on non-RGB colour"];
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called blueComponent on non-RGB colour");
+  return 0.0f;
+    }
 }
 
-/**<p>Gets the red, green, blue and alpha values from the NSColor.
- Raises a NSInternalInconsistencyException if the NSColor is not a RGB color
- </p>
- */
--(void) getRed: (CGFloat*)red
-	  green: (CGFloat*)green
-	   blue: (CGFloat*)blue
-	  alpha: (CGFloat*)alpha
-{
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called getRed:green:blue:alpha: on non-RGB colour"];
-}
 
-/**<p>Gets the white alpha values from the NSColor.
- Raises a NSInternalInconsistencyException if the NSColor is not a 
- greyscale color</p>
- */
-- (void) getWhite: (CGFloat*)white
-	    alpha: (CGFloat*)alpha
+public virtual float brightnessComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called getWhite:alpha: on non-grayscale colour"];
-}
-
-- (BOOL) isEqual: (id)other
-{
-  if (other == self)
-    return YES;
-  if ([other isKindOfClass: NSColorClass] == NO)
-    return NO;
-  else
+    get 
     {
-      [self subclassResponsibility: _cmd];
-      return NO;
+  //[NSException raise: NSInternalInconsistencyException format: @"Called brightnessComponent on non-RGB colour");
+  return 0.0f;
     }
 }
 
-/** <p>Returns the alpha component. </p>
- */
-- (CGFloat) alphaComponent
+public virtual NSString  catalogNameComponent
 {
-  return 1.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called catalogNameComponent on colour with name");
+  return null;
+    }
 }
 
-/** <p>Returns the black component. Raises a NSInternalInconsistencyException
-    if NSColor is not a CMYK color.</p>
- */
-- (CGFloat) blackComponent
+public virtual NSString  colorNameComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called blackComponent on non-CMYK colour"];
-  return 0.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called colorNameComponent on colour with name");
+  return null;
+    }
 }
 
-/** <p>Returns the blue component. Raises a NSInternalInconsistencyException
-    if NSColor is not a RGB color.</p>
- */
-- (CGFloat) blueComponent
+
+public virtual float cyanComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called blueComponent on non-RGB colour"];
-  return 0.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called cyanComponent on non-CMYK colour");
+  return 0.0f;
+        }
 }
 
-/** <p>Returns the brightness component. Raises a 
-    NSInternalInconsistencyException if NSColor space is not a RGB color</p>
-*/
-- (CGFloat) brightnessComponent
+
+public virtual float greenComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called brightnessComponent on non-RGB colour"];
-  return 0.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called greenComponent on non-RGB colour");
+  return 0.0f;
+        }
 }
 
-- (NSString *) catalogNameComponent
+
+public virtual float hueComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called catalogNameComponent on colour with name"];
-  return nil;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called hueComponent on non-RGB colour");
+  return 0.0f;
+        }
 }
 
-- (NSString *) colorNameComponent
+public virtual NSString  localizedCatalogNameComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called colorNameComponent on colour with name"];
-  return nil;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called localizedCatalogNameComponent on colour with name");
+  return null;
+        }
 }
 
-/** <p>Returns the cyan component. Raises a  NSInternalInconsistencyException 
-    if NSColor is not a CYMK color</p>
-*/
-- (CGFloat) cyanComponent
+public virtual NSString  localizedColorNameComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called cyanComponent on non-CMYK colour"];
-  return 0.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called localizedColorNameComponent on colour with name");
+  return null;
+        }
 }
 
-/** <p>Returns the green component. Raises a  NSInternalInconsistencyException 
-    if NSColor is not a RGB color</p>
-*/
-- (CGFloat) greenComponent
+
+public virtual float magentaComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called greenComponent on non-RGB colour"];
-  return 0.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called magentaComponent on non-CMYK colour");
+  return 0.0f;
+        }
 }
 
-/** <p>Returns the hue component. Raises a  NSInternalInconsistencyException 
-    if NSColor is not a RGB color</p>
-*/
-- (CGFloat) hueComponent
+
+public virtual float redComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called hueComponent on non-RGB colour"];
-  return 0.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called redComponent on non-RGB colour");
+  return 0.0f;
+        }
 }
 
-- (NSString *) localizedCatalogNameComponent
+
+public virtual float saturationComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-    format: @"Called localizedCatalogNameComponent on colour with name"];
-  return nil;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called saturationComponent on non-RGB colour");
+  return 0.0f;
+        }
 }
 
-- (NSString *) localizedColorNameComponent
+
+public virtual float whiteComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-    format: @"Called localizedColorNameComponent on colour with name"];
-  return nil;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called whiteComponent on non-grayscale colour");
+  return 0.0f;
+        }
 }
 
-/** <p>Returns the magenta component. Raises a  
-    NSInternalInconsistencyException  if NSColor is not a CMYK color</p>
-*/
-- (CGFloat) magentaComponent
+public virtual NSImage patternImage
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called magentaComponent on non-CMYK colour"];
-  return 0.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called patternImage on non-pattern colour");
+  return null;
+        }
 }
 
-/** <p>Returns the red component. Raises a NSInternalInconsistencyException  
-    if NSColor is not a RGB color</p>
-*/
-- (CGFloat) redComponent
-{
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called redComponent on non-RGB colour"];
-  return 0.0;
-}
 
-/** <p>Returns the saturation component. Raises a
-    NSInternalInconsistencyException if NSColor is not a RGB color</p>
-*/
-- (CGFloat) saturationComponent
+public virtual float yellowComponent
 {
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called saturationComponent on non-RGB colour"];
-  return 0.0;
-}
-
-/** <p>Returns the white component. Raises a NSInternalInconsistencyException  
-    if NSColor is not a grayscale color</p>
-*/
-- (CGFloat) whiteComponent
-{
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called whiteComponent on non-grayscale colour"];
-  return 0.0;
-}
-
-- (NSImage*) patternImage
-{
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called patternImage on non-pattern colour"];
-  return nil;
-}
-
-/** <p>Returns the yellow component. Raises a NSInternalInconsistencyException
-    if NSColor is not a RGB color</p>
-*/
-- (CGFloat) yellowComponent
-{
-  [NSException raise: NSInternalInconsistencyException
-	      format: @"Called yellowComponent on non-CMYK colour"];
-  return 0.0;
+    get 
+     {
+  //[NSException raise: NSInternalInconsistencyException format: @"Called yellowComponent on non-CMYK colour");
+  return 0.0f;
+        }
 }
 
 //
 // Converting to Another Color Space
 //
-- (NSString *) colorSpaceName
+public virtual NSString  colorSpaceName
 {
-  [self subclassResponsibility: _cmd];
-  return nil;
+    get 
+     {
+  //[self subclassResponsibility: _cmd);
+  return null;
+        }
 }
 
-- (NSColor*) colorUsingColorSpaceName: (NSString *)colorSpace
+public virtual NSColor ColorUsingColorSpaceName(NSString colorSpace)
 {
-  return [self colorUsingColorSpaceName: colorSpace
-				 device: nil];
+  return ColorUsingColorSpaceName(colorSpace, null);
 }
 
-- (NSColor*) colorUsingColorSpaceName: (NSString *)colorSpace
-			       device: (NSDictionary *)deviceDescription
+
+public virtual NSColor ColorUsingColorSpaceName(NSString colorSpace, NSDictionary deviceDescription)
 {
-  if (colorSpace == nil)
+  if (colorSpace == null)
     {
-      if (deviceDescription != nil)
-	colorSpace = [deviceDescription objectForKey: NSDeviceColorSpaceName];
-      if (colorSpace == nil)
+      if (deviceDescription != null)
+	colorSpace = deviceDescription.ObjectForKey(NSDeviceColorSpaceName);
+      if (colorSpace == null)
         colorSpace = NSDeviceRGBColorSpace;
     }
-  if ([colorSpace isEqualToString: [self colorSpaceName]])
+  if (colorSpace.IsEqualToString(ColorSpaceName))
     {
-      return self;
+      return this;
     }
 
-  if ([colorSpace isEqualToString: NSNamedColorSpace])
+  if (colorSpace.IsEqualToString(NSNamedColorSpace))
     {
       // FIXME: We cannot convert to named color space.
-      return nil;
+      return null;
     }
 
-  [self subclassResponsibility: _cmd];
+  //[self subclassResponsibility: _cmd);
 
-  return nil;
+  return null;
 }
 
-+ (NSColor *) colorWithColorSpace: (NSColorSpace *)space
-                       components: (const CGFloat *)comp
-                            count: (NSInteger)number
+public static NSColor ColorWithColorSpace(NSColorSpace space, float[] comp, int number)
 {
   // FIXME
-  if (space == [NSColorSpace genericRGBColorSpace] && (number == 4)) 
-    {
-      return [self colorWithCalibratedRed: comp[0]
-                   green: comp[1]
-                   blue: comp[2]
-                   alpha: comp[3]];
-    }
-  if (space == [NSColorSpace deviceRGBColorSpace] && (number == 4)) 
-    {
-      return [self colorWithDeviceRed: comp[0]
-                   green: comp[1]
-                   blue: comp[2]
-                   alpha: comp[3]];
-    }
-  if (space == [NSColorSpace genericGrayColorSpace] && (number == 2)) 
-    {
-      return [NSColor colorWithCalibratedWhite: comp[0] alpha: comp[1]];
-    }
-  if (space == [NSColorSpace deviceGrayColorSpace] && (number == 2)) 
-    {
-      return [NSColor colorWithDeviceWhite: comp[0] alpha: comp[1]];
-    }
-  if (space == [NSColorSpace genericCMYKColorSpace] && (number == 5)) 
-    {
-      return [NSColor colorWithDeviceCyan: comp[0] 
-                      magenta: comp[1]
-                      yellow: comp[2] 
-                      black: comp[3] 
-                      alpha: comp[4]];
-    }
-  if (space == [NSColorSpace deviceCMYKColorSpace] && (number == 5)) 
-    {
-      return [NSColor colorWithDeviceCyan: comp[0] 
-                      magenta: comp[1]
-                      yellow: comp[2] 
-                      black: comp[3] 
-                      alpha: comp[4]];
-    }
+  //if (space == [NSColorSpace genericRGBColorSpace] && (number == 4)) 
+  //  {
+  //    return ColorWithCalibratedRed(comp[0]
+  //                 ,comp[1]
+  //                 ,comp[2]
+  //                 ,comp[3]);
+  //  }
+  //if (space == [NSColorSpace deviceRGBColorSpace] && (number == 4)) 
+  //  {
+  //    return this.ColorWithDeviceRed(comp[0], comp[1], comp[2], comp[3]);
+  //  }
+  //if (space == [NSColorSpace genericGrayColorSpace] && (number == 2)) 
+  //  {
+  //    return NSColor.ColorWithCalibratedWhite(comp[0] ,comp[1]);
+  //  }
+  //if (space == [NSColorSpace deviceGrayColorSpace] && (number == 2)) 
+  //  {
+  //    return NSColor.ColorWithDeviceWhite(comp[0] ,comp[1]);
+  //  }
+  //if (space == [NSColorSpace genericCMYKColorSpace] && (number == 5)) 
+  //  {
+  //    return NSColor.ColorWithDeviceCyan(comp[0] 
+  //                    ,comp[1]
+  //                    , comp[2] 
+  //                    , comp[3] 
+  //                    ,comp[4]);
+  //  }
+  //if (space == [NSColorSpace deviceCMYKColorSpace] && (number == 5)) 
+  //  {
+  //    return NSColor.ColorWithDeviceCyan(comp[0] 
+  //                    ,comp[1]
+  //                    , comp[2] 
+  //                    , comp[3] 
+  //                    ,comp[4]);
+  //  }
 
-  return nil;
+  return null;
 }
 #endif //TEMP2
 
-#endif
+#endif //TEMP
 
         public static NSColor ColorWithCalibratedRed(float red, float green, float blue, float alpha)
         {

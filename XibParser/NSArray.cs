@@ -57,7 +57,7 @@ namespace Smartmobili.Cocoa
 
 
         // TODO: implements InitWithobjects
-        public static NSArray ArrayWithObjects(id[] list)
+        public static NSArray ArrayWithObjects(params id[] list)
         {
             if (list == null)
                 return null;
