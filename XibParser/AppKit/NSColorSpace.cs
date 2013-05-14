@@ -65,7 +65,7 @@ namespace Smartmobili.Cocoa
         public static readonly NSString NSCustomColorSpace = @"NSCustomColorSpace";
 
 
-        public static NSColorSpace Alloc()
+        new public static NSColorSpace Alloc()
         {
             return new NSColorSpace();
         }
