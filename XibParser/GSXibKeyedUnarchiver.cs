@@ -591,6 +591,11 @@ namespace Smartmobili.Cocoa
             else if (@"bytes".IsEqualToString(elementName))
             {
                 id newObj = element.Value.DataUsingEncoding(NSStringEncoding.NSASCIIStringEncoding, false);
+                
+                //string encodedData = Encoding.ASCII.GetString(((NSData)newObj).Bytes);
+                //byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedData);
+                //objID = new NSString(System.Text.Encoding.ASCII.GetString(encodedDataAsBytes));
+                
                 //newObj = GSMimeDocument.DecodeBase64(newObj);
                 if (objID != null)
                     Decoded.SetObjectForKey(newObj, objID);

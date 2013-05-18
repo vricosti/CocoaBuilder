@@ -31,6 +31,23 @@ namespace Smartmobili.Cocoa
 
         protected List<char> _charList = new List<char>("");
 
+        //static NSCharacterSet() { Initialize(); }
+        //public static void Initialize()
+        //{
+        //    WhitespaceAndNewlineCharacterSet = NSCharacterSet.CharacterSetWithCharactersInString("");
+        //}
+
+        private static NSCharacterSet _WhitespaceAndNewlineCharacterSet = null;
+        public static NSCharacterSet WhitespaceAndNewlineCharacterSet
+        {
+            get
+            {
+                if (_WhitespaceAndNewlineCharacterSet == null)
+                    _WhitespaceAndNewlineCharacterSet = NSCharacterSet.CharacterSetWithCharactersInString(" \r\n\t");
+                
+                return _WhitespaceAndNewlineCharacterSet;
+            }
+        }
 
         public static NSCharacterSet CharacterSetWithCharactersInString(NSString aString)
         {

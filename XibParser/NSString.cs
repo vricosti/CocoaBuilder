@@ -17,6 +17,8 @@
 * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
 * Boston, MA  02110-1301, USA. 
 */
+
+using AT.MIN;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,7 +132,7 @@ namespace Smartmobili.Cocoa
 
         static NSString() { Initialize(); }
 
-        new static void Initialize()
+        static void Initialize()
         {
             _DefaultStringEncoding = NSStringEncoding.NSASCIIStringEncoding;
         }
@@ -287,32 +289,41 @@ namespace Smartmobili.Cocoa
         {
             get
             {
-                return Value[(int)index];
+                return this.Value[(int)index];
             }
         }
 
         public override string ToString()
         {
-            return Value;
+            return this.Value;
         }
 
         // c# string
         public bool Contains(NSString aString)
         {
-          return (Value != null) ? Value.Contains(aString) : false;
+            return (this.Value != null) ? this.Value.Contains(aString) : false;
         }
 
         public NSString Replace(char oldChar, char newChar)
         {
-            return (Value != null) ? Value.Replace(oldChar, newChar) : null;
+            return (this.Value != null) ? this.Value.Replace(oldChar, newChar) : null;
         }
 
         public NSString Replace(NSString oldValue, NSString newValue)
         {
-            return (Value != null) ? Value.Replace(oldValue, newValue) : null;
+            return (this.Value != null) ? this.Value.Replace(oldValue, newValue) : null;
         }
 
         // objc string
+
+        public virtual bool HasPrefix(NSString aString)
+        {
+            return this.Value.StartsWith(aString);
+        }
+         public virtual bool HasSuffix(NSString aString)
+        {
+            return this.Value.EndsWith(aString);
+        }
 
 
         public virtual NSRange RangeOfCharacterFromSet(NSCharacterSet aSet)
@@ -462,7 +473,8 @@ namespace Smartmobili.Cocoa
 
         public virtual NSData DataUsingEncoding(NSStringEncoding encoding, bool flag = false)
         {
-            return null;
+            byte[] bytes = System.Text.Encoding.ASCII.GetBytes(this.Value);
+            return NSData.Alloc().InitWithBytes(bytes);
         }
 
 
@@ -473,6 +485,7 @@ namespace Smartmobili.Cocoa
             if (format == null)
                 throw new ArgumentNullException("format");
 
+            str = Tools.sprintf(format, args);
 
             return str;
         }
@@ -545,7 +558,12 @@ namespace Smartmobili.Cocoa
             return str;
         }
 
-
+        [ObjcMethod("hash")]
+        public virtual uint Hash()
+        {
+            return (uint)GetHashCode();
+           
+        }
 
         # region IEquatable
 

@@ -32,10 +32,153 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(GSNamedColor));
         new public static GSNamedColor Alloc() { return new GSNamedColor(); }
 
+
+        static NSMutableDictionary namedColors = null;
+        static NSRecursiveLock namedColorLock = null;
+
         protected NSString _catalog_name;
         protected NSString _color_name;
         protected NSString _cached_name_space;
         protected NSColor _cached_color;
+
+
+        static GSNamedColor() { Initialize(); }
+        new static void Initialize()
+        {
+            namedColorLock = (NSRecursiveLock)NSRecursiveLock.Alloc().Init();
+            namedColors = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+        }
+
+        public virtual NSColor InitWithCatalogName(NSString listName, NSString colorName)
+        {
+            NSColor self = this;
+
+            NSMutableDictionary d;
+            NSColor c;
+
+            _catalog_name = listName;
+            _color_name = colorName;
+            namedColorLock.Lock();
+            d = (NSMutableDictionary)namedColors.ObjectForKey(_catalog_name);
+            if (d == null)
+            {
+                d = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+                namedColors.SetObjectForKey(d, _catalog_name);
+            }
+            c = (NSColor)d.ObjectForKey(_color_name);
+            if (c == null)
+            {
+                d.SetObjectForKey(this, _color_name);
+            }
+            else
+            {
+                self = c;
+            }
+            namedColorLock.Unlock();
+
+            return self;
+        }
+
+        [ObjcProp(GetName = "colorSpaceName")]
+        public override NSString ColorSpaceName
+        {
+            get { return NSColorSpace.NSNamedColorSpace; }
+        }
+
+        [ObjcProp(GetName = "description")]
+        public virtual NSString Description
+        {
+            get
+            {
+                return "";
+            }
+        }
+
+        [ObjcProp(GetName = "catalogNameComponent")]
+        public override NSString CatalogNameComponent
+        {
+            get { return _catalog_name; }
+        }
+
+        [ObjcProp(GetName = "colorNameComponent")]
+        public override NSString ColorNameComponent
+        {
+            get { return _color_name; }
+        }
+
+        [ObjcProp(GetName = "localizedCatalogNameComponent")]
+        public override NSString LocalizedCatalogNameComponent
+        {
+            get { return _catalog_name; }
+        }
+
+        [ObjcProp(GetName = "localizedColorNameComponent")]
+        public override NSString LocalizedColorNameComponent
+        {
+            get { return _color_name; }
+        }
+
+        [ObjcMethod("hash")]
+        public override uint Hash()
+        {
+            return _catalog_name.Hash() + _color_name.Hash();
+        }
+
+        public override bool IsEqual(id other)
+        {
+            if (other == (id)this)
+                return true;
+
+            if (other.IsKindOfClass(GSNamedColor.Class) == false
+                || ((GSNamedColor)other).CatalogNameComponent.IsEqualToString(_catalog_name) == false
+                || ((GSNamedColor)other).ColorNameComponent.IsEqualToString(_color_name) == false)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override NSColor ColorUsingColorSpaceName(NSString colorSpace, NSDictionary deviceDescription)
+        {
+            NSColorList list;
+            NSColor real;
+
+            if (colorSpace == null)
+            {
+                if (deviceDescription != null)
+                    colorSpace = (NSString)deviceDescription.ObjectForKey(NSColorSpace.NSDeviceColorSpaceName);
+                // FIXME: If the deviceDescription is nil, we should get it from the
+                // current view or printer
+                if (colorSpace == null)
+                    colorSpace = NSColorSpace.NSCalibratedRGBColorSpace;
+            }
+            if (colorSpace.IsEqualToString(this.ColorSpaceName))
+            {
+                return this;
+            }
+
+            namedColorLock.Lock();
+            if (false == colorSpace.IsEqualToString(_cached_name_space))
+            {
+                list = NSColorList.ColorListNamed(_catalog_name);
+                real = list.ColorWithKey(_color_name);
+                _cached_color = real.ColorUsingColorSpaceName(colorSpace, deviceDescription);
+                _cached_name_space = colorSpace;
+            }
+            real = _cached_color;
+            namedColorLock.Unlock();
+
+            return real;
+        }
+
+        public virtual void Recache()
+        {
+            namedColorLock.Lock();
+            _cached_name_space = null;
+            _cached_color = null;
+            namedColorLock.Unlock();
+        }
+
     }
 
     public class GSWhiteColor : NSColor
@@ -43,8 +186,30 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(GSWhiteColor));
         new public static GSWhiteColor Alloc() { return new GSWhiteColor(); }
 
-        protected float _white_component;
-        protected float _alpha_component;
+        protected double _white_component;
+        protected double _alpha_component;
+
+        public override double AlphaComponent
+        {
+            get { return _alpha_component; }
+        }
+
+        public override double WhiteComponent
+        {
+            get { return _white_component; }
+        }
+
+        public override void GetComponents(ref double[] components)
+        {
+            components[0] = _white_component;
+            components[1] = _alpha_component;
+        }
+
+        public override int NumberOfComponents
+        {
+            get { return 2; }
+        }
+
     }
 
     public class GSDeviceWhiteColor : GSWhiteColor
@@ -52,19 +217,138 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(GSDeviceWhiteColor));
         new public static GSDeviceWhiteColor Alloc() { return new GSDeviceWhiteColor(); }
 
+        public override NSString ColorSpaceName
+        {
+            get { return NSColorSpace.NSDeviceWhiteColorSpace; ; }
+        }
 
+
+
+        public virtual NSColor InitWithDeviceWhite(double white, double alpha)
+        {
+            NSColor self = this;
+
+            if (white < 0.0) white = 0.0;
+            else if (white > 1.0) white = 1.0;
+            _white_component = white;
+
+            if (alpha < 0.0) alpha = 0.0;
+            else if (alpha > 1.0) alpha = 1.0;
+            _alpha_component = alpha;
+
+            return self;
+        }
     }
 
     public class GSCalibratedWhiteColor : GSWhiteColor
     {
         new public static Class Class = new Class(typeof(GSCalibratedWhiteColor));
         new public static GSCalibratedWhiteColor Alloc() { return new GSCalibratedWhiteColor(); }
+
+
+        public override NSString ColorSpaceName
+        {
+            get { return NSColorSpace.NSCalibratedWhiteColorSpace; ; }
+        }
+
+        public virtual NSColor InitWithCalibratedWhite(double white, double alpha)
+        {
+            NSColor self = this;
+
+            if (white < 0.0) white = 0.0;
+            else if (white > 1.0) white = 1.0;
+            _white_component = white;
+
+            if (alpha < 0.0) alpha = 0.0;
+            else if (alpha > 1.0) alpha = 1.0;
+            _alpha_component = alpha;
+
+            return self;
+        }
     }
 
     public class GSDeviceCMYKColor : NSColor
     {
         new public static Class Class = new Class(typeof(GSDeviceCMYKColor));
         new public static GSDeviceCMYKColor Alloc() { return new GSDeviceCMYKColor(); }
+
+        protected double _cyan_component;
+        protected double _magenta_component;
+        protected double _yellow_component;
+        protected double _black_component;
+        protected double _alpha_component;
+
+        public override NSString ColorSpaceName
+        {
+            get { return NSColorSpace.NSDeviceCMYKColorSpace; ; }
+        }
+
+        public override double AlphaComponent
+        {
+            get { return _alpha_component; }
+        }
+
+        public override double BlackComponent
+        {
+            get { return _black_component; }
+        }
+
+        public override double CyanComponent
+        {
+            get { return _cyan_component; }
+        }
+
+        public override double MagentaComponent
+        {
+            get { return _magenta_component; }
+        }
+
+        public override double YellowComponent
+        {
+            get { return _yellow_component; }
+        }
+
+
+        public override void GetComponents(ref double[] components)
+        {
+            components[0] = _cyan_component;
+            components[1] = _magenta_component;
+            components[2] = _yellow_component;
+            components[3] = _black_component;
+            components[4] = _alpha_component;
+        }
+
+        public override int NumberOfComponents
+        {
+            get { return 5; }
+        }
+
+        public virtual NSColor InitWithDeviceCyan(double cyan, double magenta, double yellow, double black, double alpha)
+        {
+            NSColor self = this;
+
+            if (cyan < 0.0) cyan = 0.0;
+            else if (cyan > 1.0) cyan = 1.0;
+            _cyan_component = cyan;
+
+            if (magenta < 0.0) magenta = 0.0;
+            else if (magenta > 1.0) magenta = 1.0;
+            _magenta_component = magenta;
+
+            if (yellow < 0.0) yellow = 0.0;
+            else if (yellow > 1.0) yellow = 1.0;
+            _yellow_component = yellow;
+
+            if (black < 0.0) black = 0.0;
+            else if (black > 1.0) black = 1.0;
+            _black_component = black;
+
+            if (alpha < 0.0) alpha = 0.0;
+            else if (alpha > 1.0) alpha = 1.0;
+            _alpha_component = alpha;
+
+            return self;
+        }
     }
 
     public class GSRGBColor : NSColor
@@ -72,60 +356,260 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(GSRGBColor));
         new public static GSRGBColor Alloc() { return new GSRGBColor(); }
 
-        protected float _red_component;
-        protected float _green_component;
-        protected float _blue_component;
-        protected float _hue_component;
-        protected float _saturation_component;
-        protected float _brightness_component;
-        protected float _alpha_component;
+        protected double _red_component;
+        protected double _green_component;
+        protected double _blue_component;
+        protected double _hue_component;
+        protected double _saturation_component;
+        protected double _brightness_component;
+        protected double _alpha_component;
+
+        public override double AlphaComponent
+        {
+            get { return _alpha_component; }
+        }
+
+        public override double RedComponent
+        {
+            get { return _red_component; }
+        }
+
+        public override double GreenComponent
+        {
+            get { return _green_component; }
+        }
+
+        public override double BlueComponent
+        {
+            get { return _blue_component; }
+        }
+
+        public override double HueComponent
+        {
+            get { return _hue_component; }
+        }
+
+        public override double SaturationComponent
+        {
+            get { return _saturation_component; }
+        }
+
+        public override double BrightnessComponent
+        {
+            get { return _brightness_component; }
+        }
+
+        public override void GetComponents(ref double[] components)
+        {
+            components[0] = _red_component;
+            components[1] = _green_component;
+            components[2] = _blue_component;
+            components[3] = _alpha_component;
+        }
+
+        public override int NumberOfComponents
+        {
+            get { return 4; }
+        }
+
+        public override void GetHueSaturationBrightnessAlpha(ref double hue, ref double saturation, ref double brightness, ref double alpha)
+        {
+            hue = _hue_component;
+            saturation = _saturation_component;
+            brightness = _brightness_component;
+            alpha = _alpha_component;
+        }
+
+        public override void GetRedGreenBlueAlpha(ref double red, ref double green, ref double blue, ref double alpha)
+        {
+
+            red = _red_component;
+            green = _green_component;
+            blue = _blue_component;
+            alpha = _alpha_component;
+        }
+
+        public override bool IsEqual(id other)
+        {
+            if (other == (id)this)
+                return true;
+
+            if (other.IsKindOfClass(GSRGBColor.Class) == false
+                || ((GSRGBColor)other).RedComponent != _red_component
+                || ((GSRGBColor)other).GreenComponent != _green_component
+                || ((GSRGBColor)other).BlueComponent != _blue_component
+                || ((GSRGBColor)other).AlphaComponent != _alpha_component)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 
     public class GSDeviceRGBColor : GSRGBColor
     {
         new public static Class Class = new Class(typeof(GSDeviceRGBColor));
         new public static GSDeviceRGBColor Alloc() { return new GSDeviceRGBColor(); }
+
+
+        public override NSString ColorSpaceName
+        {
+            get { return NSColorSpace.NSDeviceRGBColorSpace; ; }
+        }
+
+        public virtual NSColor InitWithDeviceRed(double red, double green, double blue, double alpha)
+        {
+            throw new NotImplementedException();
+            return null;
+        }
+
+        public virtual NSColor InitWithDeviceHue(double hue, double saturation, double brightness, double alpha)
+        {
+            throw new NotImplementedException();
+            return null;
+        }
+                 
+
     }
 
     public class GSCalibratedRGBColor : GSRGBColor
     {
         new public static Class Class = new Class(typeof(GSCalibratedRGBColor));
         new public static GSCalibratedRGBColor Alloc() { return new GSCalibratedRGBColor(); }
+
+        public override NSString ColorSpaceName
+        {
+            get { return NSColorSpace.NSCalibratedRGBColorSpace; ; }
+        }
+
+        public virtual NSColor InitWithCalibratedRed(double red, double green, double blue, double alpha)
+        {
+            NSColor self = this;
+
+            if (red < 0.0) red = 0.0;
+            else if (red > 1.0) red = 1.0;
+            _red_component = red;
+
+            if (green < 0.0) green = 0.0;
+            else if (green > 1.0) green = 1.0;
+            _green_component = green;
+
+            if (blue < 0.0) blue = 0.0;
+            else if (blue > 1.0) blue = 1.0;
+            _blue_component = blue;
+
+            {
+                double r = _red_component;
+                double g = _green_component;
+                double b = _blue_component;
+
+                if (r == g && r == b)
+                {
+                    _hue_component = 0;
+                    _saturation_component = 0;
+                    _brightness_component = r;
+                }
+                else
+                {
+                    double H;
+                    double V;
+                    double Temp;
+                    double diff;
+
+                    V = (r > g ? r : g);
+                    V = (b > V ? b : V);
+                    Temp = (r < g ? r : g);
+                    Temp = (b < Temp ? b : Temp);
+                    diff = V - Temp;
+                    if (V == r)
+                    {
+                        H = (g - b) / diff;
+                    }
+                    else if (V == g)
+                    {
+                        H = (b - r) / diff + 2;
+                    }
+                    else
+                    {
+                        H = (r - g) / diff + 4;
+                    }
+                    if (H < 0)
+                    {
+                        H += 6;
+                    }
+                    _hue_component = H / 6;
+                    _saturation_component = diff / V;
+                    _brightness_component = V;
+                }
+            }
+
+            if (alpha < 0.0) alpha = 0.0;
+            else if (alpha > 1.0) alpha = 1.0;
+            _alpha_component = alpha;
+
+            return self;
+        }
+
+        public virtual NSColor InitWithCalibratedHue(double hue, double saturation, double brightness, double alpha)
+        {
+            throw new NotImplementedException();
+            return null;
+        }
+			
+        
     }
 
     public class GSPatternColor : NSColor
     {
         new public static Class Class = new Class(typeof(GSPatternColor));
         new public static GSPatternColor Alloc() { return new GSPatternColor(); }
+
+        protected NSImage _pattern;
+
+        public override NSString ColorSpaceName
+        {
+            get { return NSColorSpace.NSPatternColorSpace; ; }
+        }
+
+        public virtual NSColor InitWithPatternImage(NSImage pattern)
+        {
+            NSColor self = this;
+
+            _pattern = pattern;
+
+            return self;
+        }
+
+        
     }
 
 
 
     public class NSColor : NSObject
     {
-        public const float NSBlack = 0.0f;
-        public const float NSDarkGray = 0.333f;
-        public const float NSGray = 0.5f;
-        public const float NSLightGray = 0.667f;
-        public const float NSWhite = 1.0f;
+        public const double NSBlack = 0.0f;
+        public const double NSDarkGray = 0.333f;
+        public const double NSGray = 0.5f;
+        public const double NSLightGray = 0.667f;
+        public const double NSWhite = 1.0f;
 
 
         new public static Class Class = new Class(typeof(NSColor));
         new public static NSColor Alloc() { return new NSColor(); }
         static Class NSColorClass;
 
-        static bool gnustep_gui_ignores_alpha = true;
-        static NSColorList systemColors = null;
-        static NSColorList defaultSystemColors = null;
-        static NSMutableDictionary colorStrings = null;
-        static NSMutableDictionary systemDict = null;
+        static bool Gnustep_gui_ignores_alpha = true;
+        static NSColorList SystemColors = null;
+        static NSColorList DefaultSystemColors = null;
+        static NSMutableDictionary ColorStrings = null;
+        static NSMutableDictionary SystemDict = null;
 
 
         public NSColor()
         {
         }
 
-        #if TEMP
+        //#if TEMP
         static NSColor() { Initialize(); }
         public static void Initialize()
         {
@@ -135,7 +619,7 @@ namespace Smartmobili.Cocoa
             //[self setVersion: 3);
 
             // ignore alpha by default
-            gnustep_gui_ignores_alpha = true;
+            Gnustep_gui_ignores_alpha = true;
 
             // Load or define the system colour list
             InitSystemColors();
@@ -161,12 +645,12 @@ namespace Smartmobili.Cocoa
             // Set up a dictionary containing the names of all the system colors
             // as keys and with colors in string format as values.
             white = NSString.StringWithFormat(@"%g %g %g", (double)NSWhite, (double)NSWhite, (double)NSWhite);
-            lightGray = NSString.StringWithFormat(@"%g %g %g", (double)NSWhite, (double)NSWhite, (double)NSWhite);
-            gray = NSString.StringWithFormat(@"%g %g %g", (double)NSWhite, (double)NSWhite, (double)NSWhite);
-            darkGray = NSString.StringWithFormat(@"%g %g %g", (double)NSWhite, (double)NSWhite, (double)NSWhite);
-            black = NSString.StringWithFormat(@"%g %g %g", (double)NSWhite, (double)NSWhite, (double)NSWhite);
+            lightGray = NSString.StringWithFormat(@"%g %g %g", (double)NSLightGray, (double)NSLightGray, (double)NSLightGray);
+            gray = NSString.StringWithFormat(@"%g %g %g", (double)NSGray, (double)NSGray, (double)NSGray);
+            darkGray = NSString.StringWithFormat(@"%g %g %g", (double)NSDarkGray, (double)NSDarkGray, (double)NSDarkGray);
+            black = NSString.StringWithFormat(@"%g %g %g", (double)NSBlack, (double)NSBlack, (double)NSBlack);
 
-            colorStrings = (NSMutableDictionary)NSMutableDictionary.Alloc().InitWithObjectsAndKeys(
+            ColorStrings = (NSMutableDictionary)NSMutableDictionary.Alloc().InitWithObjectsAndKeys(
              lightGray, (NSString)@"controlBackgroundColor",
              lightGray, (NSString)@"controlColor",
              lightGray, (NSString)@"controlHighlightColor",
@@ -204,12 +688,12 @@ namespace Smartmobili.Cocoa
                 //black, (NSString)@"windowFrameTextColor",
              null);
 
-            systemColors = NSColorList.ColorListNamed(@"System");
-            defaultSystemColors = (NSColorList)NSColorList.Alloc().InitWithName(@"System");
-            NSColorList._SetDefaultSystemColorList(defaultSystemColors);
-            if (systemColors == null)
+            SystemColors = NSColorList.ColorListNamed(@"System");
+            DefaultSystemColors = (NSColorList)NSColorList.Alloc().InitWithName(@"System");
+            NSColorList._SetDefaultSystemColorList(DefaultSystemColors);
+            if (SystemColors == null)
             {
-                systemColors = defaultSystemColors;
+                SystemColors = DefaultSystemColors;
             }
 
             {
@@ -218,47 +702,47 @@ namespace Smartmobili.Cocoa
 
                 // Set up default system colors
 
-                enumerator = colorStrings.KeyEnumerator();
+                enumerator = ColorStrings.KeyEnumerator();
 
                 while ((key = (NSString)enumerator.NextObject()) != null)
                 {
                     NSColor color;
 
-                    if ((color = systemColors.ColorWithKey(key)) == null)
+                    if ((color = SystemColors.ColorWithKey(key)) == null)
                     {
                         NSString aColorString;
 
-                        aColorString = (NSString)colorStrings.ObjectForKey(key);
+                        aColorString = (NSString)ColorStrings.ObjectForKey(key);
                         color = NSColor.ColorFromString(aColorString);
 
                         //NSCAssert1(color, @"couldn't get default system color %@", key);
-                        systemColors.SetColor(color, key);
+                        SystemColors.SetColor(color, key);
                     }
-                    if (defaultSystemColors != systemColors)
+                    if (DefaultSystemColors != SystemColors)
                     {
-                        defaultSystemColors.SetColor(color, key);
+                        DefaultSystemColors.SetColor(color, key);
                     }
                 }
             }
 
-            systemDict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+            SystemDict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
         }
 
 
         public static NSColor SystemColorWithName(NSString name)
         {
-            NSColor col = SystemDict.ObjectForKey(name);
+            NSColor col = (NSColor)SystemDict.ObjectForKey(name);
 
             if (col == null)
             {
                 col = NSColor.ColorWithCatalogName(@"System", name);
-                systemDict.SetObjectForKey(col, name);
+                SystemDict.SetObjectForKey(col, name);
             }
 
             return col;
         }
 
-        public static NSColor ColorWithCalibratedHue(float hue, float saturation, float brightness, float alpha)
+        public static NSColor ColorWithCalibratedHue(double hue, double saturation, double brightness, double alpha)
         {
             id color;
 
@@ -268,7 +752,7 @@ namespace Smartmobili.Cocoa
             return (NSColor)color;
         }
 
-        public static NSColor ColorWithCalibratedRed(float red, float green, float blue, float alpha)
+        public static NSColor ColorWithCalibratedRed(double red, double green, double blue, double alpha)
         {
             id color;
 
@@ -278,7 +762,7 @@ namespace Smartmobili.Cocoa
             return (NSColor)color;
         }
 
-        public static NSColor ColorWithCalibratedWhite(float white, float alpha)
+        public static NSColor ColorWithCalibratedWhite(double white, double alpha)
         {
             id color;
 
@@ -298,7 +782,7 @@ namespace Smartmobili.Cocoa
             return (NSColor)color;
         }
 
-        public static NSColor ColorWithDeviceCyan(float cyan, float magenta, float yellow, float black, float alpha)
+        public static NSColor ColorWithDeviceCyan(double cyan, double magenta, double yellow, double black, double alpha)
         {
             id color;
 
@@ -308,7 +792,7 @@ namespace Smartmobili.Cocoa
             return (NSColor)color;
         }
 
-        public static NSColor ColorWithDeviceHue(float hue, float saturation, float brightness, float alpha)
+        public static NSColor ColorWithDeviceHue(double hue, double saturation, double brightness, double alpha)
         {
             id color;
 
@@ -318,7 +802,7 @@ namespace Smartmobili.Cocoa
             return (NSColor)color;
         }
 
-        public static NSColor ColorWithDeviceRed(float red, float green, float blue, float alpha)
+        public static NSColor ColorWithDeviceRed(double red, double green, double blue, double alpha)
         {
             id color;
 
@@ -328,7 +812,7 @@ namespace Smartmobili.Cocoa
             return (NSColor)color;
         }
 
-        public static NSColor ColorWithDeviceWhite(float white, float alpha)
+        public static NSColor ColorWithDeviceWhite(double white, double alpha)
         {
             id color;
 
@@ -390,7 +874,7 @@ namespace Smartmobili.Cocoa
         {
             get { return ColorWithCalibratedWhite(0.0f, 0.0f); }
         }
-        #if TEMP2        
+        //#if TEMP2        
 
 
         public static NSColor CyanColor
@@ -461,8 +945,8 @@ namespace Smartmobili.Cocoa
 
         public static bool IgnoresAlpha
         {
-            get { return gnustep_gui_ignores_alpha; }
-            set { gnustep_gui_ignores_alpha = value; }
+            get { return Gnustep_gui_ignores_alpha; }
+            set { Gnustep_gui_ignores_alpha = value; }
         }
 
 
@@ -656,27 +1140,27 @@ namespace Smartmobili.Cocoa
         //}
 
 
-        public virtual void GetCyan(ref float cyan, ref float magenta, ref float yellow, ref float black, ref float alpha)
+        public virtual void GetCyanMagentaYellowBlackAlpha(ref double cyan, ref double magenta, ref double yellow, ref double black, ref double alpha)
         {
-            //[NSException raise: NSInternalInconsistencyException format: @"Called getCyan:magenta:yellow:black:alpha: on non-CMYK colour");
+            NSException.Raise(@"NSInternalInconsistencyException", @"Called getCyan:magenta:yellow:black:alpha: on non-CMYK colour");
         }
 
 
-        public virtual void GetHue(ref float hue, ref float saturation, ref float brightness, ref float alpha)
+        public virtual void GetHueSaturationBrightnessAlpha(ref double hue, ref double saturation, ref double brightness, ref double alpha)
         {
-            //[NSException raise: NSInternalInconsistencyException format: @"Called getHue:saturation:brightness:alpha: on non-RGB colour");
+            NSException.Raise(@"NSInternalInconsistencyException", @"Called getHue:saturation:brightness:alpha: on non-RGB colour");
         }
 
 
-        public virtual void GetRed(ref float red, ref float green, ref float blue, ref float alpha)
+        public virtual void GetRedGreenBlueAlpha(ref double red, ref double green, ref double blue, ref double alpha)
         {
-            //[NSException raise: NSInternalInconsistencyException format: @"Called getRed:green:blue:alpha: on non-RGB colour");
+            NSException.Raise(@"NSInternalInconsistencyException", @"Called getRed:green:blue:alpha: on non-RGB colour");
         }
 
 
-        public virtual void GetWhite(ref float white, ref float alpha)
+        public virtual void GetWhiteAlpha(ref double white, ref double alpha)
         {
-            //[NSException raise: NSInternalInconsistencyException format: @"Called getWhite:alpha: on non-grayscale colour");
+            NSException.Raise(@"NSInternalInconsistencyException", @"Called getWhite:alpha: on non-grayscale colour");
         }
 
         public virtual bool IsEqual(id other)
@@ -692,38 +1176,38 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public virtual float AlphaComponent
+        public virtual double AlphaComponent
         {
-            get { return 1.0f; }
+            get { return 1.0; }
         }
 
 
-        public virtual float BlackComponent
+        public virtual double BlackComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called blackComponent on non-CMYK colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called blackComponent on non-CMYK colour");
+                return 0.0;
             }
         }
 
 
-        public virtual float BlueComponent
+        public virtual double BlueComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called blueComponent on non-RGB colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called blueComponent on non-RGB colour");
+                return 0.0;
             }
         }
 
 
-        public virtual float BrightnessComponent
+        public virtual double BrightnessComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called brightnessComponent on non-RGB colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called brightnessComponent on non-RGB colour");
+                return 0.0;
             }
         }
 
@@ -731,7 +1215,7 @@ namespace Smartmobili.Cocoa
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called catalogNameComponent on colour with name");
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called catalogNameComponent on colour with name");
                 return null;
             }
         }
@@ -740,38 +1224,38 @@ namespace Smartmobili.Cocoa
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called colorNameComponent on colour with name");
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called colorNameComponent on colour with name");
                 return null;
             }
         }
 
 
-        public virtual float CyanComponent
+        public virtual double CyanComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called cyanComponent on non-CMYK colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called cyanComponent on non-CMYK colour");
+                return 0.0;
             }
         }
 
 
-        public virtual float GreenComponent
+        public virtual double GreenComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called greenComponent on non-RGB colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called greenComponent on non-RGB colour");
+                return 0.0;
             }
         }
 
 
-        public virtual float HueComponent
+        public virtual double HueComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called hueComponent on non-RGB colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called hueComponent on non-RGB colour");
+                return 0.0;
             }
         }
 
@@ -794,42 +1278,42 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual float MagentaComponent
+        public virtual double MagentaComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called magentaComponent on non-CMYK colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called magentaComponent on non-CMYK colour");
+                return 0.0;
             }
         }
 
 
-        public virtual float RedComponent
+        public virtual double RedComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called redComponent on non-RGB colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called redComponent on non-RGB colour");
+                return 0.0;
             }
         }
 
 
-        public virtual float SaturationComponent
+        public virtual double SaturationComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called saturationComponent on non-RGB colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called saturationComponent on non-RGB colour");
+                return 0.0;
             }
         }
 
 
-        public virtual float WhiteComponent
+        public virtual double WhiteComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called whiteComponent on non-grayscale colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called whiteComponent on non-grayscale colour");
+                return 0.0;
             }
         }
 
@@ -837,18 +1321,18 @@ namespace Smartmobili.Cocoa
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called patternImage on non-pattern colour");
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called patternImage on non-pattern colour");
                 return null;
             }
         }
 
 
-        public virtual float YellowComponent
+        public virtual double YellowComponent
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called yellowComponent on non-CMYK colour");
-                return 0.0f;
+                NSException.Raise(@"NSInternalInconsistencyException", @"Called yellowComponent on non-CMYK colour");
+                return 0.0;
             }
         }
 
@@ -895,7 +1379,7 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
-        public static NSColor ColorWithColorSpace(NSColorSpace space, float[] comp, int number)
+        public static NSColor ColorWithColorSpace(NSColorSpace space, double[] comp, int number)
         {
             if (space == NSColorSpace.GenericRGBColorSpace && (number == 4))
             {
@@ -988,7 +1472,7 @@ namespace Smartmobili.Cocoa
         public virtual uint Hash()
         {
             int nums = NumberOfComponents;
-            float[] floats = new float[nums];
+            double[] floats = new double[nums];
             uint h = 0;
             uint i;
 
@@ -1005,23 +1489,23 @@ namespace Smartmobili.Cocoa
         {
             get
             {
-                //[NSException raise: NSInternalInconsistencyException format: @"Called numberOfComponents on non-standard colour"];
+                NSException.Raise("NSInternalInconsistencyException", @"Called numberOfComponents on non-standard colour");
                 return 0;
             }
         }
 
-        public virtual void GetComponents(ref float[] components)
+        public virtual void GetComponents(ref double[] components)
         {
             NSException.Raise("NSInternalInconsistencyException", @"Called getComponents: on non-standard colour");
         }
 
 
 
-        public virtual NSColor BlendedColorWithFraction(float fraction, NSColor aColor)
+        public virtual NSColor BlendedColorWithFraction(double fraction, NSColor aColor)
         {
             NSColor myColor = ColorUsingColorSpaceName(NSColorSpace.NSCalibratedRGBColorSpace);
             NSColor other = aColor.ColorUsingColorSpaceName(NSColorSpace.NSCalibratedRGBColorSpace);
-            float mr, mg, mb, ma, or, og, ob, oa, red, green, blue, alpha;
+            double mr, mg, mb, ma, or, og, ob, oa, red, green, blue, alpha;
 
             if (fraction <= 0.0f)
             {
@@ -1037,9 +1521,9 @@ namespace Smartmobili.Cocoa
             }
 
             mr = mg = mb = ma = 0;
-            myColor.GetRed(ref mr, ref mg, ref mb, ref ma);
+            myColor.GetRedGreenBlueAlpha(ref mr, ref mg, ref mb, ref ma);
             or = og = ob = oa = 0;
-            other.GetRed(ref or, ref og, ref ob, ref oa);
+            other.GetRedGreenBlueAlpha(ref or, ref og, ref ob, ref oa);
             red = fraction * or + (1 - fraction) * mr;
             green = fraction * og + (1 - fraction) * mg;
             blue = fraction * ob + (1 - fraction) * mb;
@@ -1048,17 +1532,17 @@ namespace Smartmobili.Cocoa
             //  return [NSColorClass colorWithCalibratedRed: red green: green blue: blue alpha: alpha];
         }
 
-        public virtual NSColor ColorWithAlphaComponent(float alpha)
+        public virtual NSColor ColorWithAlphaComponent(double alpha)
         {
             return this;
         }
 
-        public virtual NSColor HighlightWithLevel(float level)
+        public virtual NSColor HighlightWithLevel(double level)
         {
             return BlendedColorWithFraction(level, HighlightColor);
         }
 
-        public virtual NSColor ShadowWithLevel(float level)
+        public virtual NSColor ShadowWithLevel(double level)
         {
             return BlendedColorWithFraction(level, ShadowColor);
         }
@@ -1131,11 +1615,11 @@ namespace Smartmobili.Cocoa
                     }
                     if (colorSpace == 1)
                     {
-                        self = NSColor.ColorWithCalibratedRed((float)red, (float)green, (float)blue, (float)alpha);
+                        self = NSColor.ColorWithCalibratedRed((double)red, (double)green, (double)blue, (double)alpha);
                     }
                     else
                     {
-                        self = NSColor.ColorWithDeviceRed((float)red, (float)green, (float)blue, (float)alpha);
+                        self = NSColor.ColorWithDeviceRed((double)red, (double)green, (double)blue, (double)alpha);
                     }
                 }
                 else if ((colorSpace == 3) || (colorSpace == 4))
@@ -1157,11 +1641,11 @@ namespace Smartmobili.Cocoa
                     }
                     if (colorSpace == 3)
                     {
-                        self = NSColor.ColorWithCalibratedWhite((float)white, (float)alpha);
+                        self = NSColor.ColorWithCalibratedWhite((double)white, (double)alpha);
                     }
                     else
                     {
-                        self = NSColor.ColorWithDeviceWhite((float)white, (float)alpha);
+                        self = NSColor.ColorWithDeviceWhite((double)white, (double)alpha);
                     }
                 }
                 else if (colorSpace == 5)
@@ -1188,7 +1672,7 @@ namespace Smartmobili.Cocoa
                         scanner.ScanDouble(ref alpha);
                     }
 
-                    self = NSColor.ColorWithDeviceCyan((float)cyan, (float)magenta, (float)yellow, (float)black, (float)alpha);
+                    self = NSColor.ColorWithDeviceCyan((double)cyan, (double)magenta, (double)yellow, (double)black, (double)alpha);
                 }
                 else if (colorSpace == 6)
                 {
@@ -1209,18 +1693,18 @@ namespace Smartmobili.Cocoa
             }
             else if (aDecoder.VersionForClassName(@"NSColor") < 3)
             {
-                float red;
-                float green;
-                float blue;
-                float cyan;
-                float magenta;
-                float yellow;
-                float black;
-                float hue;
-                float saturation;
-                float brightness;
-                float alpha;
-                float white;
+                double red;
+                double green;
+                double blue;
+                double cyan;
+                double magenta;
+                double yellow;
+                double black;
+                double hue;
+                double saturation;
+                double brightness;
+                double alpha;
+                double white;
 
                 int active_component;
                 int valid_components;
@@ -1230,10 +1714,10 @@ namespace Smartmobili.Cocoa
                 bool is_clear;
 
                 // Version 1
-                aDecoder.DecodeValueOfObjCType2<float>(out red);
-                aDecoder.DecodeValueOfObjCType2<float>(out green);
-                aDecoder.DecodeValueOfObjCType2<float>(out blue);
-                aDecoder.DecodeValueOfObjCType2<float>(out alpha);
+                aDecoder.DecodeValueOfObjCType2<double>(out red);
+                aDecoder.DecodeValueOfObjCType2<double>(out green);
+                aDecoder.DecodeValueOfObjCType2<double>(out blue);
+                aDecoder.DecodeValueOfObjCType2<double>(out alpha);
                 aDecoder.DecodeValueOfObjCType2<bool>(out is_clear);
 
 
@@ -1241,37 +1725,37 @@ namespace Smartmobili.Cocoa
                 aDecoder.DecodeValueOfObjCType2<NSString>(out colorspace_name);
                 aDecoder.DecodeValueOfObjCType2<NSString>(out catalog_name);
                 aDecoder.DecodeValueOfObjCType2<NSString>(out color_name);
-                aDecoder.DecodeValueOfObjCType2<float>(out cyan);
-                aDecoder.DecodeValueOfObjCType2<float>(out magenta);
-                aDecoder.DecodeValueOfObjCType2<float>(out yellow);
-                aDecoder.DecodeValueOfObjCType2<float>(out black);
-                aDecoder.DecodeValueOfObjCType2<float>(out hue);
-                aDecoder.DecodeValueOfObjCType2<float>(out saturation);
-                aDecoder.DecodeValueOfObjCType2<float>(out brightness);
-                aDecoder.DecodeValueOfObjCType2<float>(out white);
+                aDecoder.DecodeValueOfObjCType2<double>(out cyan);
+                aDecoder.DecodeValueOfObjCType2<double>(out magenta);
+                aDecoder.DecodeValueOfObjCType2<double>(out yellow);
+                aDecoder.DecodeValueOfObjCType2<double>(out black);
+                aDecoder.DecodeValueOfObjCType2<double>(out hue);
+                aDecoder.DecodeValueOfObjCType2<double>(out saturation);
+                aDecoder.DecodeValueOfObjCType2<double>(out brightness);
+                aDecoder.DecodeValueOfObjCType2<double>(out white);
 
                 aDecoder.DecodeValueOfObjCType2<int>(out active_component);
                 aDecoder.DecodeValueOfObjCType2<int>(out valid_components);
 
                 if (colorspace_name.IsEqualToString(@"NSDeviceCMYKColorSpace"))
                 {
-                    self = NSColor.ColorWithDeviceCyan((float)cyan, (float)magenta, (float)yellow, (float)black, (float)alpha);
+                    self = NSColor.ColorWithDeviceCyan((double)cyan, (double)magenta, (double)yellow, (double)black, (double)alpha);
                 }
                 else if (colorspace_name.IsEqualToString(@"NSDeviceWhiteColorSpace"))
                 {
-                    self = NSColor.ColorWithDeviceWhite((float)white, (float)alpha);
+                    self = NSColor.ColorWithDeviceWhite((double)white, (double)alpha);
                 }
                 else if (colorspace_name.IsEqualToString(@"NSCalibratedWhiteColorSpace"))
                 {
-                    self = NSColor.ColorWithCalibratedWhite((float)white, (float)alpha);
+                    self = NSColor.ColorWithCalibratedWhite((double)white, (double)alpha);
                 }
                 else if (colorspace_name.IsEqualToString(@"NSDeviceRGBColorSpace"))
                 {
-                    self = NSColor.ColorWithDeviceRed((float)red, (float)green, (float)blue, (float)alpha);
+                    self = NSColor.ColorWithDeviceRed((double)red, (double)green, (double)blue, (double)alpha);
                 }
                 else if (colorspace_name.IsEqualToString(@"NSCalibratedRGBColorSpace"))
                 {
-                    self = NSColor.ColorWithCalibratedRed((float)red, (float)green, (float)blue, (float)alpha);
+                    self = NSColor.ColorWithCalibratedRed((double)red, (double)green, (double)blue, (double)alpha);
                 }
                 else if (colorspace_name.IsEqualToString(@"NSNamedColorSpace"))
                 {
@@ -1319,6 +1803,33 @@ namespace Smartmobili.Cocoa
 
         private static NSColor ColorFromString(NSString str)
         {
+            if (str.HasPrefix(@"{"))
+            {
+                //NSDictionary dict = null;
+                //NSString space = null;
+                //double alpha = 0;
+
+                //FIXME
+                throw new NotImplementedException();
+                return null;
+            }
+            else
+            {
+                double r, g, b;
+                NSScanner scanner = (NSScanner)NSScanner.Alloc().InitWithString(str);
+
+                r = g = b = 0;
+                if (scanner.ScanDouble(ref r) &&
+                scanner.ScanDouble(ref g) &&
+                scanner.ScanDouble(ref b) &&
+                scanner.IsAtEnd())
+                {
+
+                    return ColorWithCalibratedRed(r, g, b, 1.0);
+
+                }
+            }
+
             return null;
         }
 
@@ -1336,14 +1847,14 @@ namespace Smartmobili.Cocoa
 
 
 
-        #endif //TEMP2
+        //#endif //TEMP2
 
-        #endif //TEMP
+        //#endif //TEMP
 
-        public static NSColor ColorWithCalibratedRed(float red, float green, float blue, float alpha)
-        {
-            return null;
-        }
+        //public static NSColor ColorWithCalibratedRed(double red, double green, double blue, double alpha)
+        //{
+        //    return null;
+        //}
 
         public static NSColor TextColor
         {

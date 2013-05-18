@@ -36,6 +36,9 @@ namespace Smartmobili.Cocoa
 
     public class NSData : NSObject
     {
+        new public static Class Class = new Class(typeof(NSData));
+        new public static NSData Alloc() { return new NSData(); }
+
         public byte[] Bytes { get; protected set;}
 
 
@@ -52,10 +55,6 @@ namespace Smartmobili.Cocoa
 
         }
 
-        new public static NSData Alloc()
-        {
-            return new NSData();
-        }
 
         public static NSData DataWithBytes(byte[] bytes)
         {
@@ -74,7 +73,7 @@ namespace Smartmobili.Cocoa
         {
             NSData self = this;
 
-            this.Bytes = new byte[bytes.Length];
+            this.Bytes = bytes;
 
             return self;
         }

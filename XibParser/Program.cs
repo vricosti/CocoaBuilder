@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Smartmobili.Cocoa
@@ -10,6 +12,18 @@ namespace Smartmobili.Cocoa
     {
         static void Main(string[] args)
         {
+           
+#if TEST_COLOR
+            GSNamedColor nColor1 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list1", "color1");
+            GSNamedColor nColor2 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list2", "color2");
+            GSNamedColor nColor11 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list1", "color1");
+
+            //Why does it work without having to override GetHashCode and Equals ???
+            System.Diagnostics.Debug.Assert(nColor1.Equals(nColor11));
+#endif
+
+
+
 #if TEST
 
 #if TEST_PATH
@@ -37,8 +51,8 @@ namespace Smartmobili.Cocoa
             System.Diagnostics.Debug.Assert(strPathRes.IsEqualToString(@"/"));
 #endif
 
-            string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
-            //string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\Compose.xib";
+            //string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
+            string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\Compose.xib";
 
 
             NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);

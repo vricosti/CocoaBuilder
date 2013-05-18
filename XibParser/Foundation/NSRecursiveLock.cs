@@ -25,33 +25,24 @@ using System.Threading;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSLock : NSObject
+    public class NSRecursiveLock : NSObject
     {
-        new public static Class Class = new Class(typeof(NSLock));
-        new public static NSLock Alloc() { return new NSLock(); }
+        new public static Class Class = new Class(typeof(NSRecursiveLock));
+        new public static NSRecursiveLock Alloc() { return new NSRecursiveLock(); }
 
-        SpinLock _spinLock = new SpinLock();
-        bool _gotLock = false;
-
-
-        //readonly object locker = new object();
+        readonly object _locker = new object();
 
         public virtual void Lock()
         {
             //try
-            //{
-                _spinLock.Enter(ref _gotLock);
-            //}
-            
-            //Monitor.Enter(locker);
+            {
+                Monitor.Enter(_locker);
+            }
         }
 
         public virtual void Unlock()
         {
-            if (_gotLock) 
-                _spinLock.Exit();
-
-            //Monitor.Exit(locker);
+            Monitor.Exit(_locker);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Smartmobili.Cocoa
     //https://github.com/gnustep/gnustep-gui/blob/master/Source/GSModelLoaderFactory.m
     public class GSModelLoader : NSObject
     {
-        public static Class Class = new Class(typeof(GSModelLoader));
+        new public static Class Class = new Class(typeof(GSModelLoader));
 
         public static NSString Type
         {

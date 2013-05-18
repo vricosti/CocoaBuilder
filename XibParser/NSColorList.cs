@@ -45,10 +45,17 @@ namespace Smartmobili.Cocoa
         protected NSMutableArray _orderedColorKeys;
 
         static NSMutableArray _availableColorLists = null;
-        static NSLock _colorListLock = new NSLock();
+        static NSRecursiveLock _colorListLock = null;
 
-        static NSColorList defaultSystemColorList = null;
-        static NSColorList themeColorList = null;
+        static NSColorList DefaultSystemColorList = null;
+        static NSColorList ThemeColorList = null;
+
+
+        static NSColorList() { Initialize(); }
+        static void Initialize()
+        {
+            _colorListLock = (NSRecursiveLock)NSRecursiveLock.Alloc().Init();
+        }
 
 
         public static NSArray AvailableColorLists
@@ -58,7 +65,7 @@ namespace Smartmobili.Cocoa
                 NSArray a = null;
 
                 //FIXME
-                //NSColor.WhiteColor
+                //NSColor.WhiteColor;
                 NSColorList._LoadAvailableColorLists(null);
 
                 return a;
@@ -435,9 +442,9 @@ namespace Smartmobili.Cocoa
                 /*
                  * Keep any pre-loaded system color list.
                  */
-                if (themeColorList != null)
+                if (ThemeColorList != null)
                 {
-                    _availableColorLists.AddObject(themeColorList);
+                    _availableColorLists.AddObject(ThemeColorList);
                 }
 
                 /*
@@ -473,9 +480,9 @@ namespace Smartmobili.Cocoa
                     }
                 }
 
-                if (defaultSystemColorList != null)
+                if (DefaultSystemColorList != null)
                 {
-                    _availableColorLists.AddObject(defaultSystemColorList);
+                    _availableColorLists.AddObject(DefaultSystemColorList);
                 }
                 _colorListLock.Unlock();
             }
@@ -484,14 +491,14 @@ namespace Smartmobili.Cocoa
         public static void _SetDefaultSystemColorList(NSColorList aList)
         {
             _colorListLock.Lock();
-            if (defaultSystemColorList != aList)
+            if (DefaultSystemColorList != aList)
             {
-                if (defaultSystemColorList != null
-                  && _availableColorLists.LastObject() == defaultSystemColorList)
+                if (DefaultSystemColorList != null
+                  && _availableColorLists.LastObject() == DefaultSystemColorList)
                 {
                     _availableColorLists.RemoveLastObject();
                 }
-                defaultSystemColorList = aList;
+                DefaultSystemColorList = aList;
                 _availableColorLists.AddObject(aList);
             }
             _colorListLock.Unlock();
@@ -500,14 +507,14 @@ namespace Smartmobili.Cocoa
         public static void _SetThemeSystemColorList(NSColorList aList)
         {
             _colorListLock.Lock();
-            if (themeColorList != aList)
+            if (ThemeColorList != aList)
             {
-                if (themeColorList != null && _availableColorLists.Count > 0
-                  && _availableColorLists.ObjectAtIndex(0) == themeColorList)
+                if (ThemeColorList != null && _availableColorLists.Count > 0
+                  && _availableColorLists.ObjectAtIndex(0) == ThemeColorList)
                 {
                     _availableColorLists.RemoveObjectAtIndex(0);
                 }
-                themeColorList = aList;
+                ThemeColorList = aList;
                 _availableColorLists.InsertObject(aList, 0);
             }
             _colorListLock.Unlock();
@@ -520,7 +527,7 @@ namespace Smartmobili.Cocoa
             NSSearchPathDomainMask domainMask,
             bool expandTilde)
         {
-            return null;
+            return (NSArray)NSArray.Alloc().Init();
         }
     }
 }

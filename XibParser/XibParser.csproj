@@ -110,6 +110,7 @@
     <Compile Include="Foundation\NSMutableCharacterSet.cs" />
     <Compile Include="Foundation\NSPathUtilities.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
+    <Compile Include="Foundation\NSRecursiveLock.cs" />
     <Compile Include="Foundation\NSScanner.cs" />
     <Compile Include="Foundation\NSUnarchiver.cs" />
     <Compile Include="GSModelLoaderFactory.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="AppKit\Toolbar\NSToolbarSpaceItem.cs" />
     <Compile Include="AppKit\NSView.cs" />
     <Compile Include="NSText.cs" />
+    <Compile Include="NSUInteger.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="AppKit\NSWindowTemplate.cs" />
     <Compile Include="NSXMLParser.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Utils\Bitfields.cs" />
     <Compile Include="Utils\KeyedList.cs" />
     <Compile Include="GSXibKeyedUnarchiver.cs" />
+    <Compile Include="Utils\Tools.cs" />
     <Compile Include="XibParser.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -31,9 +31,15 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSScanner));
         new public static NSScanner Alloc() { return new NSScanner(); }
 
+        public const int LONG_MAX = Int16.MaxValue;
+        public const int LONG_MIN = Int16.MinValue;
+        public const Int64 DBL_MAX = Int64.MaxValue;
+
+        static NSCharacterSet defaultSkipSet = null;
+
         NSCharacterSet _charactersToBeSkipped;
         uint _scanLocation;
-        //unichar _decimal;
+        Char _decimal;
         bool _caseSensitive;
         bool _isUnicode;
 
@@ -41,6 +47,11 @@ namespace Smartmobili.Cocoa
         protected NSString _string;
 
 
+        static NSScanner() { Initialize(); }
+        public static void Initialize()
+        {
+            defaultSkipSet = NSCharacterSet.WhitespaceAndNewlineCharacterSet;
+        }
 
         public static id ScannerWithString(NSString aString)
         {
@@ -53,21 +64,42 @@ namespace Smartmobili.Cocoa
 
             _string = aString;
 
+            CharactersToBeSkipped = defaultSkipSet;
+            _decimal = '.';
+
             return self;
         }
 
-//        #define	skipToNextField()	({\
-//  while (_scanLocation < myLength() && _charactersToBeSkipped != nil \
-//    && (*_skipImp)(_charactersToBeSkipped, memSel, myCharacter(_scanLocation)))\
-//    _scanLocation++;\
-//  (_scanLocation >= myLength()) ? NO : YES;\
-//})
+        public virtual bool IsAtEnd()
+        {
+            uint save__scanLocation;
+            bool ret;
+
+            if (_scanLocation >= MyLength())
+                return true;
+            save__scanLocation = _scanLocation;
+            ret = !SkipToNextField();
+            _scanLocation = save__scanLocation;
+            return ret;
+        }
+
+        
+        private uint MyLength()
+        {
+            return _string.Length;
+        }
+
+        private Char MyCharacter(uint location)
+        {
+            return _string[_scanLocation];
+        }
+
 
         private bool SkipToNextField()
         {
             while (_scanLocation < _string.Length && 
                  _charactersToBeSkipped != null &&
-                 _charactersToBeSkipped.CharacterIsMember(_string[_scanLocation]))
+                 _charactersToBeSkipped.CharacterIsMember(MyCharacter(_scanLocation)))
                  _scanLocation++;
 
             return (_scanLocation >= _string.Length) ? false : true;
@@ -146,9 +178,118 @@ namespace Smartmobili.Cocoa
 
         public virtual bool ScanDouble(ref double value)
         {
+            char c = (Char)0;
+            double num = 0.0;
+            long exponent = 0;
+            bool negative = false;
+            bool got_dot = false;
+            bool got_digit = false;
+            uint saveScanLocation = _scanLocation;
 
-            return false;
+            /* Skip whitespace */
+            if (!SkipToNextField())
+            {
+                _scanLocation = saveScanLocation;
+                return false;
+            }
+
+            /* Check for sign */
+            if (_scanLocation < MyLength())
+            {
+                switch (MyCharacter(_scanLocation))
+                {
+                    case '+':
+                        _scanLocation++;
+                        break;
+                    case '-':
+                        negative = true;
+                        _scanLocation++;
+                        break;
+                }
+            }
+
+
+            /* Process number */
+            while (_scanLocation < MyLength())
+            {
+                c = MyCharacter(_scanLocation);
+                if ((c >= '0') && (c <= '9'))
+                {
+                    /* Ensure that the number being accumulated will not overflow. */
+                    if (num >= (DBL_MAX / 10.000000001))
+                    {
+                        ++exponent;
+                    }
+                    else
+                    {
+                        num = (num * 10.0) + (c - '0');
+                        got_digit = true;
+                    }
+                    /* Keep track of the number of digits after the decimal point.
+                   If we just divided by 10 here, we would lose precision. */
+                    if (got_dot)
+                        --exponent;
+                }
+                else if (!got_dot && (c == _decimal))
+                {
+                    /* Note that we have found the decimal point. */
+                    got_dot = true;
+                }
+                else
+                {
+                    /* Any other character terminates the number. */
+                    break;
+                }
+                _scanLocation++;
+            }
+            if (!got_digit)
+            {
+                _scanLocation = saveScanLocation;
+                return false;
+            }
+
+            /* Check for trailing exponent */
+            if ((_scanLocation < MyLength()) && ((c == 'e') || (c == 'E')))
+            {
+                uint expScanLocation = _scanLocation;
+                int expval = 0;
+
+
+                _scanLocation++;
+                if (_ScanInt(ref expval))
+                {
+                    /* Check for exponent overflow */
+                    if (num != 0)
+                    {
+                        if ((exponent > 0) && (expval > (LONG_MAX - exponent)))
+                            exponent = LONG_MAX;
+                        else if ((exponent < 0) && (expval < (LONG_MIN - exponent)))
+                            exponent = LONG_MIN;
+                        else
+                            exponent += expval;
+                    }
+                }
+                else
+                {
+                    /* Numbers like 1.23eFOO are accepted (as 1.23). */
+                    _scanLocation = expScanLocation;
+                }
+            }
+
+            //if (value != 0) // ref cannot be null
+            {
+                if ((num != 0) && (exponent != 0))
+                    num *= Math.Pow(10.0, (double)exponent);
+                if (negative)
+                    value = -num;
+                else
+                    value = num;
+            }
+            return true;
         }
+
+
+
 
         public virtual bool ScanUpToCharactersFromSet(NSCharacterSet stopSet, ref NSString stringValue)
         {
@@ -178,6 +319,41 @@ namespace Smartmobili.Cocoa
             stringValue = _string.SubstringWithRange(range);
 
             return true;
+        }
+
+        public virtual NSString String
+        {
+            get { return _string; }
+        }
+
+
+        public virtual uint ScanLocation
+        {
+            get
+            {
+                return _scanLocation;
+            }
+            set
+            {
+                if (_scanLocation <= MyLength())
+                    _scanLocation = value;
+                else
+                    NSException.Raise("NSRangeException", @"Attempt to set scan location beyond end of string");
+            }
+        }
+
+        public virtual NSCharacterSet CharactersToBeSkipped
+        {
+            get 
+            {
+                return _charactersToBeSkipped;
+            }
+            set
+            {
+                _charactersToBeSkipped = value;
+                //_skipImp = (BOOL (*)(NSCharacterSet*, SEL, unichar))
+                //[_charactersToBeSkipped methodForSelector: memSel];
+            }
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Smartmobili.Cocoa
     public class NSArray : NSObject, IList<id>
     {
         new public static Class Class = new Class(typeof(NSArray));
+        new public static NSArray Alloc() { return new NSArray(); }
 
         protected  IList<id> _list = new List<id>();
 
@@ -40,10 +41,12 @@ namespace Smartmobili.Cocoa
            
         }
 
-        new public static NSArray Alloc()
+        // C# interop
+        public NSArray(IEnumerable<id> collection)
         {
-            return new NSArray();
+            _list = collection.ToList();
         }
+
 
         public static NSArray ArrayWithArray(NSArray anArray)
         {

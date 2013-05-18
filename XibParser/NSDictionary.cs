@@ -25,6 +25,8 @@ using System.Xml.Linq;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-base/blob/master/Source/NSDictionary.m
+
     public class NSDictionary : NSObject, IDictionary<id, id>
     {
         new public static Class Class = new Class(typeof(NSDictionary));
@@ -122,6 +124,7 @@ namespace Smartmobili.Cocoa
                     keys = NSMutableArray.ArrayWithCapacity(2);
                     objects = NSMutableArray.ArrayWithCapacity(2);
 
+                    //key = NSString.StringWithFormat(@"NS.object.%u", i);
                     key = (NSString)string.Format(@"NS.object.{0}", i); 
                     val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
 
@@ -137,7 +140,7 @@ namespace Smartmobili.Cocoa
                     }
                 }
 
-                return InitWithObjects((NSArray)objects, (NSArray)keys);
+                return InitWithObjectsForKeys((NSArray)objects, (NSArray)keys);
                 //return [self initWithObjects: objects forKeys: keys];;
             }
 
@@ -145,7 +148,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public virtual id InitWithObjects(NSArray objects, NSArray keys)
+        public virtual id InitWithObjectsForKeys(NSArray objects, NSArray keys)
         {
             id self = this;
 
@@ -169,9 +172,13 @@ namespace Smartmobili.Cocoa
 
         public virtual id InitWithObjectsAndKeys(params id[] objkey)
         {
-            id self = this;
+            NSArray objects = null;
+            NSArray keys = null;
 
-            return self;
+            objects = new NSArray(objkey.ToList().Where((c, i) => (i % 2 == 0) && (c != null)));
+            keys = new NSArray(objkey.ToList().Where((c, i) => i % 2 != 0));
+            
+            return InitWithObjectsForKeys(objects, keys);
         }
 
 
