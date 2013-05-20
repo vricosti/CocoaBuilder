@@ -656,11 +656,14 @@ namespace Smartmobili.Cocoa
         public override id _DecodeDictionaryOfObjectsForElement(GSXibElement element)
         {
             NSDictionary elements = element.Elements;
-            NSMutableDictionary dict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+            NSEnumerator en;
+            NSString key;
+            NSMutableDictionary dict;
 
-            foreach (KeyValuePair<id, id> kvp in elements)
+            dict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+            en = elements.KeyEnumerator();
+            while ((key = (NSString)en.NextObject()) != null)
             {
-                NSString key = (NSString)kvp.Key;
                 id obj = this.ObjectForXib((GSXibElement)elements.ObjectForKey(key));
                 if (obj == null)
                     System.Diagnostics.Trace.WriteLine(string.Format("No object for {0} at key {1}", elements.ObjectForKey(key).ToString(), key.Value));
