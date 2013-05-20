@@ -59,45 +59,54 @@ namespace Smartmobili.Cocoa
             if (data != null)
             {
                 var u = GSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
-                NSMutableArray rootObjects = (NSMutableArray)u.DecodeObjectForKey(@"IBDocument.RootObjects");
-
-                NSWindowTemplate nsWindow = (NSWindowTemplate)rootObjects.Where(o =>
-                (o != null) && (o.IsKindOfClass(NSWindowTemplate.Class))).FirstOrDefault();
-                if (nsWindow != null)
+                id container = u.DecodeObjectForKey(@"IBDocument.Objects");
+                if (container == null || container.IsKindOfClass(IBObjectContainer.Class) == false)
                 {
-                    if (nsWindow.View != null)
+                    //result = NO;
+                }
+                else
+                {
+                    NSArray rootObjects = (NSArray)u.DecodeObjectForKey(@"IBDocument.RootObjects");
+
+                    NSWindowTemplate nsWindow = (NSWindowTemplate)rootObjects.Where(o =>
+                    (o != null) && (o.IsKindOfClass(NSWindowTemplate.Class))).FirstOrDefault();
+                    if (nsWindow != null)
                     {
-                        NSView view = (NSView)nsWindow.View;
-                        // We want to see differences between buttons starting from the upper button to the lower one
-                        // Note tha origin in cocoa is the left bottom side
-                        var btnArray = view.SubViews.Where(o => (o != null) && (o.GetType() == typeof(NSButton))).OrderByDescending(x => ((NSButton)x).Frame.Origin.Y).ToArray();
-                        if (btnArray != null && btnArray.Length > 0)
+                        if (nsWindow.View != null)
                         {
-                            KellermanSoftware.CompareNetObjects.CompareObjects compareObjects = new KellermanSoftware.CompareNetObjects.CompareObjects();
-                            if (!compareObjects.Compare(btnArray[0], btnArray[1]))
+                            NSView view = (NSView)nsWindow.View;
+                            // We want to see differences between buttons starting from the upper button to the lower one
+                            // Note tha origin in cocoa is the left bottom side
+                            var btnArray = view.SubViews.Where(o => (o != null) && (o.GetType() == typeof(NSButton))).OrderByDescending(x => ((NSButton)x).Frame.Origin.Y).ToArray();
+                            if (btnArray != null && btnArray.Length > 0)
                             {
-                                System.Diagnostics.Trace.WriteLine(compareObjects.DifferencesString);
-                                Console.WriteLine(compareObjects.DifferencesString);
-                            }
-                            if (!compareObjects.Compare(btnArray[0], btnArray[2]))
-                            {
-                                System.Diagnostics.Trace.WriteLine(compareObjects.DifferencesString);
-                                Console.WriteLine(compareObjects.DifferencesString);
-                            }
-                            if (!compareObjects.Compare(btnArray[0], btnArray[3]))
-                            {
-                                System.Diagnostics.Trace.WriteLine(compareObjects.DifferencesString);
-                                Console.WriteLine(compareObjects.DifferencesString);
-                            }
-                            if (!compareObjects.Compare(btnArray[0], btnArray[4]))
-                            {
-                                System.Diagnostics.Trace.WriteLine(compareObjects.DifferencesString);
-                                Console.WriteLine(compareObjects.DifferencesString);
+                                KellermanSoftware.CompareNetObjects.CompareObjects compareObjects = new KellermanSoftware.CompareNetObjects.CompareObjects();
+                                if (!compareObjects.Compare(btnArray[0], btnArray[1]))
+                                {
+                                    System.Diagnostics.Trace.WriteLine(compareObjects.DifferencesString);
+                                    Console.WriteLine(compareObjects.DifferencesString);
+                                }
+                                if (!compareObjects.Compare(btnArray[0], btnArray[2]))
+                                {
+                                    System.Diagnostics.Trace.WriteLine(compareObjects.DifferencesString);
+                                    Console.WriteLine(compareObjects.DifferencesString);
+                                }
+                                if (!compareObjects.Compare(btnArray[0], btnArray[3]))
+                                {
+                                    System.Diagnostics.Trace.WriteLine(compareObjects.DifferencesString);
+                                    Console.WriteLine(compareObjects.DifferencesString);
+                                }
+                                if (!compareObjects.Compare(btnArray[0], btnArray[4]))
+                                {
+                                    System.Diagnostics.Trace.WriteLine(compareObjects.DifferencesString);
+                                    Console.WriteLine(compareObjects.DifferencesString);
+                                }
                             }
                         }
                     }
                 }
             }
+            
 #endif
         }
     }

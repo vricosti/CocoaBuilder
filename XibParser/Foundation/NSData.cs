@@ -55,6 +55,11 @@ namespace Smartmobili.Cocoa
 
         }
 
+        public static NSData Data()
+        {
+            return NSData.Alloc().InitWithBytes(new Byte[0]);
+        }
+
 
         public static NSData DataWithBytes(byte[] bytes)
         {

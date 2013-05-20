@@ -1678,7 +1678,7 @@ namespace Smartmobili.Cocoa
                 {
                     NSString catalog = (NSString)aDecoder.DecodeObjectForKey(@"NSCatalogName");
                     NSString name = (NSString)aDecoder.DecodeObjectForKey(@"NSColorName");
-                    //NSColor *color = [aDecoder decodeObjectForKey: @"NSColor"];
+                    //NSColor color = (NSColor)aDecoder.DecodeObjectForKey(@"NSColor");
 
                     self = NSColor.ColorWithCatalogName(catalog, name);
                 }

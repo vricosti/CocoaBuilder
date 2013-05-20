@@ -27,6 +27,9 @@ namespace Smartmobili.Cocoa
 
     public class IBObjectContainer : NSObject
     {
+        new public static Class Class = new Class(typeof(IBObjectContainer));
+        new public static IBObjectContainer Alloc() { return new IBObjectContainer(); }
+
         public NSMutableArray ConnectionRecords { get; set; }
 
         public IBMutableOrderedSet ObjectRecords { get; set; }

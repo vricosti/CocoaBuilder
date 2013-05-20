@@ -113,6 +113,7 @@
     <Compile Include="Foundation\NSRecursiveLock.cs" />
     <Compile Include="Foundation\NSScanner.cs" />
     <Compile Include="Foundation\NSUnarchiver.cs" />
+    <Compile Include="GSMimeDocument.cs" />
     <Compile Include="GSModelLoaderFactory.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="IBActionConnection.cs" />
