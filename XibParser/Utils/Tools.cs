@@ -1,4 +1,5 @@
 #region Usings
+using Smartmobili.Cocoa;
 using System;
 using System.IO;
 using System.Text;
@@ -257,7 +258,7 @@ namespace AT.MIN
 		{
 			#region Variables
 			StringBuilder f = new StringBuilder();
-			Regex r = new Regex( @"\%(\d*\$)?([\'\#\-\+ ]*)(\d*)(?:\.(\d+))?([hl])?([dioxXucsfeEgGpn%])" );
+			Regex r = new Regex( @"\%(\d*\$)?([\'\#\-\+ ]*)(\d*)(?:\.(\d+))?([hl])?([dioxXucs@feEgGpn%])" );
 			//"%[parameter][flags][width][.precision][length]type"
 			Match m = null;
 			string w = String.Empty;
@@ -365,6 +366,7 @@ namespace AT.MIN
 				if ( fieldPrecision == int.MinValue &&
 					formatSpecifier != 's' &&
 					formatSpecifier != 'c' &&
+                    formatSpecifier != '@' &&
 					Char.ToUpper( formatSpecifier ) != 'X' &&
 					formatSpecifier != 'o' )
 					fieldPrecision = 6;
@@ -483,6 +485,30 @@ namespace AT.MIN
 						defaultParamIx++;
 						break;
 					#endregion
+
+                    #region @ - NSString
+                    case '@':   // NSString
+                        string nsstr = "{0" + (fieldLength != int.MinValue ? "," + (flagLeft2Right ? "-" : String.Empty) + fieldLength.ToString() : String.Empty) + ":s}";
+                        if (o is id)
+                        {
+                            w = (NSString)Objc.MsgSend((id)o, "Description", null);
+                        }
+                        else
+                        {
+                            w = o.ToString();
+                        }
+
+                        if (fieldPrecision >= 0)
+                            w = w.Substring(0, fieldPrecision);
+
+                        if (fieldLength != int.MinValue)
+                            if (flagLeft2Right)
+                                w = w.PadRight(fieldLength, paddingCharacter);
+                            else
+                                w = w.PadLeft(fieldLength, paddingCharacter);
+                        defaultParamIx++;
+                        break;
+                    #endregion
 					#region f - double number
 					case 'f':   // double
 						w = FormatNumber( ( flagGroupThousands ? "n" : "f" ), flagAlternate,

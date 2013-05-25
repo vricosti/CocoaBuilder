@@ -128,21 +128,21 @@ namespace Smartmobili.Cocoa
             if (aCoder.AllowsKeyedCoding)
             {
                 if (_label != null)
-                    aCoder.EncodeObject(_label, @"NSSegmentItemLabel");
+                    aCoder.EncodeObjectForKey(_label, @"NSSegmentItemLabel");
                 if (_image != null)
-                    aCoder.EncodeObject(_image, @"NSSegmentItemImage");
+                    aCoder.EncodeObjectForKey(_image, @"NSSegmentItemImage");
                 if (_menu != null)
-                    aCoder.EncodeObject(_menu, @"NSSegmentItemMenu");
+                    aCoder.EncodeObjectForKey(_menu, @"NSSegmentItemMenu");
                 if (_enabled)
-                    aCoder.EncodeBool(true, @"NSSegmentItemEnabled");
+                    aCoder.EncodeBoolForKey(true, @"NSSegmentItemEnabled");
                 else
-                    aCoder.EncodeBool(true, @"NSSegmentItemDisabled");
+                    aCoder.EncodeBoolForKey(true, @"NSSegmentItemDisabled");
                 if (_selected)
-                    aCoder.EncodeBool(true, @"NSSegmentItemSelected");
+                    aCoder.EncodeBoolForKey(true, @"NSSegmentItemSelected");
                 if (_width != 0.0)
-                    aCoder.EncodeFloat(_width, @"NSSegmentItemWidth");
+                    aCoder.EncodeFloatForKey(_width, @"NSSegmentItemWidth");
                 if (_tag != 0)
-                    aCoder.EncodeInt(_tag, @"NSSegmentItemTag");
+                    aCoder.EncodeIntForKey(_tag, @"NSSegmentItemTag");
             }
             else
             {

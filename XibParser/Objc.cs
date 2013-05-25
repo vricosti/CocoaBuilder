@@ -27,9 +27,9 @@ namespace Smartmobili.Cocoa
 {
     public class Objc
     {
-        public static id MsgSend(id receiver, NSString aString, params object[] args)
+        public static object MsgSend(id receiver, NSString aString, params object[] args)
         {
-            id ret = null;
+            object ret = null;
 
             if (receiver != null && aString != null)
             {
@@ -37,7 +37,7 @@ namespace Smartmobili.Cocoa
                 MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
                 if (dynMethod != null)
                 {
-                    ret = (id)dynMethod.Invoke(receiver, args);
+                    ret = dynMethod.Invoke(receiver, args);
                 }
                 else
                 {

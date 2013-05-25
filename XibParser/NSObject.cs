@@ -34,7 +34,7 @@ namespace Smartmobili.Cocoa
     public class NSObject : id, NSCoding2
     {
         public static Class Class = new Class(typeof(NSObject));
-
+        public static NSObject Alloc()  { return new NSObject(); }
         
 
         public string Key { get; set; }
@@ -47,10 +47,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public static NSObject Alloc() 
-        { 
-            return new NSObject(); 
-        }
+        
 
         public NSObject()
         {
@@ -68,7 +65,10 @@ namespace Smartmobili.Cocoa
         }
 
 
-
+        public virtual NSString Description()
+        {
+            return this.ToString();
+        }
 
         public virtual void EncodeWithCoder(NSCoder aCoder)
         {

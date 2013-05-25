@@ -29,6 +29,12 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSFont));
 
+        public static double SmallSystemFontSize
+        {
+            get { return 8; }
+        }
+
+
         public NSFont()
         {
 
@@ -40,7 +46,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public static NSFont FontWithNameSize(string aFontName, float aSize)
+        public static NSFont FontWithNameSize(string aFontName, double aSize)
         {
             NSFont font = new NSFont();
 
@@ -48,7 +54,7 @@ namespace Smartmobili.Cocoa
             return font;
         }
 
-        public static NSFont SystemFontOfSize(float aFontSize)
+        public static NSFont SystemFontOfSize(double aFontSize)
         {
             NSFont font = null;
 

@@ -349,7 +349,7 @@ namespace Smartmobili.Cocoa
             last = CurrentElement;
             CurrentElement = element;
 
-            r = Objc.MsgSend(o, "InitWithCoder", this);
+            r = (id)Objc.MsgSend(o, "InitWithCoder", this);
             //r = ((NSCoding)o).InitWithCoder(this);
 
             // pop
@@ -366,7 +366,7 @@ namespace Smartmobili.Cocoa
             }
 
             //r = [o awakeAfterUsingCoder: self];
-            r = Objc.MsgSend(o, "AwakeAfterUsingCoder", this);
+            r = (id)Objc.MsgSend(o, "AwakeAfterUsingCoder", this);
             if (r != o)
             {
                 Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
@@ -381,7 +381,7 @@ namespace Smartmobili.Cocoa
             if (dlgate != null)
             {
                 //r = ((INSKeyedUnarchiverDelegate)dlgate).UnarchiverDidDecodeObject(this, o);
-                r = Objc.MsgSend(dlgate, "UnarchiverDidDecodeObject", this, o);
+                r = (id)Objc.MsgSend(dlgate, "UnarchiverDidDecodeObject", this, o);
                 if (r != o)
                 {
                     Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
@@ -420,7 +420,7 @@ namespace Smartmobili.Cocoa
             }
 
             //r = [o awakeAfterUsingCoder: self];
-            r = Objc.MsgSend(o, "AwakeAfterUsingCoder", this);
+            r = (id)Objc.MsgSend(o, "AwakeAfterUsingCoder", this);
             if (r != o)
             {
                 Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
@@ -433,7 +433,7 @@ namespace Smartmobili.Cocoa
             if (dlgate != null)
             {
                 //r = ((INSKeyedUnarchiverDelegate)dlgate).UnarchiverDidDecodeObject(this, o);
-                r = Objc.MsgSend(dlgate, "UnarchiverDidDecodeObject", this, o);
+                r = (id)Objc.MsgSend(dlgate, "UnarchiverDidDecodeObject", this, o);
                 if (r != o)
                 {
                     Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
@@ -483,10 +483,9 @@ namespace Smartmobili.Cocoa
 
                 if (type != null && type.IsEqualToString(@"base64-UTF8"))
                 {
-                    //FIXME
-                    //    NSData d = [newObj dataUsingEncoding: NSASCIIStringEncoding];
-                    //    d = [GSMimeDocument decodeBase64: d];
-                    //    newObj = AUTORELEASE([[NSString alloc] initWithData: d  encoding: NSUTF8StringEncoding]);
+                     NSData d = ((NSString)newObj).DataUsingEncoding(NSStringEncoding.NSASCIIStringEncoding, false);
+                     d = GSMimeDocument.DecodeBase64((NSData)d);
+                     newObj = NSString.Alloc().InitWithData(d, NSStringEncoding.NSUTF8StringEncoding);
                 }
 
                 // empty strings are not nil!

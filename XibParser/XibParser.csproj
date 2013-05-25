@@ -53,9 +53,6 @@
     <Reference Include="AElfred">
       <HintPath>lib\AElfred.dll</HintPath>
     </Reference>
-    <Reference Include="KellermanSoftware.Compare-NET-Objects">
-      <HintPath>..\packages\CompareNETObjects.1.6.0.0\lib\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
-    </Reference>
     <Reference Include="Org.System.Xml">
       <HintPath>lib\Org.System.Xml.dll</HintPath>
     </Reference>
@@ -107,6 +104,7 @@
     <Compile Include="Foundation\NSException.cs" />
     <Compile Include="Foundation\NSFileManager.cs" />
     <Compile Include="Foundation\NSLock.cs" />
+    <Compile Include="Foundation\NSLog.cs" />
     <Compile Include="Foundation\NSMutableCharacterSet.cs" />
     <Compile Include="Foundation\NSPathUtilities.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
@@ -210,7 +208,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -236,6 +233,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UIKit\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Compare-NET-Objects\Compare-NET-Objects.csproj">
+      <Project>{94f1f5f2-6bc4-464b-ac51-fbdb4fa3f3ad}</Project>
+      <Name>Compare-NET-Objects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

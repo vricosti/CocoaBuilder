@@ -78,6 +78,36 @@ namespace Smartmobili.Cocoa
 
         }
 
+        public virtual bool ImportsGraphics
+        {
+            get { return _ImportsGraphics(); }
+            set { _SetImportsGraphics(value); }
+        }
+
+        public virtual bool Editable
+        {
+            get { return _IsEditable(); }
+            set { _SetEditable(value); }
+        }
+
+        public virtual bool FieldEditor
+        {
+            get { return _IsFieldEditor(); }
+            set { _SetFieldEditor(value); }
+        }
+
+        public virtual bool RichText
+        {
+            get { return _IsRichText(); }
+            set { _SetRichText(value); }
+        }
+
+        public virtual bool Selectable
+        {
+            get { return _IsSelectable(); }
+            set { _SetSelectable(value); }
+        } 
+        
 
         public virtual void ReplaceCharactersInRangeRTF(NSRange aRange, NSData rtfData)
         {
@@ -124,8 +154,60 @@ namespace Smartmobili.Cocoa
             this.ReplaceCharactersInRange(aRange, aString);
         }
 
-        
+        internal virtual bool _ImportsGraphics()
+        {
+            //[self subclassResponsibility: _cmd];
+            return false;
+        }
 
+        internal virtual bool _IsEditable()
+        {
+            //[self subclassResponsibility: _cmd];
+            return false; 
+        }
+
+        internal virtual bool _IsFieldEditor()
+        {
+            //[self subclassResponsibility: _cmd];
+            return false;
+        }
+
+        internal virtual bool _IsRichText()
+        {
+            //[self subclassResponsibility: _cmd];
+            return false;
+        }
+
+        internal virtual bool _IsSelectable()
+        {
+            //[self subclassResponsibility: _cmd];
+            return false;
+        }
+        
+        internal virtual void _SetEditable(bool flag)
+        {
+
+        }
+
+        internal virtual void _SetFieldEditor(bool flag)
+        {
+
+        }
+
+        internal virtual void _SetImportsGraphics(bool flag)
+        {
+
+        }
+
+        internal virtual void _SetRichText(bool flag)
+        {
+
+        }
+
+        internal virtual void _SetSelectable(bool flag)
+        {
+
+        }
 
 
 

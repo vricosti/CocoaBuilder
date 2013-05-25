@@ -43,10 +43,11 @@ namespace Smartmobili.Cocoa
 
     public struct NSSize
     {
-        public float Width  {get; set;}
-        public float Height { get; set; }  
+        public double Width { get; set; }
+        public double Height { get; set; }
 
-        public NSSize(float w, float h) : this() 
+        public NSSize(double w, double h)
+            : this() 
         {
             Width = w;
             Height = h;    
@@ -109,10 +110,11 @@ namespace Smartmobili.Cocoa
     {
         public static readonly NSPoint Zero = new NSPoint(0, 0);
 
-        public float X { get; set; }
-        public float Y { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
 
-        public NSPoint(float p1, float p2) : this()
+        public NSPoint(double p1, double p2)
+            : this()
         {
             X = p1;
             Y = p2;
@@ -150,7 +152,8 @@ namespace Smartmobili.Cocoa
         public NSPoint Origin { get; set; }
         public NSSize Size { get; set; }
 
-        public NSRect(float x, float y, float w, float h) : this()
+        public NSRect(double x, double y, double w, double h)
+            : this()
         {
             Origin = new NSPoint(x, y);
             Size = new NSSize(w, h);
@@ -162,6 +165,35 @@ namespace Smartmobili.Cocoa
             Size = size;
         }
 
+        public static NSRect Make(double x, double y, double w, double h)
+        {
+            return new NSRect(x, y, w, h);
+        }
+
+        public bool IsEmpty
+        {
+            get { return ((this.Size.Width > 0) && (this.Size.Height > 0)) ? false : true; }
+        }
+
+        public double MinX
+        {
+            get { return this.Origin.X; }
+        }
+
+        public double MinY
+        {
+            get { return this.Origin.Y; }
+        }
+
+        public double MaxX
+        {
+            get { return this.Origin.X + this.Size.Width; }
+        }
+
+        public double MaxY
+        {
+            get { return this.Origin.Y + this.Size.Height; }
+        }
 
         //<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
         public static NSRect Create(XElement xElement)
@@ -188,7 +220,28 @@ namespace Smartmobili.Cocoa
             return nsRect;
         }
 
+        //Returns the smallest rectangle that completely encloses both aRect and bRect. 
+        //If one of the rectangles has 0 (or negative) width or height, a copy of the other rectangle is returned; 
+        //but if both have 0 (or negative) width or height, the returned rectangle has its origin at (0.0, 0.0) and has 0 width and height.
+        public static NSRect Union(NSRect aRect, NSRect bRect)
+        {
+            NSRect rect = new NSRect();
 
+            if (aRect.IsEmpty && bRect.IsEmpty)
+                return NSRect.Make(0.0, 0.0, 0.0, 0.0);
+            else if (aRect.IsEmpty)
+                return bRect;
+            else if (bRect.IsEmpty)
+                return aRect;
+
+            rect = NSRect.Make(Math.Min(aRect.MinX, bRect.MinX), Math.Min(aRect.MinY, bRect.MinY), 0.0, 0.0);
+
+            rect = NSRect.Make(rect.MinX,
+                               rect.MinY,
+                               Math.Max(aRect.MaxX, bRect.MaxX) - rect.MinX,
+                               Math.Max(aRect.MaxY, bRect.MaxY) - rect.MinY);
+            return rect;
+        }
     };
 
 }

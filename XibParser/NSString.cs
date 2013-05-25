@@ -204,12 +204,43 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        private Encoding ConvertNSStringEncodingToCSharp(NSStringEncoding anEncoding)
+        {
+            Encoding encoding = Encoding.UTF8;
+
+            switch (anEncoding)
+            {
+                case NSStringEncoding.NSASCIIStringEncoding:
+                    encoding = Encoding.UTF7;
+                    break;
+                
+                //case NSStringEncoding.NSNEXTSTEPStringEncoding:
+                //    encoding = System.Text.Encoding.GetEncoding("ISO-8859-1");
+                //    NSLog.Log("ConvertNSStringEncodingToCSharp %s", (NSString)"test");
+                //    break;
+                
+                //case NSStringEncoding.NSJapaneseEUCStringEncoding:
+                //    break;
+
+                case NSStringEncoding.NSUTF8StringEncoding:
+                    encoding = Encoding.UTF8;
+                    break;
+                default:
+                    throw new NotImplementedException();
+                    break;
+
+            }
+
+            return encoding;
+        }
+
+
         public virtual id InitWithData(NSData data, NSStringEncoding encoding)
         {
             return InitWithBytes(data.Bytes, (uint)data.Length, encoding);
         }
 
-        public virtual id InitWithBytes(byte[] bytes, uint length, NSStringEncoding encoding)
+        public virtual id InitWithBytes(byte[] bytes, uint length, NSStringEncoding anEncoding)
         {
             id self = this;
 
@@ -219,7 +250,8 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                Value = Encoding.UTF8.GetString(bytes, 0, (int)length);
+                Encoding encoding = ConvertNSStringEncodingToCSharp(anEncoding);
+                Value = encoding.GetString(bytes, 0, (int)length);
             }
 
             return self;
@@ -291,6 +323,12 @@ namespace Smartmobili.Cocoa
             {
                 return this.Value[(int)index];
             }
+        }
+
+        public override NSString Description()
+        {
+            NSString self = this;
+            return self;
         }
 
         public override string ToString()

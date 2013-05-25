@@ -80,15 +80,15 @@ namespace Smartmobili.Cocoa
             {
                 if (_src != null)
                 {
-                    aCoder.EncodeObject(_src, @"NSSource");
+                    aCoder.EncodeObjectForKey(_src, @"NSSource");
                 }
                 if (_dst != null)
                 {
-                    aCoder.EncodeObject(_dst, @"NSDestination");
+                    aCoder.EncodeObjectForKey(_dst, @"NSDestination");
                 }
                 if (_tag != null)
                 {
-                    aCoder.EncodeObject(_tag, @"NSLabel");
+                    aCoder.EncodeObjectForKey(_tag, @"NSLabel");
                 }
             }
             else

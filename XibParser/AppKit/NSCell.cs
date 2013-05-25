@@ -31,6 +31,7 @@ namespace Smartmobili.Cocoa
     public class NSCell : NSObject, INSNumber, IAction
     {
         new public static Class Class = new Class(typeof(NSCell));
+        new public static NSCell Alloc() { return new NSCell(); }
 
         public struct GSCellFlagsType
         {

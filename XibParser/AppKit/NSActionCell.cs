@@ -75,16 +75,16 @@ namespace Smartmobili.Cocoa
             base.EncodeWithCoder(aCoder);
             if (aCoder.AllowsKeyedCoding)
             {
-                aCoder.EncodeInteger(Tag, "NSTag");
+                aCoder.EncodeIntegerForKey(Tag, "NSTag");
                 if (Target != null)
                 {
-                    aCoder.EncodeObject(Target, "NSTarget");
+                    aCoder.EncodeObjectForKey(Target, "NSTarget");
                 }
                 if (Action != null)
                 {
-                    aCoder.EncodeObject(SEL.StringFromSelector(this.Action), "NSAction");
+                    aCoder.EncodeObjectForKey(SEL.StringFromSelector(this.Action), "NSAction");
                 }
-                aCoder.EncodeObject(_control_view, "NSControlView");
+                aCoder.EncodeObjectForKey(_control_view, "NSControlView");
             }
         }
 

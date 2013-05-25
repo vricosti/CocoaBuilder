@@ -523,9 +523,7 @@ namespace Smartmobili.Cocoa
                     // as we store some properties only on the cell.
                     
                     //FIXME
-                    //cell = [[[self class] cellClass] new];
-
-                    Cell = cell; 
+                    Cell = (NSCell)NSCell.Alloc().Init(); 
                 }
                 if (aDecoder.ContainsValueForKey("NSEnabled"))
                 {

@@ -232,46 +232,46 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual void EncodeBool(bool aBool, NSString aKey)
+        public virtual void EncodeBoolForKey(bool aBool, NSString aKey)
         {
 
         }
 
-        public virtual void EncodeBytes(byte[] bytes, uint length, NSString aKey)
+        public virtual void EncodeBytesForKey(byte[] bytes, uint length, NSString aKey)
         {
 
         }
 
-        public virtual void EncodeConditionalObject(id anObject,NSString aKey)
+        public virtual void EncodeConditionalObjectForKey(id anObject, NSString aKey)
         {
 
         }
 
-        public virtual void EncodeDouble(double aDouble, NSString aKey)
+        public virtual void EncodeDoubleForKey(double aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeFloat(float aDouble, NSString aKey)
+        public virtual void EncodeFloatForKey(float aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeInt(int aDouble, NSString aKey)
+        public virtual void EncodeIntForKey(int aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeInteger(int aDouble, NSString aKey)
+        public virtual void EncodeIntegerForKey(int aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeInt32(int aDouble, NSString aKey)
+        public virtual void EncodeInt32ForKey(int aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeInt64(int aDouble, NSString aKey)
+        public virtual void EncodeInt64ForKey(int aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeObject(id anObject, NSString aKey)
+        public virtual void EncodeObjectForKey(id anObject, NSString aKey)
         {
         }
         

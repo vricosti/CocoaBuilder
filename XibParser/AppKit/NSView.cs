@@ -119,24 +119,26 @@ namespace Smartmobili.Cocoa
 
         //<string key="NSFrame">{{-0, 479}, {618, 29}}</string>
         //<string key="NSFrameSize">{618, 367}</string>
-        public NSRect Frame { get; set; }
+        public virtual NSRect Frame { get; set; }
 
-        public object Superview { get; set; }
+        public virtual NSSize FrameSize { get; set; }
 
-        public object Window { get; set; }
+        public virtual object Superview { get; set; }
 
-        public object PreviousKeyView { get; set; }
+        public virtual object Window { get; set; }
 
-        public object NextKeyView { get; set; }
+        public virtual object PreviousKeyView { get; set; }
 
-        public string ReuseIdentifierKey { get; set; }
+        public virtual object NextKeyView { get; set; }
+
+        public virtual string ReuseIdentifierKey { get; set; }
 
         //<string key="NSOffsets">{0, 0}</string>
-        public NSPoint Offsets { get; set; }
+        public virtual NSPoint Offsets { get; set; }
 
-        
 
-        public string ClassName { get; set; }
+
+        public virtual string ClassName { get; set; }
 
 
         //<string key="NSFrame">{{-0, 479}, {618, 29}}</string>
@@ -209,6 +211,23 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+
+
+        public virtual void ReplaceSubviewWith(NSView oldView, NSView newView)
+        {
+            if (newView == oldView)
+            {
+                return;
+            }
+        }
+
+
+        public virtual NSRect ConvertRectFromView(NSRect aRect, NSView aView)
+        {
+            return new NSRect();
+        }
+
+        
 
         public override id InitWithCoder(NSCoder aDecoder)
         {

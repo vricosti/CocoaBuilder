@@ -31,6 +31,7 @@ namespace Smartmobili.Cocoa
     public class NSButton : NSControl
     {
         new public static Class Class = new Class(typeof(NSButton));
+        new public static NSButton Alloc() { return new NSButton(); }
 
         private static Class buttonCellClass;
 
