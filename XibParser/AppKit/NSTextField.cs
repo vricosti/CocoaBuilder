@@ -94,13 +94,45 @@ namespace Smartmobili.Cocoa
                 _text_object.Selectable = flag;
         }
 
+        public virtual void SelectText(id sender)
+        {
+            //FIXME
+        }
+
+        internal virtual id _NextText()
+        {
+            return this.NextKeyView;
+        }
+
+        internal virtual id _PreviousText()
+        {
+            return this.PreviousKeyView;
+        }
+
+        internal virtual void _SetNextText(id anObject)
+        {
+            this.NextKeyView = anObject;
+        }
+
+        internal virtual void _SetPreviousText(id anObject)
+        {
+            this.PreviousKeyView = anObject;
+        }
+
+        internal virtual void _SetDelegate(id anObject)
+        {
+            _delegate = anObject;
+        }
+
+        internal virtual id _Delegate()
+        {
+            return _delegate;
+        }
 
 
 
 
-
-
-        public virtual id InitWithFrame(NSRect frameRect)
+        public override id InitWithFrame(NSRect frameRect)
         {
             id self = this;
 
@@ -125,9 +157,14 @@ namespace Smartmobili.Cocoa
             if (aDecoder.AllowsKeyedCoding)
             {
                 // do nothing for now...
-                // Cell is decoded by parent class 
-                //Cell = (NSTextFieldCell)aDecoder.DecodeObjectForKey("NSCell");
             }
+            else
+            {
+                //this._setDelegate(aDecoder.DecodeObject);
+                //[aDecoder decodeValueOfObjCType: @encode(SEL) at: &_error_action];
+                aDecoder.DecodeValueOfObjCType2<SEL>(out _error_action);
+            }
+            _text_object = null;
 
             return this;
         }

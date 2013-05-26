@@ -35,7 +35,7 @@ namespace Smartmobili.Cocoa
     {
         public static Class Class = new Class(typeof(NSObject));
         public static NSObject Alloc()  { return new NSObject(); }
-        
+        //public static id New() { return Alloc().Init(); }
 
         public string Key { get; set; }
 

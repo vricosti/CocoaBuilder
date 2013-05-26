@@ -114,39 +114,26 @@ namespace Smartmobili.Cocoa
         protected NSRect _autoresizingFrameError;
 
 
-        //<int key="NSvFlags">256</int>
         public int NSvFlags { get; set; }
 
-        //<string key="NSFrame">{{-0, 479}, {618, 29}}</string>
-        //<string key="NSFrameSize">{618, 367}</string>
         public virtual NSRect Frame { get; set; }
 
         public virtual NSSize FrameSize { get; set; }
 
-        public virtual object Superview { get; set; }
+        public virtual id Superview { get; set; }
 
-        public virtual object Window { get; set; }
+        public virtual id Window { get; set; }
 
-        public virtual object PreviousKeyView { get; set; }
+        public virtual id PreviousKeyView { get; set; }
 
-        public virtual object NextKeyView { get; set; }
+        public virtual id NextKeyView { get; set; }
 
         public virtual string ReuseIdentifierKey { get; set; }
 
         //<string key="NSOffsets">{0, 0}</string>
         public virtual NSPoint Offsets { get; set; }
 
-
-
         public virtual string ClassName { get; set; }
-
-
-        //<string key="NSFrame">{{-0, 479}, {618, 29}}</string>
-        //                    <reference key="NSSuperview" ref="1006"/>
-        //                    <reference key="NSWindow"/>
-        //                    <reference key="NSNextKeyView" ref="462115558"/>
-        //                    <string key="NSReuseIdentifierKey">_NS:1192</string>
-        //                    <string key="NSClassName">NSView</string>
 
 
 
@@ -187,12 +174,12 @@ namespace Smartmobili.Cocoa
 
             // _frameMatrix = [NSAffineTransform new];    // Map fromsuperview to frame
             // _boundsMatrix = [NSAffineTransform new];   // Map from superview to bounds
-            _matrixToWindow = new NSAffineTransform();   // Map to window coordinates
-            _matrixFromWindow = new NSAffineTransform(); // Map from window coordinates
+            _matrixToWindow = NSAffineTransform.Alloc().Init();   // Map to window coordinates
+            _matrixFromWindow = NSAffineTransform.Alloc().Init(); // Map from window coordinates
 
-            _sub_views = new NSMutableArray();
-            _tracking_rects = new NSMutableArray();
-            _cursor_rects = new NSMutableArray();
+            _sub_views = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _tracking_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _cursor_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
 
             // Some values are already set by initialisation
             //_super_view = nil;
@@ -233,8 +220,15 @@ namespace Smartmobili.Cocoa
         {
             id self = this;
 
+            NSEnumerator e;
+            NSView sub;
+            NSArray subs;
+
             if (base.InitWithCoder(aDecoder) == null)
                 return null;
+
+             _matrixToWindow = NSAffineTransform.Alloc().Init();  // Map to window coordinates
+             _matrixFromWindow = NSAffineTransform.Alloc().Init();// Map from window coordinates
 
             if (aDecoder.AllowsKeyedCoding)
             {
@@ -243,13 +237,46 @@ namespace Smartmobili.Cocoa
 
                 if (aDecoder.ContainsValueForKey("NSFrame"))
                 {
-                    Frame = aDecoder.DecodeRectForKey("NSFrame");
+                    _frame = aDecoder.DecodeRectForKey("NSFrame");
                 }
-                else if (aDecoder.ContainsValueForKey("NSFrameSize"))
+                else 
                 {
-                    Frame = aDecoder.DecodeSizeForKey("NSFrameSize");
+                    _frame = NSRect.Zero;
+                    if (aDecoder.ContainsValueForKey("NSFrameSize"))
+                    {
+                        _frame = aDecoder.DecodeSizeForKey("NSFrameSize");
+                    }
                 }
 
+                // Set bounds rectangle
+                _bounds.Origin = NSPoint.Zero;
+                _bounds.Size = _frame.Size;
+                if (aDecoder.ContainsValueForKey("NSBounds"))
+                {
+                    //[self setBounds: [aDecoder decodeRectForKey: @"NSBounds"]];
+                }
+                
+                _sub_views = (NSMutableArray)NSMutableArray.Alloc().Init();
+                _tracking_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
+                _cursor_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
+
+                _is_rotated_from_base = false;
+                _is_rotated_or_scaled_from_base = false;
+                _rFlags.needs_display = Convert.ToUInt32(true);
+                _post_bounds_changes = true;
+                _post_frame_changes = true;
+                _autoresizes_subviews = true;
+                _autoresizingMask =(uint) NSViewAutoresizingMasks.NSViewNotSizable;
+                _coordinates_valid = false;
+                /*
+                 * Note: don't zero _nextKeyView and _previousKeyView, as the key view
+                 * chain may already have been established by super's initWithCoder:
+                 *
+                 * _nextKeyView = 0;
+                 * _previousKeyView = 0;
+                 */
+
+                // previous and next key views...
                  prevKeyView = (NSView)aDecoder.DecodeObjectForKey("NSPreviousKeyView");
                  nextKeyView = (NSView)aDecoder.DecodeObjectForKey("NSNextKeyView");
                 if (nextKeyView != null)
@@ -260,17 +287,52 @@ namespace Smartmobili.Cocoa
                 {
                     PreviousKeyView = prevKeyView;
                 }
+                if (aDecoder.ContainsValueForKey("NSvFlags"))
+                {
+                    uint vFlags = (uint)aDecoder.DecodeIntForKey("NSvFlags");
+                    
+                    // We are lucky here, Apple use the same constants
+                    // in the lower bits of the flags
+                    
+                    //FIXME
+                    //[self setAutoresizingMask: vFlags & 0x3F];
+                    //[self setAutoresizesSubviews: ((vFlags & 0x100) == 0x100)];
+                    //[self setHidden: ((vFlags & 0x80000000) == 0x80000000)];
+                }
+
+                 // iterate over subviews and put them into the view...
+                subs = (NSArray)aDecoder.DecodeObjectForKey("NSSubviews");
+                e = subs.ObjectEnumerator();
+                 while ((sub = (NSView)e.NextObject()) != null)
+                 {
+                     System.Diagnostics.Debug.Assert(sub.GetClass() != NSCustomView.Class);
+                     System.Diagnostics.Debug.Assert(sub.Window == null);
+                     System.Diagnostics.Debug.Assert(sub.Superview == null);
+
+                      //sub._viewWillMoveToWindow(_window);
+                      //sub._viewWillMoveToSuperview(this);
+                      //sub.setNextResponder(this);
+	                  _sub_views.AddObject(sub);
+	                  _rFlags.has_subviews = 1;
+	                  //sub.ResetCursorRects();
+	                  sub.SetNeedsDisplay(true);
+	                  //sub._ViewDidMoveToWindow];
+	                  //sub.ViewDidMoveToSuperview];
+	                  //this.DidAddSubview: sub];
+
+                 }
 
 
-                NSvFlags = aDecoder.DecodeIntForKey("NSvFlags");
-                _sub_views = (NSMutableArray)aDecoder.DecodeObjectForKey("NSSubviews");
 
-                Window = aDecoder.DecodeObjectForKey("NSWindow");
-                ClassName = (NSString)aDecoder.DecodeObjectForKey("NSWindow");
+                //NSvFlags = aDecoder.DecodeIntForKey("NSvFlags");
+                //_sub_views = (NSArray)aDecoder.DecodeObjectForKey("NSSubviews");
 
-                Offsets = aDecoder.DecodePointForKey("NSOffsets");
+                //Window = aDecoder.DecodeObjectForKey("NSWindow");
+                //ClassName = (NSString)aDecoder.DecodeObjectForKey("NSWindow");
 
-                Superview = aDecoder.DecodeObjectForKey("NSSuperview");
+                //Offsets = aDecoder.DecodePointForKey("NSOffsets");
+
+                //Superview = aDecoder.DecodeObjectForKey("NSSuperview");
             }
 
             return self;

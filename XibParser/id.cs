@@ -32,6 +32,10 @@ namespace Smartmobili.Cocoa
         {
         }
 
+        public virtual Class GetClass()
+        {
+            return new Class(this.GetType());
+        }
 
         public virtual id Init()
         {

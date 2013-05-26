@@ -28,6 +28,7 @@ namespace Smartmobili.Cocoa
     public class NSCustomView : NSView
     {
         new public static Class Class = new Class(typeof(NSCustomView));
+        new public static NSCustomView Alloc() { return new NSCustomView(); }
 
         protected NSString className;
         protected id realObject;

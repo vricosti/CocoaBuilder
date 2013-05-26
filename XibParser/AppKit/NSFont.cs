@@ -70,5 +70,26 @@ namespace Smartmobili.Cocoa
 
             return font;
         }
+
+        public override id InitWithCoder(NSCoder aDecoder)
+        {
+            id self = this;
+
+            if (aDecoder.AllowsKeyedCoding)
+            {
+                NSString name = (NSString)aDecoder.DecodeObjectForKey(@"NSName");
+                float size = aDecoder.DecodeFloatForKey(@"NSSize");
+
+                self = NSFont.FontWithNameSize(name, size);
+                if (self == null)
+                {
+
+                }
+
+            }
+
+            return self;
+        }
+
     }
 }

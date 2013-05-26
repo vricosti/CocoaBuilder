@@ -154,6 +154,9 @@ namespace Smartmobili.Cocoa
             this.ReplaceCharactersInRange(aRange, aString);
         }
 
+        /*
+         * Managing Global Characteristics
+         */
         internal virtual bool _ImportsGraphics()
         {
             //[self subclassResponsibility: _cmd];
