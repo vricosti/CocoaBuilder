@@ -74,12 +74,19 @@ namespace Smartmobili.Cocoa
                                             /* backing flush when drawn     */
         }
 
+        private static Class rectClass;
+        private static Class viewClass;
+
+        private static NSAffineTransform flip = null;
+
+        private static NSNotificationCenter nc = null;
+
         protected NSRect _frame;
         protected NSRect _bounds;
         protected id _frameMatrix;
         protected id _boundsMatrix;
-        protected id _matrixToWindow;
-        protected id _matrixFromWindow;
+        protected NSAffineTransform _matrixToWindow;
+        protected NSAffineTransform _matrixFromWindow;
 
         protected NSView _super_view;
 
@@ -147,6 +154,135 @@ namespace Smartmobili.Cocoa
            //Init();
         }
 
+        private void _InvalidateCoordinates()
+        {
+            //if (_coordinates_valid == true)
+            //{
+            //    uint count;
+
+            //    _coordinates_valid = false;
+            //    if (_rFlags.valid_rects != 0)
+            //    {
+            //        _window.InvalidateCursorRectsForView(this);
+            //    }
+            //    if (_rFlags.has_subviews != 0)
+            //    {
+            //        count = (uint)_sub_views.Count;
+            //        if (count > 0)
+            //        {
+            //            NSView[] array = new NSView[count];
+            //            uint i;
+
+            //            _sub_views.GetObjects(array);
+            //            for (i = 0; i < count; i++)
+            //            {
+            //                NSView sub = array[i];
+
+            //                if (sub._coordinates_valid == true)
+            //                {
+            //                    //(*invalidateImp)(sub, invalidateSel);
+            //                }
+            //            }
+            //        }
+            //    }
+            //    this.RenewGState();
+            //}
+        }
+
+        private  NSAffineTransform _MatrixFromWindow()
+        {
+            this._RebuildCoordinates();
+            return (NSAffineTransform)_matrixFromWindow;
+        }
+
+        private  NSAffineTransform _MatrixToWindow()
+        {
+            this._RebuildCoordinates();
+            return (NSAffineTransform)_matrixToWindow;
+        }
+
+        private  void _RebuildCoordinates()
+        {
+      //       bool isFlipped = this._IsFlipped();
+      //       bool lastFlipped = Convert.ToBoolean(_rFlags.flipped_view);
+
+      //       if ((_coordinates_valid == false) || (isFlipped != lastFlipped))
+      //       {
+      //           _coordinates_valid = true;
+      //           _rFlags.flipped_view = isFlipped;
+
+      //           if (_window == null)
+      //           {
+      //               _visibleRect = NSRect.Zero;
+      //               _matrixToWindow.MakeIdentityMatrix();
+      //               _matrixFromWindow.MakeIdentityMatrix();
+      //           }
+      //           else
+      //  {
+      //    NSRect		superviewsVisibleRect;
+      //    bool			superFlipped;
+      //    NSAffineTransform	pMatrix;
+      //    NSAffineTransformStruct     ts;
+ 
+      //if (_super_view != null)
+      //  {
+      //    superFlipped = _super_view._IsFlipped();
+      //    pMatrix = _super_view._MatrixToWindow();
+      //  }
+      //else
+      //  {
+      //    superFlipped = false;
+      //    pMatrix = NSAffineTransform.Transform();
+      //}
+
+      //ts = pMatrix.TransformStruct();
+
+      //    /* prepend translation */
+      //    ts.tX = NS.MinX(_frame) * ts.m11 + NS.MinY(_frame) * ts.m21 + ts.tX;
+      //    ts.tY = NS.MinX(_frame) * ts.m12 + NS.MinY(_frame) * ts.m22 + ts.tY;
+      //    _matrixToWindow.SetTransformStruct(ts);
+ 
+      //    /* prepend rotation */
+      //    if (_frameMatrix != null)
+      //      {
+      //        //(*preImp)(_matrixToWindow, preSel, _frameMatrix);
+      //      }
+ 
+      //    if (isFlipped != superFlipped)
+      //      {
+      //        /*
+      //         * The flipping process must result in a coordinate system that
+      //         * exactly overlays the original.	 To do that, we must translate
+      //         * the origin by the height of the view.
+      //         */
+      //        ts = [flip transformStruct];
+      //        ts.tY = _frame.Size.Height;
+      //        [flip setTransformStruct: ts];
+      //        (*preImp)(_matrixToWindow, preSel, flip);
+      //      }
+      //    if (_boundsMatrix != nil)
+      //      {
+      //        (*preImp)(_matrixToWindow, preSel, _boundsMatrix);
+      //      }
+      //    ts = [_matrixToWindow transformStruct];
+      //    [_matrixFromWindow setTransformStruct: ts];
+      //    [_matrixFromWindow invert];
+
+      //if (_super_view != null)
+      //  {
+      //    superviewsVisibleRect = [self convertRect: [_super_view visibleRect]
+      //                     fromView: _super_view];
+
+      //    _visibleRect = NSIntersectionRect(superviewsVisibleRect, _bounds);
+      //  }
+      //else
+      //  {
+      //    _visibleRect = _bounds;
+      //  }
+      //  }
+      //       }
+        }
+
         public override id Init()
         {
             return InitWithFrame(NSRect.Zero);
@@ -174,8 +310,8 @@ namespace Smartmobili.Cocoa
 
             // _frameMatrix = [NSAffineTransform new];    // Map fromsuperview to frame
             // _boundsMatrix = [NSAffineTransform new];   // Map from superview to bounds
-            _matrixToWindow = NSAffineTransform.Alloc().Init();   // Map to window coordinates
-            _matrixFromWindow = NSAffineTransform.Alloc().Init(); // Map from window coordinates
+            _matrixToWindow = (NSAffineTransform)NSAffineTransform.Alloc().Init();   // Map to window coordinates
+            _matrixFromWindow = (NSAffineTransform)NSAffineTransform.Alloc().Init(); // Map from window coordinates
 
             _sub_views = (NSMutableArray)NSMutableArray.Alloc().Init();
             _tracking_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
@@ -227,8 +363,8 @@ namespace Smartmobili.Cocoa
             if (base.InitWithCoder(aDecoder) == null)
                 return null;
 
-             _matrixToWindow = NSAffineTransform.Alloc().Init();  // Map to window coordinates
-             _matrixFromWindow = NSAffineTransform.Alloc().Init();// Map from window coordinates
+            _matrixToWindow = (NSAffineTransform)NSAffineTransform.Alloc().Init();  // Map to window coordinates
+            _matrixFromWindow = (NSAffineTransform)NSAffineTransform.Alloc().Init();// Map from window coordinates
 
             if (aDecoder.AllowsKeyedCoding)
             {

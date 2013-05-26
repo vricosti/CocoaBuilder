@@ -106,6 +106,7 @@
     <Compile Include="Foundation\NSLock.cs" />
     <Compile Include="Foundation\NSLog.cs" />
     <Compile Include="Foundation\NSMutableCharacterSet.cs" />
+    <Compile Include="Foundation\NSNotificationCenter.cs" />
     <Compile Include="Foundation\NSPathUtilities.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
     <Compile Include="Foundation\NSRecursiveLock.cs" />

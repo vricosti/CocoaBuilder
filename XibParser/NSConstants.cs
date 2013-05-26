@@ -14,5 +14,15 @@ namespace Smartmobili.Cocoa
         {
             return "";
         }
+
+        public static double MinX(NSRect aRect)
+        {
+            return aRect.MinX;
+        }
+
+        public static double MinY(NSRect aRect)
+        {
+            return aRect.MinY;
+        }
     }
 }

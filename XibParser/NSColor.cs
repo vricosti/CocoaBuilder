@@ -85,13 +85,10 @@ namespace Smartmobili.Cocoa
             get { return NSColorSpace.NSNamedColorSpace; }
         }
 
-        [ObjcProp(GetName = "description")]
-        public virtual NSString Description
+        //[ObjcProp(GetName = "description")]
+        public override NSString Description()
         {
-            get
-            {
-                return "";
-            }
+            return "";
         }
 
         [ObjcProp(GetName = "catalogNameComponent")]

@@ -28,7 +28,7 @@ using System.Collections;
 
 namespace Smartmobili.Cocoa
 {
-
+    //https://github.com/gnustep/gnustep-base/blob/master/Source/NSArray.m
     public class NSArray : NSObject, IList<id>
     {
         new public static Class Class = new Class(typeof(NSArray));
@@ -103,6 +103,15 @@ namespace Smartmobili.Cocoa
 
             return found;
         }
+
+        public virtual void GetObjects(id[] aBuffer)
+        {
+            uint i, c = (uint)this.Count;
+
+            for (i = 0; i < c; i++)
+                aBuffer[i] = ObjectAtIndex((int)i);
+        }
+
 
         public virtual uint IndexOfObject(id anObject)
         {

@@ -11,6 +11,24 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSAffineTransform));
         new public static NSAffineTransform Alloc() { return new NSAffineTransform(); }
 
+        public virtual id Init()
+        {
+            id self = this;
+            
+            //_matrix = identityTransform;
+            //_isIdentity = true;
+            
+            return self;
+        }
+
+
+       
+
+        public virtual void MakeIdentityMatrix()
+        {
+            Init();
+        }
+
 
     }
 }
