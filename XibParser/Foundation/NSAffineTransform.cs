@@ -85,8 +85,50 @@ namespace Smartmobili.Cocoa
             Init();
         }
 
-        
 
+
+        public virtual void Invert()
+        {
+            double newA, newB, newC, newD, newTX, newTY;
+            double det;
+
+            if (_isIdentity)
+            {
+                _matrix.tX = -_matrix.tX;
+                _matrix.tY = -_matrix.tY;
+                return;
+            }
+
+            if (_isFlipY)
+            {
+                _matrix.tX = -_matrix.tX;
+                return;
+            }
+
+            det = _matrix.m11 * _matrix.m22 - _matrix.m12 * _matrix.m21;
+            if (det == 0)
+            {
+                NSLog.Log(@"error: determinant of matrix is 0!");
+                return;
+            }
+
+            newA = _matrix.m22 / det;
+            newB = -_matrix.m12 / det;
+            newC = -_matrix.m21 / det;
+            newD = _matrix.m11 / det;
+            newTX = (-_matrix.m22 * _matrix.tX + _matrix.m21 * _matrix.tY) / det;
+            newTY = (_matrix.m12 * _matrix.tX - _matrix.m11 * _matrix.tY) / det;
+
+            //NSDebugLLog(@"NSAffineTransform",
+            //  @"inverse of matrix ((%f, %f) (%f, %f) (%f, %f))\n"
+            //  @"is ((%f, %f) (%f, %f) (%f, %f))",
+            //  _matrix.m11, _matrix.m12, _matrix.m21, _matrix.m22, _matrix.tX, _matrix.tY,
+            //  newA, newB, newC, newD, newTX, newTY);
+
+            _matrix.m11 = newA; _matrix.m12 = newB;
+            _matrix.m21 = newC; _matrix.m22 = newD;
+            _matrix.tX = newTX; _matrix.tY = newTY;
+        }
 
         public virtual void PrependTransform(ref NSAffineTransform aTransform)
         {
