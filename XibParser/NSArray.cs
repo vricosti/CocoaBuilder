@@ -165,7 +165,8 @@ namespace Smartmobili.Cocoa
                     id val;
 
                     array = NSMutableArray.ArrayWithCapacity(2);
-                    key = (NSString)string.Format(@"NS.object.{0}", i);
+                    key = NSString.StringWithFormat(@"NS.object.%u", i);
+                    //key = (NSString)string.Format(@"NS.object.{0}", i);
                     val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
                     //array = [NSMutableArray arrayWithCapacity: 2];
                     //key = [NSString stringWithFormat: @"NS.object.%u", i];
@@ -175,7 +176,8 @@ namespace Smartmobili.Cocoa
                     {
                         ((NSMutableArray)array).AddObject(val);
                         i++;
-                        key = (NSString)string.Format(@"NS.object.{0}", i);
+                        //key = (NSString)string.Format(@"NS.object.{0}", i);
+                        key = NSString.StringWithFormat(@"NS.object.%u", i);
                         val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
                     }
                 }

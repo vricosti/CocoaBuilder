@@ -438,26 +438,28 @@ namespace Smartmobili.Cocoa
 
                  // iterate over subviews and put them into the view...
                 subs = (NSArray)aDecoder.DecodeObjectForKey("NSSubviews");
-                e = subs.ObjectEnumerator();
-                 while ((sub = (NSView)e.NextObject()) != null)
-                 {
-                     System.Diagnostics.Debug.Assert(sub.GetClass() != NSCustomView.Class);
-                     System.Diagnostics.Debug.Assert(sub.Window == null);
-                     System.Diagnostics.Debug.Assert(sub.Superview == null);
+                if (subs != null)
+                {
+                    e = subs.ObjectEnumerator();
+                    while ((sub = (NSView)e.NextObject()) != null)
+                    {
+                        System.Diagnostics.Debug.Assert(sub.GetClass() != NSCustomView.Class);
+                        System.Diagnostics.Debug.Assert(sub.Window == null);
+                        System.Diagnostics.Debug.Assert(sub.Superview == null);
 
-                      //sub._viewWillMoveToWindow(_window);
-                      //sub._viewWillMoveToSuperview(this);
-                      //sub.setNextResponder(this);
-	                  _sub_views.AddObject(sub);
-	                  _rFlags.has_subviews = 1;
-	                  //sub.ResetCursorRects();
-	                  sub.SetNeedsDisplay(true);
-	                  //sub._ViewDidMoveToWindow];
-	                  //sub.ViewDidMoveToSuperview];
-	                  //this.DidAddSubview: sub];
+                        //sub._viewWillMoveToWindow(_window);
+                        //sub._viewWillMoveToSuperview(this);
+                        //sub.setNextResponder(this);
+                        _sub_views.AddObject(sub);
+                        _rFlags.has_subviews = 1;
+                        //sub.ResetCursorRects();
+                        sub.SetNeedsDisplay(true);
+                        //sub._ViewDidMoveToWindow];
+                        //sub.ViewDidMoveToSuperview];
+                        //this.DidAddSubview: sub];
 
-                 }
-
+                    }
+                }
 
 
                 //NSvFlags = aDecoder.DecodeIntForKey("NSvFlags");

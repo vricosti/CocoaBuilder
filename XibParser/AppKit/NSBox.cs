@@ -104,69 +104,69 @@ namespace Smartmobili.Cocoa
 
         public virtual NSBorderType BorderType
         {
-            get { return _BorderType(); } 
-            set { _SetBorderType(value); }
+            get { return GetBorderType(); } 
+            set { SetBorderType(value); }
         }
 
         public virtual NSBoxType BoxType
         {
-            get { return _BoxType(); }
-            set { _SetBoxType(value); }
+            get { return GetBoxType(); }
+            set { SetBoxType(value); }
         }
 
         public virtual NSString Title
         {
-            get { return _Title(); }
-            set { _SetTitle(value); }
+            get { return GetTitle(); }
+            set { SetTitle(value); }
         }
 
         public virtual NSFont TitleFont
         {
-            get { return _TitleFont(); }
-            set { _SetTitleFont(value); }
+            get { return GetTitleFont(); }
+            set { SetTitleFont(value); }
         }
 
         public virtual NSTitlePosition TitlePosition
         {
-            get { return _TitlePosition(); }
-            set { _SetTitlePosition(value); }
+            get { return GetTitlePosition(); }
+            set { SetTitlePosition(value); }
         }
 
         public virtual id TitleCell
         {
-            get { return _TitleCell(); }
+            get { return GetTitleCell(); }
         }
 
         public virtual NSRect TitleRect
         {
-            get { return _TitleRect(); }
+            get { return GetTitleRect(); }
         }
 
         public virtual id ContentView
         {
-            get { return _ContentView(); }
-            set { _SetContentView((NSView)value); }
+            get { return GetContentView(); }
+            set { SetContentView((NSView)value); }
         }
 
         public virtual NSSize ContentViewMargins
         {
-            get { return _ContentViewMargins(); }
-            set { _SetContentViewMargins(value); }
+            get { return GetContentViewMargins(); }
+            set { SetContentViewMargins(value); }
         }
 
         public override NSRect Frame
         {
-            set { _SetFrame(value); }
+            set { SetFrame(value); }
         }
         
         public override NSSize FrameSize
         {
-            set { _SetFrameSize(value); }
+            set { SetFrameSize(value); }
         }
 
         public virtual NSSize FrameFromContentFrame
         {
-            set { _SetFrameFromContentFrame(value); }
+            set { SetFrameFromContentFrame(value); }
         }
 
         public NSBox()
@@ -212,12 +212,12 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSBorderType _BorderType()
+        public virtual NSBorderType GetBorderType()
         {
             return _border_type;
         }
 
-        public virtual void _SetBorderType(NSBorderType aType)
+        public virtual void SetBorderType(NSBorderType aType)
         {
             _border_type = aType;
             if (_content_view != null)
@@ -225,12 +225,12 @@ namespace Smartmobili.Cocoa
             this.SetNeedsDisplay(true);
         }
 
-        public virtual NSBoxType _BoxType()
+        public virtual NSBoxType GetBoxType()
         {
             return _box_type;
         }
 
-        public virtual void _SetBoxType(NSBoxType aType)
+        public virtual void SetBoxType(NSBoxType aType)
         {
             if (_box_type != aType)
             {
@@ -241,7 +241,7 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public virtual void _SetTitle(NSString aString)
+        public virtual void SetTitle(NSString aString)
         {
             ((NSCell)_cell).StringValue = aString;
             if (_content_view != null)
@@ -258,7 +258,7 @@ namespace Smartmobili.Cocoa
             this.SetNeedsDisplay(true);
         }
 
-        public virtual void _SetTitleFont(NSFont fontObj)
+        public virtual void SetTitleFont(NSFont fontObj)
         {
             ((NSCell)_cell).Font = fontObj;
             if (_content_view != null)
@@ -266,7 +266,7 @@ namespace Smartmobili.Cocoa
             this.SetNeedsDisplay(true);
         }
 
-        public virtual void _SetTitlePosition(NSTitlePosition aPosition)
+        public virtual void SetTitlePosition(NSTitlePosition aPosition)
         {
             if (_title_position != aPosition)
             {
@@ -277,42 +277,42 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public virtual NSString _Title()
+        public virtual NSString GetTitle()
         {
             return ((NSCell)_cell).StringValue;
         }
 
-        public virtual id _TitleCell()
+        public virtual id GetTitleCell()
         {
             return _cell;
         }
 
-        public virtual NSFont _TitleFont()
+        public virtual NSFont GetTitleFont()
         {
             return ((NSCell)_cell).Font;
         }
 
-        public virtual NSTitlePosition _TitlePosition()
+        public virtual NSTitlePosition GetTitlePosition()
         {
             return _title_position;
         }
          
-        public virtual NSRect _TitleRect()
+        public virtual NSRect GetTitleRect()
         {
             return _title_rect;
         }
 
-        public virtual id _ContentView()
+        public virtual id GetContentView()
         {
             return _content_view;
         }
 
-        public virtual NSSize _ContentViewMargins()
+        public virtual NSSize GetContentViewMargins()
         {
             return _offsets;
         }
 
-        public virtual void _SetContentView(NSView aView)
+        public virtual void SetContentView(NSView aView)
         {
             if (aView != null)
             {
@@ -322,7 +322,7 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public virtual void _SetContentViewMargins(NSSize offsetSize)
+        public virtual void SetContentViewMargins(NSSize offsetSize)
         {
             _offsets = offsetSize;
             if (_content_view != null)
@@ -330,14 +330,14 @@ namespace Smartmobili.Cocoa
             this.SetNeedsDisplay(true);
         }
 
-        public virtual void _SetFrame(NSRect frameRect)
+        public virtual void SetFrame(NSRect frameRect)
         {
             base.Frame = frameRect;
             if (_content_view != null)
                 ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
         }
 
-        public virtual void _SetFrameSize(NSSize newSize)
+        public virtual void SetFrameSize(NSSize newSize)
         {
             base.FrameSize = newSize;
             if (_content_view != null)
@@ -345,7 +345,7 @@ namespace Smartmobili.Cocoa
         }
 
         
-        public virtual void _SetFrameFromContentFrame(NSRect contentFrame)
+        public virtual void SetFrameFromContentFrame(NSRect contentFrame)
         {
             NSRect r = this.CalcSizesAllowingNegative(true);
             NSRect f = _frame;
