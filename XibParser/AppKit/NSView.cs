@@ -226,7 +226,7 @@ namespace Smartmobili.Cocoa
  
       //if (_super_view != null)
       //  {
-      //    superFlipped = _super_view._IsFlipped();
+      //    superFlipped = _super_view.IsFlipped();
       //    pMatrix = _super_view._MatrixToWindow();
       //  }
       //else
@@ -235,7 +235,7 @@ namespace Smartmobili.Cocoa
       //    pMatrix = NSAffineTransform.Transform();
       //}
 
-      //ts = pMatrix.TransformStruct();
+      //ts = pMatrix.GetTransformStruct();
 
       //    /* prepend translation */
       //    ts.tX = NS.MinX(_frame) * ts.m11 + NS.MinY(_frame) * ts.m21 + ts.tX;
