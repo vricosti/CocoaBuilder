@@ -35,6 +35,12 @@ namespace Smartmobili.Cocoa
         NSTexturedBackgroundWindowMask = 16,
     }
 
+	public enum NSWindowOrderingMode : int
+	{
+		NSWindowAbove         =  1,
+		NSWindowBelow         = -1,
+		NSWindowOut           =  0
+	}
 
     public class NSWindow : NSResponder
     {

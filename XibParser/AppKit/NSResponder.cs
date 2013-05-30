@@ -37,7 +37,7 @@ namespace Smartmobili.Cocoa
         GSWindowMakerInterfaceStyle = 4
     } 
 
-    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSResponder.m
+	//https://github.com/gnustep/gnustep-gui/blob/master/Source/NSResponder.m
     public class NSResponder : NSObject
     {
         new public static Class Class = new Class(typeof(NSResponder));
@@ -50,8 +50,8 @@ namespace Smartmobili.Cocoa
         
         public virtual NSResponder NextResponder 
         {
-            get { return _next_responder; }
-            set { _next_responder = value; }  
+			get { return GetNextResponder(); }
+            set { SetNextResponder(value); }  
         }
 
         public virtual NSMenu Menu 
@@ -64,6 +64,16 @@ namespace Smartmobili.Cocoa
         {
 
         }
+
+		public virtual NSResponder GetNextResponder()
+		{
+			return _next_responder;
+		}
+
+		public virtual void SetNextResponder(NSResponder aResponder)
+		{
+			_next_responder = aResponder;
+		}
 
 
         public override id InitWithCoder(NSCoder aDecoder)

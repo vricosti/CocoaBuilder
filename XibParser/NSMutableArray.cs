@@ -46,6 +46,11 @@ namespace Smartmobili.Cocoa
         }
 
 
+		public static NSMutableArray Array()
+		{
+			return (NSMutableArray)NSMutableArray.Alloc().Init();
+		}
+
         new public static NSMutableArray ArrayWithArray(NSArray anArray)
         {
             return (NSMutableArray)Alloc().InitWithArray(anArray);

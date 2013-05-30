@@ -242,6 +242,15 @@ namespace Smartmobili.Cocoa
                                Math.Max(aRect.MaxY, bRect.MaxY) - rect.MinY);
             return rect;
         }
+
+		public static NSRect OffsetRect(NSRect aRect, double dx, double dy)
+		{
+			NSRect rect = aRect;
+
+			rect.Origin.X += dx;
+			rect.Origin.Y += dy;
+			return rect;
+		}
     };
 
 }

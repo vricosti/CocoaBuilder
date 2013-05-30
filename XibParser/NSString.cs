@@ -159,6 +159,11 @@ namespace Smartmobili.Cocoa
             Value = value;
         }
 
+		public NSString Copy()
+		{
+			return new NSString (this.Value);
+		}
+
         public static NSString StringWithContentsOfFile(NSString path)
         {
             return (NSString)Alloc().InitWithContentsOfFile(path);
@@ -353,6 +358,11 @@ namespace Smartmobili.Cocoa
         }
 
         // objc string
+
+		public virtual NSString StringByAppendingString(NSString aString)
+		{
+			return this.Value + aString.Value;
+		}
 
         public virtual bool HasPrefix(NSString aString)
         {
@@ -648,6 +658,17 @@ namespace Smartmobili.Cocoa
             return NSPoint.Create(nsString.Value);
         }
 
+		public static NSString FromPoint(NSPoint aPoint)
+		{
+			//setupCache();
+			//if (GSMacOSXCompatibleGeometry() == YES)
+				return NSString.StringWithFormat(
+				        @"{%g, %g}", aPoint.X, aPoint.Y);
+			//else
+			//	return [NSStringClass stringWithFormat:
+			//	        @"{x = %g; y = %g}", aPoint.x, aPoint.y];
+		}
+
         // implicit NSString to string conversion operator
         public static implicit operator NSSize(NSString nsString)
         {
@@ -656,6 +677,31 @@ namespace Smartmobili.Cocoa
 #endif
             return NSSize.Create(nsString.Value);
         }
+
+		public static NSString FromSize(NSSize aSize)
+		{
+		//setupCache();
+		//if (GSMacOSXCompatibleGeometry() == YES)
+				return NSString.StringWithFormat(
+			        @"{%g, %g}", aSize.Width, aSize.Height);
+//		else
+//				return NSString.StringWithFormat(
+//			        @"{width = %g; height = %g}", aSize.Width, aSize.Height);
+		}
+
+		public static NSString FromRect(NSRect aRect)
+		{
+			//setupCache();
+			//if (GSMacOSXCompatibleGeometry() == YES)
+				return NSString.StringWithFormat(
+				        @"{{%g, %g}, {%g, %g}}",
+				aRect.Origin.X, aRect.Origin.Y, aRect.Size.Width, aRect.Size.Height);
+//			else
+//				return [NSStringClass stringWithFormat:
+//				        @"{x = %g; y = %g; width = %g; height = %g}",
+//				        aRect.origin.x, aRect.origin.y, aRect.size.width, aRect.size.height]; 
+		}
+
 
         // implicit NSString to string conversion operator
         public static implicit operator NSRect(NSString nsString)

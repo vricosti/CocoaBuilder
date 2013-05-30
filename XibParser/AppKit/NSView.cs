@@ -83,8 +83,8 @@ namespace Smartmobili.Cocoa
 
         protected NSRect _frame;
         protected NSRect _bounds;
-        protected id _frameMatrix;
-        protected id _boundsMatrix;
+		protected NSAffineTransform _frameMatrix;
+		protected NSAffineTransform _boundsMatrix;
         protected NSAffineTransform _matrixToWindow;
         protected NSAffineTransform _matrixFromWindow;
 
@@ -154,7 +154,53 @@ namespace Smartmobili.Cocoa
            //Init();
         }
 
-        private void _InvalidateCoordinates()
+
+
+		public virtual NSArray GSGetDragTypes(NSView obj)
+		{
+			NSArray	t = null;
+
+			//FIXME
+			//[typesLock lock];
+			//t = (NSArray*)NSMapGet(typesMap, (void*)(gsaddr)obj);
+			//[typesLock unlock];
+			return t;
+		}
+
+		public static void GSRemoveDragTypes(NSView obj)
+		{
+			//FIXME
+			//[typesLock lock];
+			//NSMapRemove(typesMap, (void*)(gsaddr)obj);
+			//[typesLock unlock];
+		}
+
+		public static NSArray GSSetDragTypes(NSView obj, NSArray types)
+		{
+			uint	count = (uint)types.Count;
+			NSString[] strings = new NSString[count];
+			NSArray	t = null;
+			uint	i = 0;
+
+			/*
+			 * Make a new array with copies of the type strings so we don't get
+			 * them mutated by someone else.
+			 */
+			types.GetObjects(strings);
+			for (i = 0; i < count; i++)
+			{
+				strings[i] = strings[i].Copy();
+			}
+			/*
+			 * Store it.
+			 */
+			//[typesLock lock];
+			//NSMapInsert(typesMap, (void*)(gsaddr)obj, (void*)(gsaddr)t);
+			//[typesLock unlock];
+			return t;
+		}
+
+		protected virtual void _InvalidateCoordinates()
         {
             //if (_coordinates_valid == true)
             //{
@@ -180,6 +226,7 @@ namespace Smartmobili.Cocoa
 
             //                if (sub._coordinates_valid == true)
             //                {
+			//					  _invalidateCoordinates();
             //                    //(*invalidateImp)(sub, invalidateSel);
             //                }
             //            }
@@ -189,19 +236,19 @@ namespace Smartmobili.Cocoa
             //}
         }
 
-        private  NSAffineTransform _MatrixFromWindow()
+		protected virtual  NSAffineTransform _MatrixFromWindow()
         {
             this._RebuildCoordinates();
             return (NSAffineTransform)_matrixFromWindow;
         }
 
-        private  NSAffineTransform _MatrixToWindow()
+		protected virtual  NSAffineTransform _MatrixToWindow()
         {
             this._RebuildCoordinates();
             return (NSAffineTransform)_matrixToWindow;
         }
 
-        private  void _RebuildCoordinates()
+		protected virtual  void _RebuildCoordinates()
         {
       //       bool isFlipped = this._IsFlipped();
       //       bool lastFlipped = Convert.ToBoolean(_rFlags.flipped_view);
@@ -283,6 +330,188 @@ namespace Smartmobili.Cocoa
       //       }
         }
 
+		protected virtual void _ViewDidMoveToWindow()
+		{
+			this.ViewDidMoveToWindow();
+			if (_rFlags.has_subviews != 0)
+			{
+				uint count = (uint)_sub_views.Count;
+
+				if (count > 0)
+				{
+					uint i;
+					NSView[] array = new NSView[count];
+
+					_sub_views.GetObjects((id[])array);
+					for (i = 0; i < count; ++i)
+					{
+						array [i]._ViewDidMoveToWindow ();
+					}
+				}
+			}
+		}
+
+		protected virtual void  _ViewWillMoveToWindow(NSWindow newWindow)
+		{
+			bool old_allocate_gstate;
+
+			this._ViewWillMoveToWindow(newWindow);
+			if (_coordinates_valid)
+			{
+				//FIXME
+				//(*invalidateImp)(self, invalidateSel);
+			}
+			if (_rFlags.has_currects != 0)
+			{
+				this.DiscardCursorRects();
+			}
+
+			if (newWindow == _window)
+			{
+				return;
+			}
+
+			// This call also reset _allocate_gstate, so we have 
+			// to store this value and set it again.
+			// This way we keep the logic in one place.
+			old_allocate_gstate = _allocate_gstate;
+			this.ReleaseGState();
+			_allocate_gstate = old_allocate_gstate;
+
+			if (_rFlags.has_draginfo != 0)
+			{
+				NSArray t = GSGetDragTypes(this);
+
+				if (_window != null)
+				{
+					//FIXME
+					//[GSDisplayServer removeDragTypes: t fromWindow: _window];
+					//if ([_window autorecalculatesKeyViewLoop])
+					//{
+					//	[_window recalculateKeyViewLoop];
+					//}
+				}
+				if (newWindow != null)
+				{
+					//FIXME
+//					[GSDisplayServer addDragTypes: t toWindow: newWindow];
+//					if ([newWindow autorecalculatesKeyViewLoop])
+//					{
+//						[newWindow recalculateKeyViewLoop];
+//					}
+				}
+			}
+
+			_window = newWindow;
+
+			if (_rFlags.has_subviews != 0)
+			{
+				uint count = (uint)_sub_views.Count;
+
+				if (count > 0)
+				{
+					uint i;
+					NSView[] array = new NSView[count];
+
+					_sub_views.GetObjects((id[])array);
+					for (i = 0; i < count; ++i)
+					{
+						array[i]._ViewWillMoveToWindow(newWindow);
+					}
+				}
+			}
+		}
+
+		protected virtual void _ViewWillMoveToSuperview(NSView newSuper)
+		{
+			this._ViewWillMoveToSuperview(newSuper);
+			_super_view = newSuper;
+		}
+
+		/*
+		 * Extend in super view covered by the frame of a view.
+		 * When the frame is rotated, this is different from the frame.
+		 */
+		protected virtual NSRect _FrameExtend()
+		{
+			NSRect frame = _frame;
+
+			if (_frameMatrix != null)
+			{
+				NSRect r = NSRect.Zero;
+
+				r.Origin = NSPoint.Zero;
+				r.Size = frame.Size;
+				_frameMatrix.BoundingRectFor(r, ref r);
+				frame = NS.OffsetRect(r, NS.MinX(frame),
+				                     NS.MinY(frame));
+			}
+
+			return frame;
+		}
+
+		protected virtual NSString _SubtreeDescriptionWithPrefix(NSString prefix)
+		{
+			NSMutableString desc = (NSMutableString)NSMutableString.Alloc ().Init();
+			NSEnumerator e;
+			NSView v;
+
+			desc.AppendFormat(@"%@%@\n", prefix, this.Description(), null);
+
+			prefix = prefix.StringByAppendingString(@"  ");
+			e = _sub_views.ObjectEnumerator();
+			while ((v = (NSView)e.NextObject()) != null)
+			{
+				desc.AppendString(v._SubtreeDescriptionWithPrefix(prefix));
+			}
+
+			return desc;
+		}
+
+		/*
+		 * Unofficial Cocoa method for debugging a view hierarchy.
+		 */
+		public virtual NSString _SubtreeDescription()
+		{
+			return this._SubtreeDescriptionWithPrefix(@""); 
+		}
+
+		public virtual NSString _FlagDescription()
+		{
+			return @"";
+		}
+
+		public virtual NSString _ResizeDescription()
+		{
+			return NSString.StringWithFormat(@"h=%c%c%c v=%c%c%c", 
+			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMinXMargin) != 0? '&' : '-',
+			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewWidthSizable) != 0 ? '&' : '-',
+			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMaxXMargin) != 0 ? '&' : '-',
+			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMinYMargin) != 0 ? '&' : '-',
+			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewHeightSizable) != 0 ? '&' : '-',
+			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMaxYMargin) != 0 ? '&' : '-', 
+			                                 null);
+		}
+
+		public override NSString Description()
+		{
+			return NSString.StringWithFormat(@"%@ %@ %@ f=%@ b=%@", 
+			        this._FlagDescription(), 
+			        this._ResizeDescription(), base.Description(), 
+			        NSString.FromRect(_frame), NSString.FromRect(_bounds), null);
+		}
+
+		/**
+		Return the view at the top of graphics contexts stack
+		or nil if none is focused.
+		*/
+		public static NSView FocusView()
+		{
+			//FIXME
+			//return [GSCurrentContext() focusView];
+			return null;
+		}
+
         public override id Init()
         {
             return InitWithFrame(NSRect.Zero);
@@ -334,7 +563,190 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+		public virtual void AddSubview(NSView aView)
+		{
+			this.AddSubview (aView, NSWindowOrderingMode.NSWindowAbove, null);
+		}
 
+
+		public virtual void AddSubview(NSView aView, NSWindowOrderingMode place, NSView otherView)
+		{
+			uint index;
+
+			if (aView == null)
+			{
+				return;
+			}
+			if (this.IsDescendantOf(aView))
+			{
+				NSException.Raise(@"NSInvalidArgumentException", 
+				                  @"addSubview:positioned:relativeTo: creates a loop in the views tree!");
+			}
+
+			if (aView == otherView)
+				return;
+
+			
+			aView.RemoveFromSuperview();
+
+			// Do this after the removeFromSuperview, as aView may already 
+			// be a subview and the index could change.
+			if (otherView == null)
+			{
+				index = NS.NSNotFound;
+			}
+			else
+			{
+				index = _sub_views.IndexOfObjectIdenticalTo(otherView);
+			}
+				if (index == NS.NSNotFound)
+			{
+					if (place == NSWindowOrderingMode.NSWindowBelow)
+					index = 0;
+				else
+					index = (uint)_sub_views.Count;
+			}
+				else if (place != NSWindowOrderingMode.NSWindowBelow)
+			{
+				index += 1;
+			}
+
+			aView._ViewWillMoveToWindow(_window);
+			aView._ViewWillMoveToSuperview(this);
+			aView.SetNextResponder(this);
+			_sub_views.InsertObject(aView,index);
+			_rFlags.has_subviews = 1;
+			aView.ResetCursorRects();
+			aView.SetNeedsDisplay(true);
+			aView._ViewDidMoveToWindow();
+			aView.ViewDidMoveToSuperview();
+			this.DidAddSubview(aView);
+		}
+
+		/**
+		 * Returns self if aView is the receiver or aView is a subview of the receiver,
+		 * the ancestor view shared by aView and the receiver if any, or
+		 * aView if it is an ancestor of the receiver, otherwise returns nil.
+		 */
+		public virtual NSView AncestorSharedWithView(NSView aView)
+		{
+			NSView self = this;
+
+			if (self == aView)
+				return self;
+
+			if (this.IsDescendantOf(aView))
+				return aView;
+
+			if (aView.IsDescendantOf(self))
+				return self;
+
+			/*
+			 * If neither are descendants of each other and either does not have a
+			 * superview then they cannot have a common ancestor
+			 */
+			if (_super_view == null)
+				return null;
+
+			if (aView.Superview == null)
+				return null;
+
+			/* Find the common ancestor of superviews */
+			return _super_view.AncestorSharedWithView((NSView)aView.Superview);
+		}
+
+		/**
+		 * Returns YES if aView is an ancestor of the receiver.
+		 */
+		public virtual bool IsDescendantOf(NSView aView)
+		{
+			id self = this;
+
+			if (aView == self)
+				return true;
+
+			if (_super_view == null)
+				return false;
+
+			if (_super_view == aView)
+				return true;
+
+			return _super_view.IsDescendantOf(aView);
+		}
+
+		public virtual NSView OpaqueAncestor()
+		{
+			NSView self = this;
+			NSView	next = _super_view;
+			NSView	current = self;
+
+			while (next != null)
+			{
+				if (current.IsOpaque() == true)
+				{
+					break;
+				}
+				current = next;
+				next = current._super_view;
+			}
+			return current;
+		}
+
+
+		/**
+		 * Removes the receiver from its superviews list of subviews.
+		 */
+		public virtual void RemoveFromSuperviewWithoutNeedingDisplay()
+		{
+			if (_super_view != null)
+			{
+				_super_view.RemoveSubview(this);
+			}
+		}
+
+		public virtual void RemoveFromSuperview()
+		{
+			if (_super_view != null)
+			{
+				_super_view.SetNeedsDisplayInRect(_frame);
+				this.RemoveFromSuperviewWithoutNeedingDisplay();
+			}
+		}
+
+		public virtual void RemoveSubview(NSView aView)
+		{
+			id view;
+			/*
+			 * This must be first because it invokes -resignFirstResponder:, 
+			 * which assumes the view is still in the view hierarchy
+			 */
+			for (view = _window.FirstResponder;
+			     view != null && view.RespondsToSelector(new SEL(@"GetSuperview"));
+			     view = view.SuperView)
+			{
+				if (view == aView)
+				{     
+					//FIXME
+					//[_window makeFirstResponder: _window];
+					break;
+				}
+			}
+			this.WillRemoveSubview(aView);
+			aView._super_view = null;
+			aView._ViewWillMoveToWindow(null);
+			aView._ViewWillMoveToSuperview(null);
+			aView.SetNextResponder(null);
+
+			_sub_views.RemoveObjectIdenticalTo(aView);
+			aView.SetNeedsDisplay(false);
+			aView._ViewDidMoveToWindow();
+			aView.ViewDidMoveToSuperview();
+
+			if (_sub_views.Count == 0)
+			{
+				_rFlags.has_subviews = 0;
+			}
+		}
 
         public virtual void ReplaceSubviewWith(NSView oldView, NSView newView)
         {
@@ -342,7 +754,257 @@ namespace Smartmobili.Cocoa
             {
                 return;
             }
+			/*
+   			* NB. we implement the replacement in full rather than calling addSubview:
+   			* since classes like NSBox override these methods but expect to be able to
+   			* call [super replaceSubview:with:] safely.
+   			*/
+			if (oldView == null)
+			{
+				/*
+       			* Strictly speaking, the docs say that if 'oldView' is not a subview
+       			* of the receiver then we do nothing - but here we add newView anyway.
+       			* So a replacement with no oldView is an addition.
+       			*/
+				//RETAIN(newView);
+				newView.RemoveFromSuperview();
+				newView._ViewWillMoveToWindow(_window);
+				newView._ViewWillMoveToSuperview(this);
+				newView.SetNextResponder(this);
+				_sub_views.AddObject(newView);
+				_rFlags.has_subviews = 1;
+				newView.ResetCursorRects();
+				newView.SetNeedsDisplay(true);
+				newView._ViewDidMoveToWindow();
+				newView.ViewDidMoveToSuperview();
+				this.DidAddSubview(newView);
+				//RELEASE(newView);
+			}
+			else if (_sub_views.IndexOfObjectIdenticalTo(oldView) != NS.NSNotFound)
+			{
+				if (newView == null)
+				{
+					/*
+					 * If there is no new view to add - we just remove the old one.
+					 * So a replacement with no newView is a removal.
+					 */
+					oldView.RemoveFromSuperview();
+				}
+				else
+				{
+					uint index;
+
+					/*
+	   				* Ok - the standard case - we remove the newView from wherever it
+	   				* was (which may have been in this view), locate the position of
+	   				* the oldView (which may have changed due to the removal of the
+	   				* newView), remove the oldView, and insert the newView in it's
+	   				* place.
+	   				*/
+					//RETAIN(newView);
+					newView.RemoveFromSuperview();
+					index = _sub_views.IndexOfObjectIdenticalTo(oldView);
+					oldView.RemoveFromSuperview();
+					newView._ViewWillMoveToWindow(_window);
+					newView._ViewWillMoveToSuperview(this);
+					newView.SetNextResponder(this);
+					_sub_views.InsertObject(newView, index);
+					_rFlags.has_subviews = 1;
+					newView.ResetCursorRects();
+					newView.SetNeedsDisplay(true);
+					newView._ViewDidMoveToWindow();
+					newView.ViewDidMoveToSuperview();
+					this.DidAddSubview(newView);
+					//RELEASE(newView);
+				}
+			}
         }
+
+		public virtual void SetSubviews(NSArray newSubviews)
+		{
+			NSEnumerator en;
+			NSView aView;
+			NSMutableArray uniqNew = NSMutableArray.Array();
+
+			if (null == newSubviews)
+			{
+				NSException.Raise(@"NSInvalidArgumentException" ,@"Setting nil as new subviews.");
+			}
+
+			// Use a copy as we remove from the subviews array
+			en = NSArray.ArrayWithArray(_sub_views).ObjectEnumerator();
+			while ((aView = (NSView)en.NextObject()) != null)
+			{
+				if (false == newSubviews.ContainsObject(aView))
+				{
+					aView.RemoveFromSuperview();
+				}
+			}
+
+			en = newSubviews.ObjectEnumerator();
+			while ((aView = (NSView)en.NextObject()) != null)
+			{
+				id supersub = aView.Superview;
+
+				if (supersub != null && supersub != this)
+				{
+					NSException.Raise(@"NSInvalidArgumentException" ,@"Superviews of new subviews must be either nil or receiver.");
+				}
+
+				if (uniqNew.ContainsObject(aView))
+				{
+					NSException.Raise(@"NSInvalidArgumentException" ,@"Duplicated new subviews.");
+				}
+
+				if (false == _sub_views.ContainsObject(aView))
+				{
+					this.AddSubview(aView);
+				}
+
+				uniqNew.AddObject(aView);
+			}
+
+			_sub_views = uniqNew;
+
+			// The order of the subviews may have changed
+			this.SetNeedsDisplay(true);
+		}
+
+
+		public virtual void ViewWillMoveToSuperview(NSView newSuper)
+		{}
+
+		public virtual void ViewWillMoveToWindow(NSWindow newWindow)
+		{}
+		
+		public virtual void DidAddSubview(NSView subview)
+		{}
+
+		public virtual void ViewDidMoveToSuperview()
+		{}
+
+		public virtual void ViewDidMoveToWindow()
+		{}
+
+		public virtual void WillRemoveSubview(NSView subview)
+		{}
+
+		static NSSize _computeScale(NSSize fs, NSSize bs)
+		{
+			NSSize scale = NS.MakeSize (0, 0);
+
+			if (bs.Width == 0)
+			{
+				if (fs.Width == 0)
+					scale.Width = 1;
+				else
+					scale.Width = Int64.MaxValue;
+			}
+			else
+			{
+				scale.Width = fs.Width / bs.Width;
+			}
+			if (bs.Height == 0)
+			{
+				if (fs.Height == 0)
+					scale.Height = 1;
+				else
+					scale.Height = Int64.MaxValue;
+			}
+			else
+			{
+				scale.Height = fs.Height / bs.Height;
+			}
+
+			return scale;
+		}
+
+		public virtual void  _SetFrameAndClearAutoresizingError(NSRect frameRect)
+		{
+			_frame = frameRect;
+			_autoresizingFrameError = NSRect.Zero;
+		}
+
+
+		public virtual void SetFrame(NSRect frameRect)
+		{
+#if FIXME
+			bool	changedOrigin = false;
+			bool	changedSize = false;
+			NSSize old_size = _frame.Size;
+
+			if (frameRect.Size.Width < 0)
+			{
+				//NSWarnMLog(@"given negative width", 0);
+				frameRect.Size.Width = 0;
+			}
+			if (frameRect.Size.Height < 0)
+			{
+				//NSWarnMLog(@"given negative height", 0);
+				frameRect.Size.Height = 0;
+			}
+
+			if (NS.EqualPoints(_frame.origin, frameRect.origin) == false)
+			{
+				changedOrigin = true;
+			}
+			if (NS.EqualSizes(_frame.size, frameRect.size) == false)
+			{
+				changedSize = true;
+			}
+
+			if (changedSize == true || changedOrigin == true)
+			{
+				this._SetFrameAndClearAutoresizingError(frameRect);
+
+				if (changedSize == true)
+				{
+					if (_is_rotated_or_scaled_from_base == true)
+					{
+						NSAffineTransform matrix;
+						NSRect frame = _frame;
+
+						frame.Origin = NS.MakePoint(0, 0);
+						matrix = [_boundsMatrix copy];
+						[matrix invert];
+						[matrix boundingRectFor: frame result: &_bounds];
+						//RELEASE(matrix);               
+					}
+					else
+					{
+						_bounds.Size = frameRect.Size;
+					}
+				}
+
+				if (_coordinates_valid)
+				{
+					//FIXME
+					//(*invalidateImp)(self, invalidateSel);
+				}
+				[self resetCursorRects];
+				[self resizeSubviewsWithOldSize: old_size];
+				if (_post_frame_changes)
+				{
+					//[nc postNotificationName: NSViewFrameDidChangeNotification object: self];
+				}
+			}
+#endif
+		}
+
+		public virtual void DiscardCursorRects()
+		{
+		}
+
+		public virtual void ResetCursorRects()
+		{
+
+		}
+
+
+		protected void ReleaseGState()
+		{
+
+		}
 
 
         public virtual NSRect ConvertRectFromView(NSRect aRect, NSView aView)

@@ -24,7 +24,7 @@ namespace Smartmobili.Cocoa
 
 
 
-#if TEST
+//#if TEST
 
 #if TEST_PATH
             NSString strPath = @"";
@@ -52,7 +52,7 @@ namespace Smartmobili.Cocoa
 #endif
 
             //string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
-            string xibPath = @"C:\cygwin\home\Vincent\projects\CocoaBuilder\Tests\Button\ButtonTextAlign\ButtonTextAlign\en.lproj\ButtonTextAlign.xib";
+			string xibPath = @"/Users/v.richomme/Developer/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/Compose.xib";
 
 
             NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
@@ -107,7 +107,7 @@ namespace Smartmobili.Cocoa
                 }
             }
             
-#endif
+//#endif
         }
     }
 }

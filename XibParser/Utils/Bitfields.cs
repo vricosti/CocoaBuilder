@@ -87,8 +87,8 @@ namespace Smartmobili.Cocoa.Utils
 
                     uint fieldValue = (uint)(r & (mask << offset)) >> offset;
                     
-                    TypedReference tr = __makeref(t);
-                    f.SetValueDirect(tr, fieldValue);
+                    //TypedReference tr = __makeref(t);
+                    //f.SetValueDirect(tr, fieldValue);
                     
                     //f.SetValue(t, fieldValue);
                     offset += (int)fieldLength;

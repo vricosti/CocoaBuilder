@@ -65,7 +65,7 @@ namespace Smartmobili.Cocoa
                 NSArray a = null;
 
                 //FIXME
-                //NSColor.WhiteColor;
+				NSColor tmp = NSColor.WhiteColor;
                 NSColorList._LoadAvailableColorLists(null);
 
                 return a;

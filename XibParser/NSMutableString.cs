@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AT.MIN;
 
 namespace Smartmobili.Cocoa
 {
@@ -37,6 +38,18 @@ namespace Smartmobili.Cocoa
             : base(value)
         {
         }
+
+		public virtual void AppendString(NSString aString)
+		{
+			this.Value += aString;
+		}
+
+		public virtual void AppendFormat(NSString format, params object[] args)
+		{
+			string msg = Tools.sprintf(format, args);
+			this.Value += msg;
+		}
+
 
         //public override id InitWithCoder(NSCoder aDecoder)
         //{

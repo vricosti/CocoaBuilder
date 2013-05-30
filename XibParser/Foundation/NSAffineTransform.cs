@@ -352,5 +352,51 @@ namespace Smartmobili.Cocoa
             return _matrix;
         }
 
+		public virtual void BoundingRectFor(NSRect rect, ref  NSRect newRect)
+		{
+			NSAffineTransformStruct matrix = this.GetTransformStruct();
+			/* Shortcuts of the usual rect values */
+			double x = rect.Origin.X;
+			double y = rect.Origin.Y;
+			double width = rect.Size.Width;
+			double height = rect.Size.Height;
+			double[] xc = new double[3];
+			double[] yc = new double[3];
+			double min_x;
+			double max_x;
+			double min_y;
+			double max_y;
+			int i;
+
+			max_x = _matrix.m11 * x + _matrix.m21 * y + _matrix.tX;
+			max_y = _matrix.m12 * x + _matrix.m22 * y + _matrix.tY;
+			xc[0] = max_x + _matrix.m11 * width;
+			yc[0] = max_y + _matrix.m12 * width;
+			xc[1] = max_x + _matrix.m21 * height;
+			yc[1] = max_y + _matrix.m22 * height;
+			xc[2] = max_x + _matrix.m11 * width + _matrix.m21 * height;
+			yc[2] = max_y + _matrix.m12 * width + _matrix.m22 * height;
+
+			min_x = max_x;
+			min_y = max_y;
+
+			for (i = 0; i < 3; i++) 
+			{
+				if (xc[i] < min_x)
+					min_x = xc[i];
+				if (xc[i] > max_x)
+					max_x = xc[i];
+
+				if (yc[i] < min_y)
+					min_y = yc[i];
+				if (yc[i] > max_y)
+					max_y = yc[i];
+			}
+
+			newRect.Origin.X = min_x;
+			newRect.Origin.Y = min_y;
+			newRect.Size.Width = max_x -min_x;
+			newRect.Size.Height = max_y -min_y;
+		}
     }
 }

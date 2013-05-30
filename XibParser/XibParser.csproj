@@ -27,6 +27,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -106,7 +108,6 @@
     <Compile Include="Foundation\NSLock.cs" />
     <Compile Include="Foundation\NSLog.cs" />
     <Compile Include="Foundation\NSMutableCharacterSet.cs" />
-    <Compile Include="Foundation\NSNotificationCenter.cs" />
     <Compile Include="Foundation\NSPathUtilities.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
     <Compile Include="Foundation\NSRecursiveLock.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="GSXibKeyedUnarchiver.cs" />
     <Compile Include="Utils\Tools.cs" />
     <Compile Include="XibParser.cs" />
+    <Compile Include="Foundation\NSNotificationCenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -237,7 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Compare-NET-Objects\Compare-NET-Objects.csproj">
-      <Project>{94f1f5f2-6bc4-464b-ac51-fbdb4fa3f3ad}</Project>
+      <Project>{94F1F5F2-6BC4-464B-AC51-FBDB4FA3F3AD}</Project>
       <Name>Compare-NET-Objects</Name>
     </ProjectReference>
   </ItemGroup>
