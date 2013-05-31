@@ -41,6 +41,21 @@ namespace Smartmobili.Cocoa
             get { return _IdentityTransform; }
         }
 
+		public static NSAffineTransform Transform
+		{
+			get { return GetTransform (); }
+		}
+
+		public static NSAffineTransform GetTransform()
+		{
+			NSAffineTransform	t;
+
+			t = (NSAffineTransform)NSAffineTransform.Alloc().Init();
+			t._matrix = IdentityTransform;
+			t._isIdentity = true;
+			return t;
+		}
+
         private static NSAffineTransformStruct matrix_multiply(NSAffineTransformStruct MA, NSAffineTransformStruct MB)
         {
             NSAffineTransformStruct MC;

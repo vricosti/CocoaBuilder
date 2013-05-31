@@ -1397,6 +1397,326 @@ namespace Smartmobili.Cocoa
 			}
 		}
 
+		public virtual NSRect CenterScanRect(NSRect aRect)
+		{
+			//FIXME
+			return new NSRect ();
+		}
+
+		public virtual NSPoint ConvertPointFromView(NSPoint aPoint, NSView aView)
+		{
+			NSPoint inBase;
+
+			if (aView == this)
+			{
+				return aPoint;
+			}
+
+			if (aView != null)
+			{
+				//NS.Assert(_window == aView.Window, @"NSInvalidArgumentException");      
+				inBase = aView._matrixToWindow.TransformPoint(aPoint);    
+			}
+			else
+			{
+				inBase = aPoint;
+			}
+
+			return this._matrixFromWindow.TransformPoint(inBase);
+		}
+
+		public virtual NSPoint ConvertPointToView(NSPoint aPoint, NSView aView)
+		{
+			NSPoint inBase;
+
+			if (aView == this)
+				return aPoint;
+
+			inBase = this._matrixToWindow.TransformPoint(aPoint);
+
+			if (aView != null)
+			{
+				//NS.Assert(_window == [aView window], NSInvalidArgumentException);      
+				return aView._matrixFromWindow.TransformPoint(inBase);
+			}
+			else
+			{
+				return inBase;
+			}
+		}
+
+		/* Helper for -convertRect:fromView: and -convertRect:toView:. */
+		private static NSRect convert_rect_using_matrices(NSRect aRect, NSAffineTransform matrix1,
+		                                                  NSAffineTransform matrix2)
+		{
+			NSRect r = new NSRect();
+			NSPoint[] p = new NSPoint[4];
+			NSPoint min, max;
+			int i;
+
+			for (i = 0; i < 4; i++)
+				p[i] = aRect.Origin;
+			p[1].X += aRect.Size.Width;
+			p[2].Y += aRect.Size.Height;
+			p[3].X += aRect.Size.Width;
+			p[3].Y += aRect.Size.Height;
+
+			for (i = 0; i < 4; i++)
+				p[i] = matrix1.TransformPoint(p[i]);
+
+			min = max = p[0] = matrix2.TransformPoint(p[0]);
+			for (i = 1; i < 4; i++)
+			{
+				p[i] = matrix2.TransformPoint(p[i]);
+				min.X = Math.Min(min.X, p[i].X);
+				min.Y = Math.Min(min.Y, p[i].Y);
+				max.X = Math.Max(max.X, p[i].X);
+				max.Y = Math.Max(max.Y, p[i].Y);
+			}
+
+			r.Origin = min;
+			r.Size.Width = max.X - min.X;
+			r.Size.Height = max.Y - min.Y;
+
+			return r;
+		}
+
+		public virtual NSRect ConvertRectFromView(NSRect aRect, NSView aView)
+		{
+			NSAffineTransform matrix1, matrix2;
+
+			if (aView == this || _window == null || (aView != null && aView.Window == null))
+			{
+				return aRect;
+			}
+
+			if (aView != null)
+			{
+				//NS.Assert(_window == aView.Window, @"NSInvalidArgumentException"); 
+				matrix1 = aView._MatrixToWindow();      
+			}
+			else
+			{
+				matrix1 = NSAffineTransform.Transform;
+			}
+
+			matrix2 = this._MatrixFromWindow();
+
+			return convert_rect_using_matrices(aRect, matrix1, matrix2);
+		}
+
+
+		public virtual NSRect ConvertRectToView(NSRect aRect, NSView aView)
+		{
+			NSAffineTransform matrix1, matrix2;
+
+			if (aView == this || _window == null || (aView != null && aView.Window == null))
+			{
+				return aRect;
+			}
+
+			matrix1 = this._MatrixToWindow();
+
+			if (aView != null)
+			{
+				//NS.Assert(_window == aView.Window, @"NSInvalidArgumentException");
+				matrix2 = aView._MatrixFromWindow();
+			}
+			else
+			{
+				matrix2 = NSAffineTransform.Transform;
+			}
+
+			return convert_rect_using_matrices(aRect, matrix1, matrix2);
+		}
+
+		public virtual NSSize ConvertSizeFromView(NSSize aSize, NSView aView)
+		{
+			NSSize inBase;
+			NSSize inSelf;
+
+			if (aView != null)
+			{
+				//NS.Assert(_window == aView.Window, @"NSInvalidArgumentException");      
+				inBase = aView._MatrixToWindow().TransformSize(aSize);
+				if (inBase.Height < 0.0)
+				{
+					inBase.Height = -inBase.Height;
+				} 
+			}
+			else
+			{
+				inBase = aSize;
+			}
+
+			inSelf = this._MatrixFromWindow().TransformSize(inBase);
+			if (inSelf.Height < 0.0)
+			{
+				inSelf.Height = -inSelf.Height;
+			}
+			return inSelf;
+		}
+
+		public virtual NSSize ConvertSizeToView(NSSize aSize, NSView aView)
+		{
+			NSSize inBase = this._MatrixToWindow().TransformSize(aSize);
+			if (inBase.Height < 0.0)
+			{
+				inBase.Height = -inBase.Height;
+			} 
+
+			if (aView != null)
+			{
+				NSSize inOther;
+				//NS.Assert(_window == aView.Window, @"NSInvalidArgumentException");      
+				inOther = aView._MatrixFromWindow().TransformSize(inBase);
+				if (inOther.Height < 0.0)
+				{
+					inOther.Height = -inOther.Height;
+				}
+				return inOther;
+			}
+			else
+			{
+				return inBase;
+			}
+		}
+
+		public virtual NSPoint ConvertPointFromBase(NSPoint aPoint)
+		{
+			return this.ConvertPointFromView(aPoint, null);
+		}
+
+		public virtual NSPoint ConvertPointToBase(NSPoint aPoint)
+		{
+			return this.ConvertPointToView(aPoint, null);
+		}
+
+		public virtual NSRect ConvertRectFromBase(NSRect aRect)
+		{
+			return this.ConvertRectFromView(aRect, null);
+		}
+
+		public virtual NSRect ConvertRectToBase(NSRect aRect)
+		{
+			return this.ConvertRectToView(aRect, null);
+		}
+
+		public virtual NSSize ConvertSizeFromBase(NSSize aSize)
+		{
+			return this.ConvertSizeFromView(aSize, null);
+		}
+
+		public virtual NSSize ConvertSizeToBase(NSSize aSize)
+		{
+			return this.ConvertSizeToView(aSize, null);
+		}
+
+
+		public virtual void SetPostsFrameChangedNotifications(bool flag)
+		{
+			_post_frame_changes = flag;
+		}
+		
+		public virtual void SetPostsBoundsChangedNotifications(bool flag)
+		{
+			_post_bounds_changes = flag;
+		}
+
+		public virtual void ResizeSubviewsWithOldSize(NSSize oldSize)
+		{
+			if (_rFlags.has_subviews != 0)
+			{
+				NSEnumerator e;
+				NSView o;
+
+				if (_autoresizes_subviews == false || _is_rotated_from_base == true)
+					return;
+
+				e = _sub_views.ObjectEnumerator();
+				o = (NSView)e.NextObject();
+				while (o != null)
+				{
+					o.ResizeWithOldSuperviewSize(oldSize);
+					o = (NSView)e.NextObject();
+				}
+			}
+		}
+
+		public static void Autoresize(double oldContainerSize,
+		                              double newContainerSize,
+		                              double contentPositionInOut,
+		                              double contentSizeInOut,
+		                       		  bool minMarginFlexible,
+		                              bool sizeFlexible,
+		                              bool maxMarginFlexible)
+		{
+//			double change = newContainerSize - oldContainerSize;
+//			double oldContentSize = *contentSizeInOut;
+//			double oldContentPosition = *contentPositionInOut;
+//			double flexibleSpace = 0.0;
+//
+//			// See how much flexible space we have to distrube the change over
+//
+//			if (sizeFlexible)
+//				flexibleSpace += oldContentSize;
+//
+//			if (minMarginFlexible)
+//				flexibleSpace += oldContentPosition;
+//
+//			if (maxMarginFlexible)
+//				flexibleSpace += oldContainerSize - oldContentPosition - oldContentSize;
+//
+//
+//			if (flexibleSpace <= 0.0)
+//			{
+//				/**
+//				 * In this code path there is no flexible space so we divide 
+//				 * the available space equally among the flexible portions of the view
+//				 */
+//				 int subdivisions = (sizeFlexible ? 1 : 0) +
+//					(minMarginFlexible ? 1 : 0) +
+//						(maxMarginFlexible ? 1 : 0);
+//
+//				if (subdivisions > 0)
+//				{
+//					double changePerOption = change / subdivisions;
+//
+//					if (sizeFlexible)
+//					{ 
+//						*contentSizeInOut += changePerOption;
+//					}
+//					if (minMarginFlexible)
+//					{
+//						*contentPositionInOut += changePerOption;
+//					}
+//				}
+//			}
+//			else
+//			{
+//				/**
+//       * In this code path we distribute the change proportionately
+//       * over the flexible spaces
+//       */
+//				const CGFloat changePerPoint = change / flexibleSpace;
+//
+//				if (sizeFlexible)
+//				{ 
+//					*contentSizeInOut += changePerPoint * oldContentSize;
+//				}
+//				if (minMarginFlexible)
+//				{
+//					*contentPositionInOut += changePerPoint * oldContentPosition;
+//				}
+//			}
+		}
+
+
+		public virtual void ResizeWithOldSuperviewSize(NSSize oldSize)
+		{
+
+		}
+
 		public virtual void DiscardCursorRects()
 		{
 		}
@@ -1413,10 +1733,6 @@ namespace Smartmobili.Cocoa
 		}
 
 
-        public virtual NSRect ConvertRectFromView(NSRect aRect, NSView aView)
-        {
-            return new NSRect();
-        }
 
         
 
