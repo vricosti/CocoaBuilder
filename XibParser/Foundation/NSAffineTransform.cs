@@ -78,7 +78,15 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-       
+       public virtual id Copy()
+		{
+			NSAffineTransform transform = new NSAffineTransform();
+			transform._matrix = this._matrix;
+			transform._isIdentity = this._isIdentity;
+			transform._isFlipY = this._isFlipY;
+
+			return transform;
+		}
 
         public virtual void MakeIdentityMatrix()
         {
@@ -229,6 +237,58 @@ namespace Smartmobili.Cocoa
             }
         }
 
+		public virtual void SetFrameOrigin(NSPoint point)
+		{
+			NSAffineTransformStruct matrix = this.GetTransformStruct();
+			double dx = point.X - _matrix.tX;
+			double dy = point.Y - _matrix.tY;
+
+			this.TranslateXByYBy(dx,dy);
+		}
+
+		public virtual void SetFrameRotation(double angle)
+		{
+			this.RotateByDegrees(angle - this.RotationAngle());
+		}
+
+		public virtual double RotationAngle()
+		{
+			NSAffineTransformStruct matrix = this.GetTransformStruct();
+			double rotationAngle = Math.Atan2(-_matrix.m21, _matrix.m11);
+
+			rotationAngle *= 180.0 / Math.PI;
+			if (rotationAngle < 0.0)
+				rotationAngle += 360.0;
+
+			return rotationAngle;
+		}
+
+		public virtual void ScaleTo(double sx, double sy)
+		{
+			NSAffineTransformStruct matrix = this.GetTransformStruct();
+
+			/* If it's rotated.  */
+			if (_matrix.m12 != 0  ||  _matrix.m21 != 0)
+			{
+				// FIXME: This case does not handle shear.
+				double angle = this.RotationAngle();
+
+				// Keep the translation and add scaling
+				_matrix.m11 = sx; _matrix.m12 = 0;
+				_matrix.m21 = 0; _matrix.m22 = sy;
+				this.SetTransformStruct(matrix);
+
+				// Prepend the rotation to the scaling and translation
+				this.RotateByDegrees(angle);
+			}
+			else
+			{
+				_matrix.m11 = sx; _matrix.m12 = 0;
+				_matrix.m21 = 0; _matrix.m22 = sy;
+				this.SetTransformStruct(matrix);
+			}
+		}
+
         public virtual void ScaleBy(double scale)
         {
             NSAffineTransformStruct scam = IdentityTransform;
@@ -351,6 +411,26 @@ namespace Smartmobili.Cocoa
         {
             return _matrix;
         }
+
+		public virtual void TranslateXByYBy(double tranX, double tranY)
+		{
+			if (_isIdentity)
+			{
+				_matrix.tX += tranX;
+				_matrix.tY += tranY;
+			}
+			else if (_isFlipY)
+			{
+				_matrix.tX += tranX;
+				_matrix.tY -= tranY;
+			}
+			else
+			{
+				_matrix.tX += _matrix.m11 * tranX + _matrix.m21 * tranY;
+				_matrix.tY += _matrix.m12 * tranX + _matrix.m22 * tranY;
+			}
+			//check();
+		}
 
 		public virtual void BoundingRectFor(NSRect rect, ref  NSRect newRect)
 		{

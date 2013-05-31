@@ -409,7 +409,7 @@ namespace Smartmobili.Cocoa
                 stop = (aRange.Location + aRange.Length); 
                 step = 1;
             }
-            range.Location = NS.NSNotFound;
+            range.Location = NS.NotFound;
             range.Length = 0;
 
             for (i = (int)start; i != stop; i += step)

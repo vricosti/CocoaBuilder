@@ -112,10 +112,24 @@ namespace Smartmobili.Cocoa
                 aBuffer[i] = ObjectAtIndex((int)i);
         }
 
+		public virtual uint IndexOfObjectIdenticalTo(id anObject)
+		{
+			uint c = (uint)this.Count;
+
+			if (c > 0)
+			{
+				uint i;
+
+				for (i = 0; i < c; i++)
+					if (anObject == this.ObjectAtIndex((int)i))
+						return i;
+			}
+			return NS.NotFound;
+		}
 
         public virtual uint IndexOfObject(id anObject)
         {
-            uint foundIndex = NS.NSNotFound;
+            uint foundIndex = NS.NotFound;
             int idx = _list.IndexOf(anObject);
             if (idx != -1)
                 foundIndex = (uint)idx;

@@ -484,7 +484,7 @@ namespace Smartmobili.Cocoa
 		public virtual NSString _ResizeDescription()
 		{
 			return NSString.StringWithFormat(@"h=%c%c%c v=%c%c%c", 
-			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMinXMargin) != 0? '&' : '-',
+			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMinXMargin) != 0 ? '&' : '-',
 			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewWidthSizable) != 0 ? '&' : '-',
 			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMaxXMargin) != 0 ? '&' : '-',
 			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMinYMargin) != 0 ? '&' : '-',
@@ -593,13 +593,13 @@ namespace Smartmobili.Cocoa
 			// be a subview and the index could change.
 			if (otherView == null)
 			{
-				index = NS.NSNotFound;
+				index = NS.NotFound;
 			}
 			else
 			{
 				index = _sub_views.IndexOfObjectIdenticalTo(otherView);
 			}
-				if (index == NS.NSNotFound)
+				if (index == NS.NotFound)
 			{
 					if (place == NSWindowOrderingMode.NSWindowBelow)
 					index = 0;
@@ -715,7 +715,7 @@ namespace Smartmobili.Cocoa
 
 		public virtual void RemoveSubview(NSView aView)
 		{
-			id view;
+			NSView view;
 			/*
 			 * This must be first because it invokes -resignFirstResponder:, 
 			 * which assumes the view is still in the view hierarchy
@@ -780,7 +780,7 @@ namespace Smartmobili.Cocoa
 				this.DidAddSubview(newView);
 				//RELEASE(newView);
 			}
-			else if (_sub_views.IndexOfObjectIdenticalTo(oldView) != NS.NSNotFound)
+			else if (_sub_views.IndexOfObjectIdenticalTo(oldView) != NS.NotFound)
 			{
 				if (newView == null)
 				{
@@ -989,6 +989,412 @@ namespace Smartmobili.Cocoa
 				}
 			}
 #endif
+		}
+
+
+		public virtual void SetFrameOrigin(NSPoint newOrigin)
+		{
+			if (NS.EqualPoints(_frame.Origin, newOrigin) == false)
+			{
+				NSRect newFrame = _frame;
+				newFrame.Origin = newOrigin;
+
+				if (_coordinates_valid)
+				{
+					//FIXME
+					//(*invalidateImp)(self, invalidateSel);
+				}
+				this._SetFrameAndClearAutoresizingError(newFrame);
+				this.ResetCursorRects();
+				if (_post_frame_changes)
+				{
+					//FIXME
+					//[nc postNotificationName: NSViewFrameDidChangeNotification object: self];
+				}
+			}
+		}
+
+		public virtual void SetFrameSize(NSSize newSize)
+		{
+			NSRect newFrame = _frame;
+			if (newSize.Width < 0)
+			{
+				//NSWarnMLog(@"given negative width", 0);
+				newSize.Width = 0;
+			}
+			if (newSize.Width < 0)
+			{
+				//NSWarnMLog(@"given negative height", 0);
+				newSize.Height = 0;
+			}
+			if (NS.EqualSizes(_frame.Size, newSize) == false)
+			{
+				NSSize old_size = _frame.Size;
+
+				if (_is_rotated_or_scaled_from_base)
+				{
+					if (_boundsMatrix == null)
+					{
+						double sx = _bounds.Size.Width  / _frame.Size.Width;
+						double sy = _bounds.Size.Height / _frame.Size.Height;
+
+						newFrame.Size = newSize;
+						this._SetFrameAndClearAutoresizingError(newFrame);
+						_bounds.Size.Width  = _frame.Size.Width  * sx;
+						_bounds.Size.Height = _frame.Size.Height * sy;
+					}
+					else
+					{
+						NSAffineTransform matrix;
+						NSRect frame;
+
+						newFrame.Size = newSize;
+						this._SetFrameAndClearAutoresizingError(newFrame);
+
+						frame = _frame;
+						frame.Origin = NS.MakePoint(0, 0);
+						matrix = (NSAffineTransform)_boundsMatrix.Copy();
+						matrix.Invert();
+						matrix.BoundingRectFor(frame ,ref _bounds);
+						//RELEASE(matrix);
+					}
+				}
+				else
+				{
+					newFrame.Size = _bounds.Size = newSize;
+					this._SetFrameAndClearAutoresizingError(newFrame);
+				}
+
+				if (_coordinates_valid)
+				{
+					//FIXME
+					//(*invalidateImp)(self, invalidateSel);
+				}
+				this.ResetCursorRects();
+				this.ResizeSubviewsWithOldSize(old_size);
+				if (_post_frame_changes)
+				{
+					//FIXME
+					//[nc postNotificationName: NSViewFrameDidChangeNotification object: self];
+				}
+			}
+		}
+
+		public virtual void SetFrameRotation(double angle)
+		{
+			double oldAngle = this.GetFrameRotation();
+
+			if (oldAngle != angle)
+			{
+				/* no frame matrix, create one since it is needed for rotation */
+				if (_frameMatrix == null)
+				{
+					// Map from superview to frame
+					_frameMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init();
+				}
+
+				_frameMatrix.RotateByDegrees(angle - oldAngle);
+				_is_rotated_from_base = _is_rotated_or_scaled_from_base = true;
+
+				if (_coordinates_valid)
+				{
+					//FIXME
+					//(*invalidateImp)(self, invalidateSel);
+				}
+				this.ResetCursorRects();
+				if (_post_frame_changes)
+				{
+					//[nc postNotificationName: NSViewFrameDidChangeNotification object: self];
+				}
+			}
+		}
+
+		public virtual bool IsRotatedFromBase()
+		{
+			if (_is_rotated_from_base)
+			{
+				return true;
+			}
+			else if (_super_view != null)
+			{
+				return _super_view.IsRotatedFromBase();
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public virtual bool IsRotatedOrScaledFromBase()
+		{
+			if (_is_rotated_or_scaled_from_base)
+			{
+				return true;
+			}
+			else if (_super_view != null)
+			{
+				return _super_view.IsRotatedOrScaledFromBase();
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public virtual void SetBounds(NSRect aRect)
+		{
+			//NSDebugLLog(@"NSView", @"setBounds %@", NSStringFromRect(aRect));
+			if (aRect.Size.Width < 0)
+			{
+				//NSWarnMLog(@"given negative width", 0);
+				aRect.Size.Width = 0;
+			}
+			if (aRect.Size.Height < 0)
+			{
+				//NSWarnMLog(@"given negative height", 0);
+				aRect.Size.Height = 0;
+			}
+
+			if (_is_rotated_from_base || (NS.EqualRects(_bounds, aRect) == false))
+			{
+				NSAffineTransform matrix;
+				NSPoint oldOrigin;
+				NSSize scale;
+
+				if (_boundsMatrix == null)
+				{
+					_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init(); 
+				}
+
+				// Adjust scale
+				scale = _computeScale(_frame.Size, aRect.Size);
+				if (scale.Width != 1 || scale.Height != 1)
+				{
+					_is_rotated_or_scaled_from_base = true;
+				}
+				_boundsMatrix.ScaleTo(scale.Width, scale.Height);
+				{
+					matrix = (NSAffineTransform)_boundsMatrix.Copy();
+					matrix.Invert();
+					oldOrigin = matrix.TransformPoint(NS.MakePoint(0, 0));
+					//RELEASE(matrix);
+				}
+				_boundsMatrix.TranslateXByYBy(oldOrigin.X - aRect.Origin.X, oldOrigin.Y - aRect.Origin.Y);      
+				if (!_is_rotated_from_base)
+				{
+					// Adjust bounds
+					_bounds = aRect;
+				}
+				else
+				{
+					// Adjust bounds
+					NSRect frame = _frame;
+
+					frame.Origin = NS.MakePoint(0, 0);
+					matrix = (NSAffineTransform)_boundsMatrix.Copy();
+					matrix.Invert();
+					matrix.BoundingRectFor(frame, ref _bounds);
+					//RELEASE(matrix);
+				}
+
+				if (_coordinates_valid)
+				{
+					//FIXME
+					//(*invalidateImp)(self, invalidateSel);
+				}
+				this.ResetCursorRects();
+				if (_post_bounds_changes)
+				{
+					//[nc postNotificationName: NSViewBoundsDidChangeNotification object: self];
+				}
+			}
+		}
+
+		public virtual void SetBoundsOrigin(NSPoint newOrigin)
+		{
+			NSPoint oldOrigin;
+
+			if (_boundsMatrix == null)
+			{
+				oldOrigin = NS.MakePoint(NS.MinX(_bounds), NS.MinY(_bounds));
+			}
+			else
+			{
+				NSAffineTransform matrix = (NSAffineTransform)_boundsMatrix.Copy();
+
+				matrix.Invert();
+				oldOrigin = matrix.TransformPoint(NS.MakePoint(0, 0));
+				//RELEASE(matrix);
+			}
+			this.TranslateOriginToPoint(NS.MakePoint(oldOrigin.X - newOrigin.X, 
+			                                          oldOrigin.Y - newOrigin.Y));
+		}
+
+		public virtual void SetBoundsSize(NSSize newSize)
+		{
+			NSSize scale;
+
+			//NSDebugLLog(@"NSView", @"%@ setBoundsSize: %@", self, NSStringFromSize(newSize));
+
+			if (newSize.Width < 0)
+			{
+				//NSWarnMLog(@"given negative width", 0);
+				newSize.Width = 0;
+			}
+			if (newSize.Height < 0)
+			{
+				//NSWarnMLog(@"given negative height", 0);
+				newSize.Height = 0;
+			}
+
+			scale = _computeScale(_frame.Size, newSize);
+			if (scale.Width != 1 || scale.Height != 1)
+			{
+				_is_rotated_or_scaled_from_base = true;
+			}
+
+			if (_boundsMatrix == null)
+			{
+				_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init(); 
+			}
+			_boundsMatrix.ScaleTo(scale.Width, scale.Height);
+			if (!_is_rotated_from_base)
+			{
+				scale = _computeScale(_bounds.Size, newSize);
+				_bounds.Origin.X = _bounds.Origin.X / scale.Width;
+				_bounds.Origin.Y = _bounds.Origin.Y / scale.Height;
+				_bounds.Size = newSize;
+			}
+			else
+			{
+				NSAffineTransform matrix;
+				NSRect frame = _frame;
+
+				frame.Origin = NS.MakePoint(0, 0);
+
+				matrix = (NSAffineTransform)_boundsMatrix.Copy();
+				matrix.Invert();
+				matrix.BoundingRectFor(frame, ref _bounds);
+				//RELEASE(matrix);               
+			}
+
+			if (_coordinates_valid)
+			{
+				//FIXME
+				//(*invalidateImp)(self, invalidateSel);
+			}
+			this.ResetCursorRects();
+			if (_post_bounds_changes)
+			{
+				//[nc postNotificationName: NSViewBoundsDidChangeNotification object: self];
+			}
+		}
+		
+		public virtual void SetBoundsRotation(double angle)
+		{
+			this.RotateByAngle(angle - this.GetBoundsRotation());
+		}
+
+		public virtual void TranslateOriginToPoint(NSPoint point)
+		{
+			//NSDebugLLog(@"NSView", @"%@ translateOriginToPoint: %@", self, NSStringFromPoint(point));
+			if (NS.EqualPoints(NSPoint.Zero, point) == false)
+			{
+				if (_boundsMatrix == null)
+				{
+					_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init();
+				}
+				_boundsMatrix.TranslateXByYBy(point.X, point.Y);
+				// Adjust bounds
+				_bounds.Origin.X -= point.X;
+				_bounds.Origin.Y -= point.Y;
+
+				if (_coordinates_valid)
+				{
+					//FIXME
+					//(*invalidateImp)(self, invalidateSel);
+				}
+				this.ResetCursorRects();
+				if (_post_bounds_changes)
+				{
+					//[nc postNotificationName: NSViewBoundsDidChangeNotification object: self];
+				}
+			}
+		}
+
+		public virtual void ScaleUnitSquareToSize(NSSize newSize)
+		{
+			if (newSize.Width != 1.0 || newSize.Height != 1.0)
+			{
+				if (newSize.Width < 0)
+				{
+					//NSWarnMLog(@"given negative width", 0);
+					newSize.Width = 0;
+				}
+				if (newSize.Height < 0)
+				{
+					//NSWarnMLog(@"given negative height", 0);
+					newSize.Height = 0;
+				}
+
+				if (_boundsMatrix == null)
+				{
+					_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init(); 
+				}
+				_boundsMatrix.ScaleXByYBy(newSize.Width, newSize.Height);
+				// Adjust bounds
+				_bounds.Origin.X = _bounds.Origin.X / newSize.Width;
+				_bounds.Origin.Y = _bounds.Origin.Y / newSize.Height;
+				_bounds.Size.Width  = _bounds.Size.Width  / newSize.Width;
+				_bounds.Size.Height = _bounds.Size.Height / newSize.Height;
+
+				_is_rotated_or_scaled_from_base = true;
+
+				if (_coordinates_valid)
+				{
+					//FIXME
+					//(*invalidateImp)(self, invalidateSel);
+				}
+				this.ResetCursorRects();
+				if (_post_bounds_changes)
+				{
+					//[nc postNotificationName: NSViewBoundsDidChangeNotification object: self];
+				}
+			}
+		}
+
+		public void RotateByAngle(double angle)
+		{
+			if (angle != 0.0)
+			{
+				NSAffineTransform matrix;
+				NSRect frame = _frame;
+
+				frame.Origin = NS.MakePoint(0, 0);
+				if (_boundsMatrix == null)
+				{
+					_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init(); 
+				}
+				_boundsMatrix.RotateByDegrees(angle);
+				// Adjust bounds
+				matrix = (NSAffineTransform)_boundsMatrix.Copy();
+				matrix.Invert();
+				matrix.BoundingRectFor(frame, ref _bounds);
+				//RELEASE(matrix);
+
+				_is_rotated_from_base = _is_rotated_or_scaled_from_base = true;
+
+				if (_coordinates_valid)
+				{
+					//FIXME
+					//(*invalidateImp)(self, invalidateSel);
+				}
+				this.ResetCursorRects();
+				if (_post_bounds_changes)
+				{
+					//[nc postNotificationName: NSViewBoundsDidChangeNotification object: self];
+				}
+			}
 		}
 
 		public virtual void DiscardCursorRects()

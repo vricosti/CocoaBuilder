@@ -56,6 +56,31 @@ namespace Smartmobili.Cocoa
             return (NSMutableArray)Alloc().InitWithArray(anArray);
         }
 
+		public virtual void RemoveObjectIdenticalTo(id anObject)
+		{
+			uint	i;
+
+			if (anObject == null)
+			{
+				//NSWarnMLog(@"attempt to remove nil object");
+				return;
+			}
+			i = (uint)this.Count;
+			if (i > 0)
+			{
+				while (i-- > 0)
+				{
+					id	o = this.ObjectAtIndex((int)i);
+
+					if (o == anObject)
+					{
+						this.RemoveObjectAtIndex(i);
+					}
+				}
+			}
+		}
+		
+
         public virtual void RemoveLastObject()
         {
             if (this.Count == 0)
@@ -67,7 +92,7 @@ namespace Smartmobili.Cocoa
         public virtual void RemoveObject(id anObject)
         {
             uint foundIndex = IndexOfObject(anObject);
-            if (foundIndex != NS.NSNotFound)
+            if (foundIndex != NS.NotFound)
             {
                 RemoveObjectAtIndex(foundIndex);
             }
