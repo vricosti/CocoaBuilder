@@ -51,17 +51,26 @@ namespace Smartmobili.Cocoa
 
         public virtual id RealObject
         {
-            get { return _object; }
-            set { _object = value; }
+            get { return GetRealObject(); }
+            set { SetRealObject(value); }
         }
-
-
 
         public NSCustomObject()
         {
             
         }
 
+        public virtual id GetRealObject()
+        {
+            return _object;
+        }
+
+        public virtual void SetRealObject(id obj)
+        {
+            _object = obj;
+        }
+
+        
         public override void EncodeWithCoder(NSCoder aCoder)
         {
             base.EncodeWithCoder(aCoder);

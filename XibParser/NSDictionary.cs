@@ -30,6 +30,7 @@ namespace Smartmobili.Cocoa
     public class NSDictionary : NSObject, IDictionary<id, id>
     {
         new public static Class Class = new Class(typeof(NSDictionary));
+        new public static NSDictionary Alloc() { return new NSDictionary(); }
 
         protected Dictionary<id, id> _dict = new Dictionary<id, id>();
 
@@ -66,10 +67,7 @@ namespace Smartmobili.Cocoa
         //      </object>
         /////////////////////////////////////////////////////////////////////////////////
 
-        new public static NSDictionary Alloc()
-        {
-            return new NSDictionary();
-        }
+        
 
         public NSDictionary()
         {

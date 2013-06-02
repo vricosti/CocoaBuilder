@@ -116,6 +116,7 @@
     <Compile Include="Foundation\NSUnarchiver.cs" />
     <Compile Include="GSMimeDocument.cs" />
     <Compile Include="GSModelLoaderFactory.cs" />
+    <Compile Include="GSXibLoader.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="IBActionConnection.cs" />
     <Compile Include="IBActionInfo.cs" />

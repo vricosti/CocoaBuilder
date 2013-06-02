@@ -44,7 +44,7 @@ namespace Smartmobili.Cocoa
                 bool loaded = LoadModelData(data, context);
 
                 if (!loaded)
-                    System.Diagnostics.Debug.WriteLine(string.Format("Could not load Nib file: %@", fileName));
+                    NS.Log("Could not load Nib file: %@", fileName);
                 return loaded;
             }
             else
@@ -57,12 +57,37 @@ namespace Smartmobili.Cocoa
         {
             return NSData.DataWithContentsOfFile(fileName);
         }
-
-
-
-
-
-
-
     }
+
+    public class GSModelLoaderFactory : NSObject
+    {
+        new public static Class Class = new Class(typeof(GSModelLoaderFactory));
+
+        private static NSMutableDictionary _modelMap = null;
+
+        static GSModelLoaderFactory() { Initialize(); }
+        static void Initialize()
+        {
+            NSArray classes = GS.ObjCAllSubclassesOfClass(GSModelLoader.Class);
+            NSEnumerator en = classes.ObjectEnumerator();
+            Class cls = null;
+
+            while ((cls = (Class)en.NextObject()) != null)
+            {
+                RegisterModelLoaderClass(cls);
+            }
+        }
+
+        public static void RegisterModelLoaderClass(Class aClass)
+        {
+            if (_modelMap == null)
+            {
+                _modelMap = (NSMutableDictionary)NSMutableDictionary.Alloc().InitWithCapacity(5);
+            }
+            _modelMap.SetObjectForKey(aClass, (NSString)Objc.MsgSend(aClass, "Type"));
+
+        }
+    }
+
+
 }

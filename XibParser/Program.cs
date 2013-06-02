@@ -55,6 +55,7 @@ namespace Smartmobili.Cocoa
             //string xibPath = @"C:/Developer/cygwin/home/Vincent/projects/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
             //string xibPath = @"/Users/v.richomme/Developer/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
 
+            //var tmp = new GSModelLoaderFactory();
 
             string fullPath = System.Reflection.Assembly.GetAssembly(typeof(Smartmobili.Cocoa.Program)).Location;
             string theDirectory = Path.GetDirectoryName(fullPath);

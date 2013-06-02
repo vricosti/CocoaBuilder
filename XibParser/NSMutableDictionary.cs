@@ -47,6 +47,16 @@ namespace Smartmobili.Cocoa
             return (NSMutableDictionary)Alloc().InitWithDictionary(anotherDic);
         }
 
+        public virtual id InitWithCapacity(uint numitems)
+        {
+            id self = this;
+
+            _dict = new Dictionary<id, id>((int)numitems);
+
+            return self;
+        }
+
+
         public virtual void RemoveObjectForKey(id aKey)
         {
             if (aKey == null)

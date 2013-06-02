@@ -31,7 +31,11 @@ namespace Smartmobili.Cocoa
         {
             object ret = null;
 
-            if (receiver != null && aString != null)
+            if (receiver == null || aString == null)
+                return null;
+
+            // receiver is an instance of an object
+            if (!(receiver is Class))
             {
                 string methodName = (string)aString;
                 MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
@@ -44,10 +48,27 @@ namespace Smartmobili.Cocoa
                     System.Diagnostics.Debug.WriteLine(string.Format("cannot find {0}", methodName));
                 }
 
+            } // receiver is an object representing a class type(Class)
+            else
+            {
+                ret = null;
+                Class cls = receiver as Class;
+                ret = cls.InnerType.GetProperty(aString).GetValue(ret, null);
             }
 
             return ret;
         }
+
+        //public static object MsgSend2(id receiver, NSString aString, object getOrSetValue)
+        //{
+        //    object ret = null;
+
+        //    ret = receiver.GetType().GetProperty(aString).GetValue(receiver, null);
+
+        //    return ret;
+        //}
+
+
 
         public static NSString Encode(Type type)
         {
@@ -56,13 +77,23 @@ namespace Smartmobili.Cocoa
 
 
     }
-    public class Class
+
+    public class Class : NSObject
     {
         public Type InnerType { get; protected set; }
 
         public Class(Type type)
         {
             InnerType = type;
+        }
+
+
+        public NSString ObjcType
+        {
+            get
+            {
+                return "";
+            }
         }
 
         //public static bool operator ==(Class cls1, Class cls2)
@@ -106,6 +137,5 @@ namespace Smartmobili.Cocoa
 
             return cls;
         }
-
     }
 }

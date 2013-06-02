@@ -25,11 +25,11 @@ using System.Xml.Linq;
 
 namespace Smartmobili.Cocoa
 {
-    public static class ObjConstants
-    {
-        public const int NO = 0;
-        public const int YES = 1;
-    }
+    //public static class ObjConstants
+    //{
+    //    public const int NO = 0;
+    //    public const int YES = 1;
+    //}
 
     public class NSObject : id, NSCoding2
     {
