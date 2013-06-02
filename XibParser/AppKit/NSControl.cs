@@ -356,7 +356,7 @@ namespace Smartmobili.Cocoa
 
 
         [ObjcProp("opaque", GetName = "isOpaque", SetName = null)]
-        public virtual bool Opaque
+        public override bool Opaque
         {
             get
             {
@@ -365,7 +365,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual void DrawRect(NSRect aRect)
+        public override void DrawRect(NSRect aRect)
         {
             //FIXME
             //[self drawCell: _cell];
@@ -483,7 +483,7 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
-        public virtual void ResetCursorRects()
+        public override void ResetCursorRects()
         {
             //FIXME
             //[_cell resetCursorRect: _bounds inView: self];

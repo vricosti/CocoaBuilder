@@ -330,14 +330,14 @@ namespace Smartmobili.Cocoa
             this.SetNeedsDisplay(true);
         }
 
-        public virtual void SetFrame(NSRect frameRect)
+        public override void SetFrame(NSRect frameRect)
         {
             base.Frame = frameRect;
             if (_content_view != null)
                 ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
         }
 
-        public virtual void SetFrameSize(NSSize newSize)
+        public override void SetFrameSize(NSSize newSize)
         {
             base.FrameSize = newSize;
             if (_content_view != null)

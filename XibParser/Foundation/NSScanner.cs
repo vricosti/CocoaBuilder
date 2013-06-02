@@ -146,7 +146,7 @@ namespace Smartmobili.Cocoa
             }
             if (!got_digits)
                 return false;
-            if (value != null)
+            //if (value != null)
             {
                 if (overflow || (num > (negative ? UInt32.MinValue : UInt32.MaxValue)))
                     value = negative ? Int32.MinValue : Int32.MaxValue;
