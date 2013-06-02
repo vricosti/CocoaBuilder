@@ -9,6 +9,8 @@ namespace Smartmobili.Cocoa
     public class NSSound : NSObject
     {
         new public static Class Class = new Class(typeof(NSSound));
+        new public static NSSound Alloc() { return new NSSound(); }
+
 
         public NSSound()
         {
