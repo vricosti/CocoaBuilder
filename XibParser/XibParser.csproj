@@ -93,6 +93,9 @@
     <Compile Include="AppKit\NSSegmentedControl.cs" />
     <Compile Include="AppKit\NSSegmentItem.cs" />
     <Compile Include="AppKit\NSSplitView.cs" />
+    <Compile Include="AppKit\NSText.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AppKit\Toolbar\GSToolbarButton.cs" />
     <Compile Include="AppKit\Button\NSButton.cs" />
     <Compile Include="AppKit\Button\NSButtonCell.cs" />
@@ -198,7 +201,6 @@
     <Compile Include="AppKit\Toolbar\NSToolbarSeparatorItem.cs" />
     <Compile Include="AppKit\Toolbar\NSToolbarSpaceItem.cs" />
     <Compile Include="AppKit\NSView.cs" />
-    <Compile Include="NSText.cs" />
     <Compile Include="NSUInteger.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="AppKit\NSWindowTemplate.cs" />
