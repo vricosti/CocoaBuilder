@@ -42,8 +42,33 @@ namespace Smartmobili.Cocoa
 		NSWindowOut           =  0
 	}
 
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSWindow.m
     public class NSWindow : NSResponder
     {
         new public static Class Class = new Class(typeof(NSWindow));
+
+        protected NSRect        _frame;
+        protected NSSize        _minimumSize;
+        protected NSSize        _maximumSize;
+        protected NSSize        _increments;
+        protected NSString	_autosaveName;
+        //protected GSWindowDecorationView *_wv;
+        protected id            _contentView;
+        protected NSResponder _firstResponder;
+        protected NSResponder _futureFirstResponder;
+        protected NSView        _initialFirstResponder;
+
+
+        public virtual NSResponder FirstResponder 
+        {
+            get { return GetFirstResponder(); }
+        }
+
+
+        public virtual NSResponder GetFirstResponder()
+        {
+            return _firstResponder;
+        }
+        
     }
 }

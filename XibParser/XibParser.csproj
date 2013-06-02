@@ -79,6 +79,7 @@
     <Compile Include="AppKit\INSMenuView.cs" />
     <Compile Include="AppKit\NSApplication.cs" />
     <Compile Include="AppKit\NSColorSpace.cs" />
+    <Compile Include="AppKit\NSGraphicsContext.cs" />
     <Compile Include="AppKit\NSMenuItemCell.cs" />
     <Compile Include="AppKit\NSMenuPanel.cs" />
     <Compile Include="AppKit\NSMenuView.cs" />

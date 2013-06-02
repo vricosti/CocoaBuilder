@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,7 +25,7 @@ namespace Smartmobili.Cocoa
 
 
 
-//#if TEST
+#if TEST
 
 #if TEST_PATH
             NSString strPath = @"";
@@ -51,9 +52,13 @@ namespace Smartmobili.Cocoa
             System.Diagnostics.Debug.Assert(strPathRes.IsEqualToString(@"/"));
 #endif
 
-            //string xibPath = @"C:/Developer/cygwin/home/v.richomme/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
-			string xibPath = @"/Users/v.richomme/Developer/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/Compose.xib";
+            //string xibPath = @"C:/Developer/cygwin/home/Vincent/projects/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
+            //string xibPath = @"/Users/v.richomme/Developer/CocoaBuilder/Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
 
+
+            string fullPath = System.Reflection.Assembly.GetAssembly(typeof(Smartmobili.Cocoa.Program)).Location;
+            string theDirectory = Path.GetDirectoryName(fullPath);
+            string xibPath = Path.GetDirectoryName(fullPath) + "\\..\\..\\..\\Tests\\Button\\ButtonTextAlign\\ButtonTextAlign\\en.lproj\\ButtonTextAlign.xib";
 
             NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
             if (data != null)
@@ -107,7 +112,7 @@ namespace Smartmobili.Cocoa
                 }
             }
             
-//#endif
+#endif
         }
     }
 }

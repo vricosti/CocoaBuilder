@@ -247,8 +247,9 @@ namespace Smartmobili.Cocoa
 		{
 			NSRect rect = aRect;
 
-			rect.Origin.X += dx;
-			rect.Origin.Y += dy;
+            rect = NSRect.Make(rect.Origin.X + dx, rect.Origin.Y + dy, rect.Size.Width, rect.Size.Height);
+            //rect.Origin.X += dx;
+            //rect.Origin.Y += dy;
 			return rect;
 		}
     };

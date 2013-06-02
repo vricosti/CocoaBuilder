@@ -127,9 +127,9 @@ namespace Smartmobili.Cocoa
 
         public virtual NSSize FrameSize { get; set; }
 
-        public virtual id Superview { get; set; }
+        //public virtual id Superview { get; set; }
 
-        public virtual id Window { get; set; }
+        //public virtual id Window { get; set; }
 
         public virtual id PreviousKeyView { get; set; }
 
@@ -355,7 +355,7 @@ namespace Smartmobili.Cocoa
 		{
 			bool old_allocate_gstate;
 
-			this._ViewWillMoveToWindow(newWindow);
+			this.ViewWillMoveToWindow(newWindow);
 			if (_coordinates_valid)
 			{
 				//FIXME
@@ -424,7 +424,7 @@ namespace Smartmobili.Cocoa
 
 		protected virtual void _ViewWillMoveToSuperview(NSView newSuper)
 		{
-			this._ViewWillMoveToSuperview(newSuper);
+			this.ViewWillMoveToSuperview(newSuper);
 			_super_view = newSuper;
 		}
 
@@ -682,7 +682,7 @@ namespace Smartmobili.Cocoa
 
 			while (next != null)
 			{
-				if (current.IsOpaque() == true)
+				if (current.Opaque == true)
 				{
 					break;
 				}
@@ -720,9 +720,9 @@ namespace Smartmobili.Cocoa
 			 * This must be first because it invokes -resignFirstResponder:, 
 			 * which assumes the view is still in the view hierarchy
 			 */
-			for (view = _window.FirstResponder;
+			for (view = (NSView)_window.FirstResponder;
 			     view != null && view.RespondsToSelector(new SEL(@"GetSuperview"));
-			     view = view.SuperView)
+			     view = view.Superview)
 			{
 				if (view == aView)
 				{     
@@ -928,7 +928,6 @@ namespace Smartmobili.Cocoa
 
 		public virtual void SetFrame(NSRect frameRect)
 		{
-#if FIXME
 			bool	changedOrigin = false;
 			bool	changedSize = false;
 			NSSize old_size = _frame.Size;
@@ -936,19 +935,21 @@ namespace Smartmobili.Cocoa
 			if (frameRect.Size.Width < 0)
 			{
 				//NSWarnMLog(@"given negative width", 0);
-				frameRect.Size.Width = 0;
+				//frameRect.Size.Width = 0;
+                frameRect.Size = NS.MakeSize(0, frameRect.Size.Height);
 			}
 			if (frameRect.Size.Height < 0)
 			{
 				//NSWarnMLog(@"given negative height", 0);
-				frameRect.Size.Height = 0;
+				//frameRect.Size.Height = 0;
+                frameRect.Size = NS.MakeSize(frameRect.Size.Width, 0);
 			}
 
-			if (NS.EqualPoints(_frame.origin, frameRect.origin) == false)
+			if (NS.EqualPoints(_frame.Origin, frameRect.Origin) == false)
 			{
 				changedOrigin = true;
 			}
-			if (NS.EqualSizes(_frame.size, frameRect.size) == false)
+			if (NS.EqualSizes(_frame.Size, frameRect.Size) == false)
 			{
 				changedSize = true;
 			}
@@ -965,9 +966,9 @@ namespace Smartmobili.Cocoa
 						NSRect frame = _frame;
 
 						frame.Origin = NS.MakePoint(0, 0);
-						matrix = [_boundsMatrix copy];
-						[matrix invert];
-						[matrix boundingRectFor: frame result: &_bounds];
+						matrix = (NSAffineTransform)_boundsMatrix.Copy();
+						matrix.Invert();
+						matrix.BoundingRectFor(frame, ref _bounds);
 						//RELEASE(matrix);               
 					}
 					else
@@ -981,14 +982,13 @@ namespace Smartmobili.Cocoa
 					//FIXME
 					//(*invalidateImp)(self, invalidateSel);
 				}
-				[self resetCursorRects];
-				[self resizeSubviewsWithOldSize: old_size];
+				this.ResetCursorRects();
+				this.ResizeSubviewsWithOldSize(old_size);
 				if (_post_frame_changes)
 				{
 					//[nc postNotificationName: NSViewFrameDidChangeNotification object: self];
 				}
 			}
-#endif
 		}
 
 
@@ -1040,8 +1040,9 @@ namespace Smartmobili.Cocoa
 
 						newFrame.Size = newSize;
 						this._SetFrameAndClearAutoresizingError(newFrame);
-						_bounds.Size.Width  = _frame.Size.Width  * sx;
-						_bounds.Size.Height = _frame.Size.Height * sy;
+                        _bounds.Size = NS.MakeSize(_frame.Size.Width * sx, _frame.Size.Height * sy); 
+                        //_bounds.Size.Width  = _frame.Size.Width  * sx;
+						//_bounds.Size.Height = _frame.Size.Height * sy;
 					}
 					else
 					{
@@ -1147,12 +1148,14 @@ namespace Smartmobili.Cocoa
 			if (aRect.Size.Width < 0)
 			{
 				//NSWarnMLog(@"given negative width", 0);
-				aRect.Size.Width = 0;
+				//aRect.Size.Width = 0;
+                aRect.Size = NS.MakeSize(0, aRect.Size.Height);
 			}
 			if (aRect.Size.Height < 0)
 			{
 				//NSWarnMLog(@"given negative height", 0);
-				aRect.Size.Height = 0;
+				//aRect.Size.Height = 0;
+                aRect.Size = NS.MakeSize(aRect.Size.Width, 0);
 			}
 
 			if (_is_rotated_from_base || (NS.EqualRects(_bounds, aRect) == false))
@@ -1261,8 +1264,10 @@ namespace Smartmobili.Cocoa
 			if (!_is_rotated_from_base)
 			{
 				scale = _computeScale(_bounds.Size, newSize);
-				_bounds.Origin.X = _bounds.Origin.X / scale.Width;
-				_bounds.Origin.Y = _bounds.Origin.Y / scale.Height;
+
+                _bounds.Origin = NS.MakePoint(_bounds.Origin.X / scale.Width, _bounds.Origin.Y / scale.Height);
+				//_bounds.Origin.X = _bounds.Origin.X / scale.Width;
+				//_bounds.Origin.Y = _bounds.Origin.Y / scale.Height;
 				_bounds.Size = newSize;
 			}
 			else
@@ -1306,8 +1311,9 @@ namespace Smartmobili.Cocoa
 				}
 				_boundsMatrix.TranslateXByYBy(point.X, point.Y);
 				// Adjust bounds
-				_bounds.Origin.X -= point.X;
-				_bounds.Origin.Y -= point.Y;
+                _bounds.Origin = NS.MakePoint(_bounds.Origin.X - point.X, _bounds.Origin.Y - point.Y);
+                //_bounds.Origin.X -= point.X;
+                //_bounds.Origin.Y -= point.Y;
 
 				if (_coordinates_valid)
 				{
@@ -1343,10 +1349,12 @@ namespace Smartmobili.Cocoa
 				}
 				_boundsMatrix.ScaleXByYBy(newSize.Width, newSize.Height);
 				// Adjust bounds
-				_bounds.Origin.X = _bounds.Origin.X / newSize.Width;
-				_bounds.Origin.Y = _bounds.Origin.Y / newSize.Height;
-				_bounds.Size.Width  = _bounds.Size.Width  / newSize.Width;
-				_bounds.Size.Height = _bounds.Size.Height / newSize.Height;
+                _bounds.Origin = NS.MakePoint(_bounds.Origin.X / newSize.Width, _bounds.Origin.Y / newSize.Height);
+                _bounds.Size = NS.MakeSize(_bounds.Size.Width / newSize.Width, _bounds.Size.Height / newSize.Height);
+                //_bounds.Origin.X = _bounds.Origin.X / newSize.Width;
+                //_bounds.Origin.Y = _bounds.Origin.Y / newSize.Height;
+                //_bounds.Size.Width  = _bounds.Size.Width  / newSize.Width;
+                //_bounds.Size.Height = _bounds.Size.Height / newSize.Height;
 
 				_is_rotated_or_scaled_from_base = true;
 
@@ -1432,7 +1440,7 @@ namespace Smartmobili.Cocoa
 			if (aView == this)
 				return aPoint;
 
-			inBase = this._matrixToWindow.TransformPoint(aPoint);
+			inBase = this._MatrixToWindow().TransformPoint(aPoint);
 
 			if (aView != null)
 			{
@@ -1475,8 +1483,9 @@ namespace Smartmobili.Cocoa
 			}
 
 			r.Origin = min;
-			r.Size.Width = max.X - min.X;
-			r.Size.Height = max.Y - min.Y;
+            r.Size = NS.MakeSize(max.X - min.X, max.Y - min.Y);
+            //r.Size.Width = max.X - min.X;
+            //r.Size.Height = max.Y - min.Y;
 
 			return r;
 		}
@@ -1645,77 +1654,326 @@ namespace Smartmobili.Cocoa
 
 		public static void Autoresize(double oldContainerSize,
 		                              double newContainerSize,
-		                              double contentPositionInOut,
-		                              double contentSizeInOut,
+		                              ref double contentPositionInOut,
+                                      ref double contentSizeInOut,
 		                       		  bool minMarginFlexible,
 		                              bool sizeFlexible,
 		                              bool maxMarginFlexible)
 		{
-//			double change = newContainerSize - oldContainerSize;
-//			double oldContentSize = *contentSizeInOut;
-//			double oldContentPosition = *contentPositionInOut;
-//			double flexibleSpace = 0.0;
-//
-//			// See how much flexible space we have to distrube the change over
-//
-//			if (sizeFlexible)
-//				flexibleSpace += oldContentSize;
-//
-//			if (minMarginFlexible)
-//				flexibleSpace += oldContentPosition;
-//
-//			if (maxMarginFlexible)
-//				flexibleSpace += oldContainerSize - oldContentPosition - oldContentSize;
-//
-//
-//			if (flexibleSpace <= 0.0)
-//			{
-//				/**
-//				 * In this code path there is no flexible space so we divide 
-//				 * the available space equally among the flexible portions of the view
-//				 */
-//				 int subdivisions = (sizeFlexible ? 1 : 0) +
-//					(minMarginFlexible ? 1 : 0) +
-//						(maxMarginFlexible ? 1 : 0);
-//
-//				if (subdivisions > 0)
-//				{
-//					double changePerOption = change / subdivisions;
-//
-//					if (sizeFlexible)
-//					{ 
-//						*contentSizeInOut += changePerOption;
-//					}
-//					if (minMarginFlexible)
-//					{
-//						*contentPositionInOut += changePerOption;
-//					}
-//				}
-//			}
-//			else
-//			{
-//				/**
-//       * In this code path we distribute the change proportionately
-//       * over the flexible spaces
-//       */
-//				const CGFloat changePerPoint = change / flexibleSpace;
-//
-//				if (sizeFlexible)
-//				{ 
-//					*contentSizeInOut += changePerPoint * oldContentSize;
-//				}
-//				if (minMarginFlexible)
-//				{
-//					*contentPositionInOut += changePerPoint * oldContentPosition;
-//				}
-//			}
+            double change = newContainerSize - oldContainerSize;
+            double oldContentSize = contentSizeInOut;
+            double oldContentPosition = contentPositionInOut;
+            double flexibleSpace = 0.0;
+
+            // See how much flexible space we have to distrube the change over
+
+            if (sizeFlexible)
+                flexibleSpace += oldContentSize;
+
+            if (minMarginFlexible)
+                flexibleSpace += oldContentPosition;
+
+            if (maxMarginFlexible)
+                flexibleSpace += oldContainerSize - oldContentPosition - oldContentSize;
+
+
+            if (flexibleSpace <= 0.0)
+            {
+                /**
+                 * In this code path there is no flexible space so we divide 
+                 * the available space equally among the flexible portions of the view
+                 */
+                int subdivisions = (sizeFlexible ? 1 : 0) +
+                   (minMarginFlexible ? 1 : 0) +
+                       (maxMarginFlexible ? 1 : 0);
+
+                if (subdivisions > 0)
+                {
+                    double changePerOption = change / subdivisions;
+
+                    if (sizeFlexible)
+                    {
+                        contentSizeInOut += changePerOption;
+                    }
+                    if (minMarginFlexible)
+                    {
+                        contentPositionInOut += changePerOption;
+                    }
+                }
+            }
+            else
+            {
+                /**
+                * In this code path we distribute the change proportionately
+                * over the flexible spaces
+                */
+                double changePerPoint = change / flexibleSpace;
+
+                if (sizeFlexible)
+                {
+                    contentSizeInOut += changePerPoint * oldContentSize;
+                }
+                if (minMarginFlexible)
+                {
+                    contentPositionInOut += changePerPoint * oldContentPosition;
+                }
+            }
 		}
 
 
 		public virtual void ResizeWithOldSuperviewSize(NSSize oldSize)
 		{
+            NSSize superViewFrameSize;
+            NSRect newFrame = _frame;
+            NSRect newFrameRounded;
 
+            if (_autoresizingMask == (uint)NSViewAutoresizingMasks.NSViewNotSizable)
+                return;
+
+            if (!NS.EqualRects(NS.ZeroRect, _autoresizingFrameError))
+            {
+                newFrame.Origin = NS.MakePoint(newFrame.Origin.X -_autoresizingFrameError.Origin.X,  newFrame.Origin.Y - _autoresizingFrameError.Origin.Y);
+                //newFrame.Origin.X -= _autoresizingFrameError.Origin.X;
+                //newFrame.Origin.Y -= _autoresizingFrameError.Origin.Y;
+
+                newFrame.Size = NS.MakeSize(newFrame.Size.Width - _autoresizingFrameError.Size.Width, newFrame.Size.Height - _autoresizingFrameError.Size.Height);
+                //newFrame.Size.Width -= _autoresizingFrameError.Size.Width;
+                //newFrame.Size.Height -= _autoresizingFrameError.Size.Height;
+            }
+
+            superViewFrameSize = NS.MakeSize(0,0);
+            if (_super_view != null)
+                superViewFrameSize = _super_view.Frame.Size;
+
+            double orgX = newFrame.Origin.X;
+            double sizeW = newFrame.Size.Width;
+            
+            Autoresize(oldSize.Width,superViewFrameSize.Width,
+                ref orgX,
+                ref sizeW,
+                (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMinXMargin) != 0,
+                (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewWidthSizable) != 0,
+                (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMaxXMargin) != 0);
+            
+            newFrame.Origin = NS.MakePoint(orgX, newFrame.Origin.Y);
+            newFrame.Size = NS.MakeSize(sizeW, newFrame.Size.Height);
+
+            {
+                bool flipped = ((_super_view != null) && _super_view.IsFlipped());
+
+                double orgY = newFrame.Origin.Y;
+                double sizeH = newFrame.Size.Height;
+                
+                Autoresize(oldSize.Height, superViewFrameSize.Height,
+                    ref orgY,
+                    ref sizeH,
+                    flipped ? NS.IsBitSet(_autoresizingMask, (uint)NSViewAutoresizingMasks.NSViewMaxYMargin) : NS.IsBitSet(_autoresizingMask, (uint)NSViewAutoresizingMasks.NSViewMinYMargin),
+                    NS.IsBitSet(_autoresizingMask, (uint)NSViewAutoresizingMasks.NSViewHeightSizable),
+                    flipped ? NS.IsBitSet(_autoresizingMask, (uint)NSViewAutoresizingMasks.NSViewMinYMargin) : NS.IsBitSet(_autoresizingMask, (uint)NSViewAutoresizingMasks.NSViewMaxYMargin));
+            }
+
+            newFrameRounded = newFrame;
+
+            /**
+            * Perform rounding to pixel-align the frame if we are not rotated
+            */
+            if (!this.IsRotatedFromBase() && this.Superview != null)
+            {
+                newFrameRounded = ((NSView)this.Superview).CenterScanRect(newFrameRounded);
+            }
+
+            this.SetFrame(newFrameRounded);
+
+            _autoresizingFrameError.Origin = NS.MakePoint(newFrameRounded.Origin.X - newFrame.Origin.X, newFrameRounded.Origin.Y - newFrame.Origin.Y);
+            //_autoresizingFrameError.Origin.X = (newFrameRounded.Origin.X - newFrame.Origin.X);
+            //_autoresizingFrameError.Origin.Y = (newFrameRounded.Origin.Y - newFrame.Origin.Y);
+  
+            _autoresizingFrameError.Size = NS.MakeSize(newFrameRounded.Size.Width - newFrame.Size.Width, newFrameRounded.Size.Height - newFrame.Size.Height);
+            //_autoresizingFrameError.Size.Width = (newFrameRounded.Size.Width - newFrame.Size.Width);
+            //_autoresizingFrameError.Size.Height = (newFrameRounded.Size.Height - newFrame.Size.Height);
 		}
+
+        public virtual void SetNeedsDisplayInRect(NSRect invalidRect)
+        {
+        
+        }
+
+        public virtual void Display()
+        {
+
+        }
+
+        public virtual void DisplayIfNeeded()
+        {
+
+        }
+
+
+        public virtual void DisplayIfNeededIgnoringOpacity()
+        {
+
+        }
+
+        public virtual void DisplayIfNeededInRect(NSRect aRect)
+        {
+
+        }
+
+        public virtual void DisplayIfNeededInRectIgnoringOpacity(NSRect aRect)
+        {
+
+        }
+
+        public virtual void DisplayRect(NSRect aRect)
+        {
+
+        }
+        public virtual void DisplayRectIgnoringOpacity(NSRect aRect)
+        {
+
+        }
+
+        public virtual void DisplayRectIgnoringOpacity(NSRect aRect, NSGraphicsContext context)
+        {
+
+        }
+
+        public virtual void DrawRect(NSRect rect)
+        {
+
+        }
+
+        public virtual NSRect VisibleRect
+        {
+            get { return GetVisibleRect(); }
+        }
+
+        public virtual NSRect GetVisibleRect()
+        {
+            if (this.HiddenOrHasHiddenAncestor)
+            {
+                return NS.ZeroRect;
+            }
+
+            if (_coordinates_valid == false)
+            {
+                this._RebuildCoordinates();
+            }
+            return _visibleRect;
+        }
+
+        public static NSFocusRingType DefaultFocusRingType
+        {
+            get { return GetDefaultFocusRingType(); }
+        }
+
+        public virtual NSFocusRingType FocusRingType
+        {
+            get { return GetFocusRingType(); }
+            set { SetFocusRingType(value); }
+        }
+
+        public virtual void SetFocusRingType(NSFocusRingType focusRingType)
+        {
+            _focusRingType = focusRingType;
+        }
+
+        public virtual NSFocusRingType GetFocusRingType()
+        {
+            return _focusRingType;
+        }
+
+
+        public static NSFocusRingType GetDefaultFocusRingType()
+        {
+            return NSFocusRingType.NSFocusRingTypeDefault;
+        }
+
+        public virtual bool Hidden
+        {
+            get { return IsHidden(); }
+            set { SetHidden(value); }
+        }
+
+        public virtual bool HiddenOrHasHiddenAncestor
+        {
+            get { return IsHiddenOrHasHiddenAncestor(); }
+        }
+
+        public virtual void SetHidden(bool flag)
+        {
+
+            NSView view;
+
+            if (_is_hidden == flag)
+                return;
+
+            _is_hidden = flag;
+
+            if (_is_hidden)
+            {
+                if (_window != null)
+                {
+                    for (view = (NSView)_window.FirstResponder;
+                         view != null && view.RespondsToSelector(new SEL("superview"));
+                         view = (NSView)view.Superview)
+                    {
+                        if (view == this)
+                        {
+                            //_window.MakeFirstResponder(this.NextValidKeyView());
+                            break;
+                        }
+                    }
+                }
+                if (_rFlags.has_draginfo != 0)
+                {
+                    if (_window != null)
+                    {
+                        //NSArray t = GSGetDragTypes(self);
+                        //[GSDisplayServer removeDragTypes: t fromWindow: _window];
+                    }
+                }
+                if (Superview != null)
+                    ((NSView)this.Superview).SetNeedsDisplay(true);
+            }
+            else
+            {
+                if (_rFlags.has_draginfo != 0)
+                {
+                    if (_window != null)
+                    {
+                        //NSArray t = GSGetDragTypes(this);
+
+                        //[GSDisplayServer addDragTypes: t toWindow: _window];
+                    }
+                }
+                if (_rFlags.has_subviews != 0)
+                {
+                    // The _visibleRect of subviews will be NSZeroRect, because when they
+                    // were calculated in -[_rebuildCoordinates], they were intersected
+                    // with the result of calling -[visibleRect] on the hidden superview,
+                    // which returns NSZeroRect for hidden views.
+                    //
+                    // So, recalculate the subview coordinates now to make them correct.
+
+                    //[_sub_views makeObjectsPerformSelector: @selector(_invalidateCoordinates)];
+                }
+                this.SetNeedsDisplay(true);
+            }
+        }
+
+        public virtual bool IsHidden()
+        {
+            return _is_hidden;
+        }
+
+        public virtual bool IsHiddenOrHasHiddenAncestor()
+        {
+            return (this.IsHidden() || _super_view.IsHiddenOrHasHiddenAncestor());
+        }
+
+
+
 
 		public virtual void DiscardCursorRects()
 		{
@@ -1773,7 +2031,7 @@ namespace Smartmobili.Cocoa
                 _bounds.Size = _frame.Size;
                 if (aDecoder.ContainsValueForKey("NSBounds"))
                 {
-                    //[self setBounds: [aDecoder decodeRectForKey: @"NSBounds"]];
+                    this.SetBounds(aDecoder.DecodeRectForKey(@"NSBounds"));
                 }
                 
                 _sub_views = (NSMutableArray)NSMutableArray.Alloc().Init();
@@ -1810,14 +2068,41 @@ namespace Smartmobili.Cocoa
                 if (aDecoder.ContainsValueForKey("NSvFlags"))
                 {
                     uint vFlags = (uint)aDecoder.DecodeIntForKey("NSvFlags");
-                    
+                    //2013-06-02 10:40:22.872 Gorm[26233] NSvFlags: 0x112 (274) (274)
+                    //2013-06-02 10:40:22.872 Gorm[26233] NSvFlags: 0x80000100 (-2147483392) (-2147483392)
+                    //2013-06-02 10:40:22.873 Gorm[26233] NSvFlags: 0x80000100 (-2147483392) (-2147483392)
+                    //2013-06-02 10:40:22.873 Gorm[26233] NSvFlags: 0x136 (310) (310)
+                    //2013-06-02 10:40:22.873 Gorm[26233] NSvFlags: 0x900 (2304) (2304)
+                    //2013-06-02 10:40:22.873 Gorm[26233] NSvFlags: 0x8000010a (-2147483382) (-2147483382)
+                    //2013-06-02 10:40:22.873 Gorm[26233] NSvFlags: 0x10a (266) (266)
+                    //2013-06-02 10:40:22.873 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.873 Gorm[26233] NSvFlags: 0x10a (266) (266)
+                    //2013-06-02 10:40:22.874 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.874 Gorm[26233] NSvFlags: 0x10a (266) (266)
+                    //2013-06-02 10:40:22.874 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.874 Gorm[26233] NSvFlags: 0x112 (274) (274)
+                    //2013-06-02 10:40:22.874 Gorm[26233] NSvFlags: 0x8000010a (-2147483382) (-2147483382)
+                    //2013-06-02 10:40:22.874 Gorm[26233] NSvFlags: 0x100 (256) (256)
+                    //2013-06-02 10:40:22.875 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.875 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.875 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.875 Gorm[26233] NSvFlags: 0x102 (258) (258)
+                    //2013-06-02 10:40:22.876 Gorm[26233] NSvFlags: 0x104 (260) (260)
+                    //2013-06-02 10:40:22.876 Gorm[26233] NSvFlags: 0x102 (258) (258)
+                    //2013-06-02 10:40:22.876 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.879 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.885 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.893 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.901 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.902 Gorm[26233] NSvFlags: 0x10c (268) (268)
+                    //2013-06-02 10:40:22.902 Gorm[26233] NSvFlags: 0x12d (301) (301)
+                    //2013-06-02 10:40:22.903 Gorm[26233] NSvFlags: 0x112 (274) (274)
+
                     // We are lucky here, Apple use the same constants
-                    // in the lower bits of the flags
-                    
-                    //FIXME
-                    //[self setAutoresizingMask: vFlags & 0x3F];
-                    //[self setAutoresizesSubviews: ((vFlags & 0x100) == 0x100)];
-                    //[self setHidden: ((vFlags & 0x80000000) == 0x80000000)];
+                    // in the lower bits of the flags 
+                   this.SetAutoresizingMask(vFlags & 0x3F);
+                   this.SetAutoresizesSubviews((vFlags & 0x100) == 0x100);
+                   this.SetHidden((vFlags & 0x80000000) == 0x80000000);
                 }
 
                  // iterate over subviews and put them into the view...
@@ -1831,16 +2116,16 @@ namespace Smartmobili.Cocoa
                         System.Diagnostics.Debug.Assert(sub.Window == null);
                         System.Diagnostics.Debug.Assert(sub.Superview == null);
 
-                        //sub._viewWillMoveToWindow(_window);
-                        //sub._viewWillMoveToSuperview(this);
-                        //sub.setNextResponder(this);
+                        sub._ViewWillMoveToWindow(_window);
+                        sub._ViewWillMoveToSuperview(this);
+                        sub.SetNextResponder(this);
                         _sub_views.AddObject(sub);
                         _rFlags.has_subviews = 1;
-                        //sub.ResetCursorRects();
+                        sub.ResetCursorRects();
                         sub.SetNeedsDisplay(true);
-                        //sub._ViewDidMoveToWindow];
-                        //sub.ViewDidMoveToSuperview];
-                        //this.DidAddSubview: sub];
+                        sub._ViewDidMoveToWindow();
+                        sub.ViewDidMoveToSuperview();
+                        this.DidAddSubview(sub);
 
                     }
                 }
@@ -1860,6 +2145,114 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual bool AutoresizesSubviews
+        {
+            get { return GetAutoresizesSubviews(); }
+            set { SetAutoresizesSubviews(value); }
+        }
+
+        public virtual bool GetAutoresizesSubviews()
+        {
+            return _autoresizes_subviews;
+        }
+
+        public virtual void  SetAutoresizesSubviews(bool flag)
+        {
+            _autoresizes_subviews = flag;
+        }
+
+        public virtual uint AutoresizingMask
+        {
+            get { return GetAutoresizingMask(); }
+            set { SetAutoresizingMask(value); }
+        }
+
+        public virtual uint GetAutoresizingMask()
+        {
+            return _autoresizingMask;
+        }
+
+        public virtual void SetAutoresizingMask(uint mask)
+        {
+            _autoresizingMask = mask;
+        }
+
+        public virtual NSWindow Window
+        {
+            get { return GetWindow(); }
+        }
+
+        public virtual NSWindow GetWindow()
+        {
+            return _window;
+        }
+
+        public virtual NSArray Subviews { get { return GetSubviews(); } }
+
+        public virtual NSArray GetSubviews()
+        {
+            return _sub_views;
+        }
+
+        public virtual NSView Superview  { get { return GetSuperview(); }  }
+
+        public virtual NSView GetSuperview()
+        {
+            return _super_view;
+        }
+
+        public virtual bool Opaque  { get { return GetIsOpaque(); }  }
+
+        public virtual bool GetIsOpaque()
+        { 
+            return false;
+        }
+
+        public virtual bool GetNeedsDisplay()
+        {
+            return Convert.ToBoolean(_rFlags.needs_display);
+        }
+
+
+        public virtual int GetTag()
+        {
+            return -1;
+        }
+
+
+        public virtual bool IsFlipped()
+        {
+            return false;
+        }
+
+        public virtual NSRect GetBounds()
+        {
+            return _bounds;
+        }
+
+        public virtual NSRect GetFrame()
+        {
+            return _frame;
+        }
+
+        public virtual double GetBoundsRotation()
+        {
+            if (_boundsMatrix != null)
+            {
+                return _boundsMatrix.RotationAngle();
+            }
+
+            return 0.0;
+        }
+
+        public virtual double GetFrameRotation()
+        {
+            if (_frameMatrix != null)
+            {
+                return _frameMatrix.RotationAngle();
+            }
+            return 0.0;
+        }
 
         public virtual void SetNeedsDisplay(bool flag)
         {

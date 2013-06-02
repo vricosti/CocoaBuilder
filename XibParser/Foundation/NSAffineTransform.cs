@@ -488,10 +488,11 @@ namespace Smartmobili.Cocoa
 					max_y = yc[i];
 			}
 
-			newRect.Origin.X = min_x;
-			newRect.Origin.Y = min_y;
-			newRect.Size.Width = max_x -min_x;
-			newRect.Size.Height = max_y -min_y;
+            newRect = NSRect.Make(min_x, min_y, max_x - min_x, max_y - min_y);
+            //newRect.Origin.X = min_x;
+            //newRect.Origin.Y = min_y;
+            //newRect.Size.Width = max_x -min_x;
+            //newRect.Size.Height = max_y -min_y;
 		}
     }
 }

@@ -15,6 +15,16 @@ namespace Smartmobili.Cocoa
             return "";
         }
 
+        public static bool IsBitSet(uint mask, uint flags)
+        {
+            return Convert.ToBoolean((mask & flags) != 0);
+        }
+
+        public static NSRect ZeroRect
+        {
+            get { return NSRect.Zero; }
+        }
+
         public static double MinX(NSRect aRect)
         {
             return aRect.MinX;
