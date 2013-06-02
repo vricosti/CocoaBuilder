@@ -78,7 +78,10 @@
     <Compile Include="AppKit\Button\NSPopUpButtonCell.cs" />
     <Compile Include="AppKit\INSMenuView.cs" />
     <Compile Include="AppKit\NSApplication.cs" />
+    <Compile Include="AppKit\NSColor.cs" />
+    <Compile Include="AppKit\NSColorList.cs" />
     <Compile Include="AppKit\NSColorSpace.cs" />
+    <Compile Include="AppKit\NSEvent.cs" />
     <Compile Include="AppKit\NSGraphicsContext.cs" />
     <Compile Include="AppKit\NSMenuItemCell.cs" />
     <Compile Include="AppKit\NSMenuPanel.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="Foundation\NSDateFormatter.cs" />
     <Compile Include="Foundation\NSDictionary.cs" />
     <Compile Include="Foundation\NSEnumerator.cs" />
+    <Compile Include="Foundation\NSError.cs" />
     <Compile Include="Foundation\NSException.cs" />
     <Compile Include="Foundation\NSFileManager.cs" />
     <Compile Include="Foundation\NSFormatter.cs" />
@@ -159,17 +163,13 @@
     <Compile Include="IBToOneOutletInfo.cs" />
     <Compile Include="NSClassWrapper.cs" />
     <Compile Include="Foundation\NSData.cs" />
-    <Compile Include="NSColorList.cs" />
     <Compile Include="NSConstants.cs" />
-    <Compile Include="NSError.cs" />
-    <Compile Include="NSEvent.cs" />
     <Compile Include="AppKit\NSActionCell.cs" />
     <Compile Include="AppKit\NSArrayController.cs" />
     <Compile Include="AppKit\NSBox.cs" />
     <Compile Include="AppKit\NSCell.cs" />
     <Compile Include="AppKit\NSCell_Constants.cs" />
     <Compile Include="AppKit\NSClipView.cs" />
-    <Compile Include="NSColor.cs" />
     <Compile Include="AppKit\NSCollectionView.cs" />
     <Compile Include="AppKit\NSCollectionViewItem.cs" />
     <Compile Include="AppKit\NSControl.cs" />
