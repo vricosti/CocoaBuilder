@@ -101,8 +101,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Foundation\id.cs" />
+    <Compile Include="Foundation\INSNumber.cs" />
+    <Compile Include="Foundation\INSObject.cs" />
+    <Compile Include="Foundation\INSXMLParser.cs" />
     <Compile Include="Foundation\NSAffineTransform.cs" />
     <Compile Include="Foundation\NSArray.cs" />
+    <Compile Include="Foundation\NSAttributedString.cs" />
     <Compile Include="Foundation\NSCharacterSet.cs" />
     <Compile Include="Foundation\NSCoder.cs" />
     <Compile Include="Foundation\NSCoding.cs" />
@@ -119,7 +124,9 @@
     <Compile Include="Foundation\NSMutableCharacterSet.cs" />
     <Compile Include="Foundation\NSMutableDictionary.cs" />
     <Compile Include="Foundation\NSMutableString.cs" />
+    <Compile Include="Foundation\NSNumber.cs" />
     <Compile Include="Foundation\NSNumberFormatter.cs" />
+    <Compile Include="Foundation\NSObject.cs" />
     <Compile Include="Foundation\NSPathUtilities.cs" />
     <Compile Include="Foundation\NSProcessInfo.cs" />
     <Compile Include="Foundation\NSRecursiveLock.cs" />
@@ -127,6 +134,8 @@
     <Compile Include="Foundation\NSString.cs" />
     <Compile Include="Foundation\NSUnarchiver.cs" />
     <Compile Include="Foundation\NSXMLParser.cs" />
+    <Compile Include="Foundation\Objc.cs" />
+    <Compile Include="Foundation\SEL.cs" />
     <Compile Include="GSMimeDocument.cs" />
     <Compile Include="GSModelLoaderFactory.cs" />
     <Compile Include="GSXibLoader.cs" />
@@ -148,10 +157,6 @@
     <Compile Include="IBOutletConnection.cs" />
     <Compile Include="IBPartialClassDescription.cs" />
     <Compile Include="IBToOneOutletInfo.cs" />
-    <Compile Include="id.cs" />
-    <Compile Include="INSNumber.cs" />
-    <Compile Include="INSXMLParser.cs" />
-    <Compile Include="NSAttributedString.cs" />
     <Compile Include="NSClassWrapper.cs" />
     <Compile Include="Foundation\NSData.cs" />
     <Compile Include="NSColorList.cs" />
@@ -182,8 +187,6 @@
     <Compile Include="NSFileWrapper.cs" />
     <Compile Include="NSNibBindingConnector.cs" />
     <Compile Include="NSNibConnector.cs" />
-    <Compile Include="NSNumber.cs" />
-    <Compile Include="NSObject.cs" />
     <Compile Include="NSObjectDecoder.cs" />
     <Compile Include="AppKit\NSResponder.cs" />
     <Compile Include="AppKit\NSRulerView.cs" />
@@ -199,11 +202,9 @@
     <Compile Include="NSUInteger.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="AppKit\NSWindowTemplate.cs" />
-    <Compile Include="Objc.cs" />
     <Compile Include="ObjcAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SEL.cs" />
     <Compile Include="Utils\Bitfields.cs" />
     <Compile Include="Utils\KeyedList.cs" />
     <Compile Include="GSXibKeyedUnarchiver.cs" />
