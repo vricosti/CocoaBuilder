@@ -25,7 +25,7 @@ namespace Smartmobili.Cocoa
 
 
 
-#if TEST
+//#if TEST
 
 #if TEST_PATH
             NSString strPath = @"";
@@ -57,9 +57,10 @@ namespace Smartmobili.Cocoa
 
             //var tmp = new GSModelLoaderFactory();
 
-            string fullPath = System.Reflection.Assembly.GetAssembly(typeof(Smartmobili.Cocoa.Program)).Location;
-            string theDirectory = Path.GetDirectoryName(fullPath);
-            string xibPath = Path.GetDirectoryName(fullPath) + "\\..\\..\\..\\Tests\\Button\\ButtonTextAlign\\ButtonTextAlign\\en.lproj\\ButtonTextAlign.xib";
+            //string fullPath = System.Reflection.Assembly.GetAssembly(typeof(Smartmobili.Cocoa.Program)).Location;
+			string progPath = System.Reflection.Assembly.GetAssembly (typeof(Smartmobili.Cocoa.Program)).Location;
+			string progDir = Path.GetDirectoryName(progPath);
+			string xibPath = progDir + "/../../../Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
 
             NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
             if (data != null)
@@ -113,7 +114,7 @@ namespace Smartmobili.Cocoa
                 }
             }
             
-#endif
+//#endif
         }
     }
 }

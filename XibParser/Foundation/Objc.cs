@@ -37,10 +37,13 @@ namespace Smartmobili.Cocoa
             // receiver is an instance of an object
             if (!(receiver is Class))
             {
-                string methodName = (string)aString;
+                string methodName = (string)aString.Value;
                 MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
                 if (dynMethod != null)
                 {
+					/////////////////////////////////////////////////////////
+					// Mono is buggy and throw an exception here !!!
+					/////////////////////////////////////////////////////////
                     ret = dynMethod.Invoke(receiver, args);
                 }
                 else
