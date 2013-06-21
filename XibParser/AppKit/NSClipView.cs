@@ -25,15 +25,77 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Headers/AppKit/NSClipView.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSClipView.m
     public class NSClipView : NSView
     {
         new public static Class Class = new Class(typeof(NSClipView));
+        new public static NSClipView Alloc() { return new NSClipView(); }
+
+        NSView _documentView;
+        //NSCursor _cursor;
+        NSColor _backgroundColor;
+        bool _drawsBackground;
+        bool _copiesOnScroll;
+        /* Cached */
+        bool _isOpaque;
 
         public NSView DocumentView { get; set; }
 
         public NSClipView()
-        {
+        {}
 
+        private static NSRect IntegralRect(NSRect rect, NSView view)
+        {
+            NSRect dummy = new NSRect();
+
+            //NSRect output;
+            //int rounded;
+
+            //output = [view convertRect: rect  toView: nil];
+
+            //rounded = (int)(output.origin.x);
+            //if ((CGFloat)rounded != output.origin.x)
+            //  {
+            //    output.origin.x = rounded + 1;
+            //  }
+
+            //rounded = (int)(output.origin.y);
+            //if ((CGFloat)rounded != output.origin.y)
+            //  {
+            //    output.origin.y = rounded + 1;
+            //  }
+
+            //rounded = (int)(NSMaxX (output));
+            //if ((CGFloat)rounded != NSMaxX (output))
+            //  {
+            //    output.size.width = rounded - output.origin.x;
+            //  }
+
+            //rounded = (int)(NSMaxY (output));
+            //if ((CGFloat)rounded != NSMaxY (output))
+            //  {
+            //    output.size.height = rounded - output.origin.y;
+            //  }
+
+            //return [view convertRect: output  fromView: nil];
+            //return output;
+
+            return dummy;
+        }
+
+        public override id InitWithCoder(NSCoder aDecoder)
+        {
+            id self = this;
+
+            if (base.InitWithCoder(aDecoder) == null)
+                return null;
+
+            if (aDecoder.AllowsKeyedCoding)
+            {
+
+            }
+            return self;
         }
     }
 }

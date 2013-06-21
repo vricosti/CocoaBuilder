@@ -83,16 +83,22 @@
     <Compile Include="AppKit\NSColorSpace.cs" />
     <Compile Include="AppKit\NSEvent.cs" />
     <Compile Include="AppKit\NSGraphicsContext.cs" />
+    <Compile Include="AppKit\NSImageView.cs" />
     <Compile Include="AppKit\NSMenuItemCell.cs" />
     <Compile Include="AppKit\NSMenuPanel.cs" />
     <Compile Include="AppKit\NSMenuView.cs" />
     <Compile Include="AppKit\NSNotification.cs" />
+    <Compile Include="AppKit\NSOutlineView.cs" />
     <Compile Include="AppKit\NSPanel.cs" />
     <Compile Include="AppKit\NSPasteboard.cs" />
+    <Compile Include="AppKit\NSSecureTextField.cs" />
+    <Compile Include="AppKit\NSSecureTextFieldCell.cs" />
     <Compile Include="AppKit\NSSegmentedCell.cs" />
     <Compile Include="AppKit\NSSegmentedControl.cs" />
     <Compile Include="AppKit\NSSegmentItem.cs" />
     <Compile Include="AppKit\NSSplitView.cs" />
+    <Compile Include="AppKit\NSTableHeaderView.cs" />
+    <Compile Include="AppKit\NSTableView.cs" />
     <Compile Include="AppKit\NSText.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -106,6 +112,8 @@
     <Compile Include="AppKit\NSTextFieldCell.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AppKit\WebView.cs" />
+    <Compile Include="AppKit\_NSCornerView.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Foundation\id.cs" />
     <Compile Include="Foundation\INSNumber.cs" />
