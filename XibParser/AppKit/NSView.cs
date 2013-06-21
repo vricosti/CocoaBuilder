@@ -720,17 +720,23 @@ namespace Smartmobili.Cocoa
 			 * This must be first because it invokes -resignFirstResponder:, 
 			 * which assumes the view is still in the view hierarchy
 			 */
-			for (view = (NSView)_window.FirstResponder;
-			     view != null && view.RespondsToSelector(new SEL(@"GetSuperview"));
-			     view = view.Superview)
-			{
-				if (view == aView)
-				{     
-					//FIXME
-					//[_window makeFirstResponder: _window];
-					break;
-				}
-			}
+
+
+            //FIXME (VRI) : normally _window is not null I think ...
+            if (_window != null)
+            {
+                for (view = (NSView)_window.FirstResponder;
+                     view != null && view.RespondsToSelector(new SEL(@"GetSuperview"));
+                     view = view.Superview)
+                {
+                    if (view == aView)
+                    {
+                        
+                        //[_window makeFirstResponder: _window];
+                        break;
+                    }
+                }
+            }
 			this.WillRemoveSubview(aView);
 			aView._super_view = null;
 			aView._ViewWillMoveToWindow(null);
