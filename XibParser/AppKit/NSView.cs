@@ -123,10 +123,24 @@ namespace Smartmobili.Cocoa
 
         public int NSvFlags { get; set; }
 
-        public virtual NSRect Frame { get; set; }
+        public virtual NSRect Frame 
+        {
+            get { return GetFrame(); }
+            set { SetFrame(value); }
+        }
 
-        public virtual NSSize FrameSize { get; set; }
+        public virtual NSSize FrameSize 
+        {
+            get { return GetFrame().Size; }
+            set { SetFrameSize(value); } 
+        }
 
+
+        public virtual NSRect Bounds
+        {
+            get { return GetBounds(); }
+            set { SetBounds(value); }
+        }
         //public virtual id Superview { get; set; }
 
         //public virtual id Window { get; set; }
