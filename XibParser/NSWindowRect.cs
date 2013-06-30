@@ -58,7 +58,7 @@ namespace Smartmobili.Cocoa
             return Create(xElement.Value);
         }
 
-        public static NSSize Create(string nsSizeText)
+        public static NSSize Create(NSString nsSizeText)
         {
             NSSize nsSize = new NSSize();
 
@@ -75,7 +75,7 @@ namespace Smartmobili.Cocoa
 
 
 
-            var parts = nsSizeText.Split(',').ToList();
+            var parts = nsSizeText.Value.Split(',').ToList();
             if (parts.Count != 2)
                 throw new Exception("Invalid format for NSSize");
 
@@ -83,8 +83,18 @@ namespace Smartmobili.Cocoa
             string h = parts[1].TrimEnd('}').Trim();
 
             var culture = CultureInfo.CreateSpecificCulture("en-US");
-            nsSize.Width = Single.Parse(w, NumberStyles.AllowExponent, culture);
-            nsSize.Height = Single.Parse(h, NumberStyles.AllowExponent, culture);
+
+            //double triedDoubleValue;
+            //Double.TryParse(w, NumberStyles.AllowExponent, culture, out triedDoubleValue);
+            if (w.Equals("1.79769e+308", StringComparison.CurrentCultureIgnoreCase))
+                nsSize.Width = double.MaxValue;
+            else
+                nsSize.Width = Double.Parse(w, NumberStyles.AllowExponent, culture);
+
+            if (h.Equals("1.79769e+308", StringComparison.CurrentCultureIgnoreCase))
+                nsSize.Height = double.MaxValue;
+            else
+                nsSize.Height = Double.Parse(h, NumberStyles.AllowExponent, culture);
 
             return nsSize;
         }
