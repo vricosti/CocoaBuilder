@@ -30,7 +30,6 @@ namespace Smartmobili.Cocoa
 
         public virtual bool LoadModelData(NSData data, NSDictionary context)
         {
-            throw new NotImplementedException();
             NSException.Raise(@"NSInternalInconsistencyException", @"Abstract model loader.");
             return false;
         }
