@@ -83,18 +83,18 @@ namespace Smartmobili.Cocoa
             string h = parts[1].TrimEnd('}').Trim();
 
             var culture = CultureInfo.CreateSpecificCulture("en-US");
+            nsSize.Width = Double.Parse(w, NumberStyles.Any, culture);
+            nsSize.Height = Double.Parse(h, NumberStyles.Any, culture);
 
-            //double triedDoubleValue;
-            //Double.TryParse(w, NumberStyles.AllowExponent, culture, out triedDoubleValue);
-            if (w.Equals("1.79769e+308", StringComparison.CurrentCultureIgnoreCase))
-                nsSize.Width = double.MaxValue;
-            else
-                nsSize.Width = Double.Parse(w, NumberStyles.AllowExponent, culture);
+            //if (w.Equals("1.79769e+308", StringComparison.CurrentCultureIgnoreCase))
+            //    nsSize.Width = double.MaxValue;
+            //else
+            //    nsSize.Width = Double.Parse(w, NumberStyles.AllowExponent, culture);
 
-            if (h.Equals("1.79769e+308", StringComparison.CurrentCultureIgnoreCase))
-                nsSize.Height = double.MaxValue;
-            else
-                nsSize.Height = Double.Parse(h, NumberStyles.AllowExponent, culture);
+            //if (h.Equals("1.79769e+308", StringComparison.CurrentCultureIgnoreCase))
+            //    nsSize.Height = double.MaxValue;
+            //else
+            //    nsSize.Height = Double.Parse(h, NumberStyles.AllowExponent, culture);
 
             return nsSize;
         }
@@ -147,8 +147,8 @@ namespace Smartmobili.Cocoa
             string y = parts[1].TrimEnd('}').Trim();
 
             var culture = CultureInfo.CreateSpecificCulture("en-US");
-            nsPoint.X = Single.Parse(x, NumberStyles.AllowExponent, culture);
-            nsPoint.Y = Single.Parse(y, NumberStyles.AllowExponent, culture);
+            nsPoint.X = Single.Parse(x, NumberStyles.Any, culture);
+            nsPoint.Y = Single.Parse(y, NumberStyles.Any, culture);
 
             return nsPoint;
         }
