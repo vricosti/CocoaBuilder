@@ -158,7 +158,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public NSArray SubViews 
+        public virtual NSArray SubViews 
         {
             get { return _sub_views; }
         }
