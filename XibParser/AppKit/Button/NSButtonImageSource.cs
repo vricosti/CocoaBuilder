@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSButtonImageSource.h
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSButtonImageSource.m
     public class NSButtonImageSource : NSObject
     {
         new public static Class Class = new Class(typeof(NSButtonImageSource));
