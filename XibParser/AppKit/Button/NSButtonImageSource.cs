@@ -13,37 +13,31 @@ namespace Smartmobili.Cocoa
         new public static NSButtonImageSource Alloc() { return new NSButtonImageSource(); }
 
         protected NSString _imageName;
-        protected NSMutableDictionary _images;
 
-        private static NSMutableDictionary sources = null;
-
-        public static id ButtonImageSourceWithName(NSString name)
+        public virtual NSString ImageName
         {
-            NSButtonImageSource	source;
-
-            source = (NSButtonImageSource)sources.ObjectForKey(name);
-            if (source == null)
-            {
-                source = NSButtonImageSource.Alloc();
-                source._imageName = name;
-                source._images = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
-                sources.SetObjectForKey(source, source._imageName);
-            }
-            return source;
+            get { return imageName(); }
         }
 
-        static NSButtonImageSource() { Initialize(); }
-        static void Initialize()
+
+        public virtual id initWithImageNamed(NSString name)
         {
-            if (sources == null)
+            id self = base.Init();
+            if (self != null)
             {
-                sources = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+                _imageName = name;
             }
+
+            return self;
         }
+
 
         public override void EncodeWithCoder(NSCoder aCoder)
         {
-            //FIXME
+            if (aCoder.AllowsKeyedCoding)
+            {
+                aCoder.EncodeObjectForKey(_imageName, @"NSImageName");
+            }
         }
 
         public override id InitWithCoder(NSCoder aDecoder)
@@ -52,11 +46,15 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                NSString name =  (NSString)aDecoder.DecodeObjectForKey(@"NSImageName");
-                self = ButtonImageSourceWithName(name);
+                _imageName =  (NSString)aDecoder.DecodeObjectForKey(@"NSImageName");
             }
 
             return self;
+        }
+
+        public virtual NSString imageName()
+        {
+            return _imageName;
         }
     }
 }
