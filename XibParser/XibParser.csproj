@@ -55,6 +55,10 @@
     <Reference Include="AElfred">
       <HintPath>lib\AElfred.dll</HintPath>
     </Reference>
+    <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=1.7.2.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CompareNETObjects.1.7.2.0\lib\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+    </Reference>
     <Reference Include="Org.System.Xml">
       <HintPath>lib\Org.System.Xml.dll</HintPath>
     </Reference>
@@ -225,6 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -250,12 +255,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UIKit\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Compare-NET-Objects\Compare-NET-Objects.csproj">
-      <Project>{94F1F5F2-6BC4-464B-AC51-FBDB4FA3F3AD}</Project>
-      <Name>Compare-NET-Objects</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
