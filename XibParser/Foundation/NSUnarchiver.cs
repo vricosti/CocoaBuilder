@@ -11,5 +11,11 @@ namespace Smartmobili.Cocoa
         new public static NSUnarchiver Alloc() { return new NSUnarchiver(); }
 
 
+
+        public static id UnarchiveObjectWithData(NSData data)
+        {
+            return null;
+        }
+
     }
 }

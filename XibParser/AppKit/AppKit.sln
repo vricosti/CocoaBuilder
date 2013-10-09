@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppKit", "AppKit.csproj", "{49B7A163-C6D1-40F5-9974-08A31D4F58EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation", "..\Foundation\Foundation.csproj", "{2850D5FF-F423-48F3-9ACB-4921B1BE9954}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49B7A163-C6D1-40F5-9974-08A31D4F58EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B7A163-C6D1-40F5-9974-08A31D4F58EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B7A163-C6D1-40F5-9974-08A31D4F58EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B7A163-C6D1-40F5-9974-08A31D4F58EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2850D5FF-F423-48F3-9ACB-4921B1BE9954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2850D5FF-F423-48F3-9ACB-4921B1BE9954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2850D5FF-F423-48F3-9ACB-4921B1BE9954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2850D5FF-F423-48F3-9ACB-4921B1BE9954}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -121,20 +121,20 @@ namespace Smartmobili.Cocoa
 
 
 
-        public static NSCustomObject Create(NSObjectDecoder decoder)
-        {
-            NSCustomObject nsObj = new NSCustomObject();
+        //public static NSCustomObject Create(NSObjectDecoder decoder)
+        //{
+        //    NSCustomObject nsObj = new NSCustomObject();
 
-            var xElement = decoder.XmlElement;
-            var xNSClassName = xElement.Descendants().Where(c =>
-                   ((string)c.Attribute("key")) == "NSClassName").FirstOrDefault();
-            if (xNSClassName != null)
-            {
-                nsObj._className = xNSClassName.Value;
-            }
+        //    var xElement = decoder.XmlElement;
+        //    var xNSClassName = xElement.Descendants().Where(c =>
+        //           ((string)c.Attribute("key")) == "NSClassName").FirstOrDefault();
+        //    if (xNSClassName != null)
+        //    {
+        //        nsObj._className = xNSClassName.Value;
+        //    }
 
-            return nsObj;
-        }
+        //    return nsObj;
+        //}
 
 
         //public static NSCustomObject Create(XElement xElement)

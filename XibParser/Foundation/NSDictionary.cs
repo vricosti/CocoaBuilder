@@ -145,6 +145,11 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public static id DictionaryWithObjectsForKeys(NSArray objects, NSArray keys)
+        {
+            return (NSDictionary)NSDictionary.Alloc().InitWithObjectsForKeys(objects, keys);
+        }
+
         public virtual id InitWithObjectsForKeys(NSArray objects, NSArray keys)
         {
             id self = this;
@@ -327,6 +332,32 @@ namespace Smartmobili.Cocoa
                 _dict[aKey] = value;
             }
         }
+
+
+        public virtual NSString FileType { get { return fileType(); } }
+
+        public virtual NSString fileType()
+        {
+            return (NSString)this.ObjectForKey((NSString)"NSFileType");
+        }
+
+//– fileCreationDate
+//– fileExtensionHidden
+//– fileGroupOwnerAccountID
+//– fileGroupOwnerAccountName
+//– fileHFSCreatorCode
+//– fileHFSTypeCode
+//– fileIsAppendOnly
+//– fileIsImmutable
+//– fileModificationDate
+//– fileOwnerAccountID
+//– fileOwnerAccountName
+//– filePosixPermissions
+//– fileSize
+//– fileSystemFileNumber
+//– fileSystemNumber
+//– fileType
+
 
 
         #region ICollection<KeyValuePair<id,id>> Members

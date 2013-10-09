@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2850D5FF-F423-48F3-9ACB-4921B1BE9954}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Smartmobili.Cocoa</RootNamespace>
+    <AssemblyName>Smartmobili.Cocoa.Foundation</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AElfred">
+      <HintPath>..\lib\AElfred.dll</HintPath>
+    </Reference>
+    <Reference Include="Org.System.Xml">
+      <HintPath>..\lib\Org.System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="Sax">
+      <HintPath>..\lib\Sax.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="GSMimeDocument.cs" />
+    <Compile Include="GSXibKeyedUnarchiver.cs" />
+    <Compile Include="id.cs" />
+    <Compile Include="INSNumber.cs" />
+    <Compile Include="INSObject.cs" />
+    <Compile Include="INSXMLParser.cs" />
+    <Compile Include="NSAffineTransform.cs" />
+    <Compile Include="NSArchiver.cs" />
+    <Compile Include="NSArray.cs" />
+    <Compile Include="NSAttributedString.cs" />
+    <Compile Include="NSCharacterSet.cs" />
+    <Compile Include="NSClassWrapper.cs" />
+    <Compile Include="NSCoder.cs" />
+    <Compile Include="NSCoding.cs" />
+    <Compile Include="NSConstants.cs" />
+    <Compile Include="NSData.cs" />
+    <Compile Include="NSDateFormatter.cs" />
+    <Compile Include="NSDictionary.cs" />
+    <Compile Include="NSEnumerator.cs" />
+    <Compile Include="NSError.cs" />
+    <Compile Include="NSException.cs" />
+    <Compile Include="NSFileManager.cs" />
+    <Compile Include="NSFileWrapper.cs" />
+    <Compile Include="NSFormatter.cs" />
+    <Compile Include="NSKeyedUnarchiver.cs" />
+    <Compile Include="NSLock.cs" />
+    <Compile Include="NSLog.cs" />
+    <Compile Include="NSMutableArray.cs" />
+    <Compile Include="NSMutableCharacterSet.cs" />
+    <Compile Include="NSMutableDictionary.cs" />
+    <Compile Include="NSMutableString.cs" />
+    <Compile Include="NSNotificationCenter.cs" />
+    <Compile Include="NSNumber.cs" />
+    <Compile Include="NSNumberFormatter.cs" />
+    <Compile Include="NSObject.cs" />
+    <Compile Include="NSPathUtilities.cs" />
+    <Compile Include="NSProcessInfo.cs" />
+    <Compile Include="NSRecursiveLock.cs" />
+    <Compile Include="NSScanner.cs" />
+    <Compile Include="NSString.cs" />
+    <Compile Include="NSUnarchiver.cs" />
+    <Compile Include="NSWindowRect.cs" />
+    <Compile Include="NSXMLParser.cs" />
+    <Compile Include="Objc.cs" />
+    <Compile Include="ObjcAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SEL.cs" />
+    <Compile Include="Utils\Bitfields.cs" />
+    <Compile Include="Utils\KeyedList.cs" />
+    <Compile Include="Utils\Tools.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

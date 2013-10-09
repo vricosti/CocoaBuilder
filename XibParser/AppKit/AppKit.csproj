@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{49B7A163-C6D1-40F5-9974-08A31D4F58EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Smartmobili.Cocoa</RootNamespace>
+    <AssemblyName>Smartmobili.Cocoa.AppKit</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Button\NSButton.cs" />
+    <Compile Include="Button\NSButtonCell.cs" />
+    <Compile Include="Button\NSButtonImageSource.cs" />
+    <Compile Include="Button\NSPopUpButton.cs" />
+    <Compile Include="Button\NSPopUpButtonCell.cs" />
+    <Compile Include="IAction.cs" />
+    <Compile Include="INSMenuView.cs" />
+    <Compile Include="NSActionCell.cs" />
+    <Compile Include="NSApplication.cs" />
+    <Compile Include="NSArrayController.cs" />
+    <Compile Include="NSBox.cs" />
+    <Compile Include="NSCell.cs" />
+    <Compile Include="NSCell_Constants.cs" />
+    <Compile Include="NSClipView.cs" />
+    <Compile Include="NSCollectionView.cs" />
+    <Compile Include="NSCollectionViewItem.cs" />
+    <Compile Include="NSColor.cs" />
+    <Compile Include="NSColorList.cs" />
+    <Compile Include="NSColorSpace.cs" />
+    <Compile Include="NSControl.cs" />
+    <Compile Include="NSController.cs" />
+    <Compile Include="NSCustomObject.cs" />
+    <Compile Include="NSCustomResource.cs" />
+    <Compile Include="NSCustomView.cs" />
+    <Compile Include="NSEvent.cs" />
+    <Compile Include="NSFont.cs" />
+    <Compile Include="NSGraphicsContext.cs" />
+    <Compile Include="NSImage.cs" />
+    <Compile Include="NSImageView.cs" />
+    <Compile Include="NSMenu.cs" />
+    <Compile Include="NSMenuItem.cs" />
+    <Compile Include="NSMenuItemCell.cs" />
+    <Compile Include="NSMenuPanel.cs" />
+    <Compile Include="NSMenuView.cs" />
+    <Compile Include="NSNibBindingConnector.cs" />
+    <Compile Include="NSNibConnector.cs" />
+    <Compile Include="NSNotification.cs" />
+    <Compile Include="NSObjectController.cs" />
+    <Compile Include="NSOutlineView.cs" />
+    <Compile Include="NSPanel.cs" />
+    <Compile Include="NSPasteboard.cs" />
+    <Compile Include="NSResponder.cs" />
+    <Compile Include="NSRulerView.cs" />
+    <Compile Include="NSScroller.cs" />
+    <Compile Include="NSScrollView.cs" />
+    <Compile Include="NSSecureTextField.cs" />
+    <Compile Include="NSSecureTextFieldCell.cs" />
+    <Compile Include="NSSegmentedCell.cs" />
+    <Compile Include="NSSegmentedControl.cs" />
+    <Compile Include="NSSegmentItem.cs" />
+    <Compile Include="NSSound.cs" />
+    <Compile Include="NSSplitView.cs" />
+    <Compile Include="NSTableHeaderView.cs" />
+    <Compile Include="NSTableView.cs" />
+    <Compile Include="NSText.cs" />
+    <Compile Include="NSTextField.cs" />
+    <Compile Include="NSTextFieldCell.cs" />
+    <Compile Include="NSView.cs" />
+    <Compile Include="NSViewController.cs" />
+    <Compile Include="NSWindow.cs" />
+    <Compile Include="NSWindowTemplate.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Toolbar\GSToolbarButton.cs" />
+    <Compile Include="Toolbar\NSToolbar.cs" />
+    <Compile Include="Toolbar\NSToolbarFlexibleSpaceItem.cs" />
+    <Compile Include="Toolbar\NSToolbarItem.cs" />
+    <Compile Include="Toolbar\NSToolbarSeparatorItem.cs" />
+    <Compile Include="Toolbar\NSToolbarSpaceItem.cs" />
+    <Compile Include="WebView.cs" />
+    <Compile Include="_NSCornerView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation\Foundation.csproj">
+      <Project>{2850d5ff-f423-48f3-9acb-4921b1be9954}</Project>
+      <Name>Foundation</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -25,7 +25,7 @@ using System.Text;
 namespace Smartmobili.Cocoa
 {
     [System.AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    internal sealed class ObjcMethodAttribute : System.Attribute
+    public sealed class ObjcMethodAttribute : System.Attribute
     {
         public ObjcMethodAttribute(string methodName)
         {
@@ -40,7 +40,7 @@ namespace Smartmobili.Cocoa
 
 
     [System.AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    internal sealed class ObjcPropAttribute : System.Attribute
+    public sealed class ObjcPropAttribute : System.Attribute
     {
         public ObjcPropAttribute()
         {

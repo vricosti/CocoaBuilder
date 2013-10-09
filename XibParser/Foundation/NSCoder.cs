@@ -66,6 +66,12 @@ namespace Smartmobili.Cocoa
             EncodeValueOfObjCType<id>(ref anObject);
         }
 
+
+        public virtual void EncodeObject(id anObject, NSString aKey)
+        {
+            EncodeValueOfObjCType<id>(ref anObject);
+        }
+
         public virtual void EncodePropertyList(id plist)
         {
             id anObject = null;

@@ -75,6 +75,87 @@ namespace Smartmobili.Cocoa
         }
 
 
+
+        public virtual string FileSystemRepresentationWithPath(NSString path)
+        {
+            string fsPath;
+
+            if (string.IsNullOrWhiteSpace(path))
+                throw new Exception();
+
+            fsPath = System.IO.Path.GetFullPath(path);
+
+            return fsPath;
+        }
+
+
+
+        public virtual NSDictionary FileAttributesAtPath(NSString path, bool flag)
+        {
+            NSMutableDictionary attrs;
+            NSString fileTypeKey = (NSString)"NSFileType";
+
+            try
+            {
+                FileInfo info = new FileInfo(path);
+                FileAttributes fileAttrs = info.Attributes;
+
+                attrs = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+                
+                    
+                bool isDirectory = ((fileAttrs & FileAttributes.Directory) == FileAttributes.Directory);
+                if (!isDirectory)
+                {
+                    bool isSymbolicLink = ((fileAttrs & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint);
+                    if (isSymbolicLink)
+                        attrs.SetObjectForKey((NSString)"NSFileTypeSymbolicLink", fileTypeKey);
+                    else
+                        attrs.SetObjectForKey((NSString)"NSFileTypeRegular", fileTypeKey);
+                }
+                else
+                {
+                    attrs.SetObjectForKey((NSString)"NSFileTypeDirectory", fileTypeKey);
+                }
+
+                attrs.SetObjectForKey((NSString)"NSFileSize", new NSNumber(info.Length));
+            }
+            catch (Exception)
+            {
+                attrs = null;
+            }
+            return attrs;
+        }
+
+        public virtual NSArray DirectoryContentsAtPath(NSString path)
+        {
+            NSArray items = null;
+
+            try
+            {
+                DirectoryInfo diTop = new DirectoryInfo(path);
+                items = (NSArray)NSArray.Alloc().Init();
+
+                foreach (var fi in diTop.EnumerateFiles())
+                {
+                    items.AddObject((NSString)fi.Name);
+                }
+                foreach (var fi in diTop.EnumerateDirectories("*"))
+                {
+                    items.AddObject((NSString)fi.Name);
+                }
+            }
+            catch (Exception)
+            {
+                items = null;
+            }
+
+
+            return items;
+        }
+
+
+
+        //FileAttributesAtPath
         public virtual bool IsWritableFileAtPath(NSString aPath)
         {
             bool isWrite = false;

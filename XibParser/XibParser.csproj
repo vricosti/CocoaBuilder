@@ -78,154 +78,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppKit\Button\NSButtonImageSource.cs" />
-    <Compile Include="AppKit\Button\NSPopUpButton.cs" />
-    <Compile Include="AppKit\Button\NSPopUpButtonCell.cs" />
-    <Compile Include="AppKit\INSMenuView.cs" />
-    <Compile Include="AppKit\NSApplication.cs" />
-    <Compile Include="AppKit\NSColor.cs" />
-    <Compile Include="AppKit\NSColorList.cs" />
-    <Compile Include="AppKit\NSColorSpace.cs" />
-    <Compile Include="AppKit\NSEvent.cs" />
-    <Compile Include="AppKit\NSGraphicsContext.cs" />
-    <Compile Include="AppKit\NSImageView.cs" />
-    <Compile Include="AppKit\NSMenuItemCell.cs" />
-    <Compile Include="AppKit\NSMenuPanel.cs" />
-    <Compile Include="AppKit\NSMenuView.cs" />
-    <Compile Include="AppKit\NSNotification.cs" />
-    <Compile Include="AppKit\NSOutlineView.cs" />
-    <Compile Include="AppKit\NSPanel.cs" />
-    <Compile Include="AppKit\NSPasteboard.cs" />
-    <Compile Include="AppKit\NSSecureTextField.cs" />
-    <Compile Include="AppKit\NSSecureTextFieldCell.cs" />
-    <Compile Include="AppKit\NSSegmentedCell.cs" />
-    <Compile Include="AppKit\NSSegmentedControl.cs" />
-    <Compile Include="AppKit\NSSegmentItem.cs" />
-    <Compile Include="AppKit\NSSplitView.cs" />
-    <Compile Include="AppKit\NSTableHeaderView.cs" />
-    <Compile Include="AppKit\NSTableView.cs" />
-    <Compile Include="AppKit\NSText.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AppKit\Toolbar\GSToolbarButton.cs" />
-    <Compile Include="AppKit\Button\NSButton.cs" />
-    <Compile Include="AppKit\Button\NSButtonCell.cs" />
-    <Compile Include="AppKit\NSSound.cs" />
-    <Compile Include="AppKit\NSTextField.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AppKit\NSTextFieldCell.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AppKit\WebView.cs" />
-    <Compile Include="AppKit\_NSCornerView.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Foundation\id.cs" />
-    <Compile Include="Foundation\INSNumber.cs" />
-    <Compile Include="Foundation\INSObject.cs" />
-    <Compile Include="Foundation\INSXMLParser.cs" />
-    <Compile Include="Foundation\NSAffineTransform.cs" />
-    <Compile Include="Foundation\NSArray.cs" />
-    <Compile Include="Foundation\NSAttributedString.cs" />
-    <Compile Include="Foundation\NSCharacterSet.cs" />
-    <Compile Include="Foundation\NSCoder.cs" />
-    <Compile Include="Foundation\NSCoding.cs" />
-    <Compile Include="Foundation\NSDateFormatter.cs" />
-    <Compile Include="Foundation\NSDictionary.cs" />
-    <Compile Include="Foundation\NSEnumerator.cs" />
-    <Compile Include="Foundation\NSError.cs" />
-    <Compile Include="Foundation\NSException.cs" />
-    <Compile Include="Foundation\NSFileManager.cs" />
-    <Compile Include="Foundation\NSFormatter.cs" />
-    <Compile Include="Foundation\NSKeyedUnarchiver.cs" />
-    <Compile Include="Foundation\NSLock.cs" />
-    <Compile Include="Foundation\NSLog.cs" />
-    <Compile Include="Foundation\NSMutableArray.cs" />
-    <Compile Include="Foundation\NSMutableCharacterSet.cs" />
-    <Compile Include="Foundation\NSMutableDictionary.cs" />
-    <Compile Include="Foundation\NSMutableString.cs" />
-    <Compile Include="Foundation\NSNumber.cs" />
-    <Compile Include="Foundation\NSNumberFormatter.cs" />
-    <Compile Include="Foundation\NSObject.cs" />
-    <Compile Include="Foundation\NSPathUtilities.cs" />
-    <Compile Include="Foundation\NSProcessInfo.cs" />
-    <Compile Include="Foundation\NSRecursiveLock.cs" />
-    <Compile Include="Foundation\NSScanner.cs" />
-    <Compile Include="Foundation\NSString.cs" />
-    <Compile Include="Foundation\NSUnarchiver.cs" />
-    <Compile Include="Foundation\NSXMLParser.cs" />
-    <Compile Include="Foundation\Objc.cs" />
-    <Compile Include="Foundation\SEL.cs" />
-    <Compile Include="GSMimeDocument.cs" />
     <Compile Include="GSModelLoaderFactory.cs" />
     <Compile Include="GSXibLoader.cs" />
-    <Compile Include="IAction.cs" />
-    <Compile Include="IBActionConnection.cs" />
-    <Compile Include="IBActionInfo.cs" />
-    <Compile Include="IBArchive.cs" />
-    <Compile Include="IBBindingConnection.cs" />
-    <Compile Include="IBClassDescriber.cs" />
-    <Compile Include="IBClassDescriptionSource.cs" />
-    <Compile Include="IBConnection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IBConnectionRecord.cs" />
-    <Compile Include="IBDocument.cs" />
-    <Compile Include="IBMutableOrderedSet.cs" />
-    <Compile Include="IBObjectContainer.cs" />
-    <Compile Include="IBObjectRecord.cs" />
-    <Compile Include="IBOutletConnection.cs" />
-    <Compile Include="IBPartialClassDescription.cs" />
-    <Compile Include="IBToOneOutletInfo.cs" />
-    <Compile Include="NSClassWrapper.cs" />
-    <Compile Include="Foundation\NSData.cs" />
-    <Compile Include="NSConstants.cs" />
-    <Compile Include="AppKit\NSActionCell.cs" />
-    <Compile Include="AppKit\NSArrayController.cs" />
-    <Compile Include="AppKit\NSBox.cs" />
-    <Compile Include="AppKit\NSCell.cs" />
-    <Compile Include="AppKit\NSCell_Constants.cs" />
-    <Compile Include="AppKit\NSClipView.cs" />
-    <Compile Include="AppKit\NSCollectionView.cs" />
-    <Compile Include="AppKit\NSCollectionViewItem.cs" />
-    <Compile Include="AppKit\NSControl.cs" />
-    <Compile Include="AppKit\NSController.cs" />
-    <Compile Include="AppKit\NSCustomObject.cs" />
-    <Compile Include="AppKit\NSCustomResource.cs" />
-    <Compile Include="AppKit\NSCustomView.cs" />
-    <Compile Include="AppKit\NSFont.cs" />
-    <Compile Include="AppKit\NSImage.cs" />
-    <Compile Include="AppKit\NSMenu.cs" />
-    <Compile Include="AppKit\NSMenuItem.cs" />
-    <Compile Include="AppKit\NSObjectController.cs" />
-    <Compile Include="AppKit\NSViewController.cs" />
-    <Compile Include="AppKit\NSWindow.cs" />
-    <Compile Include="NSFileWrapper.cs" />
-    <Compile Include="NSNibBindingConnector.cs" />
-    <Compile Include="NSNibConnector.cs" />
-    <Compile Include="NSObjectDecoder.cs" />
-    <Compile Include="AppKit\NSResponder.cs" />
-    <Compile Include="AppKit\NSRulerView.cs" />
-    <Compile Include="AppKit\NSScroller.cs" />
-    <Compile Include="AppKit\NSScrollView.cs" />
-    <Compile Include="AppKit\Toolbar\NSToolbar.cs" />
-    <Compile Include="AppKit\Toolbar\NSToolbarFlexibleSpaceItem.cs" />
-    <Compile Include="AppKit\Toolbar\NSToolbarItem.cs" />
-    <Compile Include="AppKit\Toolbar\NSToolbarSeparatorItem.cs" />
-    <Compile Include="AppKit\Toolbar\NSToolbarSpaceItem.cs" />
-    <Compile Include="AppKit\NSView.cs" />
-    <Compile Include="NSUInteger.cs" />
-    <Compile Include="NSWindowRect.cs" />
-    <Compile Include="AppKit\NSWindowTemplate.cs" />
-    <Compile Include="ObjcAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Bitfields.cs" />
-    <Compile Include="Utils\KeyedList.cs" />
-    <Compile Include="GSXibKeyedUnarchiver.cs" />
-    <Compile Include="Utils\Tools.cs" />
     <Compile Include="XibParser.cs" />
-    <Compile Include="Foundation\NSNotificationCenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -253,8 +110,20 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="UIKit\" />
+    <ProjectReference Include="AppKit\AppKit.csproj">
+      <Project>{49b7a163-c6d1-40f5-9974-08a31d4f58ee}</Project>
+      <Name>AppKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="Foundation\Foundation.csproj">
+      <Project>{2850d5ff-f423-48f3-9acb-4921b1be9954}</Project>
+      <Name>Foundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="InterfaceBuilderKit\InterfaceBuilderKit.csproj">
+      <Project>{c4667ada-509a-4c5f-9842-19469308ab3e}</Project>
+      <Name>InterfaceBuilderKit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

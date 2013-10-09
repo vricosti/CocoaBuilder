@@ -27,6 +27,7 @@ using System.Xml.XPath;
 
 namespace Smartmobili.Cocoa
 {
+
     public class NSMutableDictionary : NSDictionary
     {
         new public static Class Class = new Class(typeof(NSMutableDictionary));
@@ -41,6 +42,8 @@ namespace Smartmobili.Cocoa
 
         }
 
+       
+        
 
         public static NSMutableDictionary DictionaryWithDictionary(NSDictionary anotherDic)
         {
@@ -65,6 +68,18 @@ namespace Smartmobili.Cocoa
             if (this.ContainsKey(aKey))
             {
                 _dict.Remove(aKey);
+            }
+        }
+
+
+        public virtual void AddEntriesFromDictionary(NSDictionary otherDictionary)
+        {
+            NSEnumerator enumerator = otherDictionary.KeyEnumerator();
+            id aKey = null;
+            while ( (aKey = enumerator.NextObject()) != null) 
+            {
+                id value = otherDictionary.ObjectForKey(aKey);
+                this.SetObjectForKey(value, aKey);
             }
         }
        
