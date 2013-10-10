@@ -155,7 +155,17 @@ namespace Smartmobili.Cocoa
 
 
 
-        //FileAttributesAtPath
+        public virtual bool ChangeFileAttributes(NSDictionary attributes, NSString path)
+        {
+            return false;
+        }
+
+        public virtual NSString PathContentOfSymbolicLinkAtPath(NSString path)
+        {
+            return null;
+        }
+
+
         public virtual bool IsWritableFileAtPath(NSString aPath)
         {
             bool isWrite = false;

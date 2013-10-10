@@ -60,18 +60,6 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual void RemoveObjectForKey(id aKey)
-        {
-            if (aKey == null)
-                throw new ArgumentNullException();
-
-            if (this.ContainsKey(aKey))
-            {
-                _dict.Remove(aKey);
-            }
-        }
-
-
         public virtual void AddEntriesFromDictionary(NSDictionary otherDictionary)
         {
             NSEnumerator enumerator = otherDictionary.KeyEnumerator();

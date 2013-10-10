@@ -55,6 +55,12 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual bool IsEqual(id otherObj)
+        {
+            return this.Equals(otherObj);
+        }
+
+
         public bool RespondsToSelector(SEL aSelector)
         {
             return false;

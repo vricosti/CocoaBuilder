@@ -1160,7 +1160,7 @@ namespace Smartmobili.Cocoa
             NSException.Raise(@"NSInternalInconsistencyException", @"Called getWhite:alpha: on non-grayscale colour");
         }
 
-        public virtual bool IsEqual(id other)
+        public override bool IsEqual(id other)
         {
             if (other == this)
                 return true;

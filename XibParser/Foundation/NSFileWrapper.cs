@@ -200,7 +200,7 @@ namespace Smartmobili.Cocoa
                         // FIXME - more robust save proceedure when atomicFlag set
                         NSEnumerator enumerator = ((NSDictionary)_wrapperData).KeyEnumerator();
                         NSString key;
-                        NSError err;
+                        NSError err = null;
 
                         fm.CreateDirectoryAtPath(path, true, _fileAttributes, ref err);
                         while ((key = (NSString)enumerator.NextObject()) != null)
@@ -365,7 +365,7 @@ namespace Smartmobili.Cocoa
                         return false;
                     break;
                 case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
-                    if (_wrapperData.IsEqualToString(fm.PathContentOfSymbolicLinkAtPath(path)))
+                    if (((NSString)_wrapperData).IsEqualToString(fm.PathContentOfSymbolicLinkAtPath(path)))
                         return false;
                     break;
                 case GSFileWrapperType.GSFileWrapperDirectoryType:
@@ -398,7 +398,7 @@ namespace Smartmobili.Cocoa
                     break;
                 case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
                     if (FileAttributes().IsEqualToDictionary(fm.FileAttributesAtPath(path, false)) &&
-                    _wrapperData.IsEqualToString(fm.PathContentOfSymbolicLinkAtPath(path)))
+                    ((NSString)_wrapperData).IsEqualToString(fm.PathContentOfSymbolicLinkAtPath(path)))
                         return false;
                     InitWithPath(path);
                     break;
@@ -477,7 +477,7 @@ namespace Smartmobili.Cocoa
         {
             GSFileWrapperDirectoryTypeCheck();
 
-            return ((NSDictionary)_wrapperData).AllKeysForObject(doc).ObjectAtIndex(0);
+            return (NSString)((NSDictionary)_wrapperData).AllKeysForObject(doc).ObjectAtIndex(0);
         }
 
 
@@ -576,7 +576,7 @@ namespace Smartmobili.Cocoa
         //
 
 
-        public virtual void EncodeWithCoder(NSCoder aCoder)
+        public override void EncodeWithCoder(NSCoder aCoder)
         {
             if (aCoder.AllowsKeyedCoding)
             {
@@ -595,7 +595,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual id InitWithCoder(NSCoder aDecoder)
+        public override id InitWithCoder(NSCoder aDecoder)
         {
             if (aDecoder.AllowsKeyedCoding)
             {

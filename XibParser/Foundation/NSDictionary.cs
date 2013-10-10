@@ -184,6 +184,51 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public virtual bool IsEqualToDictionary(NSDictionary otherDictionary)
+        {
+            if (this.Count != otherDictionary.Count)
+                return false;
+
+            foreach (KeyValuePair<id, id> kvp in this)
+            {
+                if (otherDictionary.ContainsKey(kvp.Key))
+                {
+                    if (!kvp.Value.IsEqual(this[kvp.Key]))
+                        return false;
+                }
+                else
+                    return false;
+            }
+
+            return true;
+        }
+
+
+
+        public virtual NSArray AllKeysForObject(id anObject)
+        {
+            NSArray objs = (NSArray)NSArray.Alloc().Init();
+
+            foreach (KeyValuePair<id, id> kvp in this)
+            {
+                if (kvp.Value.IsEqual(anObject))
+                    objs.Add(kvp.Key);
+            }
+
+            return objs;
+        }
+
+
+        public virtual void RemoveObjectsForKeys(NSArray keyArray)
+        {
+            foreach (id key in keyArray)
+            {
+                RemoveObjectForKey(key);
+            }
+        }
+
+
+
         //public override id InitWithCoder(NSCoder decoder)
         //{
         //    base.InitWithCoder(decoder);
@@ -286,6 +331,18 @@ namespace Smartmobili.Cocoa
             return obj;
         }
 
+        public virtual void RemoveObjectForKey(id aKey)
+        {
+            if (aKey == null)
+                throw new ArgumentNullException();
+
+            if (this.ContainsKey(aKey))
+            {
+                _dict.Remove(aKey);
+            }
+        }
+
+
 
         public void Add(id aKey, id value)
         {
@@ -340,6 +397,12 @@ namespace Smartmobili.Cocoa
         {
             return (NSString)this.ObjectForKey((NSString)"NSFileType");
         }
+
+        public virtual bool WriteToFile(NSString path, bool flag)
+        {
+            return false;
+        }
+
 
 //– fileCreationDate
 //– fileExtensionHidden
