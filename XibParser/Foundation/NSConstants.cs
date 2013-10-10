@@ -19,6 +19,15 @@ namespace Smartmobili.Cocoa
             NSLog.Log(format, args);
         }
 
+
+        public static NSString StringFromClass(Class cls)
+        {
+            if (cls == null)
+                return (NSString)"";
+
+            return (NSString)cls.InnerType.ToString();
+        }
+
         public static NSString Encode<T>()
         {
             return "";

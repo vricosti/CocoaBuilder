@@ -27,6 +27,22 @@ namespace Smartmobili.Cocoa
 {
     public class Objc
     {
+        public static bool Overridden(Type type, NSString methodName)
+        {
+            if ((type == null) || (methodName == null))
+                return false;
+
+            var mi = type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public);
+            if (mi == null) 
+                return false;
+
+            var declaringType = mi.DeclaringType.FullName;
+            return declaringType.Equals(type.FullName, StringComparison.OrdinalIgnoreCase);
+
+            //return type.GetMethod(methodName).DeclaringType == type;
+        }
+
+
         public static object MsgSend(id receiver, NSString aString, params object[] args)
         {
             object ret = null;

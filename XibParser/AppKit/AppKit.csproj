@@ -64,6 +64,7 @@
     <Compile Include="NSCustomObject.cs" />
     <Compile Include="NSCustomResource.cs" />
     <Compile Include="NSCustomView.cs" />
+    <Compile Include="NSDocument.cs" />
     <Compile Include="NSEvent.cs" />
     <Compile Include="NSFont.cs" />
     <Compile Include="NSGraphicsContext.cs" />

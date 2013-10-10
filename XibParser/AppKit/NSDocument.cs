@@ -66,7 +66,7 @@ namespace Smartmobili.Cocoa
             set { SetFileURL(value); }
         }
 
-        public virtual id Init()
+        public override id Init()
         {
             id self = this;
 
@@ -143,31 +143,95 @@ namespace Smartmobili.Cocoa
             //[[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
         }
 
-        //public virtual bool ReadFromFile(NSString fileName, NSString type)
-        //{
-        //    NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithPath(fileName);
-        //    return this.LoadFileWrapperRepresentation(wrapper, type);
-        //}
-
-        public virtual bool ReadFromURL(NSURL absoluteURL, NSString typeName, ref NSError outError)
+        public virtual bool LoadDataRepresentation(NSData data, NSString type)
         {
-            NSFileWrapper fileWrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithURL(absoluteURL, 0, ref outError);
-            return this.ReadFromFileWrapper(fileWrapper, typeName, ref outError);
+            NSException.Raise("NSInternalInconsistencyException", @"%@ must implement %@",
+                NS.StringFromClass(NSDocument.Class), SEL.StringFromSelector(new SEL("LoadDataRepresentation")));
+            return false;
+        }
+
+        public virtual bool LoadFileWrapperRepresentation(NSFileWrapper wrapper, NSString type)
+        {
+            if (wrapper.IsRegularFile())
+            {
+                return this.LoadDataRepresentation(wrapper.RegularFileContents(), type);
+            }
+
+            /*
+             * This even happens on a symlink.  May want to use
+             * -stringByResolvingAllSymlinksInPath somewhere, but Apple doesn't.
+             */
+            NS.Log(@"%@ must be overridden if your document deals with file packages.", "LoadFileWrapperRepresentation");
+
+            return false;
+        }
+
+        public virtual bool ReadFromFile(NSString fileName, NSString type)
+        {
+            NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithPath(fileName);
+            return this.LoadFileWrapperRepresentation(wrapper, type);
+        }
+
+        public virtual bool ReadFromURL(NSURL url, NSString typeName, ref NSError outError)
+        {
+
+            if (url.isFileURL())
+            {
+                NSString fileName = url.Path;
+
+                if (Objc.Overridden(this.GetType(), "ReadFromFile"))
+                {
+                    outError = null;
+                    return this.ReadFromFile(fileName, typeName);
+                }
+                else
+                {
+                    NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithPath(fileName);
+                    return this.ReadFromFileWrapper(wrapper, typeName, ref outError);
+                }
+            }
+            else
+            {
+                //FIXME
+                //return this.ReadFromData(url.ResourceDataUsingCache(true), typeName, ref outError);
+                return false;
+            }
         }
 
 
+        public virtual bool ReadFromData(NSData data, NSString typeName, ref NSError outError)
+        {
+            if (Objc.Overridden(this.GetType(), "LoadDataRepresentation"))
+            {
+                outError = null;
+                return this.LoadDataRepresentation(data, typeName);
+            }
+
+            NSException.Raise("NSInternalInconsistencyException", @"%@ must implement %@",
+                NS.StringFromClass(NSDocument.Class), SEL.StringFromSelector(new SEL("LoadDataRepresentation")));
+            return false;
+        }
 
 
         public virtual bool ReadFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
-            return this.ReadFromData(fileWrapper.RegularFileContents(), typeName, ref outError);
-        }
+            if (Objc.Overridden(this.GetType(), "LoadFileWrapperRepresentation"))
+            {
+                outError = null;
+                return this.LoadFileWrapperRepresentation(fileWrapper, typeName);
+            }
 
-        public virtual bool ReadFromData(NSData data, NSString typeName, ref NSError outError)
-        {
+            if (fileWrapper.IsRegularFile())
+            {
+                return this.ReadFromData(fileWrapper.RegularFileContents(), typeName, ref outError);
+            }
+
+
+            outError = null;
             return false;
         }
 
+        
 
     }
 }

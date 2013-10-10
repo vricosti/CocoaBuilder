@@ -44,12 +44,12 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSMutableArray));
 
-        NSString _filename;
-        NSString _preferredFilename;
-        NSMutableDictionary _fileAttributes;
-        GSFileWrapperType _wrapperType;
-        id _wrapperData;
-        //NSImage	_iconImage;
+        protected NSString _filename;
+        protected NSString _preferredFilename;
+        protected NSMutableDictionary _fileAttributes;
+        protected GSFileWrapperType _wrapperType;
+        protected id _wrapperData;
+        protected id _iconImage;
 
 
 

@@ -91,6 +91,7 @@
     <Compile Include="NSScanner.cs" />
     <Compile Include="NSString.cs" />
     <Compile Include="NSUnarchiver.cs" />
+    <Compile Include="NSURL.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="NSXMLParser.cs" />
     <Compile Include="Objc.cs" />
