@@ -29,22 +29,25 @@ using System.Xml.XPath;
 
 namespace Smartmobili.Cocoa
 {
-    public class IBDocument
+    public class IBDocument : NSDocument
     {
+        new public static Class Class = new Class(typeof(IBDocument));
+        new public static IBDocument Alloc() { return new IBDocument(); }
+
         public NSMutableDictionary ListOfReferenceId { get; protected set; }
 
-        public Dictionary<string, Action<object>> UnresolvedReferences { get; protected set; }
+        public Dictionary<NSString, Action<object>> UnresolvedReferences { get; protected set; }
 
         // Properties are in the same order as found inside a Xib
         public int SystemTarget { get; set; }
 
-        public string SystemVersion { get; set; }
+        public NSString SystemVersion { get; set; }
 
-        public string InterfaceBuilderVersion { get; set; }
+        public NSString InterfaceBuilderVersion { get; set; }
 
-        public string AppKitVersion { get; set; }
+        public NSString AppKitVersion { get; set; }
 
-        public string HIToolboxVersion { get; set; }
+        public NSString HIToolboxVersion { get; set; }
 
         public NSMutableDictionary PluginVersions { get; set; }
 
@@ -62,7 +65,7 @@ namespace Smartmobili.Cocoa
 
         public int LocalizationMode { get; set; }
 
-        public string TargetRuntimeIdentifier { get; set; }
+        public NSString TargetRuntimeIdentifier { get; set; }
 
         public NSMutableDictionary PluginDeclaredDevelopmentDependencies { get; set; }
 
@@ -73,137 +76,6 @@ namespace Smartmobili.Cocoa
         public NSMutableDictionary LastKnownImageSizes { get; set; }
 
 
-        public IBDocument()
-        {
-            this.ListOfReferenceId = new NSMutableDictionary();
-            this.UnresolvedReferences = new Dictionary<string, Action<object>>();
-        }
-
-
-        public static void Parse(IBDocument ibDocument, XElement xElement)
-        {
-            NSObjectDecoder nsObjDecoder = new NSObjectDecoder(ibDocument, xElement);
-
-            string keyVal = xElement.Attribute("key").Value.Substring(11);
-            switch (keyVal)
-            {
-                case "SystemTarget":
-                    {
-                        //ibDocument.SystemTarget = (NSNumber)nsObjDecoder.Create(xElement);
-                        ibDocument.SystemTarget = (NSNumber)nsObjDecoder.Create();
-                    }
-                    break;
-                case "SystemVersion":
-                    {
-                        ibDocument.SystemVersion = (NSString)nsObjDecoder.Create();
-                    }
-                    break;
-                case "InterfaceBuilderVersion":
-                    {
-                        ibDocument.InterfaceBuilderVersion = (NSString)nsObjDecoder.Create();
-                    }
-                    break;
-                case "AppKitVersion":
-                    {
-                        ibDocument.AppKitVersion = (NSString)nsObjDecoder.Create();
-                    }
-                    break;
-                case "HIToolboxVersion":
-                    {
-                        ibDocument.HIToolboxVersion = (NSString)nsObjDecoder.Create();
-                    }
-                    break;
-                case "PluginVersions":
-                    {
-                        ibDocument.PluginVersions = (NSMutableDictionary)nsObjDecoder.Create();
-                    }
-                    break;
-                case "IntegratedClassDependencies":
-                    {
-                        ibDocument.IntegratedClassDependencies = (NSArray)nsObjDecoder.Create();
-                    }
-                    break;
-                case "PluginDependencies":
-                    {
-                        ibDocument.PluginDependencies = (NSArray)nsObjDecoder.Create();
-                    }
-                    break;
-                case "Metadata":
-                    {
-                        ibDocument.Metadata = (NSMutableDictionary)nsObjDecoder.Create();
-                    }
-                    break;
-                case "RootObjects":
-                    {
-                        ibDocument.RootObjects = (NSMutableArray)nsObjDecoder.Create();
-                        ibDocument.ResolveReferences();
-                    }
-                    break;
-                case "Objects":
-                    {
-                        ibDocument.Objects = (IBObjectContainer)nsObjDecoder.Create();
-                    }
-                    break;
-                case "Classes":
-                    {
-                        ibDocument.Classes = (IBClassDescriber)nsObjDecoder.Create();
-                    }
-                    break;
-                case "localizationMode":
-                    {
-                        ibDocument.LocalizationMode = (NSNumber)nsObjDecoder.Create();
-                    }
-                    break;
-                case "TargetRuntimeIdentifier":
-                    {
-                        ibDocument.TargetRuntimeIdentifier = (NSString)nsObjDecoder.Create();
-                    }
-                    break;
-                case "PluginDeclaredDevelopmentDependencies":
-                    {
-                        ibDocument.PluginDeclaredDevelopmentDependencies = (NSMutableDictionary)nsObjDecoder.Create();
-                    }
-                    break;
-                case "PluginDeclaredDependenciesTrackSystemTargetVersion":
-                    {
-                        ibDocument.PluginDeclaredDependenciesTrackSystemTargetVersion = (NSNumber)nsObjDecoder.Create();
-                    }
-                    break;
-                case "defaultPropertyAccessControl":
-                     {
-                         ibDocument.DefaultPropertyAccessControl = (NSNumber)nsObjDecoder.Create();
-                    }
-                    break;
-                case "LastKnownImageSizes":
-                    {
-                        ibDocument.LastKnownImageSizes = (NSMutableDictionary)nsObjDecoder.Create();
-                    }
-                    break;
-                    
-                default:
-                    System.Diagnostics.Debug.WriteLine("IBDocument : unknown key " + keyVal);
-                    break;
-            }
-        }
-
-        private void ResolveReferences()
-        {
-            foreach (var kvp in UnresolvedReferences)
-            {
-                NSString refId = kvp.Key;
-                Action<object> propAction = kvp.Value;
-
-                id nsObj = null;
-                if (ListOfReferenceId.TryGetValue(refId, out nsObj))
-                {
-                    propAction(nsObj);
-                }
-                else
-                {
-                    //System.Diagnostics.Debug.WriteLine(string.Format(""))
-                    //throw new Exception("Invalid Reference identifier");
-                }
-            }
-        }
+        
     }
 }
