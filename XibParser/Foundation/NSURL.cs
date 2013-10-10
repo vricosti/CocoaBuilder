@@ -31,12 +31,34 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSURL));
         new public static NSURL Alloc() { return new NSURL(); }
 
+        public virtual bool IsFileURL
+        {
+            get { return isFileURL(); }
+        }
+
+        public virtual NSString Path
+        {
+            get { return GetPath(); }
+        }
+
         public NSURL()
         {}
 
+        public virtual bool isFileURL()
+        {
+            return false;
+        }
 
+        public virtual NSString GetPath()
+        {
+            return this._PathWithEscapes(false);
+        }
 
-     
+        private NSString _PathWithEscapes(bool withEscapes)
+        {
+            return "";
+        }
+
 
     }
 }

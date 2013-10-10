@@ -27,17 +27,135 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSDocument.m
+
     public class NSDocument : NSObject
     {
         new public static Class Class = new Class(typeof(NSDocument));
         new public static NSDocument Alloc() { return new NSDocument(); }
 
+        protected NSWindow _window;		// Outlet for the single window case
+        protected NSMutableArray _window_controllers;	// WindowControllers for this document
+        protected NSURL _file_url;		// Save location as URL
+        protected NSString _file_name;		// Save location
+        protected NSString _file_type;		// file/document type
+        //NSDate _file_modification_date;// file modification date
+        protected NSString _last_component_file_name; // file name last component
+        protected NSURL _autosaved_file_url;	// Autosave location as URL
+        //NSPrintInfo* _print_info;		// print info record
+        protected id _printOp_delegate;	// delegate and selector called
+        protected SEL _printOp_didRunSelector;//   after modal print operation
+        protected NSView _save_panel_accessory;	// outlet for the accessory save-panel view
+        protected NSPopUpButton _spa_button;     	// outlet for "the File Format:" button in the save panel.
+        protected NSString _save_type;             // the currently selected extension.
+        //NSUndoManager* _undo_manager;		// Undo manager for this document
+        protected long _change_count;		// number of time the document has been changed
+        protected long _autosave_change_count;	// number of time the document has been changed since the last autosave
+        protected int _document_index;
+
+
+        public virtual NSString FileType 
+        {
+            get { return GetFileType(); }
+            set { SetFileType(value); }
+        }
+
+        public virtual NSURL FileURL
+        {
+            get { return GetFileURL(); }
+            set { SetFileURL(value); }
+        }
+
+        public virtual id Init()
+        {
+            id self = this;
+
+            return self;
+        }
+
+        public virtual id InitWithType(NSString type, ref NSError error)
+        {
+            id self = this.Init();
+            if (self != null)
+            {
+                this.SetFileType(type);
+            }
+
+            return self;
+        }
+
+        public virtual id InitForURL(NSURL forUrl, NSURL url, NSString type, ref NSError error)
+        {
+            id self = this.InitWithType(type, ref error);
+            if (self != null)
+            {
+                this.SetFileType(type);
+                if (forUrl != null)
+                    this.SetFileURL(forUrl);
+                if (this.ReadFromURL(url, type, ref error))
+                {
+                    if (!url.IsEqual(forUrl))
+                    {
+                        //
+                    }
+                }
+            }
+
+            return self;
+        }
+
+        public virtual id InitWithContentsOfURL(NSURL url, NSString type, ref NSError error)
+        {
+            id self = null;
+
+            self = this.InitForURL(url, url, type, ref error);
+            //this.SetFileModificationDate(NSDate.Date);
+
+             return self;
+        }
+
+        public virtual NSString GetFileType()
+        {
+            return _file_type;
+        }
+
+        public virtual void SetFileType(NSString type)
+        {
+            _file_type = type;
+        }
+
+        public virtual NSURL GetFileURL()
+        {
+            return _file_url;
+        }
+
+        public virtual void SetFileURL(NSURL url)
+        {
+            _file_url = url;
+
+            _file_name = (url != null && url.IsFileURL ? url.Path : null);
+            this.SetLastComponentOfFileName(_file_url.Path.LastPathComponent());
+        }
+
+        public virtual void SetLastComponentOfFileName(NSString str)
+        {
+            _last_component_file_name = str;
+            //[[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+        }
+
+        //public virtual bool ReadFromFile(NSString fileName, NSString type)
+        //{
+        //    NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithPath(fileName);
+        //    return this.LoadFileWrapperRepresentation(wrapper, type);
+        //}
 
         public virtual bool ReadFromURL(NSURL absoluteURL, NSString typeName, ref NSError outError)
         {
             NSFileWrapper fileWrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithURL(absoluteURL, 0, ref outError);
             return this.ReadFromFileWrapper(fileWrapper, typeName, ref outError);
         }
+
+
 
 
         public virtual bool ReadFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
