@@ -33,6 +33,13 @@ namespace Smartmobili.Cocoa
         GSFileWrapperSymbolicLinkType
     }
 
+    public enum NSFileWrapperReadingOptions
+    {
+        NSFileWrapperReadingDefault,
+        NSFileWrapperReadingImmediate = 1 << 0,
+        NSFileWrapperReadingWithoutMapping = 1 << 1,
+    }
+
     public class NSFileWrapper : NSObject
     {
         new public static Class Class = new Class(typeof(NSMutableArray));
@@ -169,6 +176,14 @@ namespace Smartmobili.Cocoa
             //RELEASE(this);
             return wrapper;
         }
+
+
+        public virtual id InitWithURL(NSURL url, NSFileWrapperReadingOptions options, ref NSError outError)
+        {
+
+            return this;
+        }
+
 
 
         public virtual void Dealloc()
