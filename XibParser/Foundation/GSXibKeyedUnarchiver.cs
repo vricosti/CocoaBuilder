@@ -346,6 +346,12 @@ namespace Smartmobili.Cocoa
         {
             id nsObj = null;
 
+            //var type = AppDomain.CurrentDomain.GetAssemblies()
+            //    .Where(a => a.FullName.StartsWith("Smartmobili.Cocoa"))
+            //    .SelectMany(t => t.GetTypes())
+            //    .Where(t.Name == classname)
+            //    .FirstOrDefault();
+
             var type =
             (from a in AppDomain.CurrentDomain.GetAssemblies()
              where a.FullName.StartsWith("Smartmobili.Cocoa")
