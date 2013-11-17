@@ -316,14 +316,46 @@ namespace Smartmobili.Cocoa
             }
         }
 
+        private static object MagicallyCreateInstance(string className)
+        {
+            //IEnumerable<Type> types =
+            //from a in AppDomain.CurrentDomain.GetAssemblies()
+
+            var cocoaAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.FullName.StartsWith("Smartmobili.Cocoa"));
+
+
+            var type =
+            (from a in AppDomain.CurrentDomain.GetAssemblies() where a.FullName.StartsWith("Smartmobili.Cocoa")
+            from t in a.GetTypes() where t.Name == className
+            select t).FirstOrDefault();
+
+            var type3 = AppDomain.CurrentDomain.GetAssemblies()
+                .Select(a => a.FullName.StartsWith("Smartmobili.Cocoa"));
+            
+
+            //var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            //var type = assembly.GetTypes()
+            //    .First(t => t.Name == className);
+
+            return Activator.CreateInstance(type);
+        }
+
         public id AllocObjectForClassName(NSString classname)
         {
             id nsObj = null;
 
-            Type t = Type.GetType("Smartmobili.Cocoa." + classname);
-            if (t != null)
+            var type =
+            (from a in AppDomain.CurrentDomain.GetAssemblies()
+             where a.FullName.StartsWith("Smartmobili.Cocoa")
+             from t in a.GetTypes()
+             where t.Name == classname
+             select t).FirstOrDefault();
+
+            if (type != null)
             {
-                nsObj = Activator.CreateInstance(t) as id;
+                nsObj = Activator.CreateInstance(type) as id;
             }
 
             return nsObj;
