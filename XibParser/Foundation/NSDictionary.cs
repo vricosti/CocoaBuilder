@@ -119,18 +119,18 @@ namespace Smartmobili.Cocoa
                     NSString key;
                     id val;
 
-                    keys = NSMutableArray.ArrayWithCapacity(2);
-                    objects = NSMutableArray.ArrayWithCapacity(2);
+                    keys = NSArray.ArrayWithCapacity(2);
+                    objects = NSArray.ArrayWithCapacity(2);
 
                     key = NSString.StringWithFormat(@"NS.object.%u", i);
                     val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
 
                     while (val != null)
                     {
-                        ((NSMutableArray)objects).AddObject(val);
+                        ((NSArray)objects).AddObject(val);
                         key = NSString.StringWithFormat(@"NS.key.%u", i);
                         val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
-                        ((NSMutableArray)keys).AddObject(val);
+                        ((NSArray)keys).AddObject(val);
                         i++;
                         key = NSString.StringWithFormat(@"NS.object.%u", i);
                         val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);

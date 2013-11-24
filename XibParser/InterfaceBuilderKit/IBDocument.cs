@@ -75,7 +75,36 @@ namespace Smartmobili.Cocoa
 
         public NSMutableDictionary LastKnownImageSizes { get; set; }
 
+        
 
+        public override bool ReadFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
+        {
+            NSData data = fileWrapper.RegularFileContents();
+            if (data != null)
+            {
+                var unarc = GSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
+                SystemTarget = unarc.DecodeIntForKey(@"IBDocument.SystemTarget");
+                SystemVersion = (NSString)unarc.DecodeObjectForKey(@"IBDocument.SystemVersion");
+                InterfaceBuilderVersion = (NSString)unarc.DecodeObjectForKey(@"IBDocument.InterfaceBuilderVersion");
+                AppKitVersion = (NSString)unarc.DecodeObjectForKey(@"IBDocument.AppKitVersion");
+                HIToolboxVersion = (NSString)unarc.DecodeObjectForKey(@"IBDocument.HIToolboxVersion");
+                PluginVersions = (NSMutableDictionary)unarc.DecodeObjectForKey(@"IBDocument.PluginVersions");
+                IntegratedClassDependencies = (NSArray)unarc.DecodeObjectForKey(@"IBDocument.IntegratedClassDependencies");
+                PluginDependencies = (NSArray)unarc.DecodeObjectForKey(@"IBDocument.PluginDependencies");
+                Metadata = (NSMutableDictionary)unarc.DecodeObjectForKey(@"IBDocument.Metadata");
+                RootObjects = (NSMutableArray)unarc.DecodeObjectForKey(@"IBDocument.RootObjects");
+                Objects = (IBObjectContainer)unarc.DecodeObjectForKey(@"IBDocument.Objects");
+                Classes = (IBClassDescriber)unarc.DecodeObjectForKey(@"IBDocument.Classes");
+                LocalizationMode = unarc.DecodeIntForKey(@"IBDocument.LocalizationMode");
+                TargetRuntimeIdentifier = (NSString)unarc.DecodeObjectForKey(@"IBDocument.TargetRuntimeIdentifier");
+                PluginDeclaredDevelopmentDependencies = (NSMutableDictionary)unarc.DecodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies");
+                PluginDeclaredDependenciesTrackSystemTargetVersion = unarc.DecodeBoolForKey(@"IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion");
+                DefaultPropertyAccessControl = unarc.DecodeIntForKey(@"IBDocument.DefaultPropertyAccessControl");
+                LastKnownImageSizes = (NSMutableDictionary)unarc.DecodeObjectForKey(@"IBDocument.LastKnownImageSizes");
+            }
+
+            return true;
+        }
         
     }
 }

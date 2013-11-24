@@ -31,6 +31,7 @@ namespace Smartmobili.Cocoa
     public class NSCustomObject : NSObject, NSCoding2
     {
         new public static Class Class = new Class(typeof(NSCustomObject));
+        new public static NSCustomObject Alloc() { return new NSCustomObject(); }
 
         protected NSString _className;
         protected NSString _extension;

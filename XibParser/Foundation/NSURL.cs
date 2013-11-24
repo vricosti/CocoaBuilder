@@ -26,10 +26,31 @@ using System.IO;
 namespace Smartmobili.Cocoa
 {
 
+    //https://github.com/stevegeek/cocotron/blob/master/Foundation/NSURL/NSURL.h
+
     public class NSURL : NSObject
     {
         new public static Class Class = new Class(typeof(NSURL));
         new public static NSURL Alloc() { return new NSURL(); }
+
+        protected NSURL _baseURL;
+        protected NSString _string;
+        protected NSString _scheme;
+        protected NSString _host;
+        protected NSNumber _port;
+        protected NSString _user;
+        protected NSString _password;
+        protected NSString _path;
+        protected NSString _parameter;
+        protected NSString _query;
+        protected NSString _fragment;
+
+
+        public readonly string NSURLFileScheme = "file";
+
+        //NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
+        //NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+
 
         public virtual bool IsFileURL
         {
@@ -46,7 +67,7 @@ namespace Smartmobili.Cocoa
 
         public virtual bool isFileURL()
         {
-            return false;
+            return true;
         }
 
         public virtual NSString GetPath()
@@ -56,9 +77,36 @@ namespace Smartmobili.Cocoa
 
         private NSString _PathWithEscapes(bool withEscapes)
         {
-            return "";
+            return _path;
+        }
+//        -initWithScheme:(NSString *)scheme host:(NSString *)host path:(NSString *)path {
+//   _scheme=[scheme copy];
+//   _host=[host copy];
+//   _path=[path copy];
+//   return self;
+//}
+
+        public static id FileURLWithPath(NSString aPath)
+        {
+            return NSURL.Alloc().InitFileURLWithPath(aPath);
+        }
+        public virtual id InitFileURLWithPath(NSString aPath)
+        {
+            return this.InitWithScheme(NSURLFileScheme, @"localhost", aPath);
         }
 
+        public virtual id InitWithScheme(NSString scheme, NSString host, NSString path)
+        {
+            id self = this;
+
+            _scheme = scheme;
+            _host = host;
+            _path = path;
+
+            return self;
+        }
+
+        
 
     }
 }
