@@ -62,18 +62,22 @@ namespace Smartmobili.Cocoa
 			string progDir = Path.GetDirectoryName(progPath);
 			string xibPath = progDir + "/../../../Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
 
-            NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
-            if (data != null)
+            //NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
+            //if (data != null)
+            IBDocument ibDoc = (IBDocument)IBDocument.Alloc().Init();
+            if (ibDoc.ReadFromURL((NSURL)NSURL.FileURLWithPath(xibPath), ""))
             {
-                var u = GSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
-                id container = u.DecodeObjectForKey(@"IBDocument.Objects");
-                if (container == null || container.IsKindOfClass(IBObjectContainer.Class) == false)
+               // var u = GSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
+                //id container = u.DecodeObjectForKey(@"IBDocument.Objects");
+                //if (container == null || container.IsKindOfClass(IBObjectContainer.Class) == false)
+                if (false)
                 {
                     //result = NO;
                 }
                 else
                 {
-                    NSArray rootObjects = (NSArray)u.DecodeObjectForKey(@"IBDocument.RootObjects");
+                    //NSArray rootObjects = (NSArray)u.DecodeObjectForKey(@"IBDocument.RootObjects");
+                    var rootObjects = ibDoc.RootObjects;
 
                     NSWindowTemplate nsWindow = (NSWindowTemplate)rootObjects.Where(o =>
                     (o != null) && (o.IsKindOfClass(NSWindowTemplate.Class))).FirstOrDefault();
