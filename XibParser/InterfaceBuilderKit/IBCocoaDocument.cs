@@ -29,58 +29,19 @@ using System.Xml.XPath;
 
 namespace Smartmobili.Cocoa
 {
-    public class IBDocument : NSDocument
+    public class IBCocoaDocument : IBDocument
     {
-        new public static Class Class = new Class(typeof(IBDocument));
-        new public static IBDocument Alloc() { return new IBDocument(); }
+        new public static Class Class = new Class(typeof(IBCocoaDocument));
+        new public static IBDocument Alloc() { return new IBCocoaDocument(); }
 
-        public NSMutableDictionary ListOfReferenceId { get; protected set; }
+        //public virtual override InitForURL(NSURL forUrl, NSURL url, NSString type, ref NSError error)
+        //{
 
-        public Dictionary<NSString, Action<object>> UnresolvedReferences { get; protected set; }
-
-        // Properties are in the same order as found inside a Xib
-        public int SystemTarget { get; set; }
-
-        public NSString SystemVersion { get; set; }
-
-        public NSString InterfaceBuilderVersion { get; set; }
-
-        public NSString AppKitVersion { get; set; }
-
-        public NSString HIToolboxVersion { get; set; }
-
-        public NSMutableDictionary PluginVersions { get; set; }
-
-        public NSArray IntegratedClassDependencies { get; set; }
-
-        public NSArray PluginDependencies { get; set; }
-
-        public NSMutableDictionary Metadata { get; set; }
-
-        public NSMutableArray RootObjects { get; set; }
-
-        public IBObjectContainer Objects { get; set; }
-
-        public IBClassDescriber Classes { get; set; }
-
-        public int LocalizationMode { get; set; }
-
-        public NSString TargetRuntimeIdentifier { get; set; }
-
-        public NSMutableDictionary PluginDeclaredDevelopmentDependencies { get; set; }
-
-        public bool PluginDeclaredDependenciesTrackSystemTargetVersion { get; set; }
-
-        public int DefaultPropertyAccessControl { get; set; }
-
-        public NSMutableDictionary LastKnownImageSizes { get; set; }
-
+        //}
         
 
         public override bool ReadFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
-            //IBXMLDecoder xmlDec = (IBXMLDecoder)(IBXMLDecoder.Alloc()).InitForReadingWithData(fileWrapper.RegularFileContents(), null);
-
             NSData data = fileWrapper.RegularFileContents();
             if (data != null)
             {

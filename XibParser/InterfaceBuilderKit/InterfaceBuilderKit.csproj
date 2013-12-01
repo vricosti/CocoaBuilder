@@ -44,8 +44,10 @@
     <Compile Include="IBActionInfo.cs" />
     <Compile Include="IBArchive.cs" />
     <Compile Include="IBBindingConnection.cs" />
+    <Compile Include="IBCFMutableDictionary.cs" />
     <Compile Include="IBClassDescriber.cs" />
     <Compile Include="IBClassDescriptionSource.cs" />
+    <Compile Include="IBCocoaDocument.cs" />
     <Compile Include="IBConnection.cs" />
     <Compile Include="IBConnectionRecord.cs" />
     <Compile Include="IBDocument.cs" />
@@ -54,8 +56,13 @@
     <Compile Include="IBObjectRecord.cs" />
     <Compile Include="IBOutletConnection.cs" />
     <Compile Include="IBPartialClassDescription.cs" />
+    <Compile Include="IBSelfCompressingDataWrapper.cs" />
     <Compile Include="IBToOneOutletInfo.cs" />
+    <Compile Include="IBXMLDecoder.cs" />
+    <Compile Include="IBXMLDecoder_Apple.cs" />
     <Compile Include="NSObjectDecoder.cs" />
+    <Compile Include="NSXMLElement_IBXMLElementAddition.cs" />
+    <Compile Include="NSXMLNode_IBXMLNodeAdditions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

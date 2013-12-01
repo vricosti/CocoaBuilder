@@ -89,10 +89,13 @@
     <Compile Include="NSProcessInfo.cs" />
     <Compile Include="NSRecursiveLock.cs" />
     <Compile Include="NSScanner.cs" />
+    <Compile Include="NSSet.cs" />
     <Compile Include="NSString.cs" />
     <Compile Include="NSUnarchiver.cs" />
     <Compile Include="NSURL.cs" />
     <Compile Include="NSWindowRect.cs" />
+    <Compile Include="NSXMLDocument.cs" />
+    <Compile Include="NSXMLElement.cs" />
     <Compile Include="NSXMLParser.cs" />
     <Compile Include="Objc.cs" />
     <Compile Include="ObjcAttribute.cs" />

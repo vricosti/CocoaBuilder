@@ -75,7 +75,16 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
+        //– initForReadingWithData:
 
+        public virtual id InitForReadingWithData(NSData data, ref NSError outError)
+        {
+            return null;
+        }
+        public virtual id InitForReadingWithData(NSData data, object dummyObject)
+        {
+            return null;
+        }
 
         public override void DecodeArrayOfObjCType<T>(uint count, ref T[] array)
         {

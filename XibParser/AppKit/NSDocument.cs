@@ -84,6 +84,11 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+
+        
+
+        //-(id)initForURL:(NSURL *)absoluteDocumentURL withContentsOfURL:(NSURL *)absoluteDocumentContentsURL ofType:(NSString *)typeName error:(NSError **)outError
+        //-[IBCocoaDocument initForURL:withContentsOfURL:ofType:error:]
         public virtual id InitForURL(NSURL forUrl, NSURL url, NSString type, ref NSError error)
         {
             id self = this.InitWithType(type, ref error);
@@ -102,6 +107,11 @@ namespace Smartmobili.Cocoa
             }
 
             return self;
+        }
+        public virtual id InitForURL(NSURL absoluteURL, NSURL absoluteDocumentContentsURL, NSString typeName, object dummyNullable)
+        {
+            NSError outError = null;
+            return this.InitForURL(absoluteURL, absoluteDocumentContentsURL, typeName, ref outError);
         }
 
         public virtual id InitWithContentsOfURL(NSURL url, NSString type, ref NSError error)
@@ -172,7 +182,7 @@ namespace Smartmobili.Cocoa
             return this.LoadFileWrapperRepresentation(wrapper, type);
         }
 
-        public virtual bool ReadFromURL(NSURL url, NSString typeName)
+        public virtual bool ReadFromURL(NSURL url, NSString typeName, object unused)
         {
             NSError err = null;
             return this.ReadFromURL(url, typeName, ref err);
