@@ -182,7 +182,7 @@ namespace Smartmobili.Cocoa
             return this.LoadFileWrapperRepresentation(wrapper, type);
         }
 
-        public virtual bool ReadFromURL(NSURL url, NSString typeName, object unused)
+        public virtual bool ReadFromURL(NSURL url, NSString typeName, object unused = null)
         {
             NSError err = null;
             return this.ReadFromURL(url, typeName, ref err);
