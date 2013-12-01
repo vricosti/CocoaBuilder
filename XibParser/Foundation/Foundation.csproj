@@ -96,6 +96,7 @@
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="NSXMLDocument.cs" />
     <Compile Include="NSXMLElement.cs" />
+    <Compile Include="NSXMLNode.cs" />
     <Compile Include="NSXMLParser.cs" />
     <Compile Include="Objc.cs" />
     <Compile Include="ObjcAttribute.cs" />
