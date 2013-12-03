@@ -196,7 +196,7 @@ namespace Smartmobili.Cocoa
    
 
 
-    internal static class LibXml
+    public static class LibXml
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void internalSubsetSAXFunc(IntPtr ctx, string name, string ExternalID, string SystemID);

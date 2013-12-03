@@ -9,11 +9,34 @@ using System.Threading.Tasks;
 
 namespace Smartmobili.Cocoa
 {
+    public class TestNXMLParser : NSObject
+    {
+        public void Run()
+        {
+            NSString str =
+                @"<test:Plan xmlns:test='http://test.org/schema'>" +
+                "<test:Case name='test1' emptyAttribute='' test:ns_id='auio'>" +
+                "</test:Case>" +
+                "</test:Plan>";
+
+            NSData data = str.DataUsingEncoding(NSStringEncoding.NSUTF8StringEncoding);
+            NSXMLParserWIP parser = (NSXMLParserWIP)NSXMLParserWIP.Alloc().InitWithData(data);
+            parser.SetDelegate(this);
+            parser.Parse();
+
+        }
+    }
+
+
     class Program
     {
         static void Main(string[] args)
         {
+            //TestNXMLParser testXMLParser = new TestNXMLParser();
+            //testXMLParser.Run();
            
+
+
 #if TEST_COLOR
             GSNamedColor nColor1 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list1", "color1");
             GSNamedColor nColor2 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list2", "color2");
