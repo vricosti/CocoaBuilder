@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -134,7 +135,7 @@ namespace Smartmobili.Cocoa
 
         public NSMutableDictionary Decoded { get; set; }
 
-        //static TextWriter _tw;
+        private List<Assembly> CocoaAssemblies { get; set; }
 
         public GSXibKeyedUnarchiver(bool shouldCallInit = true)
         {
@@ -142,6 +143,13 @@ namespace Smartmobili.Cocoa
             {
                 Init();
             }
+
+            CocoaAssemblies = new List<Assembly>();
+           
+            //Assembly asm = Assembly.Load("Smartmobili.Cocoa.Foundation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            CocoaAssemblies.Add(Assembly.Load("Smartmobili.Cocoa.Foundation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"));
+            CocoaAssemblies.Add(Assembly.Load("Smartmobili.Cocoa.AppKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"));
+            CocoaAssemblies.Add(Assembly.Load("Smartmobili.Cocoa.InterfaceBuilderKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"));
         }
 
         new public static GSXibKeyedUnarchiver Alloc()
@@ -320,11 +328,16 @@ namespace Smartmobili.Cocoa
         {
             id nsObj = null;
 
-            var type = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => a.FullName.StartsWith("Smartmobili.Cocoa"))
-                .SelectMany(t => t.GetTypes())
-                .Where(c => c.Name == classname)
-                .FirstOrDefault();
+            var type = CocoaAssemblies
+               .SelectMany(t => t.GetTypes())
+               .Where(c => c.Name == classname)
+               .FirstOrDefault();
+
+            //var type = AppDomain.CurrentDomain.GetAssemblies()
+            //    .Where(a => a.FullName.StartsWith("Smartmobili.Cocoa"))
+            //    .SelectMany(t => t.GetTypes())
+            //    .Where(c => c.Name == classname)
+            //    .FirstOrDefault();
 
             //var type =
             //(from a in AppDomain.CurrentDomain.GetAssemblies()

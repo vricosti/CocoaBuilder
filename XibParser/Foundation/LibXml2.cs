@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using xmlSAXHandlerPtr = System.IntPtr;
 using NodePtr = System.IntPtr;
 using DocPtr = System.IntPtr;
 using NsPtr = System.IntPtr;
@@ -85,21 +86,45 @@ namespace Smartmobili.Cocoa
 
     public class ElementContent : IDisposable
     {
+        private bool disposed = false;
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
     }
 
     public unsafe class Ns : IDisposable
     {
+        private bool disposed = false;
+
         public    Ns                        next ;
         public    ElementType               type ;
         public    string                    href ;
         public    string                    prefix ;
         public    void**                    _private ;
         public    Doc                       context ;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
     }
 
     public unsafe class Node : IDisposable
     {
+        private bool disposed = false;
+
         public void** _private;
         public ElementType type;
         public string name;
@@ -115,10 +140,22 @@ namespace Smartmobili.Cocoa
         public NsPtr ns_def;
         public ushort line;
         public ushort extra;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
     }
 
     public unsafe class Doc : IDisposable
     {
+        private bool disposed = false;
+
         public void** _private;
         public ElementType type;
         public string name;
@@ -141,116 +178,132 @@ namespace Smartmobili.Cocoa
 
         public Doc(string version) { }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+        }
 
     }
 
 
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct xmlSAXHandler 
+    
+
+   
+
+
+    internal static class LibXml
     {
-        internalSubsetSAXFunc internalSubset;
-        isStandaloneSAXFunc isStandalone;
-        hasInternalSubsetSAXFunc hasInternalSubset;
-        hasExternalSubsetSAXFunc hasExternalSubset;
-        resolveEntitySAXFunc resolveEntity;
-        getEntitySAXFunc getEntity;
-        entityDeclSAXFunc entityDecl;
-        notationDeclSAXFunc notationDecl;
-        attributeDeclSAXFunc attributeDecl;
-        elementDeclSAXFunc elementDecl;
-        unparsedEntityDeclSAXFunc unparsedEntityDecl;
-        setDocumentLocatorSAXFunc setDocumentLocator;
-        startDocumentSAXFunc startDocument;
-        endDocumentSAXFunc endDocument;
-        startElementSAXFunc startElement;
-        endElementSAXFunc endElement;
-        referenceSAXFunc reference;
-        charactersSAXFunc characters;
-        ignorableWhitespaceSAXFunc ignorableWhitespace;
-        processingInstructionSAXFunc processingInstruction;
-        commentSAXFunc comment;
-        warningSAXFunc warning;
-        errorSAXFunc error;
-        fatalErrorSAXFunc fatalError; /* unused error() get all the errors */
-        getParameterEntitySAXFunc getParameterEntity;
-        cdataBlockSAXFunc cdataBlock;
-        externalSubsetSAXFunc externalSubset;
-        UInt32 initialized;
-        /* The following fields are extensions available only on version 2 */
-        void *_private;
-        startElementNsSAX2Func startElementNs;
-        endElementNsSAX2Func endElementNs;
-        xmlStructuredErrorFunc serror;
-    }
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void internalSubsetSAXFunc(IntPtr ctx, string name, string ExternalID, string SystemID);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int isStandaloneSAXFunc(void* ctx);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int hasInternalSubsetSAXFunc(void* ctx);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate int hasExternalSubsetSAXFunc(void* ctx);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate Entity* resolveEntitySAXFunc(void* ctx, string publicId, string systemId);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate Entity* getEntitySAXFunc(void* ctx, string name);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void entityDeclSAXFunc(void* ctx, string name, int type, string publicId, string systemId, string content);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void notationDeclSAXFunc(void* ctx, string name, string publicId, string systemId);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void attributeDeclSAXFunc(void* ctx, string elem, string fullname, int type, int def, string defaultValue, Enumeration* tree);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void elementDeclSAXFunc(void* ctx, string name, int type, ElementContent content);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void unparsedEntityDeclSAXFunc(void* ctx, string name, string publicId, string systemId, string notationName);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void setDocumentLocatorSAXFunc(void* ctx, SAXLocator* loc);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void startDocumentSAXFunc(void* ctx);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void endDocumentSAXFunc(void* ctx);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void startElementSAXFunc(void* ctx, string name, string[] atts);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void endElementSAXFunc(void* ctx, string name);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void referenceSAXFunc(void* ctx, string name);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void charactersSAXFunc(void* ctx, string ch, int len);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void ignorableWhitespaceSAXFunc(void* ctx, string ch, int len);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void processingInstructionSAXFunc(void* ctx, string target, string data);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void commentSAXFunc(void* ctx, string value);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void warningSAXFunc(void* ctx, string msg, params IntPtr[] prms);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void errorSAXFunc(void* ctx, string msg, params IntPtr[] prms);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void fatalErrorSAXFunc(void* ctx, string msg, params IntPtr[] prms);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate Entity* getParameterEntitySAXFunc(void* ctx, string name);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void cdataBlockSAXFunc(void* ctx, string value, int len);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void externalSubsetSAXFunc(void* ctx, string name, string ExternalID, string SystemID);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void startElementNsSAX2Func(void* ctx, string localname, string prefix, string URI,
+        int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void endElementNsSAX2Func(void* ctx, string localname, string prefix, string URI);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void xmlStructuredErrorFunc(void* ctx, Error* error);
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void internalSubsetSAXFunc(IntPtr ctx, string name, string ExternalID, string SystemID);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate int isStandaloneSAXFunc(void* ctx);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate int hasInternalSubsetSAXFunc(void* ctx);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate int hasExternalSubsetSAXFunc(void* ctx);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate Entity* resolveEntitySAXFunc(void* ctx, string publicId, string systemId); 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate Entity* getEntitySAXFunc(void* ctx, string name);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void entityDeclSAXFunc(void* ctx, string name, int type, string publicId, string systemId, string content);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void notationDeclSAXFunc(void* ctx, string name, string publicId, string systemId);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void attributeDeclSAXFunc(void* ctx, string elem, string fullname, int type, int def, string defaultValue, Enumeration* tree);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void elementDeclSAXFunc(void* ctx, string name, int type, ElementContent content);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void unparsedEntityDeclSAXFunc(void* ctx, string name, string publicId, string systemId, string notationName);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void setDocumentLocatorSAXFunc(void* ctx, SAXLocator* loc);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void startDocumentSAXFunc(void* ctx);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void endDocumentSAXFunc(void* ctx);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void startElementSAXFunc(void* ctx, string name, string[] atts);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void endElementSAXFunc(void* ctx, string name);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void referenceSAXFunc(void* ctx, string name);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void charactersSAXFunc(void* ctx, string ch, int len);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void ignorableWhitespaceSAXFunc(void* ctx, string ch, int len);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void processingInstructionSAXFunc(void* ctx, string target, string data);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void commentSAXFunc(void* ctx, string value);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void warningSAXFunc(void* ctx, string msg, params IntPtr[] prms);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void errorSAXFunc(void* ctx, string msg, params IntPtr[] prms);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void fatalErrorSAXFunc(void* ctx, string msg, params IntPtr[] prms);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate Entity* getParameterEntitySAXFunc(void* ctx, string name);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void cdataBlockSAXFunc(void* ctx, string value, int len);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void externalSubsetSAXFunc(void* ctx, string name, string ExternalID, string SystemID);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void startElementNsSAX2Func(void* ctx, string localname, string prefix, string URI,
-    int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void endElementNsSAX2Func(void* ctx, string localname, string prefix, string URI);
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void xmlStructuredErrorFunc(void* ctx, Error* error);
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct xmlSAXHandler
+        {
+            internalSubsetSAXFunc internalSubset;
+            isStandaloneSAXFunc isStandalone;
+            hasInternalSubsetSAXFunc hasInternalSubset;
+            hasExternalSubsetSAXFunc hasExternalSubset;
+            resolveEntitySAXFunc resolveEntity;
+            getEntitySAXFunc getEntity;
+            entityDeclSAXFunc entityDecl;
+            notationDeclSAXFunc notationDecl;
+            attributeDeclSAXFunc attributeDecl;
+            elementDeclSAXFunc elementDecl;
+            unparsedEntityDeclSAXFunc unparsedEntityDecl;
+            setDocumentLocatorSAXFunc setDocumentLocator;
+            startDocumentSAXFunc startDocument;
+            endDocumentSAXFunc endDocument;
+            startElementSAXFunc startElement;
+            endElementSAXFunc endElement;
+            referenceSAXFunc reference;
+            charactersSAXFunc characters;
+            ignorableWhitespaceSAXFunc ignorableWhitespace;
+            processingInstructionSAXFunc processingInstruction;
+            commentSAXFunc comment;
+            warningSAXFunc warning;
+            errorSAXFunc error;
+            fatalErrorSAXFunc fatalError; /* unused error() get all the errors */
+            getParameterEntitySAXFunc getParameterEntity;
+            cdataBlockSAXFunc cdataBlock;
+            externalSubsetSAXFunc externalSubset;
+            UInt32 initialized;
+            /* The following fields are extensions available only on version 2 */
+            void* _private;
+            startElementNsSAX2Func startElementNs;
+            endElementNsSAX2Func endElementNs;
+            xmlStructuredErrorFunc serror;
+        }
 
-
-    internal class LibXml
-    {
-        [DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr _xmlParseFile(String file);
+        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlInitParser();
+        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlSAXUserParseFile(xmlSAXHandlerPtr sax, IntPtr user_data, string filename);
+        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlSAXUserParseMemory(xmlSAXHandlerPtr sax, IntPtr user_data, int size);
 
 
         //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
