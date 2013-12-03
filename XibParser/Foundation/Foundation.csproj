@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,6 +57,7 @@
     <Compile Include="INSNumber.cs" />
     <Compile Include="INSObject.cs" />
     <Compile Include="INSXMLParser.cs" />
+    <Compile Include="LibXml2.cs" />
     <Compile Include="NSAffineTransform.cs" />
     <Compile Include="NSArchiver.cs" />
     <Compile Include="NSArray.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="NSXMLElement.cs" />
     <Compile Include="NSXMLNode.cs" />
     <Compile Include="NSXMLParser.cs" />
+    <Compile Include="NSXMLParserWIP.cs" />
     <Compile Include="Objc.cs" />
     <Compile Include="ObjcAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
