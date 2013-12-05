@@ -521,18 +521,23 @@ namespace Smartmobili.Cocoa
 
         public virtual NSData DataUsingEncoding(NSStringEncoding encoding, bool flag = false)
         {
-            byte[] bytes = null;
+            NSData nullTerminatedData = null;
+            byte[] data = null;
 
             if (encoding == NSStringEncoding.NSUTF8StringEncoding)
             {
-                bytes = System.Text.Encoding.UTF8.GetBytes(this.Value);
+                data = System.Text.Encoding.UTF8.GetBytes(this.Value);
             }
             else
             {
-                bytes = System.Text.Encoding.ASCII.GetBytes(this.Value);
+                data = System.Text.Encoding.ASCII.GetBytes(this.Value);
             }
 
-            return NSData.Alloc().InitWithBytes(bytes);
+            byte[] ntbytes = new byte[data.Length + 1];
+            Array.Copy(data, 0, ntbytes, 0, data.Length);
+            nullTerminatedData = NSData.Alloc().InitWithBytes(ntbytes);
+
+            return nullTerminatedData;
         }
 
 

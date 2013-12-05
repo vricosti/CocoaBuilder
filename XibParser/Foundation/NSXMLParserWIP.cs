@@ -41,7 +41,7 @@ namespace Smartmobili.Cocoa
 
         public LibXml.xmlSAXHandler saxHandler; //0x04
         public IntPtr parserContext; //0x08
-        public uint parserflasg; // 0x0C
+        public uint parserflags; // 0x0C
         public NSError error; //0x10
         public NSMutableArray namespaces; //0x14
         public id/*NSMapTable*/ slowStringMap; //0x18
@@ -57,10 +57,11 @@ namespace Smartmobili.Cocoa
         new public static NSXMLParserWIP Alloc() { return new NSXMLParserWIP(); }
 
         private bool _disposed;
-        private bool _isCleanedUp;
 
-        static volatile bool _isInited;
-        static object syncRoot = new Object();
+        
+        private static volatile bool _isInited;
+        private static volatile bool _isCleanedUp;
+        private static object syncRoot = new Object();
 
         //C# specific 
         List<GCHandle> _pinnedHandles = new List<GCHandle>();
@@ -68,10 +69,9 @@ namespace Smartmobili.Cocoa
         IntPtr _reserved0; //0x04
         id _delegate; //0x08
         NSXMLParserInfo _reserved1; //0x0C
-        IntPtr _reserved2; // 0x10
+        NSData _reserved2; // 0x10
         IntPtr _reserved3; //0x14
         
-        NSData _data;
 
 
         public virtual id Delegate
@@ -113,140 +113,173 @@ namespace Smartmobili.Cocoa
 
             SetupLibXml();
 
-            GCHandle handle;
-
-            _reserved1 = (NSXMLParserInfo)NSXMLParserInfo.Alloc().Init();
-            _reserved1.saxHandler = new LibXml.xmlSAXHandler();
-            _pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler, GCHandleType.Pinned));
-
-            //_reserved1.saxHandler.internalSubset = IntPtr.Zero;
-            //_reserved1.saxHandler.isStandalone = IntPtr.Zero;
-            //_reserved1.saxHandler.hasInternalSubset = IntPtr.Zero;
-            //_reserved1.saxHandler.hasExternalSubset = IntPtr.Zero;
-            //_reserved1.saxHandler.resolveEntity = IntPtr.Zero;
-            //_reserved1.saxHandler.getEntity = IntPtr.Zero;
-            //_reserved1.saxHandler.entityDecl = IntPtr.Zero;
-            //_reserved1.saxHandler.notationDecl = IntPtr.Zero;
-            //_reserved1.saxHandler.attributeDecl = IntPtr.Zero;
-            //_reserved1.saxHandler.elementDecl = IntPtr.Zero;
-            //_reserved1.saxHandler.unparsedEntityDecl = IntPtr.Zero;
-            //_reserved1.saxHandler.setDocumentLocator = IntPtr.Zero;
-            _reserved1.saxHandler.startDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(startDocumentSAXFunc));
-            _reserved1.saxHandler.endDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(endDocumentSAXFunc));
-            //_reserved1.saxHandler.startElement = IntPtr.Zero;
-            //_reserved1.saxHandler.endElement = IntPtr.Zero;
-            //_reserved1.saxHandler.reference = IntPtr.Zero;
-            //_reserved1.saxHandler.characters = IntPtr.Zero;
-            //_reserved1.saxHandler.ignorableWhitespace = IntPtr.Zero;
-            //_reserved1.saxHandler.processingInstruction = IntPtr.Zero;
-            //_reserved1.saxHandler.comment = IntPtr.Zero;
-            //_reserved1.saxHandler.warning = IntPtr.Zero;
-            //_reserved1.saxHandler.error = IntPtr.Zero;
-            //_reserved1.saxHandler.fatalError = IntPtr.Zero; /* unused error() get all the errors */
-            //_reserved1.saxHandler.getParameterEntity = IntPtr.Zero;
-            //_reserved1.saxHandler.cdataBlock = IntPtr.Zero;
-            //_reserved1.saxHandler.externalSubset = IntPtr.Zero;
-            //_reserved1.saxHandler.initialized = 0;
-
-            if (_reserved1.saxHandler.GetType() == typeof(LibXml.xmlSAXHandler))
+            if (base.Init() != null)
             {
+
+                GCHandle handle;
+
+                _reserved1 = (NSXMLParserInfo)NSXMLParserInfo.Alloc().Init();
+                _reserved1.saxHandler = new LibXml.xmlSAXHandler();
+                //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler, GCHandleType.Pinned));
+
+                
                 _reserved1.saxHandler.initialized = LibXml.XML_SAX2_MAGIC;
-                //_reserved1.saxHandler._private = IntPtr.Zero; 
-                //_reserved1.saxHandler.startElementNs = IntPtr.Zero; 
-                //_reserved1.saxHandler.endElementNs = IntPtr.Zero;
-                //_reserved1.saxHandler.serror = IntPtr.Zero;
+                //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.initialized, GCHandleType.Pinned));
+
+                _reserved2 = data;
+
+                InitializeSAX2Callbacks();
             }
-
-            //_reserved1.saxHandler.internalSubset = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.internalSubset, GCHandleType.Pinned));
-            //_reserved1.saxHandler.isStandalone = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.isStandalone, GCHandleType.Pinned));
-            //_reserved1.saxHandler.hasInternalSubset = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.hasInternalSubset, GCHandleType.Pinned));
-            //_reserved1.saxHandler.hasExternalSubset = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.hasExternalSubset, GCHandleType.Pinned));
-            //_reserved1.saxHandler.resolveEntity = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.resolveEntity, GCHandleType.Pinned));
-            //_reserved1.saxHandler.getEntity = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.getEntity, GCHandleType.Pinned));
-            //_reserved1.saxHandler.entityDecl = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.entityDecl, GCHandleType.Pinned));
-            //_reserved1.saxHandler.notationDecl = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.notationDecl, GCHandleType.Pinned));
-            //_reserved1.saxHandler.attributeDecl = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.attributeDecl, GCHandleType.Pinned));
-            //_reserved1.saxHandler.elementDecl = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.elementDecl, GCHandleType.Pinned));
-            //_reserved1.saxHandler.unparsedEntityDecl = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.unparsedEntityDecl, GCHandleType.Pinned));
-            //_reserved1.saxHandler.setDocumentLocator = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.setDocumentLocator, GCHandleType.Pinned));
-            //_reserved1.saxHandler.startDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(startDocumentSAXFunc));
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.startDocument, GCHandleType.Pinned));
-            //_reserved1.saxHandler.endDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(endDocumentSAXFunc));
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.endDocument, GCHandleType.Pinned));
-            //_reserved1.saxHandler.startElement = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.startElement, GCHandleType.Pinned));
-            //_reserved1.saxHandler.endElement = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.endElement, GCHandleType.Pinned));
-            //_reserved1.saxHandler.reference = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.reference, GCHandleType.Pinned));
-            //_reserved1.saxHandler.characters = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.characters, GCHandleType.Pinned));
-            //_reserved1.saxHandler.ignorableWhitespace = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.ignorableWhitespace, GCHandleType.Pinned));
-            //_reserved1.saxHandler.processingInstruction = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.processingInstruction, GCHandleType.Pinned));
-            //_reserved1.saxHandler.comment = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.comment, GCHandleType.Pinned));
-            //_reserved1.saxHandler.warning = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.warning, GCHandleType.Pinned));
-            //_reserved1.saxHandler.error = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.error, GCHandleType.Pinned));
-            //_reserved1.saxHandler.fatalError = IntPtr.Zero; /* unused error() get all the errors */
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.fatalError, GCHandleType.Pinned));
-            //_reserved1.saxHandler.getParameterEntity = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.getParameterEntity, GCHandleType.Pinned));
-            //_reserved1.saxHandler.cdataBlock = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.cdataBlock, GCHandleType.Pinned));
-            //_reserved1.saxHandler.externalSubset = IntPtr.Zero;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.externalSubset, GCHandleType.Pinned));
-
-            
-            _reserved1.saxHandler.initialized = 0xDEEDBEAF;
-            //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.initialized, GCHandleType.Pinned));
-
-            // We add the '\0' to the xml data for libxml interop
-            byte[] dst = new byte[data.Length + 1];
-            Array.Copy(data.Bytes, 0, dst, 0, data.Length);
-
-            _data = NSData.Alloc().InitWithBytes(dst);
 
             return self;
         }
 
+        private void InitializeSAX2Callbacks()
+        {
+            _reserved1.saxHandler.internalSubset = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_InternalSubset2));
+            _reserved1.saxHandler.isStandalone = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_IsStandalone));
+            _reserved1.saxHandler.hasInternalSubset = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_HasInternalSubset2));
+            _reserved1.saxHandler.hasExternalSubset = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_HasExternalSubset2));
+            _reserved1.saxHandler.resolveEntity = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_ResolveEntity));
+            _reserved1.saxHandler.getEntity = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_GetEntity));
+            _reserved1.saxHandler.entityDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_EntityDecl));
+            _reserved1.saxHandler.notationDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_NotationDecl));
+            _reserved1.saxHandler.attributeDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_AttributeDecl));
+            _reserved1.saxHandler.elementDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_ElementDecl));
+            _reserved1.saxHandler.unparsedEntityDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_UnparsedEntityDecl));
+            _reserved1.saxHandler.startDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(StartDocument));
+            _reserved1.saxHandler.endDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(EndDocument));
+            _reserved1.saxHandler.startElementNs = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_StartElementNs));
+            _reserved1.saxHandler.endElementNs = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_EndElementNs));
+            _reserved1.saxHandler.characters = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_Characters));
+            _reserved1.saxHandler.error = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_ErrorCallback));
+            _reserved1.saxHandler.getParameterEntity = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_GetParameterEntity));
+            _reserved1.saxHandler.cdataBlock = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_CdataBlock));
+            _reserved1.saxHandler.comment = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_Comment));
+            _reserved1.saxHandler.externalSubset = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_ExternalSubset2));
+            _reserved1.saxHandler.initialized = LibXml.XML_SAX2_MAGIC;
+        }
+
+        private unsafe void _ExternalSubset2(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _Comment(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _CdataBlock(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _GetParameterEntity(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _ErrorCallback(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _Characters(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _EndElementNs(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _StartElementNs(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _UnparsedEntityDecl(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _ElementDecl(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _AttributeDecl(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _NotationDecl(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _EntityDecl(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _GetEntity(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _ResolveEntity(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _HasExternalSubset2(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _HasInternalSubset2(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _IsStandalone(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        private unsafe void _InternalSubset2(IntPtr ctx)
+        {
+            throw new NotImplementedException();
+        }
+
        
 
-        protected virtual void startDocumentSAXFunc(IntPtr ctx)
+        protected virtual void StartDocument(IntPtr ctx)
         {
             System.Diagnostics.Trace.WriteLine("startDocumentSAXFunc");
         }
 
-        protected virtual void endDocumentSAXFunc(IntPtr ctx)
+        protected virtual void EndDocument(IntPtr ctx)
         {
             System.Diagnostics.Trace.WriteLine("endDocumentSAXFunc");
         }
 
         public virtual void Parse()
         {
-            byte[] test = _data.Bytes;
-
             int iSizeOfXmlSAXHandler = Marshal.SizeOf(typeof(LibXml.xmlSAXHandler));
             IntPtr saxHandlerPtr = Marshal.AllocHGlobal(iSizeOfXmlSAXHandler);
             Marshal.StructureToPtr(_reserved1.saxHandler, saxHandlerPtr, false);
 
 
-            int result = LibXml.xmlSAXUserParseMemory(saxHandlerPtr, IntPtr.Zero, _data.Bytes, _data.Length);
+            int result = LibXml.xmlSAXUserParseMemory(saxHandlerPtr, IntPtr.Zero, _reserved2.Bytes, _reserved2.Length);
+        }
+
+        ~NSXMLParserWIP()
+        {
+            Dispose(false);
         }
 
         public void Dispose()
@@ -265,11 +298,11 @@ namespace Smartmobili.Cocoa
                 {
                     if (_isCleanedUp != true)
                     {
-                        LibXml.xmlCleanupParser();
-                        foreach(GCHandle handle in _pinnedHandles)
-                        {
-                            handle.Free();
-                        }
+                        //LibXml.xmlCleanupParser();
+                        //foreach(GCHandle handle in _pinnedHandles)
+                        //{
+                        //    handle.Free();
+                        //}
                     }
                 }
 
