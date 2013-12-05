@@ -44,11 +44,17 @@ namespace Smartmobili.Cocoa
         public uint parserflags; // 0x0C
         public NSError error; //0x10
         public NSMutableArray namespaces; //0x14
-        public id/*NSMapTable*/ slowStringMap; //0x18
+        public NSMutableDictionary/*NSMapTable*/ slowStringMap; //0x18
         public bool delegateAborted; //0x1C
         public bool haveDetectedEncoding; //0x1D
         public NSData bomChunk; //0x20
         public int chunkSize; //0x24
+
+        public NSXMLParserInfo()
+        {
+            slowStringMap = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+        }
+
     }
 
     public class NSXMLParserWIP : NSObject, IDisposable
@@ -90,6 +96,19 @@ namespace Smartmobili.Cocoa
             return _delegate; 
         }
 
+        protected virtual NSXMLParserInfo GetInfo()
+        {
+            return this._reserved1;
+        }
+
+        public virtual bool GetShouldProcessNamespaces()
+        {
+            return false;
+        }
+        public virtual void SetShouldProcessNamespaces(bool shouldProcessNamespaces)
+        {
+
+        }
 
         public static void SetupLibXml()
         {
@@ -121,11 +140,6 @@ namespace Smartmobili.Cocoa
                 _reserved1 = (NSXMLParserInfo)NSXMLParserInfo.Alloc().Init();
                 _reserved1.saxHandler = new LibXml.xmlSAXHandler();
                 //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler, GCHandleType.Pinned));
-
-                
-                _reserved1.saxHandler.initialized = LibXml.XML_SAX2_MAGIC;
-                //_pinnedHandles.Add(GCHandle.Alloc(_reserved1.saxHandler.initialized, GCHandleType.Pinned));
-
                 _reserved2 = data;
 
                 InitializeSAX2Callbacks();
@@ -149,8 +163,8 @@ namespace Smartmobili.Cocoa
             _reserved1.saxHandler.unparsedEntityDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_UnparsedEntityDecl));
             _reserved1.saxHandler.startDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(StartDocument));
             _reserved1.saxHandler.endDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(EndDocument));
-            _reserved1.saxHandler.startElementNs = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_StartElementNs));
-            _reserved1.saxHandler.endElementNs = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_EndElementNs));
+            _reserved1.saxHandler.startElementNs = Marshal.GetFunctionPointerForDelegate(new LibXml.startElementNsSAX2Func(StartElementNs));
+            _reserved1.saxHandler.endElementNs = Marshal.GetFunctionPointerForDelegate(new LibXml.endElementNsSAX2Func(EndElementNs));
             _reserved1.saxHandler.characters = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_Characters));
             _reserved1.saxHandler.error = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_ErrorCallback));
             _reserved1.saxHandler.getParameterEntity = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_GetParameterEntity));
@@ -159,6 +173,17 @@ namespace Smartmobili.Cocoa
             _reserved1.saxHandler.externalSubset = Marshal.GetFunctionPointerForDelegate(new LibXml.endDocumentSAXFunc(_ExternalSubset2));
             _reserved1.saxHandler.initialized = LibXml.XML_SAX2_MAGIC;
         }
+
+        public virtual void Parse()
+        {
+            int iSizeOfXmlSAXHandler = Marshal.SizeOf(typeof(LibXml.xmlSAXHandler));
+            IntPtr saxHandlerPtr = Marshal.AllocHGlobal(iSizeOfXmlSAXHandler);
+            Marshal.StructureToPtr(_reserved1.saxHandler, saxHandlerPtr, false);
+
+
+            int result = LibXml.xmlSAXUserParseMemory(saxHandlerPtr, IntPtr.Zero, _reserved2.Bytes, _reserved2.Length);
+        }
+
 
         private unsafe void _ExternalSubset2(IntPtr ctx)
         {
@@ -190,15 +215,59 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        private unsafe void _EndElementNs(IntPtr ctx)
+        private unsafe void EndElementNs(IntPtr ctx, string localname, string prefix, string URI)
         {
             throw new NotImplementedException();
+        }
+        private unsafe void StartElementNs(IntPtr ctx, string localname, string prefix, string URI, int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes)
+        {
+            bool shouldProcessNs = this.GetShouldProcessNamespaces();
+            int prefixLen = LibXml.xmlStrlen(Encoding.UTF8.GetBytes(prefix));
+
+            if ((shouldProcessNs && prefixLen != 0) == false && (localname != null))
+            {
+                _NSXMLParserNSStringFromBytes(localname, this.GetInfo());
+            }
+
+            //     if ((((shouldProcessNs == 0x0 ? 0xff : 0x0) & (len != 0x0 ? 0xff : 0x0)) == 0x0) && (localname != 0x0)) {
+            //rax = [self _info];
+            //rax = ___NSXMLParserNSStringFromBytes(r12, rax);
         }
 
-        private unsafe void _StartElementNs(IntPtr ctx)
+        private string _NSXMLParserNSStringFromBytes(NSString localname, NSXMLParserInfo info)
         {
-            throw new NotImplementedException();
+            NSString str = null;
+
+            id tmpStr = null;
+            if (info.slowStringMap.TryGetValue(localname, out tmpStr) == false)
+            {
+                
+            }
+            else
+            {
+                str = (NSString)tmpStr;
+            }
+
+
+            return str;
         }
+
+        //private unsafe void _EndElementNs(IntPtr ctx)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //private unsafe void _StartElementNs(IntPtr ctx)
+        //{
+        //    bool shouldProcessNs = this.GetShouldProcessNamespaces();
+        //    int len = LibXml.xmlStrlen();
+
+
+        //    if ((((var_shouldProcessNs  == 0x0 ? 0xff : 0x0) & (len != 0x0 ? 0xff : 0x0)) == 0x0) && (r12 != 0x0)) {
+        //    rax = [var_self _info];
+        //    rax = ___NSXMLParserNSStringFromBytes(r12, rax);
+        //    }
+        //}
 
         private unsafe void _UnparsedEntityDecl(IntPtr ctx)
         {
@@ -267,15 +336,7 @@ namespace Smartmobili.Cocoa
             System.Diagnostics.Trace.WriteLine("endDocumentSAXFunc");
         }
 
-        public virtual void Parse()
-        {
-            int iSizeOfXmlSAXHandler = Marshal.SizeOf(typeof(LibXml.xmlSAXHandler));
-            IntPtr saxHandlerPtr = Marshal.AllocHGlobal(iSizeOfXmlSAXHandler);
-            Marshal.StructureToPtr(_reserved1.saxHandler, saxHandlerPtr, false);
-
-
-            int result = LibXml.xmlSAXUserParseMemory(saxHandlerPtr, IntPtr.Zero, _reserved2.Bytes, _reserved2.Length);
-        }
+        
 
         ~NSXMLParserWIP()
         {
