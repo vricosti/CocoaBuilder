@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Smartmobili.Cocoa
 {
-    public class TestNXMLParser : NSObject
+    public class TestNXMLParser : NSObject, INSXMLParser
     {
         public void Run()
         {
@@ -23,6 +23,21 @@ namespace Smartmobili.Cocoa
             NSXMLParserWIP parser = (NSXMLParserWIP)NSXMLParserWIP.Alloc().InitWithData(data);
             parser.SetDelegate(this);
             parser.Parse();
+
+        }
+
+        public virtual void ParserDidStartElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
+        {
+
+        }
+
+        public virtual void ParserDidEndElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
+        {
+
+        }
+
+        public virtual void ParserFoundCharacters(NSXMLParser parser, NSString foundCharacters)
+        {
 
         }
     }

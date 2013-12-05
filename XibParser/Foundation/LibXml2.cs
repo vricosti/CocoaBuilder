@@ -198,6 +198,9 @@ namespace Smartmobili.Cocoa
 
     public static class LibXml
     {
+        public const UInt32 XML_SAX2_MAGIC = 0xDEEDBEAF;
+
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void internalSubsetSAXFunc(IntPtr ctx, string name, string ExternalID, string SystemID);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -223,9 +226,9 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void setDocumentLocatorSAXFunc(void* ctx, SAXLocator* loc);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void startDocumentSAXFunc(void* ctx);
+        public unsafe delegate void startDocumentSAXFunc(IntPtr ctx);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void endDocumentSAXFunc(void* ctx);
+        public unsafe delegate void endDocumentSAXFunc(IntPtr ctx);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void startElementSAXFunc(void* ctx, string name, string[] atts);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -260,50 +263,90 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void xmlStructuredErrorFunc(void* ctx, Error* error);
 
+        //int sizeOfV1 = sizeof(xmlSAXHandlerV1); => 112 bytes
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct xmlSAXHandlerV1
+        {
+            public IntPtr internalSubset;
+            public IntPtr isStandalone;
+            public IntPtr hasInternalSubset;
+            public IntPtr hasExternalSubset;
+            public IntPtr resolveEntity;
+            public IntPtr getEntity;
+            public IntPtr entityDecl;
+            public IntPtr notationDecl;
+            public IntPtr attributeDecl;
+            public IntPtr elementDecl;
+            public IntPtr unparsedEntityDecl;
+            public IntPtr setDocumentLocator;
+            public IntPtr startDocument;
+            public IntPtr endDocument;
+            public IntPtr startElement;
+            public IntPtr endElement;
+            public IntPtr reference;
+            public IntPtr characters;
+            public IntPtr ignorableWhitespace;
+            public IntPtr processingInstruction;
+            public IntPtr comment;
+            public IntPtr warning;
+            public IntPtr error;
+            public IntPtr fatalError; /* unused error() get all the errors */
+            public IntPtr getParameterEntity;
+            public IntPtr cdataBlock;
+            public IntPtr externalSubset;
+            public UInt32 initialized;
+        }
+
+        //int sizeOfV2 = sizeof(xmlSAXHandler); => 128 bytes
         [StructLayout(LayoutKind.Sequential)]
         public unsafe struct xmlSAXHandler
         {
-            internalSubsetSAXFunc internalSubset;
-            isStandaloneSAXFunc isStandalone;
-            hasInternalSubsetSAXFunc hasInternalSubset;
-            hasExternalSubsetSAXFunc hasExternalSubset;
-            resolveEntitySAXFunc resolveEntity;
-            getEntitySAXFunc getEntity;
-            entityDeclSAXFunc entityDecl;
-            notationDeclSAXFunc notationDecl;
-            attributeDeclSAXFunc attributeDecl;
-            elementDeclSAXFunc elementDecl;
-            unparsedEntityDeclSAXFunc unparsedEntityDecl;
-            setDocumentLocatorSAXFunc setDocumentLocator;
-            startDocumentSAXFunc startDocument;
-            endDocumentSAXFunc endDocument;
-            startElementSAXFunc startElement;
-            endElementSAXFunc endElement;
-            referenceSAXFunc reference;
-            charactersSAXFunc characters;
-            ignorableWhitespaceSAXFunc ignorableWhitespace;
-            processingInstructionSAXFunc processingInstruction;
-            commentSAXFunc comment;
-            warningSAXFunc warning;
-            errorSAXFunc error;
-            fatalErrorSAXFunc fatalError; /* unused error() get all the errors */
-            getParameterEntitySAXFunc getParameterEntity;
-            cdataBlockSAXFunc cdataBlock;
-            externalSubsetSAXFunc externalSubset;
-            UInt32 initialized;
+            public IntPtr /*internalSubsetSAXFunc*/ internalSubset;
+            public IntPtr /*isStandaloneSAXFunc*/ isStandalone;
+            public IntPtr /*hasInternalSubsetSAXFunc*/  hasInternalSubset;
+            public IntPtr /*hasExternalSubsetSAXFunc*/ hasExternalSubset;
+            public IntPtr /*resolveEntitySAXFunc*/ resolveEntity;
+            public IntPtr /*getEntitySAXFunc*/ getEntity;
+            public IntPtr /*entityDeclSAXFunc*/ entityDecl;
+            public IntPtr /*notationDeclSAXFunc*/ notationDecl;
+            public IntPtr /*attributeDeclSAXFunc*/ attributeDecl;
+            public IntPtr /*elementDeclSAXFunc*/ elementDecl;
+            public IntPtr /*unparsedEntityDeclSAXFunc*/ unparsedEntityDecl;
+            public IntPtr /*setDocumentLocatorSAXFunc*/ setDocumentLocator;
+            public IntPtr /*startDocumentSAXFunc*/ startDocument;
+            public IntPtr /*endDocumentSAXFunc*/ endDocument;
+            public IntPtr /*startElementSAXFunc*/ startElement;
+            public IntPtr /*endElementSAXFunc*/ endElement;
+            public IntPtr /*referenceSAXFunc*/ reference;
+            public IntPtr /*charactersSAXFunc*/ characters;
+            public IntPtr /*ignorableWhitespaceSAXFunc*/ ignorableWhitespace;
+            public IntPtr /*processingInstructionSAXFunc*/ processingInstruction;
+            public IntPtr /*commentSAXFunc*/ comment;
+            public IntPtr /*warningSAXFunc*/ warning;
+            public IntPtr /*errorSAXFunc*/ error;
+            public IntPtr /*fatalErrorSAXFunc*/ fatalError; /* unused error() get all the errors */
+            public IntPtr /*getParameterEntitySAXFunc*/ getParameterEntity;
+            public IntPtr /*cdataBlockSAXFunc*/ cdataBlock;
+            public IntPtr /*externalSubsetSAXFunc*/ externalSubset;
+            public UInt32 initialized;
             /* The following fields are extensions available only on version 2 */
-            void* _private;
-            startElementNsSAX2Func startElementNs;
-            endElementNsSAX2Func endElementNs;
-            xmlStructuredErrorFunc serror;
+            public IntPtr /*void* */ _private;
+            public IntPtr /*startElementNsSAX2Func*/ startElementNs;
+            public IntPtr /*endElementNsSAX2Func*/ endElementNs;
+            public IntPtr /*xmlStructuredErrorFunc*/ serror;
         }
 
+       
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlInitParser();
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlCleanupParser();
+
         [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern int xmlInitParser();
+        internal static extern int xmlSAXUserParseFile(xmlSAXHandlerPtr sax, IntPtr user_data, [MarshalAs(UnmanagedType.LPArray)] byte[] filename);
         [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern int xmlSAXUserParseFile(xmlSAXHandlerPtr sax, IntPtr user_data, string filename);
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern int xmlSAXUserParseMemory(xmlSAXHandlerPtr sax, IntPtr user_data, int size);
+        internal static extern int xmlSAXUserParseMemory(xmlSAXHandlerPtr sax, IntPtr user_data, [MarshalAs(UnmanagedType.LPArray)] byte[] buffer, int size);
 
 
         //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
