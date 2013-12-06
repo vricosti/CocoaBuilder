@@ -224,14 +224,30 @@ namespace Smartmobili.Cocoa
             bool shouldProcessNs = this.GetShouldProcessNamespaces();
             int prefixLen = LibXml.xmlStrlen(Encoding.UTF8.GetBytes(prefix));
 
-            if ((shouldProcessNs && prefixLen != 0) == false && (localname != null))
+            NSString var_r14 = null;
+            if ((!shouldProcessNs) && (localname != null))
             {
-                _NSXMLParserNSStringFromBytes(localname, this.GetInfo());
+                if (prefixLen != 0)
+                    var_r14 = _NewColonSeparatedStringFromPrefixAndSuffix(prefix, localname);            
+                else
+                    var_r14 = _NSXMLParserNSStringFromBytes(localname, this.GetInfo());
+                
             }
+            
+
 
             //     if ((((shouldProcessNs == 0x0 ? 0xff : 0x0) & (len != 0x0 ? 0xff : 0x0)) == 0x0) && (localname != 0x0)) {
             //rax = [self _info];
             //rax = ___NSXMLParserNSStringFromBytes(r12, rax);
+        }
+
+        private NSString _NewColonSeparatedStringFromPrefixAndSuffix(NSString prefix, NSString localname)
+        {
+            NSString str = null;
+
+
+
+            return str;
         }
 
         private string _NSXMLParserNSStringFromBytes(NSString localname, NSXMLParserInfo info)
