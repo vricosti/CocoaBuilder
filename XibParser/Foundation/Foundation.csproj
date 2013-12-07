@@ -77,11 +77,14 @@
     <Compile Include="NSFileManager.cs" />
     <Compile Include="NSFileWrapper.cs" />
     <Compile Include="NSFormatter.cs" />
+    <Compile Include="NSInputStream.cs" />
     <Compile Include="NSKeyedUnarchiver.cs" />
     <Compile Include="NSLock.cs" />
     <Compile Include="NSLog.cs" />
+    <Compile Include="NSMapTable.cs" />
     <Compile Include="NSMutableArray.cs" />
     <Compile Include="NSMutableCharacterSet.cs" />
+    <Compile Include="NSMutableData.cs" />
     <Compile Include="NSMutableDictionary.cs" />
     <Compile Include="NSMutableString.cs" />
     <Compile Include="NSNotificationCenter.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="NSRecursiveLock.cs" />
     <Compile Include="NSScanner.cs" />
     <Compile Include="NSSet.cs" />
+    <Compile Include="NSStream.cs" />
     <Compile Include="NSString.cs" />
     <Compile Include="NSUnarchiver.cs" />
     <Compile Include="NSURL.cs" />

@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 
@@ -130,6 +131,38 @@ namespace System
         //    bool.TryParse(nsString, out ret);
         //    return ret;
         //}
+
+        public static int strlen(this IntPtr nativeUtf8)
+        {
+            int len = 0;
+            
+            if (nativeUtf8 != IntPtr.Zero)
+            {
+                while (Marshal.ReadByte(nativeUtf8, len) != 0)
+                    ++len;
+            }
+
+            return len;
+        }
+
+        public static byte[] GetBytes(this IntPtr nativeUtf8)
+        {
+            int len = 0;
+            
+            while (Marshal.ReadByte(nativeUtf8, len) != 0) 
+                ++len;
+            
+            if (len == 0) 
+                return new byte[1] {0};
+            
+            byte[] buffer = new byte[len];
+            Marshal.Copy(nativeUtf8, buffer, 0, buffer.Length);
+            //buffer[buffer.Length - 1] = 0;
+
+            return buffer;
+        }
+
+        
     }
 }
 

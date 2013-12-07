@@ -110,6 +110,16 @@ namespace Smartmobili.Cocoa
 			NSRect rect = new NSRect(x,y,w,h);
 			return rect;
 		}
+
+        public static id MapGet(NSMapTable map, IntPtr ptr)
+        {
+            return NSMapTable.Get(map, ptr);
+        }
+
+        public static void MapInsertKnownAbsent(NSMapTable table, IntPtr key, id value)
+        {
+            NSMapTable.InsertKnownAbsent(table, key, value);
+        }
     }
     
     public static class GS
@@ -152,5 +162,7 @@ namespace Smartmobili.Cocoa
 
             return result;
         }
+
+        
     }
 }

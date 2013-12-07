@@ -22,6 +22,7 @@ using AT.MIN;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 
@@ -75,6 +76,7 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSString));
         new public static NSString Alloc() { return new NSString(); }
+        new public static NSString AllocWithZone(object zone) { return new NSString(); }
 
         private readonly string byteOrderMark = "\ufeff";
         private readonly string byteOrderMarkSwapped = "\ufffe";
@@ -245,6 +247,17 @@ namespace Smartmobili.Cocoa
             return InitWithBytes(data.Bytes, (uint)data.Length, encoding);
         }
 
+        public virtual id InitWithBytes(IntPtr ptr, uint length, NSStringEncoding anEncoding)
+        {
+            if (ptr == IntPtr.Zero)
+                return null;
+
+            byte[] buffer = new byte[length];
+            Marshal.Copy(ptr, buffer, 0, buffer.Length);
+
+            return InitWithBytes(buffer, length, anEncoding);
+
+        }
         public virtual id InitWithBytes(byte[] bytes, uint length, NSStringEncoding anEncoding)
         {
             id self = this;
@@ -521,23 +534,25 @@ namespace Smartmobili.Cocoa
 
         public virtual NSData DataUsingEncoding(NSStringEncoding encoding, bool flag = false)
         {
-            NSData nullTerminatedData = null;
-            byte[] data = null;
+            NSData data = null;
+            byte[] buffer = null;
 
             if (encoding == NSStringEncoding.NSUTF8StringEncoding)
             {
-                data = System.Text.Encoding.UTF8.GetBytes(this.Value);
+                buffer = System.Text.Encoding.UTF8.GetBytes(this.Value);
             }
             else
             {
-                data = System.Text.Encoding.ASCII.GetBytes(this.Value);
+                buffer = System.Text.Encoding.ASCII.GetBytes(this.Value);
             }
 
-            byte[] ntbytes = new byte[data.Length + 1];
-            Array.Copy(data, 0, ntbytes, 0, data.Length);
-            nullTerminatedData = NSData.Alloc().InitWithBytes(ntbytes);
+            data = NSData.Alloc().InitWithBytes(buffer);
+            
+            //byte[] ntbytes = new byte[data.Length + 1];
+            //Array.Copy(data, 0, ntbytes, 0, data.Length);
+            //nullTerminatedData = NSData.Alloc().InitWithBytes(ntbytes);
 
-            return nullTerminatedData;
+            return data;
         }
 
 

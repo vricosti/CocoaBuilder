@@ -24,7 +24,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSError
+    public class NSError : NSObject
     {
         public NSError()
         {
