@@ -443,35 +443,30 @@ namespace Smartmobili.Cocoa
         {
             throw new NotImplementedException();
         }
-        private unsafe void StartElementNs(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI, int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes)
+        private unsafe void StartElementNs(IntPtr ctx, IntPtr pLocalname, IntPtr pPrefix, IntPtr URI, int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes)
         {
 
             //byte[] localNameData = localname.GetBytes();
 
             bool shouldProcessNs = this.GetShouldProcessNamespaces();
-            int prefixLen = LibXml.xmlStrlen(localname);
+            int prefixLen = LibXml.xmlStrlen(pLocalname);
 
             NSString var_r14 = null;
             if ((shouldProcessNs == false))
             {
-                if (localname != null)
+                if (pLocalname != null)
                 {
                     if (prefixLen != 0)
-                        var_r14 = _NewColonSeparatedStringFromPrefixAndSuffix(prefix, localname);
+                        var_r14 = _NewColonSeparatedStringFromPrefixAndSuffix(pPrefix, pLocalname);
                     else
-                        var_r14 = _NSXMLParserNSStringFromBytes(localname, this.GetInfo());
+                        var_r14 = _NSXMLParserNSStringFromBytes(pLocalname, this.GetInfo());
                 }
             }
             else
             {
 
             }
-            
-          
 
-            //     if ((((shouldProcessNs == 0x0 ? 0xff : 0x0) & (len != 0x0 ? 0xff : 0x0)) == 0x0) && (localname != 0x0)) {
-            //rax = [self _info];
-            //rax = ___NSXMLParserNSStringFromBytes(r12, rax);
         }
 
         private NSString _NewColonSeparatedStringFromPrefixAndSuffix(IntPtr pPrefix, IntPtr pLocalname)
@@ -488,7 +483,7 @@ namespace Smartmobili.Cocoa
 
         private string _NSXMLParserNSStringFromBytes(IntPtr pLocalname, NSXMLParserInfo info)
         {
-            NSString str = (NSString) NS.MapGet(info.slowStringMap, localname);
+            NSString str = (NSString)NS.MapGet(info.slowStringMap, pLocalname);
             if (str == null)
             {
                 str = (NSString)NSString.AllocWithZone(null).InitWithBytes(pLocalname, (uint)pLocalname.strlen(), NSStringEncoding.NSUTF8StringEncoding);
