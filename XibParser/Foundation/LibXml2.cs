@@ -231,7 +231,7 @@ namespace Smartmobili.Cocoa
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void internalSubsetSAXFunc(IntPtr ctx, string name, string ExternalID, string SystemID);
+        public unsafe delegate void internalSubsetSAXFunc(IntPtr ctx, IntPtr name, IntPtr ExternalID, IntPtr SystemID);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int isStandaloneSAXFunc(IntPtr ctx);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -239,19 +239,19 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int hasExternalSubsetSAXFunc(IntPtr ctx);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate Entity* resolveEntitySAXFunc(IntPtr ctx, string publicId, string systemId);
+        public unsafe delegate Entity* resolveEntitySAXFunc(IntPtr ctx, IntPtr publicId, IntPtr systemId);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate Entity* getEntitySAXFunc(IntPtr ctx, string name);
+        public unsafe delegate Entity* getEntitySAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void entityDeclSAXFunc(IntPtr ctx, string name, int type, string publicId, string systemId, string content);
+        public unsafe delegate void entityDeclSAXFunc(IntPtr ctx, IntPtr name, int type, IntPtr publicId, IntPtr systemId, IntPtr content);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void notationDeclSAXFunc(IntPtr ctx, string name, string publicId, string systemId);
+        public unsafe delegate void notationDeclSAXFunc(IntPtr ctx, IntPtr name, IntPtr publicId, IntPtr systemId);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void attributeDeclSAXFunc(IntPtr ctx, string elem, string fullname, int type, int def, string defaultValue, Enumeration* tree);
+        public unsafe delegate void attributeDeclSAXFunc(IntPtr ctx, IntPtr elem, IntPtr fullname, int type, int def, IntPtr defaultValue, Enumeration* tree);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void elementDeclSAXFunc(IntPtr ctx, string name, int type, ElementContent content);
+        public unsafe delegate void elementDeclSAXFunc(IntPtr ctx, IntPtr name, int type, IntPtr content);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void unparsedEntityDeclSAXFunc(IntPtr ctx, string name, string publicId, string systemId, string notationName);
+        public unsafe delegate void unparsedEntityDeclSAXFunc(IntPtr ctx, IntPtr name, IntPtr publicId, IntPtr systemId, IntPtr notationName);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void setDocumentLocatorSAXFunc(IntPtr ctx, SAXLocator* loc);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -259,38 +259,40 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void endDocumentSAXFunc(IntPtr ctx);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void startElementSAXFunc(IntPtr ctx, string name, string[] atts);
+        public unsafe delegate void startElementSAXFunc(IntPtr ctx, IntPtr name, string[] atts);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void endElementSAXFunc(IntPtr ctx, string name);
+        public unsafe delegate void endElementSAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void referenceSAXFunc(IntPtr ctx, string name);
+        public unsafe delegate void referenceSAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void charactersSAXFunc(IntPtr ctx, string ch, int len);
+        public unsafe delegate void charactersSAXFunc(IntPtr ctx, IntPtr ch, int len);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void ignorableWhitespaceSAXFunc(IntPtr ctx, string ch, int len);
+        public unsafe delegate void ignorableWhitespaceSAXFunc(IntPtr ctx, IntPtr ch, int len);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void processingInstructionSAXFunc(IntPtr ctx, string target, string data);
+        public unsafe delegate void processingInstructionSAXFunc(IntPtr ctx, IntPtr target, IntPtr data);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void commentSAXFunc(IntPtr ctx, string value);
+        public unsafe delegate void commentSAXFunc(IntPtr ctx, IntPtr value);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void warningSAXFunc(IntPtr ctx, string msg, params IntPtr[] prms);
+        public unsafe delegate void warningSAXFunc(IntPtr ctx, IntPtr msg, params IntPtr[] prms);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void errorSAXFunc(IntPtr ctx, string msg, params IntPtr[] prms);
+        public unsafe delegate void errorSAXFunc(IntPtr ctx, IntPtr msg, params IntPtr[] prms);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void fatalErrorSAXFunc(IntPtr ctx, string msg, params IntPtr[] prms);
+        public unsafe delegate void fatalErrorSAXFunc(IntPtr ctx, IntPtr msg, params IntPtr[] prms);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate Entity* getParameterEntitySAXFunc(IntPtr ctx, string name);
+        public unsafe delegate Entity* getParameterEntitySAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void cdataBlockSAXFunc(IntPtr ctx, string value, int len);
+        public unsafe delegate void cdataBlockSAXFunc(IntPtr ctx, IntPtr value, int len);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void externalSubsetSAXFunc(IntPtr ctx, string name, string ExternalID, string SystemID);
+        public unsafe delegate void externalSubsetSAXFunc(IntPtr ctx, IntPtr name, IntPtr ExternalID, IntPtr SystemID);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void startElementNsSAX2Func(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI,
         int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void endElementNsSAX2Func(IntPtr ctx, string localname, string prefix, string URI);
+        public unsafe delegate void endElementNsSAX2Func(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void xmlStructuredErrorFunc(IntPtr ctx, IntPtr error);
+
+
 
         //int sizeOfV1 = sizeof(xmlSAXHandlerV1); => 112 bytes
         [StructLayout(LayoutKind.Sequential)]
@@ -397,6 +399,12 @@ namespace Smartmobili.Cocoa
 
         [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlCtxtUseOptions(xmlParserCtxtPtr ctxt, int options);
+        
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //SAX2 - http://www.xmlsoft.org/html/libxml-SAX2.html
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlSAX2ExternalSubset(IntPtr ctx, IntPtr name, IntPtr ExternalID, IntPtr SystemID);
 
 
         //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
