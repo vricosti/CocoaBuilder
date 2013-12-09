@@ -364,8 +364,14 @@ namespace Smartmobili.Cocoa
             LibXml.xmlFreeEnumeration(tree);
         }
 
-        private unsafe void _notationDecl(IntPtr ctx, IntPtr name, IntPtr publicId, IntPtr systemId)
+        private unsafe void _notationDecl(IntPtr ctx, IntPtr pName, IntPtr pPublicId, IntPtr pSystemId)
         {
+             id dlegate = GetDelegate();
+             //parser:foundNotationDeclarationWithName:publicID:systemID:
+             if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundNotationDeclarationWithName")) == true)
+             {
+
+             }
 //            function __notationDecl {
 //    var_8 = rcx;
 //    r13 = rdx;
