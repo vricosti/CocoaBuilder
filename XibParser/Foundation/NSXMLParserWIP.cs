@@ -337,42 +337,31 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        private unsafe void _AttributeDecl(IntPtr ctx, IntPtr elem, IntPtr fullname, int type, int def, IntPtr defaultValue, Enumeration* tree)
+        private unsafe void _AttributeDecl(IntPtr ctx, IntPtr pElem, IntPtr pFullname, int type, int def, IntPtr pDefaultValue, IntPtr tree)
         {
-            //            function __attributeDecl {
-            //    var_8 = r9;
-            //    r14 = rdx;
-            //    r15 = rsi;
-            //    rax = [rdi delegate];
-            //    var_16 = rax;
-            //    rax = [rax respondsToSelector:@selector(parser:foundAttributeDeclarationWithName:forElement:type:defaultValue:)];
-            //    if (rax != 0x0) {
-            //            rbx = 0x0;
-            //            r13 = 0x0;
-            //            if (r15 != 0x0) {
-            //                    rax = [r12 _info];
-            //                    rax = ___NSXMLParserNSStringFromBytes(r15, rax);
-            //                    r13 = rax;
-            //            }
-            //            if (r14 != 0x0) {
-            //                    rax = [r12 _info];
-            //                    rax = ___NSXMLParserNSStringFromBytes(r14, rax);
-            //                    rbx = rax;
-            //            }
-            //            r14 = rbx;
-            //            rax = 0x0;
-            //            rbx = var_8;
-            //            if (rbx != 0x0) {
-            //                    rax = [r12 _info];
-            //                    rax = ___NSXMLParserNSStringFromBytes(rbx, rax);
-            //            }
-            //            __got__objc_msgSend(var_16, @selector(parser:foundAttributeDeclarationWithName:forElement:type:defaultValue:), r12, r14, r13, @"");
-            //    }
-            //    rdi = arg_0;
-            //    rax = xmlFreeEnumeration(rdi);
-            //    return rax;
-            //}
+            id dlegate = GetDelegate();
+            //parser:foundAttributeDeclarationWithName:forElement:type:defaultValue:
+            if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundAttributeDeclarationWithName")) == true)
+            {
+                NSString elem = null;
+                if (pElem != IntPtr.Zero)
+                {
+                    elem = _NSXMLParserNSStringFromBytes(pElem, this.GetInfo());
+                }
+                NSString fullname = null;
+                if (pFullname != IntPtr.Zero)
+                {
+                    fullname = _NSXMLParserNSStringFromBytes(pFullname, this.GetInfo());
+                }
+                NSString defaultValue = null;
+                if (pDefaultValue != IntPtr.Zero)
+                {
+                    defaultValue = _NSXMLParserNSStringFromBytes(pDefaultValue, this.GetInfo());
+                }
+                Objc.MsgSend(dlegate, "ParserFoundAttributeDeclarationWithName", this, fullname, elem, type, defaultValue);
 
+            }
+            LibXml.xmlFreeEnumeration(tree);
         }
 
         private unsafe void _notationDecl(IntPtr ctx, IntPtr name, IntPtr publicId, IntPtr systemId)

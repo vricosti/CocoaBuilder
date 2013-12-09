@@ -247,7 +247,7 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void notationDeclSAXFunc(IntPtr ctx, IntPtr name, IntPtr publicId, IntPtr systemId);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void attributeDeclSAXFunc(IntPtr ctx, IntPtr elem, IntPtr fullname, int type, int def, IntPtr defaultValue, Enumeration* tree);
+        public unsafe delegate void attributeDeclSAXFunc(IntPtr ctx, IntPtr elem, IntPtr fullname, int type, int def, IntPtr defaultValue, IntPtr tree);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void elementDeclSAXFunc(IntPtr ctx, IntPtr name, int type, IntPtr content);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -399,7 +399,10 @@ namespace Smartmobili.Cocoa
 
         [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlCtxtUseOptions(xmlParserCtxtPtr ctxt, int options);
-        
+
+        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlFreeEnumeration(IntPtr/*xmlEnumerationPtr*/ cur);
+   
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //SAX2 - http://www.xmlsoft.org/html/libxml-SAX2.html
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
