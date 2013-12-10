@@ -29,6 +29,12 @@ using System.Xml.XPath;
 
 namespace Smartmobili.Cocoa
 {
+    internal struct IBDocumentStorage
+    {
+        id objectContainer; //0x10
+    }
+
+
     public class IBDocument : NSDocument
     {
         new public static Class Class = new Class(typeof(IBDocument));
@@ -76,7 +82,52 @@ namespace Smartmobili.Cocoa
         public NSMutableDictionary LastKnownImageSizes { get; set; }
 
         
+//        function methImpl_IBDocument_readFromFileWrapper_ofType_error_ {
+//    rdx = fileWrapper, 
+//    rcx = type, 
+//    r8 = error
 
+//    r14 = r8;
+//    var_0 = rcx;
+//    r13 = rdx;
+//    r12 = rdi;
+//    r15 = *objc_msgSend;
+//    rax = [rdi additionalInstantiationInformation];
+//    rax = [rax objectForKey:@"IBAsyncXMLDecoderWrapper"];
+//    rax = [rax initializedDecoder];
+//    if (rax != 0x0) goto loc_12dee;
+//    goto loc_12d9f;
+
+//loc_12dee:
+//    r15 = *objc_msgSend;
+//    (r15)(r12, @selector(willDecodeWithKeyedDecoder:), rbx);
+//    rax = (r15)(r12, @selector(decodeDocumentOfType:withCoder:), var_0, rbx);
+//    *r14 = rax;
+//    (r15)(rbx, @selector(finishDecoding));
+//    rax = (r15)(rbx, @selector(hintsForFutureXMLCoder));
+//    (r15)(r12, @selector(setPreviousXmlDecoderHints:), rax);
+
+//loc_12e3f:
+//    r15 = *objc_msgSend;
+//    rax = (r15)(r12, @selector(undoManager));
+//    (r15)(rax, @selector(removeAllActions));
+//    rax = (*r14 == 0x0 ? 0xff : 0x0) & 0xff;
+//    return rax;
+
+//loc_12d9f:
+//    r15 = *objc_msgSend;
+//    rax = (r15)(r13, @selector(regularFileContents));
+//    rbx = rax;
+//    rax = [IBXMLDecoder alloc];
+//    rax = (r15)(rax, @selector(initForReadingWithData:error:), rbx, r14);
+//    rax = [rax autorelease];
+//    if (rax == 0x0) goto loc_12e3f;
+//    goto loc_12dee;
+//}
+
+        //public override bool ReadFromFileWrapper2(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
+        //{
+        //}
         public override bool ReadFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
             //IBXMLDecoder xmlDec = (IBXMLDecoder)(IBXMLDecoder.Alloc()).InitForReadingWithData(fileWrapper.RegularFileContents(), null);

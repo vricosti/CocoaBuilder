@@ -63,6 +63,7 @@ namespace Smartmobili.Cocoa
 
         public bool RespondsToSelector(SEL aSelector)
         {
+            throw new NotImplementedException();
             return false;
         }
 

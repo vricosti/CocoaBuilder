@@ -623,6 +623,18 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public IntPtr UTF8String()
+        {
+            IntPtr ptr = IntPtr.Zero;
+
+            if (this.Value != null && this.Value.Length > 0)
+            {
+                //FIXME
+            }
+
+            return ptr;
+        }
+
 
         public NSString UppercaseString()
         {

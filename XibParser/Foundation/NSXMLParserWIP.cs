@@ -28,7 +28,7 @@ using Org.System.Xml.Sax;
 using Org.System.Xml.Sax.Helpers;
 using SaxConsts = Org.System.Xml.Sax.Constants;
 using System.Runtime.InteropServices;
- 
+using xmlEntityPtr = System.IntPtr;
 
 
 
@@ -250,11 +250,11 @@ namespace Smartmobili.Cocoa
                 _reserved1.saxHandler.isStandalone = Marshal.GetFunctionPointerForDelegate(new LibXml.isStandaloneSAXFunc(_isStandalone));
                 _reserved1.saxHandler.hasInternalSubset = Marshal.GetFunctionPointerForDelegate(new LibXml.hasInternalSubsetSAXFunc(_hasInternalSubset2));
                 _reserved1.saxHandler.hasExternalSubset = Marshal.GetFunctionPointerForDelegate(new LibXml.hasExternalSubsetSAXFunc(_hasExternalSubset2));
-                _reserved1.saxHandler.resolveEntity = Marshal.GetFunctionPointerForDelegate(new LibXml.resolveEntitySAXFunc(_resolveEntity));
+                _reserved1.saxHandler.resolveEntity = IntPtr.Zero;//Marshal.GetFunctionPointerForDelegate(new LibXml.resolveEntitySAXFunc(_resolveEntity));
                 _reserved1.saxHandler.getEntity = Marshal.GetFunctionPointerForDelegate(new LibXml.getEntitySAXFunc(_getEntity));
                 _reserved1.saxHandler.entityDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.entityDeclSAXFunc(_entityDecl));
                 _reserved1.saxHandler.notationDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.notationDeclSAXFunc(_notationDecl));
-                _reserved1.saxHandler.attributeDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.attributeDeclSAXFunc(_AttributeDecl));
+                _reserved1.saxHandler.attributeDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.attributeDeclSAXFunc(_attributeDecl));
                 _reserved1.saxHandler.elementDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.elementDeclSAXFunc(_elementDecl));
                 _reserved1.saxHandler.unparsedEntityDecl = Marshal.GetFunctionPointerForDelegate(new LibXml.unparsedEntityDeclSAXFunc(_unparsedEntityDecl));
                 _reserved1.saxHandler.startDocument = Marshal.GetFunctionPointerForDelegate(new LibXml.startDocumentSAXFunc(_startDocument));
@@ -263,7 +263,7 @@ namespace Smartmobili.Cocoa
                 _reserved1.saxHandler.endElementNs = Marshal.GetFunctionPointerForDelegate(new LibXml.endElementNsSAX2Func(_endElementNs));
                 _reserved1.saxHandler.characters = Marshal.GetFunctionPointerForDelegate(new LibXml.charactersSAXFunc(_characters));
                 _reserved1.saxHandler.error = Marshal.GetFunctionPointerForDelegate(new LibXml.errorSAXFunc(_errorCallback));
-                _reserved1.saxHandler.getParameterEntity = Marshal.GetFunctionPointerForDelegate(new LibXml.getParameterEntitySAXFunc(_getParameterEntity));
+                _reserved1.saxHandler.getParameterEntity = IntPtr.Zero;
                 _reserved1.saxHandler.cdataBlock = Marshal.GetFunctionPointerForDelegate(new LibXml.cdataBlockSAXFunc(_cdataBlock));
                 _reserved1.saxHandler.comment = Marshal.GetFunctionPointerForDelegate(new LibXml.commentSAXFunc(_comment));
                 _reserved1.saxHandler.externalSubset = Marshal.GetFunctionPointerForDelegate(new LibXml.externalSubsetSAXFunc(_externalSubset2));
@@ -278,10 +278,11 @@ namespace Smartmobili.Cocoa
         private unsafe void _cdataBlock(IntPtr ctx, IntPtr value, int len)
         {
             id dlegate = GetDelegate();
+            //parser:foundCDATA:
             if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundCDATA")) == true)
             {
-                NSString chars = (NSString)NSString.Alloc().InitWithBytes(value, (uint)len, NSStringEncoding.NSUTF8StringEncoding);
-                Objc.MsgSend(dlegate, "ParserFoundCDATA", this, chars);
+                NSString cdata = (NSString)NSString.Alloc().InitWithBytes(value, (uint)len, NSStringEncoding.NSUTF8StringEncoding);
+                Objc.MsgSend(dlegate, "ParserFoundCDATA", this, cdata);
             }
             else
             {
@@ -289,25 +290,21 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        private unsafe Entity* _getParameterEntity(IntPtr ctx, IntPtr name)
-        {
-            throw new NotImplementedException();
-        }
-
         private unsafe void _externalSubset2(IntPtr ctx, IntPtr name, IntPtr ExternalID, IntPtr SystemID)
         {
             LibXml.xmlSAX2ExternalSubset(GetParserContext(), name, ExternalID, SystemID);
         }
 
-        private unsafe void _comment(IntPtr ctx, IntPtr value)
+        private unsafe void _comment(IntPtr ctx, IntPtr pValue)
         {
             id dlegate = GetDelegate();
+            //parser:foundComment:
             if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundComment")) == true)
             {
                 NSString chars = null;
-                if (value != IntPtr.Zero)
+                if (pValue != IntPtr.Zero)
                 {
-                    chars = _NSXMLParserNSStringFromBytes(value, this.GetInfo());
+                    chars = _NSXMLParserNSStringFromBytes(pValue, this.GetInfo());
                 }
                 Objc.MsgSend(dlegate, "ParserFoundComment", this, chars);
             }
@@ -318,26 +315,53 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        private unsafe void _unparsedEntityDecl(IntPtr ctx, IntPtr name, IntPtr publicId, IntPtr systemId, IntPtr notationName)
+        private unsafe void _unparsedEntityDecl(IntPtr ctx, IntPtr pName, IntPtr pPublicId, IntPtr pSystemId, IntPtr pNotationName)
         {
-            throw new NotImplementedException();
+            LibXml.xmlSAX2UnparsedEntityDecl(GetParserContext(), pName, pPublicId, pSystemId, pNotationName);
+
+            id dlegate = GetDelegate();
+            //parser:foundUnparsedEntityDeclarationWithName:publicID:systemID:notationName:
+            if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundUnparsedEntityDeclarationWithName")) == true)
+            {
+                NSString name = null;
+                if (pName != IntPtr.Zero)
+                {
+                    name = _NSXMLParserNSStringFromBytes(pName, this.GetInfo());
+                }
+                NSString publicId = null;
+                if (pPublicId != IntPtr.Zero)
+                {
+                    publicId = _NSXMLParserNSStringFromBytes(pPublicId, this.GetInfo());
+                }
+                NSString systemId = null;
+                if (pSystemId != IntPtr.Zero)
+                {
+                    systemId = _NSXMLParserNSStringFromBytes(pSystemId, this.GetInfo());
+                }
+                NSString notationName = null;
+                if (pNotationName != IntPtr.Zero)
+                {
+                    notationName = _NSXMLParserNSStringFromBytes(pNotationName, this.GetInfo());
+                }
+                Objc.MsgSend(dlegate, "ParserFoundUnparsedEntityDeclarationWithName", this, name, publicId, systemId, notationName);
+            }
         }
 
-        private unsafe void _elementDecl(IntPtr ctx, IntPtr name, int type, IntPtr content)
+        private unsafe void _elementDecl(IntPtr ctx, IntPtr pName, int type, IntPtr content)
         {
             id dlegate = GetDelegate();
             if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundElementDeclarationWithName")) == true)
             {
-                NSString chars = null;
-                if (name != IntPtr.Zero)
+                NSString name = null;
+                if (pName != IntPtr.Zero)
                 {
-                    chars = _NSXMLParserNSStringFromBytes(name, this.GetInfo());
+                    name = _NSXMLParserNSStringFromBytes(pName, this.GetInfo());
                 }
-                Objc.MsgSend(dlegate, "ParserFoundElementDeclarationWithName", this, chars, "");
+                Objc.MsgSend(dlegate, "ParserFoundElementDeclarationWithName", this, name, "");
             }
         }
 
-        private unsafe void _AttributeDecl(IntPtr ctx, IntPtr pElem, IntPtr pFullname, int type, int def, IntPtr pDefaultValue, IntPtr tree)
+        private unsafe void _attributeDecl(IntPtr ctx, IntPtr pElem, IntPtr pFullname, int type, int def, IntPtr pDefaultValue, IntPtr tree)
         {
             id dlegate = GetDelegate();
             //parser:foundAttributeDeclarationWithName:forElement:type:defaultValue:
@@ -370,57 +394,116 @@ namespace Smartmobili.Cocoa
              //parser:foundNotationDeclarationWithName:publicID:systemID:
              if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundNotationDeclarationWithName")) == true)
              {
-
+                 NSString name = null;
+                 if (pName != IntPtr.Zero)
+                 {
+                     name = _NSXMLParserNSStringFromBytes(pName, this.GetInfo());
+                 }
+                 NSString publicId = null;
+                 if (pPublicId != IntPtr.Zero)
+                 {
+                     publicId = _NSXMLParserNSStringFromBytes(pPublicId, this.GetInfo());
+                 }
+                 NSString systemId = null;
+                 if (pSystemId != IntPtr.Zero)
+                 {
+                     systemId = _NSXMLParserNSStringFromBytes(pSystemId, this.GetInfo());
+                 }
+                 Objc.MsgSend(dlegate, "ParserFoundNotationDeclarationWithName", this, name, publicId, systemId);
              }
-//            function __notationDecl {
-//    var_8 = rcx;
-//    r13 = rdx;
-//    r15 = rsi;
-//    rax = [rdi delegate];
-//    var_16 = rax;
-//    rax = [rax respondsToSelector:@selector(parser:foundNotationDeclarationWithName:publicID:systemID:)];
-//    if (rax != 0x0) {
-//            r12 = 0x0;
-//            r14 = 0x0;
-//            if (r15 != 0x0) {
-//                    rax = [rbx _info];
-//                    rax = ___NSXMLParserNSStringFromBytes(r15, rax);
-//                    r14 = rax;
-//            }
-//            r15 = var_8;
-//            if (r13 != 0x0) {
-//                    rax = [rbx _info];
-//                    rax = ___NSXMLParserNSStringFromBytes(r13, rax);
-//                    r12 = rax;
-//            }
-//            r9 = 0x0;
-//            if (r15 != 0x0) {
-//                    rax = [rbx _info];
-//                    rax = ___NSXMLParserNSStringFromBytes(r15, rax);
-//                    r9 = rax;
-//            }
-//            rdi = var_16;
-//            rdx = rbx;
-//            rcx = r14;
-//            r8 = r12;
-//            rax = [rdi parser:rdx foundNotationDeclarationWithName:rcx publicID:r8 systemID:r9];
-//    }
-//    else {
-//            return rax;
-//    }
-//    return rax;
-//}
 
         }
 
-        private unsafe void _entityDecl(IntPtr ctx, IntPtr name, int type, IntPtr publicId, IntPtr systemId, IntPtr content)
+        private unsafe void _entityDecl(IntPtr ctx, IntPtr pName, int type, IntPtr pPublicId, IntPtr pSystemId, IntPtr pContent)
         {
-            throw new NotImplementedException();
+            LibXml.xmlSAX2EntityDecl(GetParserContext(), pName, type, pPublicId, pSystemId, pContent);
+
+            NSString content = null;
+            if (pContent != IntPtr.Zero)
+            {
+                content = _NSXMLParserNSStringFromBytes(pContent, this.GetInfo());
+            }
+            NSString name = null;
+            if (pName != IntPtr.Zero)
+            {
+                name = _NSXMLParserNSStringFromBytes(pName, this.GetInfo());
+            }
+            if (content.Length == 0)
+            {
+                if (GetShouldResolveExternalEntities())
+                {
+                    id dlegate = GetDelegate();
+                    //parser:foundExternalEntityDeclarationWithName:publicID:systemID:
+                    if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundExternalEntityDeclarationWithName")) == true)
+                    {
+                        NSString publicId = null;
+                        if (pPublicId != IntPtr.Zero)
+                        {
+                            publicId = _NSXMLParserNSStringFromBytes(pPublicId, this.GetInfo());
+                        }
+                        NSString systemId = null;
+                        if (pSystemId != IntPtr.Zero)
+                        {
+                            systemId = _NSXMLParserNSStringFromBytes(pSystemId, this.GetInfo());
+                        }
+                        Objc.MsgSend(dlegate, "ParserFoundExternalEntityDeclarationWithName", this, name, publicId, systemId);
+                    }
+                    //parser:foundInternalEntityDeclarationWithName:value:
+                    if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundInternalEntityDeclarationWithName")) == true)
+                    {
+                        Objc.MsgSend(dlegate, "ParserFoundInternalEntityDeclarationWithName", this, name, content);
+                    }
+                }
+            }
+            else
+            {
+                 id dlegate = GetDelegate();
+                 //parser:foundInternalEntityDeclarationWithName:value:
+                 if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserFoundInternalEntityDeclarationWithName")) == true)
+                 {
+                     Objc.MsgSend(dlegate, "ParserFoundInternalEntityDeclarationWithName", this, name, content);
+                 }
+            }
+
         }
 
-        private unsafe Entity* _getEntity(IntPtr ctx, IntPtr name)
+        private unsafe IntPtr _getEntity(IntPtr ctx, IntPtr pName)
         {
-            throw new NotImplementedException();
+            xmlEntityPtr pEntity = LibXml.xmlGetPredefinedEntity(pName);
+            if (pEntity != IntPtr.Zero)
+            {
+                //FIXME
+                //if (*(int32_t*)(r15 + 0x110) == 0x7)
+                //{
+                //    *(r15 + 0x1a8) = 0x1;
+                //}
+            }
+            else 
+            {
+                id dlegate = GetDelegate();
+                //parser:resolveExternalEntityName:systemID:
+                if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserResolveExternalEntityName")) == true)
+                 {
+                     NSString name = null;
+                     if (pName != IntPtr.Zero)
+                     {
+                         name = _NSXMLParserNSStringFromBytes(pName, this.GetInfo());
+                     }
+
+                     NSData data= (NSData)Objc.MsgSend(dlegate, "ParserResolveExternalEntityName", this, name, 0);
+                    if (data != null /*&& (*(r15 + 0x10) != 0x0)*/)
+                    {
+                        IntPtr pChars = ((NSString)(NSString.Alloc().InitWithData(data, NSStringEncoding.NSUTF8StringEncoding))).UTF8String();
+                        if (pChars != IntPtr.Zero)
+                        {
+                            _characters(ctx, pChars, pChars.strlen());
+                        }
+                    }
+                 }
+            }
+
+
+            return pEntity;
         }
 
         private unsafe Entity* _resolveEntity(IntPtr ctx, IntPtr publicId, IntPtr systemId)
@@ -430,22 +513,33 @@ namespace Smartmobili.Cocoa
 
         private unsafe int _hasExternalSubset2(IntPtr ctx)
         {
-            throw new NotImplementedException();
+            IntPtr parserCtx = this.GetParserContext();
+            return 0;
+
+            //rax = [rdi _parserContext];
+            //return (*(*(rax + 0x10) + 0x58) != 0x0 ? 0xff : 0x0) & 0xff;
+            
         }
 
         private unsafe int _hasInternalSubset2(IntPtr ctx)
         {
-            throw new NotImplementedException();
+             IntPtr parserCtx = this.GetParserContext();
+             return 0;
+            //rax = [rdi _parserContext];
+            //return (*(*(rax + 0x10) + 0x50) != 0x0 ? 0xff : 0x0) & 0xff;
         }
 
         private unsafe int _isStandalone(IntPtr ctx)
         {
-            throw new NotImplementedException();
+            return 0;
+            //rax = [rdi _parserContext];
+            //return (*(int32_t *)(*(rax + 0x10) + 0x4c) == 0x1 ? 0xff : 0x0) & 0xff;
         }
-
-        private unsafe void _internalSubset2(IntPtr ctx, IntPtr name, IntPtr ExternalID, IntPtr SystemID)
+        
+        private unsafe void _internalSubset2(IntPtr ctx, IntPtr pName, IntPtr pExternalID, IntPtr pSystemID)
         {
-            throw new NotImplementedException();
+            IntPtr parserCtx = this.GetParserContext();
+            LibXml.xmlSAX2InternalSubset(parserCtx, pName, pExternalID, pSystemID);
         }
 
         public virtual bool Parse()
@@ -651,35 +745,25 @@ namespace Smartmobili.Cocoa
             return str;
         }
 
-        //private unsafe void _EndElementNs(IntPtr ctx)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //private unsafe void _StartElementNs(IntPtr ctx)
-        //{
-        //    bool shouldProcessNs = this.GetShouldProcessNamespaces();
-        //    int len = LibXml.xmlStrlen();
-
-
-        //    if ((((var_shouldProcessNs  == 0x0 ? 0xff : 0x0) & (len != 0x0 ? 0xff : 0x0)) == 0x0) && (r12 != 0x0)) {
-        //    rax = [var_self _info];
-        //    rax = ___NSXMLParserNSStringFromBytes(r12, rax);
-        //    }
-        //}
-
-       
-
-       
-
+        
         protected virtual void _startDocument(IntPtr ctx)
         {
-            System.Diagnostics.Trace.WriteLine("startDocumentSAXFunc");
+             id dlegate = GetDelegate();
+             //parserDidStartDocument:
+             if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserDidStartDocument")) == true)
+            {
+                Objc.MsgSend(dlegate, "ParserDidStartDocument", ctx);
+            }
         }
 
         protected virtual void _endDocument(IntPtr ctx)
         {
-            System.Diagnostics.Trace.WriteLine("endDocumentSAXFunc");
+            id dlegate = GetDelegate();
+            //parserDidEndDocument:
+            if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserDidEndDocument")) == true)
+            {
+                Objc.MsgSend(dlegate, "ParserDidEndDocument", ctx);
+            }
         }
 
         

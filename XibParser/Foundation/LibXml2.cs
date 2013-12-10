@@ -11,6 +11,7 @@ using DocPtr = System.IntPtr;
 using NsPtr = System.IntPtr;
 using AttrPtr = System.IntPtr;
 using DtdPtr = System.IntPtr;
+using xmlEntityPtr = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
@@ -241,7 +242,7 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate Entity* resolveEntitySAXFunc(IntPtr ctx, IntPtr publicId, IntPtr systemId);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate Entity* getEntitySAXFunc(IntPtr ctx, IntPtr name);
+        public unsafe delegate IntPtr getEntitySAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void entityDeclSAXFunc(IntPtr ctx, IntPtr name, int type, IntPtr publicId, IntPtr systemId, IntPtr content);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -375,39 +376,55 @@ namespace Smartmobili.Cocoa
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlCleanupParser();
 
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlSAXUserParseFile(xmlSAXHandlerPtr sax, IntPtr user_data, [MarshalAs(UnmanagedType.LPArray)] byte[] filename);
         
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlSAXUserParseMemory(xmlSAXHandlerPtr sax, IntPtr user_data, [MarshalAs(UnmanagedType.LPArray)] byte[] buffer, int size);
         
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlStrlen( IntPtr str);
 
 
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlParseChunk(xmlParserCtxtPtr ctxt, [MarshalAs(UnmanagedType.LPArray)] byte[] chunk, int size, int terminate);
 
 
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlSetStructuredErrorFunc(IntPtr ctx, IntPtr /*xmlStructuredErrorFunc*/ handler);
 
 
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern xmlParserCtxtPtr xmlCreatePushParserCtxt(xmlSAXHandlerPtr sax, IntPtr user_data,
             [MarshalAs(UnmanagedType.LPArray)] byte[] chunk, int size, [MarshalAs(UnmanagedType.LPArray)] byte[] filename);
 
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlCtxtUseOptions(xmlParserCtxtPtr ctxt, int options);
 
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlFreeEnumeration(IntPtr/*xmlEnumerationPtr*/ cur);
-   
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlEntityPtr xmlGetPredefinedEntity(IntPtr pName);
+
+
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //SAX2 - http://www.xmlsoft.org/html/libxml-SAX2.html
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        [DllImport("libxml2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlSAX2ExternalSubset(IntPtr ctx, IntPtr name, IntPtr ExternalID, IntPtr SystemID);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlSAX2UnparsedEntityDecl(IntPtr ctx, IntPtr name, IntPtr pPublicId, IntPtr pSystemId, IntPtr notationName);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlSAX2EntityDecl(IntPtr ctx, IntPtr pName, int type, IntPtr pPublicId, IntPtr pSystemId, IntPtr pContent);
+        
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlEntityPtr xmlSAX2GetEntity(IntPtr ctx, IntPtr pName);
+        internal static extern void xmlSAX2InternalSubset(IntPtr ctx, IntPtr pName, IntPtr pExternalID, IntPtr pSystemID);
+
 
 
         //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
