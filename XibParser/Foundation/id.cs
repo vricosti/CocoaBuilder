@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Smartmobili.Cocoa
@@ -63,8 +64,15 @@ namespace Smartmobili.Cocoa
 
         public bool RespondsToSelector(SEL aSelector)
         {
-            throw new NotImplementedException();
-            return false;
+            bool ret = false;
+            string methodName = (string)aSelector.SelectorName;
+            MethodInfo dynMethod = this.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
+            if (dynMethod != null)
+            {
+                ret = true;
+            }
+
+            return ret;
         }
 
         public id PerformSelector(SEL aSelector)

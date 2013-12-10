@@ -67,132 +67,132 @@ namespace Smartmobili.Cocoa
         XML_XINCLUDE_END = 20
     }
 
-    public unsafe struct Entity
-    {
+    //public unsafe struct Entity
+    //{
 
-    }
+    //}
 
-    public unsafe struct Enumeration
-    {
+    //public unsafe struct Enumeration
+    //{
 
-    }
+    //}
 
-    public unsafe struct SAXLocator
-    {
+    //public unsafe struct SAXLocator
+    //{
 
-    }
+    //}
 
-    public unsafe struct Error
-    {
+    //public unsafe struct Error
+    //{
 
-    }
-
-
-    public class ElementContent : IDisposable
-    {
-        private bool disposed = false;
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-        }
-    }
-
-    public unsafe class Ns : IDisposable
-    {
-        private bool disposed = false;
-
-        public    Ns                        next ;
-        public    ElementType               type ;
-        public    string                    href ;
-        public    string                    prefix ;
-        public    void**                    _private ;
-        public    Doc                       context ;
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-        }
-    }
-
-    public unsafe class Node : IDisposable
-    {
-        private bool disposed = false;
-
-        public void** _private;
-        public ElementType type;
-        public string name;
-        public NodePtr children;
-        public NodePtr last;
-        public NodePtr parent;
-        public NodePtr next;
-        public NodePtr prev;
-        public DocPtr doc;
-        public NsPtr ns;
-        public string content;
-        public AttrPtr properties;
-        public NsPtr ns_def;
-        public ushort line;
-        public ushort extra;
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-        }
-    }
-
-    public unsafe class Doc : IDisposable
-    {
-        private bool disposed = false;
-
-        public void** _private;
-        public ElementType type;
-        public string name;
-        public NodePtr children;
-        public NodePtr last;
-        public NodePtr parent;
-        public NodePtr next;
-        public NodePtr prev;
-        public DocPtr doc;
-        public int compression;
-        public int standalone;
-        public DtdPtr int_subset;
-        public DtdPtr ext_subset;
-        public NsPtr old_ns;
-        public string version;
-        public string encoding;
-        public string url;
-        public int charset;
+    //}
 
 
-        public Doc(string version) { }
+    //public class ElementContent : IDisposable
+    //{
+    //    private bool disposed = false;
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    //    public void Dispose()
+    //    {
+    //        Dispose(true);
+    //        GC.SuppressFinalize(this);
+    //    }
 
-        protected virtual void Dispose(bool disposing)
-        {
-        }
+    //    protected virtual void Dispose(bool disposing)
+    //    {
+    //    }
+    //}
 
-    }
+    //public unsafe class Ns : IDisposable
+    //{
+    //    private bool disposed = false;
+
+    //    public    Ns                        next ;
+    //    public    ElementType               type ;
+    //    public    string                    href ;
+    //    public    string                    prefix ;
+    //    public    void**                    _private ;
+    //    public    Doc                       context ;
+
+    //    public void Dispose()
+    //    {
+    //        Dispose(true);
+    //        GC.SuppressFinalize(this);
+    //    }
+
+    //    protected virtual void Dispose(bool disposing)
+    //    {
+    //    }
+    //}
+
+    //public unsafe class Node : IDisposable
+    //{
+    //    private bool disposed = false;
+
+    //    public void** _private;
+    //    public ElementType type;
+    //    public string name;
+    //    public NodePtr children;
+    //    public NodePtr last;
+    //    public NodePtr parent;
+    //    public NodePtr next;
+    //    public NodePtr prev;
+    //    public DocPtr doc;
+    //    public NsPtr ns;
+    //    public string content;
+    //    public AttrPtr properties;
+    //    public NsPtr ns_def;
+    //    public ushort line;
+    //    public ushort extra;
+
+    //    public void Dispose()
+    //    {
+    //        Dispose(true);
+    //        GC.SuppressFinalize(this);
+    //    }
+
+    //    protected virtual void Dispose(bool disposing)
+    //    {
+    //    }
+    //}
+
+    //public unsafe class Doc : IDisposable
+    //{
+    //    private bool disposed = false;
+
+    //    public void** _private;
+    //    public ElementType type;
+    //    public string name;
+    //    public NodePtr children;
+    //    public NodePtr last;
+    //    public NodePtr parent;
+    //    public NodePtr next;
+    //    public NodePtr prev;
+    //    public DocPtr doc;
+    //    public int compression;
+    //    public int standalone;
+    //    public DtdPtr int_subset;
+    //    public DtdPtr ext_subset;
+    //    public NsPtr old_ns;
+    //    public string version;
+    //    public string encoding;
+    //    public string url;
+    //    public int charset;
+
+
+    //    public Doc(string version) { }
+
+    //    public void Dispose()
+    //    {
+    //        Dispose(true);
+    //        GC.SuppressFinalize(this);
+    //    }
+
+    //    protected virtual void Dispose(bool disposing)
+    //    {
+    //    }
+
+    //}
 
 
     
@@ -240,7 +240,7 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate int hasExternalSubsetSAXFunc(IntPtr ctx);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate Entity* resolveEntitySAXFunc(IntPtr ctx, IntPtr publicId, IntPtr systemId);
+        public unsafe delegate IntPtr resolveEntitySAXFunc(IntPtr ctx, IntPtr publicId, IntPtr systemId);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate IntPtr getEntitySAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -254,7 +254,7 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void unparsedEntityDeclSAXFunc(IntPtr ctx, IntPtr name, IntPtr publicId, IntPtr systemId, IntPtr notationName);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate void setDocumentLocatorSAXFunc(IntPtr ctx, SAXLocator* loc);
+        public unsafe delegate void setDocumentLocatorSAXFunc(IntPtr ctx, IntPtr loc);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void startDocumentSAXFunc(IntPtr ctx);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -280,7 +280,7 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void fatalErrorSAXFunc(IntPtr ctx, IntPtr msg, params IntPtr[] prms);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate Entity* getParameterEntitySAXFunc(IntPtr ctx, IntPtr name);
+        public unsafe delegate IntPtr getParameterEntitySAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void cdataBlockSAXFunc(IntPtr ctx, IntPtr value, int len);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -423,6 +423,8 @@ namespace Smartmobili.Cocoa
         
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern xmlEntityPtr xmlSAX2GetEntity(IntPtr ctx, IntPtr pName);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlSAX2InternalSubset(IntPtr ctx, IntPtr pName, IntPtr pExternalID, IntPtr pSystemID);
 
 

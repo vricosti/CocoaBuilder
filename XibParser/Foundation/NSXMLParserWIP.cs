@@ -77,7 +77,7 @@ namespace Smartmobili.Cocoa
         private static object syncRoot = new Object();
 
         //Unamanaged resources (TO RELEASE)
-        GCHandle _pinnedInstance;
+        GCHandle _instanceHandle;
         IntPtr _instancePtr;
         IntPtr _saxHandlerPtr;
 
@@ -94,8 +94,8 @@ namespace Smartmobili.Cocoa
 
         public NSXMLParserWIP()
         {
-            _pinnedInstance = GCHandle.Alloc(this);
-            _instancePtr = (IntPtr)_pinnedInstance;
+            _instanceHandle = GCHandle.Alloc(this);
+            _instancePtr = (IntPtr)_instanceHandle;
         }
         public virtual id Delegate
         {
@@ -506,7 +506,7 @@ namespace Smartmobili.Cocoa
             return pEntity;
         }
 
-        private unsafe Entity* _resolveEntity(IntPtr ctx, IntPtr publicId, IntPtr systemId)
+        private unsafe IntPtr _resolveEntity(IntPtr ctx, IntPtr publicId, IntPtr systemId)
         {
             throw new NotImplementedException();
         }
@@ -752,7 +752,7 @@ namespace Smartmobili.Cocoa
              //parserDidStartDocument:
              if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserDidStartDocument")) == true)
             {
-                Objc.MsgSend(dlegate, "ParserDidStartDocument", ctx);
+                 Objc.MsgSend(dlegate, "ParserDidStartDocument", ((GCHandle)ctx).Target as NSXMLParserWIP);
             }
         }
 
@@ -762,7 +762,7 @@ namespace Smartmobili.Cocoa
             //parserDidEndDocument:
             if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserDidEndDocument")) == true)
             {
-                Objc.MsgSend(dlegate, "ParserDidEndDocument", ctx);
+                Objc.MsgSend(dlegate, "ParserDidEndDocument", ((GCHandle)ctx).Target as NSXMLParserWIP);
             }
         }
 

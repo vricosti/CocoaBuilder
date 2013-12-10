@@ -13,6 +13,11 @@ namespace Smartmobili.Cocoa
         {
         }
 
+        public NSString SelectorName
+        {
+            get { return this._selectorName; }
+        }
+
         public SEL(NSString aSelectorName)
         {
             _selectorName = aSelectorName;
