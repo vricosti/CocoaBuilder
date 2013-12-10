@@ -469,38 +469,47 @@ namespace Smartmobili.Cocoa
 
         private unsafe IntPtr _getEntity(IntPtr ctx, IntPtr pName)
         {
-            xmlEntityPtr pEntity = LibXml.xmlGetPredefinedEntity(pName);
-            if (pEntity != IntPtr.Zero)
-            {
-                //FIXME
-                //if (*(int32_t*)(r15 + 0x110) == 0x7)
-                //{
-                //    *(r15 + 0x1a8) = 0x1;
-                //}
-            }
-            else 
-            {
-                id dlegate = GetDelegate();
-                //parser:resolveExternalEntityName:systemID:
-                if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserResolveExternalEntityName")) == true)
-                 {
-                     NSString name = null;
-                     if (pName != IntPtr.Zero)
-                     {
-                         name = _NSXMLParserNSStringFromBytes(pName, this.GetInfo());
-                     }
+            IntPtr parserCtx = this.GetParserContext();
 
-                     NSData data= (NSData)Objc.MsgSend(dlegate, "ParserResolveExternalEntityName", this, name, 0);
-                    if (data != null /*&& (*(r15 + 0x10) != 0x0)*/)
+            xmlEntityPtr pEntity = LibXml.xmlGetPredefinedEntity(pName);
+            if (pEntity == IntPtr.Zero)
+            {
+                pEntity = LibXml.xmlSAX2GetEntity(parserCtx, pName);
+                if (pEntity != IntPtr.Zero)
+                {
+                    //FIXME
+                    //if (*(int32_t*)(r15 + 0x110) == 0x7)
+                    //{
+                    //    *(r15 + 0x1a8) = 0x1;
+                    //}
+                }
+                else
+                {
+                    id dlegate = GetDelegate();
+                    //parser:resolveExternalEntityName:systemID:
+                    if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserResolveExternalEntityName")) == true)
                     {
-                        IntPtr pChars = ((NSString)(NSString.Alloc().InitWithData(data, NSStringEncoding.NSUTF8StringEncoding))).UTF8String();
-                        if (pChars != IntPtr.Zero)
+                        NSString name = null;
+                        if (pName != IntPtr.Zero)
                         {
-                            _characters(ctx, pChars, pChars.strlen());
+                            name = _NSXMLParserNSStringFromBytes(pName, this.GetInfo());
+                        }
+
+                        NSData data = (NSData)Objc.MsgSend(dlegate, "ParserResolveExternalEntityName", this, name, 0);
+                        if (data != null /*&& (*(r15 + 0x10) != 0x0)*/)
+                        {
+                            IntPtr pChars = ((NSString)(NSString.Alloc().InitWithData(data, NSStringEncoding.NSUTF8StringEncoding))).UTF8String();
+                            if (pChars != IntPtr.Zero)
+                            {
+                                _characters(ctx, pChars, pChars.strlen());
+                            }
                         }
                     }
-                 }
+                }
+
+                
             }
+           
 
 
             return pEntity;
