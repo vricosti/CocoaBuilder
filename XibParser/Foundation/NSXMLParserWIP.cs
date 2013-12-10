@@ -470,6 +470,7 @@ namespace Smartmobili.Cocoa
         private unsafe IntPtr _getEntity(IntPtr ctx, IntPtr pName)
         {
             IntPtr parserCtx = this.GetParserContext();
+            id dlegate = GetDelegate();
 
             xmlEntityPtr pEntity = LibXml.xmlGetPredefinedEntity(pName);
             if (pEntity == IntPtr.Zero)
@@ -478,6 +479,11 @@ namespace Smartmobili.Cocoa
                 if (pEntity != IntPtr.Zero)
                 {
                     //FIXME
+                    //if (*(edi + 0xac) == 0x7)
+                    //{
+                    //    *(edi + 0x110) = 0x1;
+                    //}
+
                     //if (*(int32_t*)(r15 + 0x110) == 0x7)
                     //{
                     //    *(r15 + 0x1a8) = 0x1;
@@ -485,7 +491,7 @@ namespace Smartmobili.Cocoa
                 }
                 else
                 {
-                    id dlegate = GetDelegate();
+                    
                     //parser:resolveExternalEntityName:systemID:
                     if (dlegate != null && dlegate.RespondsToSelector(new SEL("ParserResolveExternalEntityName")) == true)
                     {
@@ -496,7 +502,7 @@ namespace Smartmobili.Cocoa
                         }
 
                         NSData data = (NSData)Objc.MsgSend(dlegate, "ParserResolveExternalEntityName", this, name, 0);
-                        if (data != null /*&& (*(r15 + 0x10) != 0x0)*/)
+                        if (data != null && IntPtr.Add(parserCtx, 0x8) != IntPtr.Zero)
                         {
                             IntPtr pChars = ((NSString)(NSString.Alloc().InitWithData(data, NSStringEncoding.NSUTF8StringEncoding))).UTF8String();
                             if (pChars != IntPtr.Zero)
@@ -515,34 +521,36 @@ namespace Smartmobili.Cocoa
             return pEntity;
         }
 
-        private unsafe IntPtr _resolveEntity(IntPtr ctx, IntPtr publicId, IntPtr systemId)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         private unsafe int _hasExternalSubset2(IntPtr ctx)
         {
-            IntPtr parserCtx = this.GetParserContext();
-            return 0;
-
-            //rax = [rdi _parserContext];
-            //return (*(*(rax + 0x10) + 0x58) != 0x0 ? 0xff : 0x0) & 0xff;
+            // This offset is calculated from a console application using libxml2
+            // void * pExtSubset = &(parserCtx.myDoc->extSubset);
+            //fprintf(f, "----->&(parserCtx.myDoc->extSubset) 0x%p (+0x%x)\n", pExtSubset, (uint32_t)pExtSubset-(uint32_t) & (parserCtx.myDoc->_private));
             
+            IntPtr parserCtx = this.GetParserContext();
+            IntPtr parserCtxMyDoc = IntPtr.Add(parserCtx, 0x8);
+            IntPtr extSubset = IntPtr.Add(Marshal.ReadIntPtr(parserCtxMyDoc), 0x30);
+
+            return (extSubset != IntPtr.Zero) ? 1 : 0; 
         }
 
         private unsafe int _hasInternalSubset2(IntPtr ctx)
         {
-             IntPtr parserCtx = this.GetParserContext();
-             return 0;
-            //rax = [rdi _parserContext];
-            //return (*(*(rax + 0x10) + 0x50) != 0x0 ? 0xff : 0x0) & 0xff;
+            IntPtr parserCtx = this.GetParserContext();
+            IntPtr parserCtxMyDoc = IntPtr.Add(parserCtx, 0x8);
+            IntPtr intSubset = IntPtr.Add(Marshal.ReadIntPtr(parserCtxMyDoc), 0x2C);
+
+            return (intSubset != IntPtr.Zero) ? 1 : 0; 
         }
 
         private unsafe int _isStandalone(IntPtr ctx)
         {
-            return 0;
-            //rax = [rdi _parserContext];
-            //return (*(int32_t *)(*(rax + 0x10) + 0x4c) == 0x1 ? 0xff : 0x0) & 0xff;
+            IntPtr parserCtx = this.GetParserContext();
+            IntPtr parserCtxMyDoc = IntPtr.Add(parserCtx, 0x8);
+            IntPtr standalone = IntPtr.Add(Marshal.ReadIntPtr(parserCtxMyDoc), 0x28);
+
+            return (standalone != IntPtr.Zero) ? 1 : 0;
         }
         
         private unsafe void _internalSubset2(IntPtr ctx, IntPtr pName, IntPtr pExternalID, IntPtr pSystemID)
@@ -670,11 +678,13 @@ namespace Smartmobili.Cocoa
 
         protected virtual void _StructuredErrorFunc(IntPtr userData, IntPtr error)
         {
+            // FIXME
             System.Diagnostics.Debug.WriteLine("_StructuredErrorFunc");
         }
 
         protected virtual bool _HandleParseResult(int xmlParserError)
         {
+            // FIXME
             return true;
         }
 
@@ -704,30 +714,35 @@ namespace Smartmobili.Cocoa
 
         private unsafe void _endElementNs(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI)
         {
+            // FIXME
             throw new NotImplementedException();
         }
         private unsafe void _startElementNs(IntPtr ctx, IntPtr pLocalname, IntPtr pPrefix, IntPtr URI, int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes)
         {
-            GetInfo().nestingLevel++;
             bool shouldProcessNs = this.GetShouldProcessNamespaces();
             bool shouldReportNssPrefixes = this.GetShouldReportNamespacePrefixes();
             int prefixLen = LibXml.xmlStrlen(pLocalname);
 
-            NSString var_r14 = null;
-            if ((shouldProcessNs == false))
+            NSString qName = null;
+            if (prefixLen != 0)
             {
-                if (pLocalname != null)
-                {
-                    if (prefixLen != 0)
-                        var_r14 = _NewColonSeparatedStringFromPrefixAndSuffix(pPrefix, pLocalname);
-                    else
-                        var_r14 = _NSXMLParserNSStringFromBytes(pLocalname, this.GetInfo());
-                }
+                qName = _NewColonSeparatedStringFromPrefixAndSuffix(pPrefix, pLocalname);
             }
             else
             {
-
+                qName = _NSXMLParserNSStringFromBytes(pLocalname, this.GetInfo());
             }
+
+            // FIXME
+            //if (nb_attributes != 0)
+            //{
+            //    NSMutableDictionary attrs = (NSMutableDictionary)NSMutableDictionary.Alloc().InitWithCapacity((uint)nb_attributes);
+            //    NSMutableDictionary nssPrefixes = null;
+            //    if (shouldReportNssPrefixes)
+            //        nssPrefixes = (NSMutableDictionary)NSMutableDictionary.Alloc().InitWithCapacity((uint)nb_namespaces);
+                
+
+            //}
 
         }
 

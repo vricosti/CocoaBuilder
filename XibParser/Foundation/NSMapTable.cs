@@ -12,12 +12,13 @@ namespace Smartmobili.Cocoa
 
         public static id Get(NSMapTable map, IntPtr ptr)
         {
+            // FIXME
             return null;
         }
 
         public static void InsertKnownAbsent(NSMapTable map, IntPtr key, id value)
         {
-
+            // FIXME
         }
 
     }

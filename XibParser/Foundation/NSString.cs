@@ -629,7 +629,7 @@ namespace Smartmobili.Cocoa
 
             if (this.Value != null && this.Value.Length > 0)
             {
-                //FIXME
+                throw new NotImplementedException();
             }
 
             return ptr;
