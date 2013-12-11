@@ -478,12 +478,13 @@ namespace Smartmobili.Cocoa
                 pEntity = LibXml.xmlSAX2GetEntity(parserCtx, pName);
                 if (pEntity != IntPtr.Zero)
                 {
-                    //FIXME
+                    //FIXME (x86)
                     //if (*(edi + 0xac) == 0x7)
                     //{
                     //    *(edi + 0x110) = 0x1;
                     //}
 
+                    // (x64)
                     //if (*(int32_t*)(r15 + 0x110) == 0x7)
                     //{
                     //    *(r15 + 0x1a8) = 0x1;
@@ -561,14 +562,6 @@ namespace Smartmobili.Cocoa
 
         public virtual bool Parse()
         {
-            //NSInputStream stream = _reserved3;
-            //stream.Open();
-            //byte[] buffer = new byte[_reserved1.chunkSize];
-            //int readBytes = stream.Read(buffer, _reserved1.chunkSize);
-            //stream.Close();
-            //int result = LibXml.xmlSAXUserParseMemory(_saxHandlerPtr, IntPtr.Zero, buffer, buffer.Length);
-            //return true;
-
             return this.ParseFromStream();
         }
 

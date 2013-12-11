@@ -93,14 +93,90 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLNode));
         new public static NSXMLNode Alloc() { return new NSXMLNode(); }
 
+        protected int _index;
+
+        protected NSXMLNodeKind _kind;
+
+        protected id _objectValue;
+
+        protected id _parent;
+
+        protected id _private;
+
+
+        public virtual NSXMLNodeKind GetKind()
+        {
+            return _kind;
+        }
+
         public virtual id InitWithKind(NSXMLNodeKind kind)
         {
-            return null;
+            return this.InitWithKind(kind, 0);
         }
        
+        public virtual id InitWithKind(NSXMLNodeKind kind, uint options)
+        {
+            id self = this;
 
+            /*
+             * Check whether we are already initializing an instance of the given
+             * subclass. If we are not, release ourselves and allocate a subclass
+             * instance instead.
+             */
+            switch(kind)
+            {
+                case NSXMLNodeKind.NSXMLInvalidKind:
+                    break;
 
+                case NSXMLNodeKind.NSXMLDocumentKind:
+                    if (self.IsKindOfClass(NSXMLDocument.Class) == false)
+                    {
+                        self = NSXMLDocument.Alloc().Init();
+                    }
+                    break;
+                    
+                case NSXMLNodeKind.NSXMLElementKind:
+                    if ((options & 0x800004) == 0)
+                    {
+                        if (self.IsKindOfClass(NSXMLElement.Class) == false)
+                        {
+                            self = NSXMLElement.Alloc().Init();
+                        }
+                    }
+                    else
+                    {
+                        if (self.IsKindOfClass(NSXMLFidelityElement.Class) == false)
+                        {
+                            self = NSXMLFidelityElement.Alloc().Init();
+                            ((NSXMLFidelityElement)self).SetFidelity(options);
+                        }
+                    }
+                    break;
+                case NSXMLNodeKind.NSXMLAttributeKind:
+                    break;
+                case NSXMLNodeKind.NSXMLNamespaceKind:
+                    break;
+                case NSXMLNodeKind.NSXMLProcessingInstructionKind:
+                    break;
+                case NSXMLNodeKind.NSXMLCommentKind:
+                    break;
+                case NSXMLNodeKind.NSXMLTextKind:
+                    break;
+                case NSXMLNodeKind.NSXMLDTDKind:
+                    break;
+                case NSXMLNodeKind.NSXMLEntityDeclarationKind:
+                    break;
+                case NSXMLNodeKind.NSXMLAttributeDeclarationKind:
+                    break;
+                case NSXMLNodeKind.NSXMLElementDeclarationKind:
+                    break;
 
+            }
+
+            return self;
+        }
+
+        
 
        
     }

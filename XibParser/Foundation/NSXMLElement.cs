@@ -28,10 +28,21 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSXMLElement : NSObject
+    public class NSXMLElement : NSXMLNode
     {
         new public static Class Class = new Class(typeof(NSXMLElement));
         new public static NSXMLElement Alloc() { return new NSXMLElement(); }
+
+        protected NSArray _namespaces;
+        protected NSArray _attributes;
+        protected NSArray _children;
+        protected bool _zeroOrOneNamespaces;
+        protected bool _zeroOrOneAttributes;
+        protected NSString _name;
+        protected int _prefixIndex;
+        protected NSString _URI;
+        protected bool _childrenHaveMutated;
+        protected char[] _passing;                                  
 
 
         public virtual id InitWithName(NSString name)
