@@ -29,8 +29,15 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSSet));
         new public static NSSet alloc() { return new NSSet(); }
 
+        protected HashSet<id> _sets;
+
         public virtual id initWithObjects(params id[] objects)
         {
+            if (objects == null)
+                return null;
+
+            throw new NotImplementedException();
+
             return null;
         }
 
