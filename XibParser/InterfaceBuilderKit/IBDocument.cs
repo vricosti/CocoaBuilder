@@ -155,6 +155,38 @@ namespace Smartmobili.Cocoa
         }
 
 
+        
+
+#if true
+        public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
+        {
+            NSData data = fileWrapper.regularFileContents();
+            if (data != null)
+            {
+                var unarc = GSXibKeyedUnarchiver.alloc().initForReadingWithData(data);
+                SystemTarget = unarc.decodeIntForKey(@"IBDocument.SystemTarget");
+                SystemVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.SystemVersion");
+                InterfaceBuilderVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.InterfaceBuilderVersion");
+                AppKitVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.AppKitVersion");
+                HIToolboxVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.HIToolboxVersion");
+                PluginVersions = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.PluginVersions");
+                IntegratedClassDependencies = (NSArray)unarc.decodeObjectForKey(@"IBDocument.IntegratedClassDependencies");
+                PluginDependencies = (NSArray)unarc.decodeObjectForKey(@"IBDocument.PluginDependencies");
+                Metadata = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.Metadata");
+                RootObjects = (NSMutableArray)unarc.decodeObjectForKey(@"IBDocument.RootObjects");
+                Objects = (IBObjectContainer)unarc.decodeObjectForKey(@"IBDocument.Objects");
+                Classes = (IBClassDescriber)unarc.decodeObjectForKey(@"IBDocument.Classes");
+                LocalizationMode = unarc.decodeIntForKey(@"IBDocument.LocalizationMode");
+                TargetRuntimeIdentifier = (NSString)unarc.decodeObjectForKey(@"IBDocument.TargetRuntimeIdentifier");
+                PluginDeclaredDevelopmentDependencies = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies");
+                PluginDeclaredDependenciesTrackSystemTargetVersion = unarc.decodeBoolForKey(@"IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion");
+                DefaultPropertyAccessControl = unarc.decodeIntForKey(@"IBDocument.DefaultPropertyAccessControl");
+                LastKnownImageSizes = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.LastKnownImageSizes");
+            }
+
+            return true;
+        }
+#else
         public virtual bool decodeDocumentOfType(NSString typeName, NSCoder decoder)
         {
             NSError error = null;
@@ -197,44 +229,21 @@ namespace Smartmobili.Cocoa
                 //this.setPluginDeclaredDependencies(decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies"), 1));
                 //this.setPluginDeclaredDependencyDefaults(decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencyDefaults"), 1));
                 //int lastSavedVersion = this.lastSavedInterfaceBuilderVersion().integerValue();
+                //if (lastSavedVersion <= 714)
+                //{ 
+                //    NSNumber version = NSNumber.numberWithInteger(3000);
+                //    esi = eax;
+                //    eax = [var_self class];
+                //    eax = [eax plugin];
+                //    eax = [eax primaryDeclaredDependencyIdentifierForCategory:0x1];
+                //    [var_self setVersion:esi forPluginDeclaredDependency:eax forCategory:0x1];
+                //}
             }
 
 
             return false;
         }
 
-#if true
-        public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
-        {
-            //IBXMLDecoder xmlDec = (IBXMLDecoder)(IBXMLDecoder.alloc()).initForReadingWithData(fileWrapper.regularFileContents(), null);
-
-            NSData data = fileWrapper.regularFileContents();
-            if (data != null)
-            {
-                var unarc = GSXibKeyedUnarchiver.alloc().initForReadingWithData(data);
-                SystemTarget = unarc.decodeIntForKey(@"IBDocument.SystemTarget");
-                SystemVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.SystemVersion");
-                InterfaceBuilderVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.InterfaceBuilderVersion");
-                AppKitVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.AppKitVersion");
-                HIToolboxVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.HIToolboxVersion");
-                PluginVersions = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.PluginVersions");
-                IntegratedClassDependencies = (NSArray)unarc.decodeObjectForKey(@"IBDocument.IntegratedClassDependencies");
-                PluginDependencies = (NSArray)unarc.decodeObjectForKey(@"IBDocument.PluginDependencies");
-                Metadata = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.Metadata");
-                RootObjects = (NSMutableArray)unarc.decodeObjectForKey(@"IBDocument.RootObjects");
-                Objects = (IBObjectContainer)unarc.decodeObjectForKey(@"IBDocument.Objects");
-                Classes = (IBClassDescriber)unarc.decodeObjectForKey(@"IBDocument.Classes");
-                LocalizationMode = unarc.decodeIntForKey(@"IBDocument.LocalizationMode");
-                TargetRuntimeIdentifier = (NSString)unarc.decodeObjectForKey(@"IBDocument.TargetRuntimeIdentifier");
-                PluginDeclaredDevelopmentDependencies = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies");
-                PluginDeclaredDependenciesTrackSystemTargetVersion = unarc.decodeBoolForKey(@"IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion");
-                DefaultPropertyAccessControl = unarc.decodeIntForKey(@"IBDocument.DefaultPropertyAccessControl");
-                LastKnownImageSizes = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.LastKnownImageSizes");
-            }
-
-            return true;
-        }
-#else
         public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
             bool ret = false;
