@@ -8,10 +8,10 @@ namespace Smartmobili.Cocoa
     public class IBCFMutableDictionary : NSObject
     {
         new public static Class Class = new Class(typeof(IBCFMutableDictionary));
-        new public static IBCFMutableDictionary Alloc() { return new IBCFMutableDictionary(); }
+        new public static IBCFMutableDictionary alloc() { return new IBCFMutableDictionary(); }
 
 
-        public virtual id ObjectForKey(id aKey)
+        public virtual id objectForKey(id aKey)
         {
             id obj = null;
 

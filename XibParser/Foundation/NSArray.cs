@@ -32,7 +32,7 @@ namespace Smartmobili.Cocoa
     public class NSArray : NSObject, IList<id>
     {
         new public static Class Class = new Class(typeof(NSArray));
-        new public static NSArray Alloc() { return new NSArray(); }
+        new public static NSArray alloc() { return new NSArray(); }
 
         protected  IList<id> _list = new List<id>();
 
@@ -48,19 +48,19 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public static NSArray ArrayWithArray(NSArray anArray)
+        public static NSArray arrayWithArray(NSArray anArray)
         {
-            return (NSArray)Alloc().InitWithArray(anArray);
+            return (NSArray)alloc().initWithArray(anArray);
         }
 
-        public static NSArray ArrayWithCapacity(uint numItems)
+        public static NSArray arrayWithCapacity(uint numItems)
         {
-            return (NSArray)Alloc().InitWithCapacity(numItems);
+            return (NSArray)alloc().initWithCapacity(numItems);
         }
 
 
         // TODO: implements InitWithobjects
-        public static NSArray ArrayWithObjects(params id[] list)
+        public static NSArray arrayWithObjects(params id[] list)
         {
             if (list == null)
                 return null;
@@ -69,13 +69,13 @@ namespace Smartmobili.Cocoa
 
             foreach (id elm in list)
             {
-                self.AddObject(elm);
+                self.addObject(elm);
             }
 
             return self;
         }
 
-        public virtual void AddObject(id anObject)
+        public virtual void addObject(id anObject)
         {
             if (anObject == null)
                 throw new ArgumentNullException("anObject");
@@ -83,7 +83,7 @@ namespace Smartmobili.Cocoa
             this.Add(anObject);
         }
 
-        public virtual id LastObject()
+        public virtual id lastObject()
         {
             id lastObj = null;
 
@@ -95,7 +95,7 @@ namespace Smartmobili.Cocoa
             return lastObj;
         }
 
-        public virtual bool ContainsObject(id anObject)
+        public virtual bool containsObject(id anObject)
         {
             bool found = false;
 
@@ -104,15 +104,15 @@ namespace Smartmobili.Cocoa
             return found;
         }
 
-        public virtual void GetObjects(id[] aBuffer)
+        public virtual void getObjects(id[] aBuffer)
         {
             uint i, c = (uint)this.Count;
 
             for (i = 0; i < c; i++)
-                aBuffer[i] = ObjectAtIndex((int)i);
+                aBuffer[i] = objectAtIndex((int)i);
         }
 
-		public virtual uint IndexOfObjectIdenticalTo(id anObject)
+		public virtual uint indexOfObjectIdenticalTo(id anObject)
 		{
 			uint c = (uint)this.Count;
 
@@ -121,13 +121,13 @@ namespace Smartmobili.Cocoa
 				uint i;
 
 				for (i = 0; i < c; i++)
-					if (anObject == this.ObjectAtIndex((int)i))
+					if (anObject == this.objectAtIndex((int)i))
 						return i;
 			}
 			return NS.NotFound;
 		}
 
-        public virtual uint IndexOfObject(id anObject)
+        public virtual uint indexOfObject(id anObject)
         {
             uint foundIndex = NS.NotFound;
             int idx = _list.IndexOf(anObject);
@@ -137,13 +137,13 @@ namespace Smartmobili.Cocoa
             return foundIndex;
         }
 
-        public virtual id ObjectAtIndex(int index)
+        public virtual id objectAtIndex(int index)
         {
             id obj = this[index];
             return obj;
         }
 
-        public virtual id InitWithArray(NSArray anArray)
+        public virtual id initWithArray(NSArray anArray)
         {
             id self = this;
 
@@ -156,7 +156,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public virtual id InitWithCapacity(uint numItems)
+        public virtual id initWithCapacity(uint numItems)
         {
             id self = this;
 
@@ -165,38 +165,38 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public override id InitWithCoder(NSCoder aCoder)
+        public override id initWithCoder(NSCoder aCoder)
         {
             id self = this;
 
             if (aCoder.AllowsKeyedCoding)
             {
-                id array = ((NSKeyedUnarchiver)aCoder)._DecodeArrayOfObjectsForKey(@"NS.objects");
+                id array = ((NSKeyedUnarchiver)aCoder)._decodeArrayOfObjectsForKey(@"NS.objects");
                 if (array == null)
                 {
                     uint i = 0;
                     NSString key;
                     id val;
 
-                    array = NSMutableArray.ArrayWithCapacity(2);
-                    key = NSString.StringWithFormat(@"NS.object.%u", i);
+                    array = NSMutableArray.arrayWithCapacity(2);
+                    key = NSString.stringWithFormat(@"NS.object.%u", i);
                     //key = (NSString)string.Format(@"NS.object.{0}", i);
-                    val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
+                    val = ((NSKeyedUnarchiver)aCoder).decodeObjectForKey(key);
                     //array = [NSMutableArray arrayWithCapacity: 2];
                     //key = [NSString stringWithFormat: @"NS.object.%u", i];
                     //val = [(NSKeyedUnarchiver*)aCoder decodeObjectForKey: key];
 
                     while (val != null)
                     {
-                        ((NSMutableArray)array).AddObject(val);
+                        ((NSMutableArray)array).addObject(val);
                         i++;
                         //key = (NSString)string.Format(@"NS.object.{0}", i);
-                        key = NSString.StringWithFormat(@"NS.object.%u", i);
-                        val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
+                        key = NSString.stringWithFormat(@"NS.object.%u", i);
+                        val = ((NSKeyedUnarchiver)aCoder).decodeObjectForKey(key);
                     }
                 }
 
-                self = InitWithArray((NSArray)array);
+                self = initWithArray((NSArray)array);
             }
             else
             {
@@ -207,9 +207,9 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSEnumerator ObjectEnumerator()
+        public virtual NSEnumerator objectEnumerator()
         {
-            return (NSEnumerator)NSArrayEnumerator.Alloc().InitWithArray(this);
+            return (NSEnumerator)NSArrayEnumerator.alloc().initWithArray(this);
         }
 
 
@@ -305,12 +305,12 @@ namespace Smartmobili.Cocoa
 
     class NSArrayEnumerator : NSEnumerator
     {
-        new public static NSArrayEnumerator Alloc() { return new NSArrayEnumerator(); }
+        new public static NSArrayEnumerator alloc() { return new NSArrayEnumerator(); }
 
         protected NSArray _array;
         protected int _curIndex;
 
-        public id InitWithArray(NSArray anArray)
+        public id initWithArray(NSArray anArray)
         {
             id self = this;
 
@@ -320,12 +320,12 @@ namespace Smartmobili.Cocoa
         }
 
 
-         public override NSArray AllObjects()
+         public override NSArray allObjects()
          {
              return _array;
          }
 
-         public override id NextObject()
+         public override id nextObject()
          {
              id nextObj = null;
 
@@ -334,7 +334,7 @@ namespace Smartmobili.Cocoa
 
              if (_curIndex < _array.Count)
              {
-                 nextObj = _array.ObjectAtIndex(_curIndex++);
+                 nextObj = _array.objectAtIndex(_curIndex++);
              }
 
              return nextObj;

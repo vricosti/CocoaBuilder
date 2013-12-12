@@ -9,17 +9,17 @@ namespace Smartmobili.Cocoa
     public class NSInputStream : NSStream
     {
         new public static Class Class = new Class(typeof(NSInputStream));
-        new public static NSInputStream Alloc() { return new NSInputStream(); }
+        new public static NSInputStream alloc() { return new NSInputStream(); }
 
         protected NSData _data;
         protected Stream _stream;
        
-        public static NSInputStream InputStreamWithData(NSData data)
+        public static NSInputStream inputStreamWithData(NSData data)
         {
-            return (NSInputStream)Alloc().InitWithData(data);
+            return (NSInputStream)alloc().initWithData(data);
         }
 
-        public virtual id InitWithData(NSData data)
+        public virtual id initWithData(NSData data)
         {
             id self = this;
 
@@ -29,12 +29,12 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override void Open()
+        public override void open()
         {
             _stream = new MemoryStream(_data.Bytes);
         }
 
-        public virtual int Read(byte[] buffer, int maxLength)
+        public virtual int read(byte[] buffer, int maxLength)
         {
             int bytesRead = 0;
             
@@ -51,7 +51,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override void Close()
+        public override void close()
         {
             if (_stream != null)
             {

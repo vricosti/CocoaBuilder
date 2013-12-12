@@ -53,14 +53,14 @@ namespace Smartmobili.Cocoa
         
 
         // Not used for the moment ...
-        // We use an good old Interface instead of reflection (see SetDelegate)
+        // We use an good old Interface instead of reflection (see setDelegate)
         public virtual id Delegate
         {
             get { return _delegate; }
             set { _delegate = value; }
         }
 
-        public void SetDelegate(INSXMLParser nsXmlInterface)
+        public void setDelegate(INSXMLParser nsXmlInterface)
         {
             _nsXmlInterface = nsXmlInterface;
             if (_nsXmlInterface != null)
@@ -70,7 +70,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        new public static NSXMLParser Alloc()
+        new public static NSXMLParser alloc()
         {
             return new NSXMLParser();
         }
@@ -86,7 +86,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public NSXMLParser InitWithData(NSData aData)
+        public NSXMLParser initWithData(NSData aData)
         {
             _data = aData;
             if (_data == null || _data.Bytes == null)
@@ -102,7 +102,7 @@ namespace Smartmobili.Cocoa
 
         
 
-        public void Parse()
+        public void parse()
         {
             if (_saxParser == null || _nsXmlInterface == null || _data == null)
                 return;
@@ -127,8 +127,8 @@ namespace Smartmobili.Cocoa
         public void Characters(char[] ch, int start, int length)
         {
             // Actually the sax parser is weird because sometimes the string is splitted.
-            // So we don't call ParserFoundCharacters from here but inside StartElement and EndElement 
-            // through CharactersWorkaround()
+            // So we don't call parserFoundCharacters from here but inside startElement and endElement 
+            // through charactersWorkaround()
             if (_nsXmlInterface != null)
             {
                 _builder.Append(ch, start, length);
@@ -143,7 +143,7 @@ namespace Smartmobili.Cocoa
         {
             if (_builder.Length > 0)
             {
-                _nsXmlInterface.ParserFoundCharacters(this, _builder.ToString());
+                _nsXmlInterface.parserFoundCharacters(this, _builder.ToString());
                 _builder.Length = 0;
             }
         }
@@ -151,12 +151,12 @@ namespace Smartmobili.Cocoa
 
         public void StartElement(string uri, string localName, string qName, IAttributes atts)
         {
-            //System.Diagnostics.Debug.WriteLine("StartElement");
+            //System.Diagnostics.Debug.WriteLine("startElement");
             if (_nsXmlInterface != null)
             {
                 CharactersWorkaround();
 
-                NSMutableDictionary attributeDict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+                NSMutableDictionary attributeDict = (NSMutableDictionary)NSMutableDictionary.alloc().init();
                 for (int indx = 0; indx < atts.Length; indx++)
                 {
                     NSString key = (NSString)atts.GetQName(indx);
@@ -165,11 +165,11 @@ namespace Smartmobili.Cocoa
                 }
 
                 //SEL sel;
-                //if (Objc.RespondsToSelector(_delegate, "ParserDidStartElement", ref sel)) 
+                //if (Objc.respondsToSelector(_delegate, "parserDidStartElement", ref sel)) 
                 //{
                 //    sel.MsgSend(this, localName, uri, qName, attributeDict);
                 //}
-                _nsXmlInterface.ParserDidStartElement(this, localName, uri, qName, attributeDict);
+                _nsXmlInterface.parserDidStartElement(this, localName, uri, qName, attributeDict);
             }
         }
 
@@ -179,33 +179,33 @@ namespace Smartmobili.Cocoa
             {
                 CharactersWorkaround();
 
-                _nsXmlInterface.ParserDidEndElement(this, localName, uri, qName);
+                _nsXmlInterface.parserDidEndElement(this, localName, uri, qName);
             }
         }
 
         public void EndPrefixMapping(string prefix)
         {
-            System.Diagnostics.Debug.WriteLine("EndPrefixMapping");
+            System.Diagnostics.Debug.WriteLine("endPrefixMapping");
         }
 
         public void IgnorableWhitespace(char[] ch, int start, int length)
         {
-            System.Diagnostics.Debug.WriteLine("IgnorableWhitespace");
+            System.Diagnostics.Debug.WriteLine("ignorableWhitespace");
         }
 
         public void ProcessingInstruction(string target, string data)
         {
-            System.Diagnostics.Debug.WriteLine("ProcessingInstruction");
+            System.Diagnostics.Debug.WriteLine("processingInstruction");
         }
 
         public void SetDocumentLocator(ILocator locator)
         {
-            System.Diagnostics.Debug.WriteLine("SetDocumentLocator");
+            System.Diagnostics.Debug.WriteLine("setDocumentLocator");
         }
 
         public void SkippedEntity(string name)
         {
-            System.Diagnostics.Debug.WriteLine("SkippedEntity");
+            System.Diagnostics.Debug.WriteLine("skippedEntity");
         }
 
         public void StartDocument()
@@ -216,14 +216,14 @@ namespace Smartmobili.Cocoa
 
         public void EndDocument()
         {
-            System.Diagnostics.Debug.WriteLine("EndDocument");
+            System.Diagnostics.Debug.WriteLine("endDocument");
         }
 
         
 
         public void StartPrefixMapping(string prefix, string uri)
         {
-            System.Diagnostics.Debug.WriteLine("StartPrefixMapping");
+            System.Diagnostics.Debug.WriteLine("startPrefixMapping");
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Smartmobili.Cocoa
     public class NSSet : NSObject
     {
         new public static Class Class = new Class(typeof(NSSet));
-        new public static NSSet Alloc() { return new NSSet(); }
+        new public static NSSet alloc() { return new NSSet(); }
 
         public virtual id InitWithObjects(params id[] objects)
         {
@@ -41,7 +41,7 @@ namespace Smartmobili.Cocoa
     public class NSMutableSet : NSSet
     {
         new public static Class Class = new Class(typeof(NSMutableSet));
-        new public static NSMutableSet Alloc() { return new NSMutableSet(); }
+        new public static NSMutableSet alloc() { return new NSMutableSet(); }
     }
 
 

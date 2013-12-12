@@ -34,13 +34,13 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                ReferencedPartialClassDescriptions = (NSMutableArray)aDecoder.DecodeObjectForKey("referencedPartialClassDescriptions");
+                ReferencedPartialClassDescriptions = (NSMutableArray)aDecoder.decodeObjectForKey("referencedPartialClassDescriptions");
             }
 
             return this;

@@ -28,7 +28,7 @@ namespace Smartmobili.Cocoa
 {
     public static class Extensions
     {
-        public static bool IsEqualToString(this NSString text, NSString text2)
+        public static bool isEqualToString(this NSString text, NSString text2)
         {
             if (text == null || text2 == null)
                 return false;
@@ -45,7 +45,7 @@ namespace System
 
     public static class Extensions
     {
-        public static bool IsEqualToString(this string text, string text2)
+        public static bool isEqualToString(this string text, string text2)
         { 
             if (text == null || text2 == null)
                 return false;

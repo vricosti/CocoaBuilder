@@ -8,10 +8,10 @@ namespace Smartmobili.Cocoa
     public class NSMutableData : NSData
     {
         new public static Class Class = new Class(typeof(NSMutableData));
-        new public static NSMutableData Alloc() { return new NSMutableData(); }
+        new public static NSMutableData alloc() { return new NSMutableData(); }
 
 
-        public void AppendData(NSData data)
+        public void appendData(NSData data)
         {
             if (data == null || data.Length == 0)
                 return;

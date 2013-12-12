@@ -53,7 +53,7 @@ namespace Smartmobili.Cocoa
             set { _tag = value; }
         }
 
-        new public static NSNibConnector Alloc()
+        new public static NSNibConnector alloc()
         {
             return new NSNibConnector();
         }
@@ -64,7 +64,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual void EstablishConnection()
+        public virtual void establishConnection()
         {
 
         }
@@ -74,48 +74,48 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
             if (aCoder.AllowsKeyedCoding)
             {
                 if (_src != null)
                 {
-                    aCoder.EncodeObjectForKey(_src, @"NSSource");
+                    aCoder.encodeObjectForKey(_src, @"NSSource");
                 }
                 if (_dst != null)
                 {
-                    aCoder.EncodeObjectForKey(_dst, @"NSDestination");
+                    aCoder.encodeObjectForKey(_dst, @"NSDestination");
                 }
                 if (_tag != null)
                 {
-                    aCoder.EncodeObjectForKey(_tag, @"NSLabel");
+                    aCoder.encodeObjectForKey(_tag, @"NSLabel");
                 }
             }
             else
             {
-                aCoder.EncodeObject(_src);
-                aCoder.EncodeObject(_dst);
-                aCoder.EncodeObject(_tag);
+                aCoder.encodeObject(_src);
+                aCoder.encodeObject(_dst);
+                aCoder.encodeObject(_tag);
             }
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            //base.InitWithCoder(aDecoder);
+            //base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                if (aDecoder.ContainsValueForKey(@"NSDestination"))
+                if (aDecoder.containsValueForKey(@"NSDestination"))
                 {
-                    _dst = aDecoder.DecodeObjectForKey(@"NSDestination");
+                    _dst = aDecoder.decodeObjectForKey(@"NSDestination");
                 }
-                if (aDecoder.ContainsValueForKey(@"NSSource"))
+                if (aDecoder.containsValueForKey(@"NSSource"))
                 {
-                    _src = aDecoder.DecodeObjectForKey(@"NSSource");
+                    _src = aDecoder.decodeObjectForKey(@"NSSource");
                 }
-                if (aDecoder.ContainsValueForKey(@"NSLabel"))
+                if (aDecoder.containsValueForKey(@"NSLabel"))
                 {
-                    _tag = (NSString)aDecoder.DecodeObjectForKey(@"NSLabel");
+                    _tag = (NSString)aDecoder.decodeObjectForKey(@"NSLabel");
                 }
             }
             else
@@ -131,12 +131,12 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSNibControlConnector));
 
-        new public static NSNibControlConnector Alloc()
+        new public static NSNibControlConnector alloc()
         {
             return new NSNibControlConnector();
         }
 
-        public override void EstablishConnection()
+        public override void establishConnection()
         {
             SEL sel = SEL.SelectorFromString(_tag);
             ((IAction)_src).Target = _dst;
@@ -148,27 +148,27 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSNibOutletConnector));
 
-        new public static NSNibOutletConnector Alloc()
+        new public static NSNibOutletConnector alloc()
         {
             return new NSNibOutletConnector();
         }
 
-        public override void EstablishConnection()
+        public override void establishConnection()
         {
             if (_src != null)
             {
                 NSString selName;
                 SEL sel; 	 
           
-                selName = NSString.StringWithFormat("set%@%@:", 
-                    _tag.SubstringToIndex(1).UppercaseString(),
-                    _tag.SubstringFromIndex(1));
+                selName = NSString.stringWithFormat("set%@%@:", 
+                    _tag.substringToIndex(1).uppercaseString(),
+                    _tag.substringFromIndex(1));
                 
                 sel = SEL.SelectorFromString(selName); 	 
           
-                if (sel != null && _src.RespondsToSelector(sel)) 	 
+                if (sel != null && _src.respondsToSelector(sel)) 	 
                 {
-                    _src.PerformSelector(sel, _dst); 	 
+                    _src.performSelector(sel, _dst); 	 
                 } 	 
                 else 	 
                 {

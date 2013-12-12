@@ -8,7 +8,7 @@ namespace Smartmobili.Cocoa
     public class NSXMLNamedNode : NSXMLNode
     {
         new public static Class Class = new Class(typeof(NSXMLNamedNode));
-        new public static NSXMLNamedNode Alloc() { return new NSXMLNamedNode(); }
+        new public static NSXMLNamedNode alloc() { return new NSXMLNamedNode(); }
 
         protected NSString _URI;
 

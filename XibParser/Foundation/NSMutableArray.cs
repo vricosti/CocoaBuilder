@@ -35,28 +35,28 @@ namespace Smartmobili.Cocoa
             
         }
 
-        new public static NSMutableArray Alloc()
+        new public static NSMutableArray alloc()
         {
             return new NSMutableArray();
         }
 
-        public override id Init()
+        public override id init()
         {
             return this;
         }
 
 
-		public static NSMutableArray Array()
+		public static NSMutableArray array()
 		{
-			return (NSMutableArray)NSMutableArray.Alloc().Init();
+			return (NSMutableArray)NSMutableArray.alloc().init();
 		}
 
-        new public static NSMutableArray ArrayWithArray(NSArray anArray)
+        new public static NSMutableArray arrayWithArray(NSArray anArray)
         {
-            return (NSMutableArray)Alloc().InitWithArray(anArray);
+            return (NSMutableArray)alloc().initWithArray(anArray);
         }
 
-		public virtual void RemoveObjectIdenticalTo(id anObject)
+		public virtual void removeObjectIdenticalTo(id anObject)
 		{
 			uint	i;
 
@@ -70,18 +70,18 @@ namespace Smartmobili.Cocoa
 			{
 				while (i-- > 0)
 				{
-					id	o = this.ObjectAtIndex((int)i);
+					id	o = this.objectAtIndex((int)i);
 
 					if (o == anObject)
 					{
-						this.RemoveObjectAtIndex(i);
+						this.removeObjectAtIndex(i);
 					}
 				}
 			}
 		}
 		
 
-        public virtual void RemoveLastObject()
+        public virtual void removeLastObject()
         {
             if (this.Count == 0)
                 throw new ArgumentException();
@@ -89,27 +89,27 @@ namespace Smartmobili.Cocoa
             _list.RemoveAt(this.Count - 1);
         }
 
-        public virtual void RemoveObject(id anObject)
+        public virtual void removeObject(id anObject)
         {
-            uint foundIndex = IndexOfObject(anObject);
+            uint foundIndex = indexOfObject(anObject);
             if (foundIndex != NS.NotFound)
             {
-                RemoveObjectAtIndex(foundIndex);
+                removeObjectAtIndex(foundIndex);
             }
         }
 
 
-        public virtual void RemoveAllObjects()
+        public virtual void removeAllObjects()
         {
             _list.Clear();
         }
 
-        public virtual void RemoveObjectAtIndex(uint anIndex)
+        public virtual void removeObjectAtIndex(uint anIndex)
         {
             _list.RemoveAt((int)anIndex);
         }
 
-        public virtual void RemoveObjectsInRange(NSRange aRange)
+        public virtual void removeObjectsInRange(NSRange aRange)
         {
             uint i;
             uint s = aRange.Location;
@@ -124,12 +124,12 @@ namespace Smartmobili.Cocoa
             {
                 while (i-- > s)
                 {
-                    this.RemoveObjectAtIndex(i);
+                    this.removeObjectAtIndex(i);
                 }
             }
         }
 
-        public virtual void InsertObject(id anObject, uint index)
+        public virtual void insertObject(id anObject, uint index)
         {
             if (anObject == null)
                 throw new ArgumentNullException();

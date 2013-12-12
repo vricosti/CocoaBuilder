@@ -76,26 +76,26 @@ namespace Smartmobili.Cocoa
 		}
 
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
             id menu = null;
 
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
             if (aDecoder.AllowsKeyedCoding)
             {
-                if (aDecoder.ContainsValueForKey(@"NSInterfaceStyle"))
+                if (aDecoder.containsValueForKey(@"NSInterfaceStyle"))
                 {
-                    _interface_style = (NSInterfaceStyle)aDecoder.DecodeIntForKey(@"NSInterfaceStyle");
+                    _interface_style = (NSInterfaceStyle)aDecoder.decodeIntForKey(@"NSInterfaceStyle");
                 }
-                if (aDecoder.ContainsValueForKey(@"NSMenu"))
+                if (aDecoder.containsValueForKey(@"NSMenu"))
                 {
-                    menu = (NSMenu)aDecoder.DecodeObjectForKey(@"NSMenu");
+                    menu = (NSMenu)aDecoder.decodeObjectForKey(@"NSMenu");
                 }
-                if (aDecoder.ContainsValueForKey(@"NSNextResponder"))
+                if (aDecoder.containsValueForKey(@"NSNextResponder"))
                 {
-                    NextResponder = (NSResponder)aDecoder.DecodeObjectForKey(@"NSNextResponder");
+                    NextResponder = (NSResponder)aDecoder.decodeObjectForKey(@"NSNextResponder");
                 }
             }
             else

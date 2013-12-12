@@ -20,7 +20,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        new public static NSAttributedString Alloc()
+        new public static NSAttributedString alloc()
         {
             return new NSAttributedString();
         }
@@ -31,12 +31,12 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public virtual id InitWithRTF(NSData rtfData, ref NSDictionary docAttributes)
+        public virtual id initWithRTF(NSData rtfData, ref NSDictionary docAttributes)
         {
             return this;
         }
 
-        public virtual id InitWithRTFD(NSData rtfData, ref NSDictionary docAttributes)
+        public virtual id initWithRTFD(NSData rtfData, ref NSDictionary docAttributes)
         {
             return this;
         }

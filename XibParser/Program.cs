@@ -19,10 +19,10 @@ namespace Smartmobili.Cocoa
                 "</test:Case>" +
                 "</test:Plan>";
 
-            NSData data = str.DataUsingEncoding(NSStringEncoding.NSUTF8StringEncoding);
-            NSXMLParserWIP parser = (NSXMLParserWIP)NSXMLParserWIP.Alloc().InitWithData(data);
-            parser.SetDelegate(this);
-            parser.Parse();
+            NSData data = str.dataUsingEncoding(NSStringEncoding.NSUTF8StringEncoding);
+            NSXMLParserWIP parser = (NSXMLParserWIP)NSXMLParserWIP.alloc().initWithData(data);
+            parser.setDelegate(this);
+            parser.parse();
 
         }
 
@@ -38,17 +38,17 @@ namespace Smartmobili.Cocoa
 
         public virtual void ParserDidStartElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
         {
-            System.Diagnostics.Debug.WriteLine("ParserDidStartElement");
+            System.Diagnostics.Debug.WriteLine("parserDidStartElement");
         }
 
         public virtual void ParserDidEndElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
         {
-            System.Diagnostics.Debug.WriteLine("ParserDidEndElement");
+            System.Diagnostics.Debug.WriteLine("parserDidEndElement");
         }
 
         public virtual void ParserFoundCharacters(NSXMLParserWIP parser, NSString foundCharacters)
         {
-            System.Diagnostics.Debug.WriteLine("ParserFoundCharacters");
+            System.Diagnostics.Debug.WriteLine("parserFoundCharacters");
         }
     }
 
@@ -63,9 +63,9 @@ namespace Smartmobili.Cocoa
             //NSXMLNodeOptions xmlNodeOPtions = (NSXMLNodeOptions)0x800004;
 
 #if TEST_COLOR
-            GSNamedColor nColor1 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list1", "color1");
-            GSNamedColor nColor2 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list2", "color2");
-            GSNamedColor nColor11 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list1", "color1");
+            GSNamedColor nColor1 = (GSNamedColor)GSNamedColor.alloc().InitWithCatalogName("list1", "color1");
+            GSNamedColor nColor2 = (GSNamedColor)GSNamedColor.alloc().InitWithCatalogName("list2", "color2");
+            GSNamedColor nColor11 = (GSNamedColor)GSNamedColor.alloc().InitWithCatalogName("list1", "color1");
 
             //Why does it work without having to override GetHashCode and Equals ???
             System.Diagnostics.Debug.Assert(nColor1.Equals(nColor11));
@@ -110,25 +110,25 @@ namespace Smartmobili.Cocoa
 			string progDir = Path.GetDirectoryName(progPath);
 			string xibPath = progDir + "/../../../Tests/Button/ButtonTextAlign/ButtonTextAlign/en.lproj/ButtonTextAlign.xib";
 
-            //NSData data = NSData.Alloc().InitWithContentsOfFile(xibPath);
+            //NSData data = NSData.alloc().initWithContentsOfFile(xibPath);
             //if (data != null)
-            IBDocument ibDoc = (IBDocument)IBDocument.Alloc().Init();
-            if (ibDoc.ReadFromURL((NSURL)NSURL.FileURLWithPath(xibPath), ""))
+            IBDocument ibDoc = (IBDocument)IBDocument.alloc().init();
+            if (ibDoc.ReadFromURL((NSURL)NSURL.fileURLWithPath(xibPath), ""))
             {
-               // var u = GSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
-                //id container = u.DecodeObjectForKey(@"IBDocument.Objects");
-                //if (container == null || container.IsKindOfClass(IBObjectContainer.Class) == false)
+               // var u = GSXibKeyedUnarchiver.alloc().initForReadingWithData(data);
+                //id container = u.decodeObjectForKey(@"IBDocument.Objects");
+                //if (container == null || container.isKindOfClass(IBObjectContainer.Class) == false)
                 if (false)
                 {
                     //result = NO;
                 }
                 else
                 {
-                    //NSArray rootObjects = (NSArray)u.DecodeObjectForKey(@"IBDocument.RootObjects");
+                    //NSArray rootObjects = (NSArray)u.decodeObjectForKey(@"IBDocument.RootObjects");
                     var rootObjects = ibDoc.RootObjects;
 
                     NSWindowTemplate nsWindow = (NSWindowTemplate)rootObjects.Where(o =>
-                    (o != null) && (o.IsKindOfClass(NSWindowTemplate.Class))).FirstOrDefault();
+                    (o != null) && (o.isKindOfClass(NSWindowTemplate.Class))).FirstOrDefault();
                     if (nsWindow != null)
                     {
                         if (nsWindow.View != null)

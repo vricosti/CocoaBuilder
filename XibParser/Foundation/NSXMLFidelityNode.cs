@@ -8,7 +8,7 @@ namespace Smartmobili.Cocoa
     public class NSXMLFidelityNode : NSXMLNode
     {
         new public static Class Class = new Class(typeof(NSXMLFidelityNode));
-        new public static NSXMLFidelityNode Alloc() { return new NSXMLFidelityNode(); }
+        new public static NSXMLFidelityNode alloc() { return new NSXMLFidelityNode(); }
 
 
     }

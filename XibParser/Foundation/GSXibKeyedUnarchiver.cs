@@ -42,19 +42,19 @@ namespace Smartmobili.Cocoa
 
         
 
-        new public static GSXibElement Alloc()
+        new public static GSXibElement alloc()
         {
             return new GSXibElement();
         }
 
-        public virtual GSXibElement InitWithTypeAndAttributes(NSString typeName, NSDictionary attribs)
+        public virtual GSXibElement initWithTypeAndAttributes(NSString typeName, NSDictionary attribs)
         {
             GSXibElement self = this;
 
             _type = typeName;
             _attributes = attribs;
-            _elements = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
-            _values = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _elements = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+            _values = (NSMutableArray)NSMutableArray.alloc().init();
 
             return self;
         }
@@ -81,24 +81,24 @@ namespace Smartmobili.Cocoa
             get { return _values; }
         }
 
-        public virtual void AddElement(GSXibElement element)
+        public virtual void addElement(GSXibElement element)
         {
-            _values.AddObject(element);
+            _values.addObject(element);
         }
 
-        public virtual void SetElementForKey(GSXibElement element, NSString key)
+        public virtual void setElementForKey(GSXibElement element, NSString key)
         {
-            _elements.SetObjectForKey(element, key);
+            _elements.setObjectForKey(element, key);
         }
 
-        public virtual NSString AttributeForKey(NSString key)
+        public virtual NSString attributeForKey(NSString key)
         {
-            return (NSString)_attributes.ObjectForKey(key);
+            return (NSString)_attributes.objectForKey(key);
         }
 
-        public virtual GSXibElement ElementForKey(NSString key)
+        public virtual GSXibElement elementForKey(NSString key)
         {
-            return (GSXibElement)_elements.ObjectForKey(key);
+            return (GSXibElement)_elements.objectForKey(key);
         }
 
         public override int GetHashCode()
@@ -141,7 +141,7 @@ namespace Smartmobili.Cocoa
         {
             if (shouldCallInit)
             {
-                Init();
+                init();
             }
 
             CocoaAssemblies = new List<Assembly>();
@@ -152,7 +152,7 @@ namespace Smartmobili.Cocoa
             CocoaAssemblies.Add(Assembly.Load("Smartmobili.Cocoa.InterfaceBuilderKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"));
         }
 
-        new public static GSXibKeyedUnarchiver Alloc()
+        new public static GSXibKeyedUnarchiver alloc()
         {
             string strAssemDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string strLogPath = System.IO.Path.Combine(strAssemDir, "smi_parser_foundCharacters.log");
@@ -161,7 +161,7 @@ namespace Smartmobili.Cocoa
             return new GSXibKeyedUnarchiver(false);
         }
 
-        private NSData PreProcessXib(NSData data)
+        private NSData preProcessXib(NSData data)
         {
             NSData result = data;
 
@@ -236,31 +236,31 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public GSXibKeyedUnarchiver InitForReadingWithData(NSData data)
+        public GSXibKeyedUnarchiver initForReadingWithData(NSData data)
         {
             NSData theData = data;
 
-            Objects = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+            Objects = (NSMutableDictionary)NSMutableDictionary.alloc().init();
 
-            Stack = (NSMutableArray)NSMutableArray.Alloc().Init();
+            Stack = (NSMutableArray)NSMutableArray.alloc().init();
 
-            Decoded = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+            Decoded = (NSMutableDictionary)NSMutableDictionary.alloc().init();
 
             if (NSClassWrapper.IsInInterfaceBuilder == false)
             {
-                theData = PreProcessXib(data);
+                theData = preProcessXib(data);
             }
 
-            NSXMLParser theParser = (NSXMLParser)NSXMLParser.Alloc().InitWithData(theData);
-            theParser.SetDelegate(this);
+            NSXMLParser theParser = (NSXMLParser)NSXMLParser.alloc().initWithData(theData);
+            theParser.setDelegate(this);
 
-            theParser.Parse();
+            theParser.parse();
 
-            //_tw.Close();
+            //_tw.close();
             return this;
         }
 
-        public void ParserFoundCharacters(NSXMLParser parser, NSString foundCharacters)
+        public void parserFoundCharacters(NSXMLParser parser, NSString foundCharacters)
         {
             //string chars = foundCharacters.Value.Replace("\n", "\\n");
             //chars = chars.Replace("\r", "\\r");
@@ -273,17 +273,17 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public void ParserDidStartElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
+        public void parserDidStartElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
         {
-            GSXibElement element = GSXibElement.Alloc().InitWithTypeAndAttributes(elementName, attributeDict); //andAttributes: attributeDict];
-            NSString key = (NSString)attributeDict.ObjectForKey((NSString)@"key");
-            NSString refId = (NSString)attributeDict.ObjectForKey((NSString)@"id");
+            GSXibElement element = GSXibElement.alloc().initWithTypeAndAttributes(elementName, attributeDict); //andAttributes: attributeDict];
+            NSString key = (NSString)attributeDict.objectForKey((NSString)@"key");
+            NSString refId = (NSString)attributeDict.objectForKey((NSString)@"id");
 
             if (key != null)
             {
                 if (CurrentElement != null)
                 {
-                    CurrentElement.SetElementForKey(element, key);
+                    CurrentElement.setElementForKey(element, key);
                 }
             }
             else
@@ -291,40 +291,40 @@ namespace Smartmobili.Cocoa
                 // For Arrays
                 if (CurrentElement != null)
                 {
-                    CurrentElement.AddElement(element);
+                    CurrentElement.addElement(element);
                 }
             }
             if (refId != null)
             {
-                Objects.SetObjectForKey(element, refId);
+                Objects.setObjectForKey(element, refId);
             }
 
-             if (!@"archive".IsEqualToString(elementName) &&
-                 !@"data".IsEqualToString(elementName))
+             if (!@"archive".isEqualToString(elementName) &&
+                 !@"data".isEqualToString(elementName))
              {
                  // only used for the root element
                  // push
-                 Stack.AddObject(CurrentElement);
+                 Stack.addObject(CurrentElement);
              }
 
-             if (!@"archive".IsEqualToString(elementName))
+             if (!@"archive".isEqualToString(elementName))
              {
                  CurrentElement = element;
              }
         }
 
-        public void ParserDidEndElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
+        public void parserDidEndElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
         {
-            if (!@"archive".IsEqualToString(elementName) &&
-                 !@"data".IsEqualToString(elementName))
+            if (!@"archive".isEqualToString(elementName) &&
+                 !@"data".isEqualToString(elementName))
             {
                  // pop
-                CurrentElement = (GSXibElement)Stack.LastObject();
-                Stack.RemoveLastObject(); 
+                CurrentElement = (GSXibElement)Stack.lastObject();
+                Stack.removeLastObject(); 
             }
         }
 
-        public id AllocObjectForClassName(NSString classname)
+        public id allocObjectForClassName(NSString classname)
         {
             id nsObj = null;
 
@@ -360,33 +360,33 @@ namespace Smartmobili.Cocoa
         }
 
         //- (id) decodeObjectForXib: (GSXibElement*)element forClassName: (NSString*)classname withID: (NSString*)objID
-        public virtual id DecodeObjectForXib(GSXibElement element, NSString classname, NSString objID)
+        public virtual id decodeObjectForXib(GSXibElement element, NSString classname, NSString objID)
         { 
             GSXibElement last;
             id o, r;
             id dlgate = this.Delegate;
 
-            o = AllocObjectForClassName(classname);
+            o = allocObjectForClassName(classname);
             if (objID != null)
-                Decoded.SetObjectForKey(o, objID);
+                Decoded.setObjectForKey(o, objID);
 
             // push
             last = CurrentElement;
             CurrentElement = element;
 
-            r = (id)Objc.MsgSend(o, "InitWithCoder", this);
-            //r = ((NSCoding)o).InitWithCoder(this);
+            r = (id)Objc.MsgSend(o, "initWithCoder", this);
+            //r = ((NSCoding)o).initWithCoder(this);
 
             // pop
             CurrentElement = last;
 
             if (r != o)
             {
-                Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
-                //((INSKeyedUnarchiverDelegate)dlgate).UnarchiverWillReplaceObject(this, o, r);
+                Objc.MsgSend(dlgate, "unarchiverWillReplaceObject", this, o, r);
+                //((INSKeyedUnarchiverDelegate)dlgate).unarchiverWillReplaceObject(this, o, r);
                 o = r;
                 if (objID != null)
-                    Decoded.SetObjectForKey(o, objID);
+                    Decoded.setObjectForKey(o, objID);
 
             }
 
@@ -394,25 +394,25 @@ namespace Smartmobili.Cocoa
             r = (id)Objc.MsgSend(o, "AwakeAfterUsingCoder", this);
             if (r != o)
             {
-                Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
-                //((INSKeyedUnarchiverDelegate)dlgate).UnarchiverWillReplaceObject(this, o, r);
+                Objc.MsgSend(dlgate, "unarchiverWillReplaceObject", this, o, r);
+                //((INSKeyedUnarchiverDelegate)dlgate).unarchiverWillReplaceObject(this, o, r);
                 o = r;
                 if (objID != null)
-                    Decoded.SetObjectForKey(o, objID);
+                    Decoded.setObjectForKey(o, objID);
 
             }
 
 
             if (dlgate != null)
             {
-                //r = ((INSKeyedUnarchiverDelegate)dlgate).UnarchiverDidDecodeObject(this, o);
-                r = (id)Objc.MsgSend(dlgate, "UnarchiverDidDecodeObject", this, o);
+                //r = ((INSKeyedUnarchiverDelegate)dlgate).unarchiverDidDecodeObject(this, o);
+                r = (id)Objc.MsgSend(dlgate, "unarchiverDidDecodeObject", this, o);
                 if (r != o)
                 {
-                    Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                    Objc.MsgSend(dlgate, "unarchiverWillReplaceObject", this, o, r);
                     o = r;
                     if (objID != null)
-                        Decoded.SetObjectForKey(o, objID);
+                        Decoded.setObjectForKey(o, objID);
                 }
             }
 
@@ -424,47 +424,47 @@ namespace Smartmobili.Cocoa
             return o;
         }
 
-        public virtual id DecodeDictionaryForXib(GSXibElement element, NSString classname, NSString objID)
+        public virtual id decodeDictionaryForXib(GSXibElement element, NSString classname, NSString objID)
         {
             id o, r;
             id dlgate = this.Delegate;
 
-            o = AllocObjectForClassName(classname);
+            o = allocObjectForClassName(classname);
             if (objID != null)
-                Decoded.SetObjectForKey(o, objID);
+                Decoded.setObjectForKey(o, objID);
 
              //r = [o initWithDictionary: [self _decodeDictionaryOfObjectsForElement: element]];
-            r = ((NSDictionary)o).InitWithDictionary((NSDictionary)_DecodeDictionaryOfObjectsForElement(element));
+            r = ((NSDictionary)o).initWithDictionary((NSDictionary)_decodeDictionaryOfObjectsForElement(element));
             if (r != o)
             {
-                Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
-                //((INSKeyedUnarchiverDelegate)dlgate).UnarchiverWillReplaceObject(this, o, r);
+                Objc.MsgSend(dlgate, "unarchiverWillReplaceObject", this, o, r);
+                //((INSKeyedUnarchiverDelegate)dlgate).unarchiverWillReplaceObject(this, o, r);
                 o = r;
                 if (objID != null)
-                    Decoded.SetObjectForKey(o, objID);
+                    Decoded.setObjectForKey(o, objID);
             }
 
             //r = [o awakeAfterUsingCoder: self];
             r = (id)Objc.MsgSend(o, "AwakeAfterUsingCoder", this);
             if (r != o)
             {
-                Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                Objc.MsgSend(dlgate, "unarchiverWillReplaceObject", this, o, r);
                 o = r;
                 if (objID != null)
-                    Decoded.SetObjectForKey(o, objID);
+                    Decoded.setObjectForKey(o, objID);
 
             }
 
             if (dlgate != null)
             {
-                //r = ((INSKeyedUnarchiverDelegate)dlgate).UnarchiverDidDecodeObject(this, o);
-                r = (id)Objc.MsgSend(dlgate, "UnarchiverDidDecodeObject", this, o);
+                //r = ((INSKeyedUnarchiverDelegate)dlgate).unarchiverDidDecodeObject(this, o);
+                r = (id)Objc.MsgSend(dlgate, "unarchiverDidDecodeObject", this, o);
                 if (r != o)
                 {
-                    Objc.MsgSend(dlgate, "UnarchiverWillReplaceObject", this, o, r);
+                    Objc.MsgSend(dlgate, "unarchiverWillReplaceObject", this, o, r);
                     o = r;
                     if (objID != null)
-                        Decoded.SetObjectForKey(o, objID);
+                        Decoded.setObjectForKey(o, objID);
                 }
             }
 
@@ -476,7 +476,7 @@ namespace Smartmobili.Cocoa
             return o;
         }
 
-        public virtual id ObjectForXib(GSXibElement element)
+        public virtual id objectForXib(GSXibElement element)
         {
             NSString elementName;
             NSString objID;
@@ -484,10 +484,10 @@ namespace Smartmobili.Cocoa
             if (element == null)
                 return null;
 
-            objID = element.AttributeForKey(@"id");
+            objID = element.attributeForKey(@"id");
             if (objID != null)
             {
-                id newObj = Decoded.ObjectForKey(objID);
+                id newObj = Decoded.objectForKey(objID);
                 if (newObj != null)
                 {
                     // The object was already decoded as a reference
@@ -496,21 +496,21 @@ namespace Smartmobili.Cocoa
             }
 
             elementName = element.Type;
-            if (@"object".IsEqualToString(elementName))
+            if (@"object".isEqualToString(elementName))
             {
-                NSString classname = element.AttributeForKey(@"class");
-                return DecodeObjectForXib(element, classname, objID);
+                NSString classname = element.attributeForKey(@"class");
+                return decodeObjectForXib(element, classname, objID);
             }
-            else if (@"string".IsEqualToString(elementName))
+            else if (@"string".isEqualToString(elementName))
             {
-                NSString type = element.AttributeForKey(@"type");
+                NSString type = element.attributeForKey(@"type");
                 id newObj = element.Value;
 
-                if (type != null && type.IsEqualToString(@"base64-UTF8"))
+                if (type != null && type.isEqualToString(@"base64-UTF8"))
                 {
-                     NSData d = ((NSString)newObj).DataUsingEncoding(NSStringEncoding.NSASCIIStringEncoding, false);
-                     d = GSMimeDocument.DecodeBase64((NSData)d);
-                     newObj = NSString.Alloc().InitWithData(d, NSStringEncoding.NSUTF8StringEncoding);
+                     NSData d = ((NSString)newObj).dataUsingEncoding(NSStringEncoding.NSASCIIStringEncoding, false);
+                     d = GSMimeDocument.decodeBase64((NSData)d);
+                     newObj = NSString.alloc().initWithData(d, NSStringEncoding.NSUTF8StringEncoding);
                 }
 
                 // empty strings are not nil!
@@ -518,65 +518,65 @@ namespace Smartmobili.Cocoa
                     newObj = (NSString)@"";
 
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"int".IsEqualToString(elementName))
+            else if (@"int".isEqualToString(elementName))
             {
-                id newObj = NSNumber.NumberWithInt(element.Value.IntValue);
+                id newObj = NSNumber.numberWithInt(element.Value.IntValue);
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"double".IsEqualToString(elementName))
+            else if (@"double".isEqualToString(elementName))
             {
-                id newObj = NSNumber.NumberWithDouble(element.Value.DoubleValue);
+                id newObj = NSNumber.numberWithDouble(element.Value.DoubleValue);
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"bool".IsEqualToString(elementName))
+            else if (@"bool".isEqualToString(elementName))
             {
                 //Fixme
-                id newObj = NSNumber.NumberWithBool(element.Value.BoolValue);
+                id newObj = NSNumber.numberWithBool(element.Value.BoolValue);
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"integer".IsEqualToString(elementName))
+            else if (@"integer".isEqualToString(elementName))
             {
-                NSString value = element.AttributeForKey(@"value");
-                id newObj = NSNumber.NumberWithInteger(value.IntegerValue);
+                NSString value = element.attributeForKey(@"value");
+                id newObj = NSNumber.numberWithInteger(value.IntegerValue);
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"real".IsEqualToString(elementName))
+            else if (@"real".isEqualToString(elementName))
             {
-                NSString value = element.AttributeForKey(@"value");
-                id newObj = NSNumber.NumberWithFloat(value.FloatValue);
+                NSString value = element.attributeForKey(@"value");
+                id newObj = NSNumber.numberWithFloat(value.FloatValue);
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"bool".IsEqualToString(elementName))
+            else if (@"bool".isEqualToString(elementName))
             {
-                NSString value = element.AttributeForKey(@"value");
-                id newObj = NSNumber.NumberWithBool(value.BoolValue);
+                NSString value = element.attributeForKey(@"value");
+                id newObj = NSNumber.numberWithBool(value.BoolValue);
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"reference".IsEqualToString(elementName))
+            else if (@"reference".isEqualToString(elementName))
             {
-                NSString refId = element.AttributeForKey(@"ref");
+                NSString refId = element.attributeForKey(@"ref");
 
 
                 if (refId == null)
@@ -585,65 +585,65 @@ namespace Smartmobili.Cocoa
                 }
                 else
                 {
-                    id newObj = Decoded.ObjectForKey(refId);
+                    id newObj = Decoded.objectForKey(refId);
                      // FIXME: We need a marker for nil
                     if (newObj == null)
                     {
                         //NSLog(@"Decoding reference %@", ref);
-                        element = (GSXibElement)Objects.ObjectForKey(refId);
+                        element = (GSXibElement)Objects.objectForKey(refId);
                         if (element != null)
                         {
                             // Decode the real object
-                            newObj = ObjectForXib(element);
+                            newObj = objectForXib(element);
                         }
                     }
                     return newObj;
                 }
             }
-            else if (@"nil".IsEqualToString(elementName))
+            else if (@"nil".isEqualToString(elementName))
             {
                 return null;
             }
-            else if (@"characters".IsEqualToString(elementName))
+            else if (@"characters".isEqualToString(elementName))
             {
                 id newObj = element.Value;
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"bytes".IsEqualToString(elementName))
+            else if (@"bytes".isEqualToString(elementName))
             {
-                id newObj = element.Value.DataUsingEncoding(NSStringEncoding.NSASCIIStringEncoding, false);
-                newObj = GSMimeDocument.DecodeBase64((NSData)newObj);
+                id newObj = element.Value.dataUsingEncoding(NSStringEncoding.NSASCIIStringEncoding, false);
+                newObj = GSMimeDocument.decodeBase64((NSData)newObj);
 
                 //string encodedData = Encoding.ASCII.GetString(((NSData)newObj).Bytes);
                 //byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedData);
                 //objID = new NSString(System.Text.Encoding.ASCII.GetString(encodedDataAsBytes));
                 
-                //newObj = GSMimeDocument.DecodeBase64(newObj);
+                //newObj = GSMimeDocument.decodeBase64(newObj);
                 if (objID != null)
-                    Decoded.SetObjectForKey(newObj, objID);
+                    Decoded.setObjectForKey(newObj, objID);
 
                 return newObj;
             }
-            else if (@"array".IsEqualToString(elementName))
+            else if (@"array".isEqualToString(elementName))
             {
-                NSString classname = element.AttributeForKey(@"class");
+                NSString classname = element.attributeForKey(@"class");
                 if (classname == null)
                 {
                     classname = @"NSArray";
                 }
-                return DecodeObjectForXib(element, classname, objID);
+                return decodeObjectForXib(element, classname, objID);
             }
-            else if (@"dictionary".IsEqualToString(elementName))
+            else if (@"dictionary".isEqualToString(elementName))
             {
-                NSString classname = element.AttributeForKey(@"class");
+                NSString classname = element.attributeForKey(@"class");
                 if (classname == null)
                 {
                     classname = @"NSDictionary";
                 }
-                return DecodeDictionaryForXib(element, classname, objID);
+                return decodeDictionaryForXib(element, classname, objID);
             }
             else
             {
@@ -653,14 +653,14 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
-        public override id _DecodeArrayOfObjectsForKey(NSString aKey)
+        public override id _decodeArrayOfObjectsForKey(NSString aKey)
         {
             // FIXME: This is wrong but the only way to keep the code for
             // [NSArray-initWithCoder:] working
-            return _DecodeArrayOfObjectsForElement(CurrentElement);
+            return _decodeArrayOfObjectsForElement(CurrentElement);
         }
 
-        public override id _DecodeArrayOfObjectsForElement(GSXibElement element)
+        public override id _decodeArrayOfObjectsForElement(GSXibElement element)
         {
             NSArray values = element.Values;
             int max = values.Count;
@@ -669,50 +669,50 @@ namespace Smartmobili.Cocoa
 
             for (i = 0; i < max; i++)
             {
-                list[i] = this.ObjectForXib((GSXibElement)values.ObjectAtIndex(i));
+                list[i] = this.objectForXib((GSXibElement)values.objectAtIndex(i));
                 if (list[i] == null)
-                    System.Diagnostics.Trace.WriteLine(string.Format("No object for {0} at index {1}", values.ObjectAtIndex(i).ToString(), i));
+                    System.Diagnostics.Trace.WriteLine(string.Format("No object for {0} at index {1}", values.objectAtIndex(i).ToString(), i));
             }
 
-            return NSArray.ArrayWithObjects(list);
+            return NSArray.arrayWithObjects(list);
         }
 
-        public override id _DecodeDictionaryOfObjectsForElement(GSXibElement element)
+        public override id _decodeDictionaryOfObjectsForElement(GSXibElement element)
         {
             NSDictionary elements = element.Elements;
             NSEnumerator en;
             NSString key;
             NSMutableDictionary dict;
 
-            dict = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
-            en = elements.KeyEnumerator();
-            while ((key = (NSString)en.NextObject()) != null)
+            dict = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+            en = elements.keyEnumerator();
+            while ((key = (NSString)en.nextObject()) != null)
             {
-                id obj = this.ObjectForXib((GSXibElement)elements.ObjectForKey(key));
+                id obj = this.objectForXib((GSXibElement)elements.objectForKey(key));
                 if (obj == null)
-                    System.Diagnostics.Trace.WriteLine(string.Format("No object for {0} at key {1}", elements.ObjectForKey(key).ToString(), key.Value));
+                    System.Diagnostics.Trace.WriteLine(string.Format("No object for {0} at key {1}", elements.objectForKey(key).ToString(), key.Value));
                 else
-                    dict.SetObjectForKey(obj, key);
+                    dict.setObjectForKey(obj, key);
             }
 
             return dict;
         }
 
-        public virtual NSString DecodeReferenceForKey(NSString aKey)
+        public virtual NSString decodeReferenceForKey(NSString aKey)
         {
-            GSXibElement element = CurrentElement.ElementForKey(aKey);
+            GSXibElement element = CurrentElement.elementForKey(aKey);
             NSString objID;
 
             if (element == null)
                 return null;
 
-            objID = element.AttributeForKey(@"id");
+            objID = element.attributeForKey(@"id");
             if (objID != null)
             {
                 return objID;
             }
 
-            objID = element.AttributeForKey(@"ref");
+            objID = element.attributeForKey(@"ref");
             if (objID != null)
             {
                 return objID;
@@ -722,27 +722,27 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
-        public override bool ContainsValueForKey(NSString aKey)
+        public override bool containsValueForKey(NSString aKey)
         {
-            GSXibElement element = CurrentElement.ElementForKey(aKey);
+            GSXibElement element = CurrentElement.elementForKey(aKey);
             return (element != null);
         }
 
-        public override id DecodeObjectForKey(NSString aKey)
+        public override id decodeObjectForKey(NSString aKey)
         {
-            GSXibElement element = CurrentElement.ElementForKey(aKey);
+            GSXibElement element = CurrentElement.elementForKey(aKey);
             if (element == null)
                 return null;
 
-            return this.ObjectForXib(element);
+            return this.objectForXib(element);
         }
 
-        public override bool DecodeBoolForKey(NSString aKey)
+        public override bool decodeBoolForKey(NSString aKey)
          {
-             id o = this.DecodeObjectForKey(aKey);
+             id o = this.decodeObjectForKey(aKey);
              if (o != null)
              {
-                 if (o.IsKindOfClass(NSNumber.Class) == true)
+                 if (o.isKindOfClass(NSNumber.Class) == true)
                  {
                      return ((NSNumber)o).BoolValue;
                  }
@@ -751,12 +751,12 @@ namespace Smartmobili.Cocoa
              return false;
          }
 
-        public override byte[] DecodeBytesForKey(NSString aKey, ref int lengthp)
+        public override byte[] decodeBytesForKey(NSString aKey, ref int lengthp)
         {
-            id o = this.DecodeObjectForKey(aKey);
+            id o = this.decodeObjectForKey(aKey);
             if (o != null)
             {
-                if (o.IsKindOfClass(NSData.Class) == true)
+                if (o.isKindOfClass(NSData.Class) == true)
                 {
                     lengthp = ((NSData)o).Length;
                     return ((NSData)o).Bytes;
@@ -767,12 +767,12 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
-        public override double DecodeDoubleForKey(NSString aKey)
+        public override double decodeDoubleForKey(NSString aKey)
         {
-            id o = this.DecodeObjectForKey(aKey);
+            id o = this.decodeObjectForKey(aKey);
             if (o != null)
             {
-                if (o.IsKindOfClass(NSNumber.Class) == true)
+                if (o.isKindOfClass(NSNumber.Class) == true)
                 {
                     return ((NSNumber)o).DoubleValue;
                 }
@@ -781,12 +781,12 @@ namespace Smartmobili.Cocoa
             return 0.0;
         }
 
-        public override float DecodeFloatForKey(NSString aKey)
+        public override float decodeFloatForKey(NSString aKey)
         {
-            id o = this.DecodeObjectForKey(aKey);
+            id o = this.decodeObjectForKey(aKey);
             if (o != null)
             {
-                if (o.IsKindOfClass(NSNumber.Class) == true)
+                if (o.isKindOfClass(NSNumber.Class) == true)
                 {
                     return ((NSNumber)o).FloatValue;
                 }
@@ -795,12 +795,12 @@ namespace Smartmobili.Cocoa
             return 0;
         }
 
-        public override int DecodeIntForKey(NSString aKey)
+        public override int decodeIntForKey(NSString aKey)
         {
-            id o = this.DecodeObjectForKey(aKey);
+            id o = this.decodeObjectForKey(aKey);
             if (o != null)
             {
-                if (o.IsKindOfClass(NSNumber.Class) == true)
+                if (o.isKindOfClass(NSNumber.Class) == true)
                 {
                     return ((NSNumber)o).IntValue;
                 }
@@ -808,17 +808,17 @@ namespace Smartmobili.Cocoa
             return 0;
         }
 
-        public override int DecodeInt32ForKey(NSString aKey)
+        public override int decodeInt32ForKey(NSString aKey)
         {
-            return DecodeIntForKey(aKey);
+            return decodeIntForKey(aKey);
         }
 
-        public override long DecodeInt64ForKey(NSString aKey)
+        public override long decodeInt64ForKey(NSString aKey)
         {
-            id o = this.DecodeObjectForKey(aKey);
+            id o = this.decodeObjectForKey(aKey);
             if (o != null)
             {
-                if (o.IsKindOfClass(NSNumber.Class) == true)
+                if (o.isKindOfClass(NSNumber.Class) == true)
                 {
                     return ((NSNumber)o).IntValue;
                 }

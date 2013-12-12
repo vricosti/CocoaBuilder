@@ -70,8 +70,8 @@ namespace Smartmobili.Cocoa
             //    throw new Exception("Invalid xElement for NSSize");
             
             //var culture = CultureInfo.CreateSpecificCulture("en-US");
-            //nsPoint.Width = Single.Parse(matches.Groups[1].Value, NumberStyles.AllowExponent, culture);
-            //nsPoint.Height = Single.Parse(matches.Groups[2].Value, NumberStyles.AllowExponent, culture);
+            //nsPoint.Width = Single.parse(matches.Groups[1].Value, NumberStyles.AllowExponent, culture);
+            //nsPoint.Height = Single.parse(matches.Groups[2].Value, NumberStyles.AllowExponent, culture);
 
 
 
@@ -89,12 +89,12 @@ namespace Smartmobili.Cocoa
             //if (w.Equals("1.79769e+308", StringComparison.CurrentCultureIgnoreCase))
             //    nsSize.Width = double.MaxValue;
             //else
-            //    nsSize.Width = Double.Parse(w, NumberStyles.AllowExponent, culture);
+            //    nsSize.Width = Double.parse(w, NumberStyles.AllowExponent, culture);
 
             //if (h.Equals("1.79769e+308", StringComparison.CurrentCultureIgnoreCase))
             //    nsSize.Height = double.MaxValue;
             //else
-            //    nsSize.Height = Double.Parse(h, NumberStyles.AllowExponent, culture);
+            //    nsSize.Height = Double.parse(h, NumberStyles.AllowExponent, culture);
 
             return nsSize;
         }

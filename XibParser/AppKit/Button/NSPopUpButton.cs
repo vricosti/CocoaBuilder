@@ -22,8 +22,8 @@ namespace Smartmobili.Cocoa
             set { _nspopupbuttonCellClass = value; }
         }
 
-        static NSPopUpButton() { Initialize(); }
-        new static void Initialize()
+        static NSPopUpButton() { initialize(); }
+        new static void initialize()
         {
             //this.Version = 1;
             NSPopUpButton.CellClass = NSPopUpButtonCell.Class;

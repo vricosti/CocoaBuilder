@@ -27,9 +27,9 @@ namespace Smartmobili.Cocoa
 
     public interface INSXMLParser
     {
-        void ParserDidStartElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict);
-        void ParserDidEndElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName);
-        void ParserFoundCharacters(NSXMLParser parser, NSString foundCharacters);
+        void parserDidStartElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict);
+        void parserDidEndElement(NSXMLParser parser, NSString elementName, NSString namespaceURI, NSString qualifiedName);
+        void parserFoundCharacters(NSXMLParser parser, NSString foundCharacters);
     }
    
 }

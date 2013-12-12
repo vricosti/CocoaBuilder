@@ -49,14 +49,14 @@ namespace Smartmobili.Cocoa
 
         public NSMenuItemCell()
         {
-            Init();
+            init();
         }
 
-        public override id Init()
+        public override id init()
         {
             id self = this;
 
-            if (base.Init() == null)
+            if (base.init() == null)
                 return null;
 
             this.ButtonType = NSButtonType.NSMomentaryLightButton;
@@ -68,17 +68,17 @@ namespace Smartmobili.Cocoa
         }
        
 
-        [ObjcMethodAttribute("InitWithCoder")]
-        public override id InitWithCoder(NSCoder aDecoder)
+        [ObjcMethodAttribute("initWithCoder")]
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                //this.MenuItem = aDecoder.DecodeObjectForKey(@"NSMenuItem");
+                //this.MenuItem = aDecoder.decodeObjectForKey(@"NSMenuItem");
             }
 
             _needs_sizing = true;

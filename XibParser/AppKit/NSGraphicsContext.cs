@@ -8,6 +8,6 @@ namespace Smartmobili.Cocoa
     public class NSGraphicsContext : NSObject
     {
         new public static Class Class = new Class(typeof(NSGraphicsContext));
-        new public static NSGraphicsContext Alloc() { return new NSGraphicsContext(); }
+        new public static NSGraphicsContext alloc() { return new NSGraphicsContext(); }
     }
 }

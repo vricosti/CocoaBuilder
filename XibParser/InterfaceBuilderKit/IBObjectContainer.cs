@@ -28,7 +28,7 @@ namespace Smartmobili.Cocoa
     public class IBObjectContainer : NSObject
     {
         new public static Class Class = new Class(typeof(IBObjectContainer));
-        new public static IBObjectContainer Alloc() { return new IBObjectContainer(); }
+        new public static IBObjectContainer alloc() { return new IBObjectContainer(); }
 
         public NSMutableArray ConnectionRecords { get; set; }
 
@@ -57,19 +57,19 @@ namespace Smartmobili.Cocoa
             Localizations = new NSMutableDictionary();
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                ConnectionRecords = (NSMutableArray)aDecoder.DecodeObjectForKey("connectionRecords");
-                ObjectRecords = (IBMutableOrderedSet)aDecoder.DecodeObjectForKey("objectRecords");
-                FlattenedProperties = (NSMutableDictionary)aDecoder.DecodeObjectForKey("flattenedProperties");
-                UnlocalizedProperties = (NSMutableDictionary)aDecoder.DecodeObjectForKey("unlocalizedProperties");
-                Localizations = (NSMutableDictionary)aDecoder.DecodeObjectForKey("localizations");
-                SourceID = aDecoder.DecodeObjectForKey("sourceID");
-                MaxId = aDecoder.DecodeIntForKey("maxID");
+                ConnectionRecords = (NSMutableArray)aDecoder.decodeObjectForKey("connectionRecords");
+                ObjectRecords = (IBMutableOrderedSet)aDecoder.decodeObjectForKey("objectRecords");
+                FlattenedProperties = (NSMutableDictionary)aDecoder.decodeObjectForKey("flattenedProperties");
+                UnlocalizedProperties = (NSMutableDictionary)aDecoder.decodeObjectForKey("unlocalizedProperties");
+                Localizations = (NSMutableDictionary)aDecoder.decodeObjectForKey("localizations");
+                SourceID = aDecoder.decodeObjectForKey("sourceID");
+                MaxId = aDecoder.decodeIntForKey("maxID");
             }
 
 

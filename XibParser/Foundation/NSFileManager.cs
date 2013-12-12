@@ -29,22 +29,22 @@ namespace Smartmobili.Cocoa
     public class NSDirectoryEnumerator : NSEnumerator
     {
         new public static Class Class = new Class(typeof(NSDirectoryEnumerator));
-        new public static NSDirectoryEnumerator Alloc() { return new NSDirectoryEnumerator(); }
+        new public static NSDirectoryEnumerator alloc() { return new NSDirectoryEnumerator(); }
 
-        public virtual id InitWithPath(NSString aPath)
+        public virtual id initWithPath(NSString aPath)
         {
             id self = this;
 
             return self;
         }
 
-        public override NSArray AllObjects()
+        public override NSArray allObjects()
         {
             throw new NotImplementedException();            
             return null;
         }
 
-        public override id NextObject()
+        public override id nextObject()
         {
             throw new NotImplementedException();
 
@@ -56,7 +56,7 @@ namespace Smartmobili.Cocoa
     public class NSFileManager : NSObject
     {
         new public static Class Class = new Class(typeof(NSFileManager));
-        new public static NSFileManager Alloc() { return new NSFileManager(); }
+        new public static NSFileManager alloc() { return new NSFileManager(); }
 
         private static NSFileManager _defaultFileMgr;
 
@@ -67,7 +67,7 @@ namespace Smartmobili.Cocoa
             {
                 if (_defaultFileMgr == null)
                 {
-                    _defaultFileMgr = (NSFileManager)Alloc().Init();
+                    _defaultFileMgr = (NSFileManager)alloc().init();
                 }
 
                 return _defaultFileMgr;
@@ -100,7 +100,7 @@ namespace Smartmobili.Cocoa
                 FileInfo info = new FileInfo(path);
                 FileAttributes fileAttrs = info.Attributes;
 
-                attrs = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+                attrs = (NSMutableDictionary)NSMutableDictionary.alloc().init();
                 
                     
                 bool isDirectory = ((fileAttrs & FileAttributes.Directory) == FileAttributes.Directory);
@@ -108,16 +108,16 @@ namespace Smartmobili.Cocoa
                 {
                     bool isSymbolicLink = ((fileAttrs & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint);
                     if (isSymbolicLink)
-                        attrs.SetObjectForKey((NSString)"NSFileTypeSymbolicLink", fileTypeKey);
+                        attrs.setObjectForKey((NSString)"NSFileTypeSymbolicLink", fileTypeKey);
                     else
-                        attrs.SetObjectForKey((NSString)"NSFileTypeRegular", fileTypeKey);
+                        attrs.setObjectForKey((NSString)"NSFileTypeRegular", fileTypeKey);
                 }
                 else
                 {
-                    attrs.SetObjectForKey((NSString)"NSFileTypeDirectory", fileTypeKey);
+                    attrs.setObjectForKey((NSString)"NSFileTypeDirectory", fileTypeKey);
                 }
 
-                attrs.SetObjectForKey((NSString)"NSFileSize", new NSNumber(info.Length));
+                attrs.setObjectForKey((NSString)"NSFileSize", new NSNumber(info.Length));
             }
             catch (Exception)
             {
@@ -133,15 +133,15 @@ namespace Smartmobili.Cocoa
             try
             {
                 DirectoryInfo diTop = new DirectoryInfo(path);
-                items = (NSArray)NSArray.Alloc().Init();
+                items = (NSArray)NSArray.alloc().init();
 
                 foreach (var fi in diTop.EnumerateFiles())
                 {
-                    items.AddObject((NSString)fi.Name);
+                    items.addObject((NSString)fi.Name);
                 }
                 foreach (var fi in diTop.EnumerateDirectories("*"))
                 {
-                    items.AddObject((NSString)fi.Name);
+                    items.addObject((NSString)fi.Name);
                 }
             }
             catch (Exception)
@@ -220,7 +220,7 @@ namespace Smartmobili.Cocoa
 
         public virtual NSDirectoryEnumerator EnumeratorAtPath(NSString aPath)
         {
-            return (NSDirectoryEnumerator)NSDirectoryEnumerator.Alloc().InitWithPath(aPath);
+            return (NSDirectoryEnumerator)NSDirectoryEnumerator.alloc().initWithPath(aPath);
         }
 
     }

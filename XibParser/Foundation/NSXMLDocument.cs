@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
     public class NSXMLDocument : NSObject
     {
         new public static Class Class = new Class(typeof(NSXMLDocument));
-        new public static NSXMLDocument Alloc() { return new NSXMLDocument(); }
+        new public static NSXMLDocument alloc() { return new NSXMLDocument(); }
 
        
     }

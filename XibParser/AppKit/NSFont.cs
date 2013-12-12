@@ -40,7 +40,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        new public static NSFont Alloc()
+        new public static NSFont alloc()
         {
             return new NSFont();
         }
@@ -71,14 +71,14 @@ namespace Smartmobili.Cocoa
             return font;
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                NSString name = (NSString)aDecoder.DecodeObjectForKey(@"NSName");
-                float size = aDecoder.DecodeFloatForKey(@"NSSize");
+                NSString name = (NSString)aDecoder.decodeObjectForKey(@"NSName");
+                float size = aDecoder.decodeFloatForKey(@"NSSize");
 
                 self = NSFont.FontWithNameSize(name, size);
                 if (self == null)

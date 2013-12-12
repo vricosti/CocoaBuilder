@@ -37,7 +37,7 @@ namespace Smartmobili.Cocoa
     public class NSData : NSObject
     {
         new public static Class Class = new Class(typeof(NSData));
-        new public static NSData Alloc() { return new NSData(); }
+        new public static NSData alloc() { return new NSData(); }
 
         public byte[] Bytes { get; protected set;}
 
@@ -57,24 +57,24 @@ namespace Smartmobili.Cocoa
 
         public static NSData Data()
         {
-            return NSData.Alloc().InitWithBytes(new Byte[0]);
+            return NSData.alloc().initWithBytes(new Byte[0]);
         }
 
 
-        public static NSData DataWithBytes(byte[] bytes)
+        public static NSData dataWithBytes(byte[] bytes)
         {
-            return NSData.Alloc().InitWithBytes(bytes);
+            return NSData.alloc().initWithBytes(bytes);
         }
 
-        public static NSData DataWithContentsOfFile(string path)
+        public static NSData dataWithContentsOfFile(string path)
         {
             NSError err = null;
-            NSData nsData = NSData.Alloc().InitWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
+            NSData nsData = NSData.alloc().initWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
             return nsData;
         }
 
 
-        public NSData InitWithBytes(byte[] bytes)
+        public NSData initWithBytes(byte[] bytes)
         {
             NSData self = this;
 
@@ -83,13 +83,13 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public NSData InitWithContentsOfFile(string path)
+        public NSData initWithContentsOfFile(string path)
         {
             NSError err = null;
-            return InitWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
+            return initWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
         }
 
-        public NSData InitWithContentsOfFile(string path, NSDataReadingOptions mask, ref NSError error)
+        public NSData initWithContentsOfFile(string path, NSDataReadingOptions mask, ref NSError error)
         {
             NSData nsData = this;
 

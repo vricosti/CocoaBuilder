@@ -33,13 +33,13 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                Connector = (NSNibBindingConnector)aDecoder.DecodeObjectForKey("connector");
+                Connector = (NSNibBindingConnector)aDecoder.decodeObjectForKey("connector");
             }
 
             return this;

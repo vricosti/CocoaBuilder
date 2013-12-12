@@ -29,7 +29,7 @@ namespace Smartmobili.Cocoa
     public class NSColorList : NSObject
     {
         new public static Class Class = new Class(typeof(NSColorList));
-        new public static NSColorList Alloc() { return new NSColorList(); }
+        new public static NSColorList alloc() { return new NSColorList(); }
 
         protected NSString _name;
         protected NSString _fullFileName;
@@ -51,10 +51,10 @@ namespace Smartmobili.Cocoa
         static NSColorList ThemeColorList = null;
 
 
-        static NSColorList() { Initialize(); }
-        static void Initialize()
+        static NSColorList() { initialize(); }
+        static void initialize()
         {
-            _colorListLock = (NSRecursiveLock)NSRecursiveLock.Alloc().Init();
+            _colorListLock = (NSRecursiveLock)NSRecursiveLock.alloc().init();
         }
 
 
@@ -82,11 +82,11 @@ namespace Smartmobili.Cocoa
             _colorListLock.Lock();
 
             NSColorList._LoadAvailableColorLists(null);
-            e = _availableColorLists.ObjectEnumerator();
+            e = _availableColorLists.objectEnumerator();
 
-            while ((r = (NSColorList)e.NextObject()) != null)
+            while ((r = (NSColorList)e.nextObject()) != null)
             {
-                if (r.Name.IsEqualToString(name))
+                if (r.Name.isEqualToString(name))
                 {
                     break;
                 }
@@ -111,8 +111,8 @@ namespace Smartmobili.Cocoa
             int i = 0;
             bool st = false;
             NSColor color = null;
-            NSCharacterSet newlineSet = NSCharacterSet.CharacterSetWithCharactersInString(@"\n");
-            NSScanner scanner = (NSScanner)NSScanner.ScannerWithString(NSString.StringWithContentsOfFile(_fullFileName));
+            NSCharacterSet newlineSet = NSCharacterSet.characterSetWithCharactersInString(@"\n");
+            NSScanner scanner = (NSScanner)NSScanner.ScannerWithString(NSString.stringWithContentsOfFile(_fullFileName));
 
             if (scanner.ScanInt(ref nColors) == false)
             {
@@ -175,7 +175,7 @@ namespace Smartmobili.Cocoa
                 if ((NSFileManager.DefaultManager.FileExistsAtPath(path, ref isDir) == false) || isDir == true)
                 {
                     //NSLog(@"NSColorList -initWithName:fromFile: warning: excluding " @"filename from path (%@) is deprecated.", path);
-                    _fullFileName = path.StringByAppendingPathComponent(name).StringByAppendingPathExtension(@"clr");
+                    _fullFileName = path.stringByAppendingPathComponent(name).stringByAppendingPathExtension(@"clr");
                 }
                 else
                 {
@@ -197,20 +197,20 @@ namespace Smartmobili.Cocoa
                 }
 
 
-                if ((cl != null) && (cl.IsKindOfClass(NSColorList.Class)))
+                if ((cl != null) && (cl.isKindOfClass(NSColorList.Class)))
                 {
                     could_load = true;
 
                     _is_editable = NSFileManager.DefaultManager.IsWritableFileAtPath(_fullFileName);
 
-                    _colorDictionary = NSMutableDictionary.DictionaryWithDictionary(cl._colorDictionary);
+                    _colorDictionary = NSMutableDictionary.dictionaryWithDictionary(cl._colorDictionary);
 
-                    _orderedColorKeys = NSMutableArray.ArrayWithArray(cl._orderedColorKeys);
+                    _orderedColorKeys = NSMutableArray.arrayWithArray(cl._orderedColorKeys);
                 }
                 else if (NSFileManager.DefaultManager.FileExistsAtPath(path))
                 {
-                    _colorDictionary = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
-                    _orderedColorKeys = (NSMutableArray)NSMutableArray.Alloc().Init();
+                    _colorDictionary = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+                    _orderedColorKeys = (NSMutableArray)NSMutableArray.alloc().init();
                     _is_editable = true;
 
                     if (_ReadTextColorFile(_fullFileName))
@@ -229,8 +229,8 @@ namespace Smartmobili.Cocoa
             if (could_load == false)
             {
                 _fullFileName = null;
-                _colorDictionary = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
-                _orderedColorKeys = (NSMutableArray)NSMutableArray.Alloc().Init();
+                _colorDictionary = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+                _orderedColorKeys = (NSMutableArray)NSMutableArray.alloc().init();
                 _is_editable = true;
             }
 
@@ -246,12 +246,12 @@ namespace Smartmobili.Cocoa
 
         public virtual NSArray AllKeys
         {
-            get { return NSArray.ArrayWithArray(_orderedColorKeys); }
+            get { return NSArray.arrayWithArray(_orderedColorKeys); }
         }
 
         public virtual NSColor ColorWithKey(NSString key)
         {
-            return (NSColor)_colorDictionary.ObjectForKey(key);
+            return (NSColor)_colorDictionary.objectForKey(key);
         }
 
         public virtual void InsertColor(NSColor color, NSString key, uint location)
@@ -261,9 +261,9 @@ namespace Smartmobili.Cocoa
             if (_is_editable == false)
                 throw new Exception(@"Color list cannot be edited");
 
-            _colorDictionary.SetObjectForKey(color, key);
-            _orderedColorKeys.RemoveObject(key);
-            _orderedColorKeys.InsertObject(key, location);
+            _colorDictionary.setObjectForKey(color, key);
+            _orderedColorKeys.removeObject(key);
+            _orderedColorKeys.insertObject(key, location);
 
 
             // We don't support notifs for now ...
@@ -278,8 +278,8 @@ namespace Smartmobili.Cocoa
             if (_is_editable == false)
                 throw new Exception(@"Color list cannot be edited");
 
-            _colorDictionary.RemoveObjectForKey(key);
-            _orderedColorKeys.RemoveObject(key);
+            _colorDictionary.removeObjectForKey(key);
+            _orderedColorKeys.removeObject(key);
 
             // We don't support notifs for now ...
             //n = NSNotification.NotificationWithName(@"NSColorListDidChangeNotification", this, null);
@@ -292,10 +292,10 @@ namespace Smartmobili.Cocoa
 
             if (_is_editable == false)
                 throw new Exception(@"Color list cannot be edited");
-            _colorDictionary.SetObjectForKey(aColor, key);
+            _colorDictionary.setObjectForKey(aColor, key);
 
-            if (_orderedColorKeys.ContainsObject(key) == false)
-                _orderedColorKeys.AddObject(key);
+            if (_orderedColorKeys.containsObject(key) == false)
+                _orderedColorKeys.addObject(key);
 
             // We don't support notifs for now ...
             //n = NSNotification.NotificationWithName(@"NSColorListDidChangeNotification", this, null);
@@ -336,7 +336,7 @@ namespace Smartmobili.Cocoa
                     //NSLog (@"Failed to find Library directory for user");
                     return false;	// No directory to save to.
                 }
-                path = ((NSString)paths.ObjectAtIndex(0)).StringByAppendingPathComponent(@"Colors");
+                path = ((NSString)paths.objectAtIndex(0)).stringByAppendingPathComponent(@"Colors");
                 isDir = true;
             }
             else
@@ -346,30 +346,30 @@ namespace Smartmobili.Cocoa
 
             if (isDir)
             {
-                _fullFileName = path.StringByAppendingPathComponent(_name).StringByAppendingPathExtension(@"clr");
+                _fullFileName = path.stringByAppendingPathComponent(_name).stringByAppendingPathExtension(@"clr");
             }
             else // it is a file
             {
-                if (path.PathExtension().IsEqualToString(@"clr") == true)
+                if (path.pathExtension().isEqualToString(@"clr") == true)
                 {
                     _fullFileName = path;
                 }
                 else
                 {
-                    _fullFileName = path.StringByDeletingPathExtension().StringByAppendingPathExtension(@"clr");
+                    _fullFileName = path.stringByDeletingPathExtension().stringByAppendingPathExtension(@"clr");
                 }
-                path = path.StringByDeletingLastPathComponent();
+                path = path.stringByDeletingLastPathComponent();
             }
 
             // Check if the path is a standard path
-            if (path.LastPathComponent().IsEqualToString(@"Colors") == false)
+            if (path.lastPathComponent().isEqualToString(@"Colors") == false)
             {
                 path_is_standard = false;
             }
             else
             {
-                tmpPath = path.StringByDeletingLastPathComponent();
-                if (!NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSLibraryDirectory, NSSearchPathDomainMask.NSAllDomainsMask, true).ContainsObject(tmpPath))
+                tmpPath = path.stringByDeletingLastPathComponent();
+                if (!NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.NSLibraryDirectory, NSSearchPathDomainMask.NSAllDomainsMask, true).containsObject(tmpPath))
                 {
                     path_is_standard = false;
                 }
@@ -398,8 +398,8 @@ namespace Smartmobili.Cocoa
             if (success && path_is_standard)
             {
                 _colorListLock.Lock();
-                if (_availableColorLists.ContainsObject(this) == false)
-                    _availableColorLists.AddObject(this);
+                if (_availableColorLists.containsObject(this) == false)
+                    _availableColorLists.addObject(this);
 
 
                 _colorListLock.Unlock();
@@ -432,11 +432,11 @@ namespace Smartmobili.Cocoa
                 if (_availableColorLists == null)
                 {
                     // Create the global array of color lists
-                    _availableColorLists = (NSMutableArray)NSMutableArray.Alloc().Init();
+                    _availableColorLists = (NSMutableArray)NSMutableArray.alloc().init();
                 }
                 else
                 {
-                    _availableColorLists.RemoveAllObjects(); ;
+                    _availableColorLists.removeAllObjects(); ;
                 }
 
                 /*
@@ -444,7 +444,7 @@ namespace Smartmobili.Cocoa
                  */
                 if (ThemeColorList != null)
                 {
-                    _availableColorLists.AddObject(ThemeColorList);
+                    _availableColorLists.addObject(ThemeColorList);
                 }
 
                 /*
@@ -453,13 +453,13 @@ namespace Smartmobili.Cocoa
                  */
                 e = NSSearchPathForDirectoriesInDomains(
                     NSSearchPathDirectory.NSLibraryDirectory,
-                    NSSearchPathDomainMask.NSAllDomainsMask, true).ObjectEnumerator();
+                    NSSearchPathDomainMask.NSAllDomainsMask, true).objectEnumerator();
 
-                while ((dir = (NSString)e.NextObject()) != null)
+                while ((dir = (NSString)e.nextObject()) != null)
                 {
                     bool flag = false;
 
-                    dir = dir.StringByAppendingPathComponent(@"Colors");
+                    dir = dir.stringByAppendingPathComponent(@"Colors");
                     if (!fm.FileExistsAtPath(dir, ref flag) || !flag)
                     {
                         // Only process existing directories
@@ -467,22 +467,22 @@ namespace Smartmobili.Cocoa
                     }
 
                     de = fm.EnumeratorAtPath(dir);
-                    while ((file = (NSString)de.NextObject()) != null)
+                    while ((file = (NSString)de.nextObject()) != null)
                     {
-                        if (file.PathExtension().IsEqualToString(@"clr"))
+                        if (file.pathExtension().isEqualToString(@"clr"))
                         {
                             NSString name;
 
-                            name = file.StringByDeletingPathExtension();
-                            newList = (NSColorList)NSColorList.Alloc().InitWithName(name, dir.StringByAppendingPathComponent(file));
-                            _availableColorLists.AddObject(newList);
+                            name = file.stringByDeletingPathExtension();
+                            newList = (NSColorList)NSColorList.alloc().InitWithName(name, dir.stringByAppendingPathComponent(file));
+                            _availableColorLists.addObject(newList);
                         }
                     }
                 }
 
                 if (DefaultSystemColorList != null)
                 {
-                    _availableColorLists.AddObject(DefaultSystemColorList);
+                    _availableColorLists.addObject(DefaultSystemColorList);
                 }
                 _colorListLock.Unlock();
             }
@@ -494,12 +494,12 @@ namespace Smartmobili.Cocoa
             if (DefaultSystemColorList != aList)
             {
                 if (DefaultSystemColorList != null
-                  && _availableColorLists.LastObject() == DefaultSystemColorList)
+                  && _availableColorLists.lastObject() == DefaultSystemColorList)
                 {
-                    _availableColorLists.RemoveLastObject();
+                    _availableColorLists.removeLastObject();
                 }
                 DefaultSystemColorList = aList;
-                _availableColorLists.AddObject(aList);
+                _availableColorLists.addObject(aList);
             }
             _colorListLock.Unlock();
         }
@@ -510,12 +510,12 @@ namespace Smartmobili.Cocoa
             if (ThemeColorList != aList)
             {
                 if (ThemeColorList != null && _availableColorLists.Count > 0
-                  && _availableColorLists.ObjectAtIndex(0) == ThemeColorList)
+                  && _availableColorLists.objectAtIndex(0) == ThemeColorList)
                 {
-                    _availableColorLists.RemoveObjectAtIndex(0);
+                    _availableColorLists.removeObjectAtIndex(0);
                 }
                 ThemeColorList = aList;
-                _availableColorLists.InsertObject(aList, 0);
+                _availableColorLists.insertObject(aList, 0);
             }
             _colorListLock.Unlock();
         }
@@ -527,7 +527,7 @@ namespace Smartmobili.Cocoa
             NSSearchPathDomainMask domainMask,
             bool expandTilde)
         {
-            return (NSArray)NSArray.Alloc().Init();
+            return (NSArray)NSArray.alloc().init();
         }
     }
 }

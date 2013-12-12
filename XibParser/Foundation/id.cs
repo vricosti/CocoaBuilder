@@ -38,7 +38,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public id Retain()
+        public id retain()
         {
             return this;
         }
@@ -49,20 +49,20 @@ namespace Smartmobili.Cocoa
             return new Class(this.GetType());
         }
 
-        public virtual id Init()
+        public virtual id init()
         {
             id self = this;
 
             return self;
         }
 
-        public virtual bool IsEqual(id otherObj)
+        public virtual bool isEqual(id otherObj)
         {
             return this.Equals(otherObj);
         }
 
 
-        public bool RespondsToSelector(SEL aSelector)
+        public bool respondsToSelector(SEL aSelector)
         {
             bool ret = false;
             string methodName = (string)aSelector.SelectorName;
@@ -75,19 +75,19 @@ namespace Smartmobili.Cocoa
             return ret;
         }
 
-        public id PerformSelector(SEL aSelector)
+        public id performSelector(SEL aSelector)
         {
             return null;
         }
 
 
-        public id PerformSelector(SEL aSelector, id anObject)
+        public id performSelector(SEL aSelector, id anObject)
         {
             return null;
         }
 
 
-        public bool IsKindOfClass(Class aClass)
+        public bool isKindOfClass(Class aClass)
         {
             bool isKindOfClass = false;
 

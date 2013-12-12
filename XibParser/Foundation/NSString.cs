@@ -75,8 +75,8 @@ namespace Smartmobili.Cocoa
     public class NSString : NSObject, INSNumber, IEquatable<NSString>
     {
         new public static Class Class = new Class(typeof(NSString));
-        new public static NSString Alloc() { return new NSString(); }
-        new public static NSString AllocWithZone(object zone) { return new NSString(); }
+        new public static NSString alloc() { return new NSString(); }
+        new public static NSString allocWithZone(object zone) { return new NSString(); }
 
         private readonly string byteOrderMark = "\ufeff";
         private readonly string byteOrderMarkSwapped = "\ufffe";
@@ -114,7 +114,7 @@ namespace Smartmobili.Cocoa
                     uint index;
                     for (index = 0; index < length; index++)
                     {
-                        Char c = this.CharacterAtIndex(index);
+                        Char c = this.characterAtIndex(index);
 
                         if (c > 'y')
                         {
@@ -132,19 +132,19 @@ namespace Smartmobili.Cocoa
         }
 
 
-        static NSString() { Initialize(); }
+        static NSString() { initialize(); }
 
-        static void Initialize()
+        static void initialize()
         {
             _DefaultStringEncoding = NSStringEncoding.NSASCIIStringEncoding;
         }
 
         static NSCharacterSet rPathSeps = null;
-        static NSCharacterSet PathSeps()
+        static NSCharacterSet pathSeps()
         {
             if (rPathSeps == null)
             {
-                rPathSeps = NSCharacterSet.CharacterSetWithCharactersInString("/\\");
+                rPathSeps = NSCharacterSet.characterSetWithCharactersInString("/\\");
             }
             return rPathSeps;
         }
@@ -161,7 +161,7 @@ namespace Smartmobili.Cocoa
             Value = value;
         }
 
-		public NSString Copy()
+		public NSString copy()
 		{
 			return new NSString (this.Value);
 		}
@@ -171,12 +171,12 @@ namespace Smartmobili.Cocoa
             return new NSString("");
         }
 
-        public static NSString StringWithContentsOfFile(NSString path)
+        public static NSString stringWithContentsOfFile(NSString path)
         {
-            return (NSString)Alloc().InitWithContentsOfFile(path);
+            return (NSString)alloc().initWithContentsOfFile(path);
         }
 
-        public virtual id InitWithContentsOfFile(NSString path)
+        public virtual id initWithContentsOfFile(NSString path)
         {
             id self = this;
 
@@ -185,7 +185,7 @@ namespace Smartmobili.Cocoa
             uint len = 0;
             byte[] data_bytes = null;
 
-            d = NSData.Alloc().InitWithContentsOfFile(path);
+            d = NSData.alloc().initWithContentsOfFile(path);
             if (d == null)
                 return null;
             len = (uint)d.Length;
@@ -211,12 +211,12 @@ namespace Smartmobili.Cocoa
                 }
             }
 
-            self = InitWithData(d,enc);
+            self = initWithData(d,enc);
 
             return self;
         }
 
-        private Encoding ConvertNSStringEncodingToCSharp(NSStringEncoding anEncoding)
+        private Encoding convertNSStringEncodingToCSharp(NSStringEncoding anEncoding)
         {
             Encoding encoding = Encoding.UTF8;
 
@@ -228,7 +228,7 @@ namespace Smartmobili.Cocoa
                 
                 //case NSStringEncoding.NSNEXTSTEPStringEncoding:
                 //    encoding = System.Text.Encoding.GetEncoding("ISO-8859-1");
-                //    NSLog.Log("ConvertNSStringEncodingToCSharp %s", (NSString)"test");
+                //    NSLog.Log("convertNSStringEncodingToCSharp %s", (NSString)"test");
                 //    break;
                 
                 //case NSStringEncoding.NSJapaneseEUCStringEncoding:
@@ -247,12 +247,12 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual id InitWithData(NSData data, NSStringEncoding encoding)
+        public virtual id initWithData(NSData data, NSStringEncoding encoding)
         {
-            return InitWithBytes(data.Bytes, (uint)data.Length, encoding);
+            return initWithBytes(data.Bytes, (uint)data.Length, encoding);
         }
 
-        public virtual id InitWithBytes(IntPtr ptr, uint length, NSStringEncoding anEncoding)
+        public virtual id initWithBytes(IntPtr ptr, uint length, NSStringEncoding anEncoding)
         {
             if (ptr == IntPtr.Zero)
                 return null;
@@ -260,10 +260,10 @@ namespace Smartmobili.Cocoa
             byte[] buffer = new byte[length];
             Marshal.Copy(ptr, buffer, 0, buffer.Length);
 
-            return InitWithBytes(buffer, length, anEncoding);
+            return initWithBytes(buffer, length, anEncoding);
 
         }
-        public virtual id InitWithBytes(byte[] bytes, uint length, NSStringEncoding anEncoding)
+        public virtual id initWithBytes(byte[] bytes, uint length, NSStringEncoding anEncoding)
         {
             id self = this;
 
@@ -273,14 +273,14 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                Encoding encoding = ConvertNSStringEncodingToCSharp(anEncoding);
+                Encoding encoding = convertNSStringEncodingToCSharp(anEncoding);
                 Value = encoding.GetString(bytes, 0, (int)length);
             }
 
             return self;
         }
 
-        public virtual id InitWithCString(char[] chars)
+        public virtual id initWithCString(char[] chars)
         {
             id self = this;
 
@@ -290,7 +290,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public virtual id InitWithString(NSString aString)
+        public virtual id initWithString(NSString aString)
         {
             id self = this;
 
@@ -302,31 +302,31 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public override id InitWithCoder(NSCoder aCoder)
+        public override id initWithCoder(NSCoder aCoder)
         {
             id self = this;
 
             if (aCoder.AllowsKeyedCoding)
             {
-                if (aCoder.ContainsValueForKey(@"NS.string"))
+                if (aCoder.containsValueForKey(@"NS.string"))
                 {
-                    throw new NotImplementedException("NSString:InitWithCoder:");
+                    throw new NotImplementedException("NSString:initWithCoder:");
                     //FIXME
                     //NSString str = (NSString)((NSKeyedUnarchiver)aCoder)._DecodePropertyListForKey(@"NS.string");
-                    //self = InitWithString(str);
+                    //self = initWithString(str);
                 }
-                else if (aCoder.ContainsValueForKey(@"NS.bytes"))
+                else if (aCoder.containsValueForKey(@"NS.bytes"))
                 {
-                    id bytes = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(@"NS.bytes");
-                     if (bytes.IsKindOfClass(NSString.Class))
+                    id bytes = ((NSKeyedUnarchiver)aCoder).decodeObjectForKey(@"NS.bytes");
+                     if (bytes.isKindOfClass(NSString.Class))
                      {
-                         self = InitWithString((NSString)bytes);
+                         self = initWithString((NSString)bytes);
                      }
                      else
                      {
-                         throw new NotImplementedException("NSString:InitWithCoder");
+                         throw new NotImplementedException("NSString:initWithCoder");
                          // FIXME
-                         //self = InitWithData((NSData)bytes, );
+                         //self = initWithData((NSData)bytes, );
                          //self = [self initWithData: (NSData*)bytes  encoding: NSUTF8StringEncoding];
                      }
                 }
@@ -335,7 +335,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public virtual Char CharacterAtIndex(uint index)
+        public virtual Char characterAtIndex(uint index)
         {
             return this[index];
         }
@@ -348,7 +348,7 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public override NSString Description()
+        public override NSString description()
         {
             NSString self = this;
             return self;
@@ -377,35 +377,35 @@ namespace Smartmobili.Cocoa
 
         // objc string
 
-		public virtual NSString StringByAppendingString(NSString aString)
+		public virtual NSString stringByAppendingString(NSString aString)
 		{
 			return this.Value + aString.Value;
 		}
 
-        public virtual bool HasPrefix(NSString aString)
+        public virtual bool hasPrefix(NSString aString)
         {
             return this.Value.StartsWith(aString);
         }
-         public virtual bool HasSuffix(NSString aString)
+         public virtual bool hasSuffix(NSString aString)
         {
             return this.Value.EndsWith(aString);
         }
 
 
-        public virtual NSRange RangeOfCharacterFromSet(NSCharacterSet aSet)
+        public virtual NSRange rangeOfCharacterFromSet(NSCharacterSet aSet)
         {
             NSRange all = new NSRange(0, Length);
-            return RangeOfCharacterFromSet(aSet, (NSStringCompareOptions)0, all);       
+            return rangeOfCharacterFromSet(aSet, (NSStringCompareOptions)0, all);       
         }
 
 
-        public virtual NSRange RangeOfCharacterFromSet(NSCharacterSet aSet, NSStringCompareOptions mask)
+        public virtual NSRange rangeOfCharacterFromSet(NSCharacterSet aSet, NSStringCompareOptions mask)
         {
             NSRange all = new NSRange(0, Length);
-            return RangeOfCharacterFromSet(aSet, mask, all);       
+            return rangeOfCharacterFromSet(aSet, mask, all);       
         }
 
-        public virtual NSRange RangeOfCharacterFromSet(NSCharacterSet aSet, NSStringCompareOptions options, NSRange aRange)
+        public virtual NSRange rangeOfCharacterFromSet(NSCharacterSet aSet, NSStringCompareOptions options, NSRange aRange)
         {
             int	i = 0;
             uint	start = 0;
@@ -432,8 +432,8 @@ namespace Smartmobili.Cocoa
 
             for (i = (int)start; i != stop; i += step)
             {
-                Char character = CharacterAtIndex((uint)i);
-                if (aSet.CharacterIsMember(character))
+                Char character = characterAtIndex((uint)i);
+                if (aSet.characterIsMember(character))
                 {
                     range = new NSRange((uint)i, 1);
                     break;
@@ -444,17 +444,17 @@ namespace Smartmobili.Cocoa
         }
 
 
-        private bool PathSepMember(Char character)
+        private bool pathSepMember(Char character)
         {
             return (character == '\\' || character == '/');
         }
 
-        public virtual NSString PathExtension()
+        public virtual NSString pathExtension()
         {
             return (NSString)System.IO.Path.GetExtension(this.Value);
         }
 
-        public virtual NSString LastPathComponent()
+        public virtual NSString lastPathComponent()
         {
             uint l = this.Length;
             NSRange range;
@@ -469,32 +469,32 @@ namespace Smartmobili.Cocoa
             ///////////////////////////////////////////////////////////////////////////////
             string pathRoot = System.IO.Path.GetPathRoot(this.Value);
             i = (uint)pathRoot.Length - 1;
-            while (l > i && PathSepMember(this[l - 1]) ==  true)
+            while (l > i && pathSepMember(this[l - 1]) ==  true)
             {
                 l--;
             }
 
             if (i == l)
             {
-                if (CharacterAtIndex(0) == '~' && PathSepMember(CharacterAtIndex(i - 1)) == true)
+                if (characterAtIndex(0) == '~' && pathSepMember(characterAtIndex(i - 1)) == true)
                 {
-                     return SubstringToIndex(i-1);
+                     return substringToIndex(i-1);
                 }
-                return SubstringToIndex(i);
+                return substringToIndex(i);
             }
 
-            range = RangeOfCharacterFromSet(PathSeps(), NSStringCompareOptions.NSBackwardsSearch, new NSRange(i, l - i));
+            range = rangeOfCharacterFromSet(pathSeps(), NSStringCompareOptions.NSBackwardsSearch, new NSRange(i, l - i));
             if (range.Length > 0)
             {
                 // Found separator ... adjust to point to component.
                 i = range.Location + range.Length;
             }
 
-            return SubstringWithRange(new NSRange(i, l-i));
+            return substringWithRange(new NSRange(i, l-i));
         }
 
 
-        public virtual NSString StringByDeletingLastPathComponent()
+        public virtual NSString stringByDeletingLastPathComponent()
         {
             uint length = 0;
 
@@ -509,17 +509,17 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
-         public virtual NSString StringByDeletingPathExtension()
+         public virtual NSString stringByDeletingPathExtension()
         {
             return (NSString)System.IO.Path.GetFileNameWithoutExtension(this.Value);
         }
 
-         public virtual NSString StringByAppendingPathExtension(NSString anExtension)
+         public virtual NSString stringByAppendingPathExtension(NSString anExtension)
          {
              return System.IO.Path.Combine(this.Value, anExtension.Value);
          }
 
-        public virtual NSString StringByAppendingPathComponent(NSString aString)
+        public virtual NSString stringByAppendingPathComponent(NSString aString)
         {
             NSString path = @"";
 
@@ -537,7 +537,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSData DataUsingEncoding(NSStringEncoding encoding, bool flag = false)
+        public virtual NSData dataUsingEncoding(NSStringEncoding encoding, bool flag = false)
         {
             NSData data = null;
             byte[] buffer = null;
@@ -551,17 +551,17 @@ namespace Smartmobili.Cocoa
                 buffer = System.Text.Encoding.ASCII.GetBytes(this.Value);
             }
 
-            data = NSData.Alloc().InitWithBytes(buffer);
+            data = NSData.alloc().initWithBytes(buffer);
             
             //byte[] ntbytes = new byte[data.Length + 1];
-            //Array.Copy(data, 0, ntbytes, 0, data.Length);
-            //nullTerminatedData = NSData.Alloc().InitWithBytes(ntbytes);
+            //array.copy(data, 0, ntbytes, 0, data.Length);
+            //nullTerminatedData = NSData.alloc().initWithBytes(ntbytes);
 
             return data;
         }
 
 
-        public static NSString StringWithFormat(NSString format, params object[] args)
+        public static NSString stringWithFormat(NSString format, params object[] args)
         {
             NSString str = new NSString();
 
@@ -574,7 +574,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public NSRange RangeOfString(NSString aString)
+        public NSRange rangeOfString(NSString aString)
         {
             if (aString == null)
                 throw new ArgumentNullException("aString");
@@ -587,7 +587,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public NSString SubstringWithRange(NSRange aRange)
+        public NSString substringWithRange(NSRange aRange)
         {
             if (aRange.Location < 0 || aRange.Location > this.Value.Length - 1)
                 throw new IndexOutOfRangeException();
@@ -597,7 +597,7 @@ namespace Smartmobili.Cocoa
             return this.Value.Substring((int)aRange.Location, (int)aRange.Length);
         }
 
-        public NSString SubstringToIndex(uint anIndex)
+        public NSString substringToIndex(uint anIndex)
         {
             NSString str = null;
 
@@ -612,7 +612,7 @@ namespace Smartmobili.Cocoa
             return str;
         }
 
-        public NSString SubstringFromIndex(uint anIndex)
+        public NSString substringFromIndex(uint anIndex)
         {
             NSString str = "";
 
@@ -641,7 +641,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public NSString UppercaseString()
+        public NSString uppercaseString()
         {
             NSString str = null;
 
@@ -709,7 +709,7 @@ namespace Smartmobili.Cocoa
 		{
 			//setupCache();
 			//if (GSMacOSXCompatibleGeometry() == YES)
-				return NSString.StringWithFormat(
+				return NSString.stringWithFormat(
 				        @"{%g, %g}", aPoint.X, aPoint.Y);
 			//else
 			//	return [NSStringClass stringWithFormat:
@@ -729,10 +729,10 @@ namespace Smartmobili.Cocoa
 		{
 		//setupCache();
 		//if (GSMacOSXCompatibleGeometry() == YES)
-				return NSString.StringWithFormat(
+				return NSString.stringWithFormat(
 			        @"{%g, %g}", aSize.Width, aSize.Height);
 //		else
-//				return NSString.StringWithFormat(
+//				return NSString.stringWithFormat(
 //			        @"{width = %g; height = %g}", aSize.Width, aSize.Height);
 		}
 
@@ -740,7 +740,7 @@ namespace Smartmobili.Cocoa
 		{
 			//setupCache();
 			//if (GSMacOSXCompatibleGeometry() == YES)
-				return NSString.StringWithFormat(
+				return NSString.stringWithFormat(
 				        @"{{%g, %g}, {%g, %g}}",
 				aRect.Origin.X, aRect.Origin.Y, aRect.Size.Width, aRect.Size.Height);
 //			else

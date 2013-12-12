@@ -36,12 +36,12 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             if (aDecoder.AllowsKeyedCoding)
             {
-                Name = (NSString)aDecoder.DecodeObjectForKey("name");
-                CandidateClassName = (NSString)aDecoder.DecodeObjectForKey("candidateClassName");
+                Name = (NSString)aDecoder.decodeObjectForKey("name");
+                CandidateClassName = (NSString)aDecoder.decodeObjectForKey("candidateClassName");
             }
 
             return this;

@@ -28,7 +28,7 @@ namespace Smartmobili.Cocoa
     public class NSLock : NSObject
     {
         new public static Class Class = new Class(typeof(NSLock));
-        new public static NSLock Alloc() { return new NSLock(); }
+        new public static NSLock alloc() { return new NSLock(); }
 
         SpinLock _spinLock = new SpinLock();
         bool _gotLock = false;

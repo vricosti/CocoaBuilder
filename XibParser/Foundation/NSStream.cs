@@ -9,9 +9,9 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSStream));
 
-        public abstract void Open();
+        public abstract void open();
 
-        public abstract void Close();
+        public abstract void close();
 
     }
 }

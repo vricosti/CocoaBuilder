@@ -50,17 +50,17 @@ namespace Smartmobili.Cocoa
             get 
             {
                 NSString tag = this.Label;
-                NSRange colonRange = tag.RangeOfString(@":");
+                NSRange colonRange = tag.rangeOfString(@":");
                 uint location = colonRange.Location;
                 NSNibConnector result = null;
 
                 if (location == 0)
                   {
-                      result = (NSNibOutletConnector)NSNibOutletConnector.Alloc().Init(); 
+                      result = (NSNibOutletConnector)NSNibOutletConnector.alloc().init(); 
                   }
                 else
                   {
-                    result = (NSNibControlConnector)NSNibControlConnector.Alloc().Init(); 
+                    result = (NSNibControlConnector)NSNibControlConnector.alloc().init(); 
                   }
 
                 result.Destination = this.Destination;
@@ -79,25 +79,25 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                if (aDecoder.ContainsValueForKey("label"))
+                if (aDecoder.containsValueForKey("label"))
                 {
-                    _label = (NSString)aDecoder.DecodeObjectForKey("label");
+                    _label = (NSString)aDecoder.decodeObjectForKey("label");
                 }
-                if (aDecoder.ContainsValueForKey("source"))
+                if (aDecoder.containsValueForKey("source"))
                 {
-                    _source = (id)aDecoder.DecodeObjectForKey("source");
+                    _source = (id)aDecoder.decodeObjectForKey("source");
                 }
-                if (aDecoder.ContainsValueForKey("destination"))
+                if (aDecoder.containsValueForKey("destination"))
                 {
-                    _destination = (id)aDecoder.DecodeObjectForKey("destination");
+                    _destination = (id)aDecoder.decodeObjectForKey("destination");
                 }
             }
 

@@ -9,7 +9,7 @@ namespace Smartmobili.Cocoa
     public class NSLog : NSObject
     {
         new public static Class Class = new Class(typeof(NSData));
-        new public static NSData Alloc() { return new NSData(); }
+        new public static NSData alloc() { return new NSData(); }
 
 
         public static void Log(NSString format, params object[] args)

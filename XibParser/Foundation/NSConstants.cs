@@ -113,12 +113,12 @@ namespace Smartmobili.Cocoa
 
         public static id MapGet(NSMapTable map, IntPtr ptr)
         {
-            return NSMapTable.Get(map, ptr);
+            return NSMapTable.get(map, ptr);
         }
 
         public static void MapInsertKnownAbsent(NSMapTable table, IntPtr key, id value)
         {
-            NSMapTable.InsertKnownAbsent(table, key, value);
+            NSMapTable.insertKnownAbsent(table, key, value);
         }
     }
     
@@ -133,14 +133,14 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                result = (NSMutableArray)NSMutableArray.Array();
+                result = (NSMutableArray)NSMutableArray.array();
                 //Assembly a = Assembly.GetExecutingAssembly();
                 //foreach (Type t in a.GetTypes())
                 //{
                 //    if (t.IsSubclassOf(cls.InnerType))
                 //    {
                 //        //System.Diagnostics.Debug.WriteLine("dqsd");
-                //        result.AddObject(new Class(t));
+                //        result.addObject(new Class(t));
                 //    }
                 //}
 
@@ -153,7 +153,7 @@ namespace Smartmobili.Cocoa
                             if (t.IsSubclassOf(cls.InnerType))
                             {
                                 //System.Diagnostics.Debug.WriteLine("dqsd");
-                                result.AddObject(new Class(t));
+                                result.addObject(new Class(t));
                             }
                         }
                     }

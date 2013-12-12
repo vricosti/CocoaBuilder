@@ -8,18 +8,18 @@ namespace Smartmobili.Cocoa
     public class NSXMLFidelityElement : NSXMLElement
     {
         new public static Class Class = new Class(typeof(NSXMLFidelityElement));
-        new public static NSXMLFidelityElement Alloc() { return new NSXMLFidelityElement(); }
+        new public static NSXMLFidelityElement alloc() { return new NSXMLFidelityElement(); }
 
         protected NSString _startWhitespace;
         protected NSString _endWhitespace;
         protected uint _fidelity;
 
 
-        public virtual id Init()
+        public virtual id init()
         {
             id self = this;
 
-           if (base.Init() != null)
+           if (base.init() != null)
            {
                _kind = NSXMLNodeKind.NSXMLElementKind;
                _fidelity = 0;

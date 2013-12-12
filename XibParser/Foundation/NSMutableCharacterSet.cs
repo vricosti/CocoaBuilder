@@ -27,9 +27,9 @@ namespace Smartmobili.Cocoa
     public class NSMutableCharacterSet : NSCharacterSet
     {
         new public static Class Class = new Class(typeof(NSMutableCharacterSet));
-        new public static NSMutableCharacterSet Alloc() { return new NSMutableCharacterSet(); }
+        new public static NSMutableCharacterSet alloc() { return new NSMutableCharacterSet(); }
 
-        public virtual void AddCharactersInString(NSString aString)
+        public virtual void addCharactersInString(NSString aString)
         {
             _charList.AddRange(aString.Value.ToList<char>());
         }

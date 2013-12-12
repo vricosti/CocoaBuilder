@@ -8,7 +8,7 @@ namespace Smartmobili.Cocoa
     public class NSXMLAttributeDeclaration : NSObject
     {
         new public static Class Class = new Class(typeof(NSXMLAttributeDeclaration));
-        new public static NSXMLAttributeDeclaration Alloc() { return new NSXMLAttributeDeclaration(); }
+        new public static NSXMLAttributeDeclaration alloc() { return new NSXMLAttributeDeclaration(); }
 
     }
 }

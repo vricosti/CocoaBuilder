@@ -9,17 +9,17 @@ namespace Smartmobili.Cocoa
     public class NSImageView : NSView
     {
         new public static Class Class = new Class(typeof(NSImageView));
-        new public static NSImageView Alloc() { return new NSImageView(); }
+        new public static NSImageView alloc() { return new NSImageView(); }
 
         public NSImageView()
         {
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)

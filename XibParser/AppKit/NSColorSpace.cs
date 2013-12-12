@@ -65,7 +65,7 @@ namespace Smartmobili.Cocoa
         public static readonly NSString NSCustomColorSpace = @"NSCustomColorSpace";
 
 
-        new public static NSColorSpace Alloc()
+        new public static NSColorSpace alloc()
         {
             return new NSColorSpace();
         }
@@ -74,7 +74,7 @@ namespace Smartmobili.Cocoa
         {
             id self = this;
 
-            if (base.Init() != null)
+            if (base.init() != null)
             {
                 _colorSpaceModel = model;
             }
@@ -85,7 +85,7 @@ namespace Smartmobili.Cocoa
         private static NSColorSpace COLORSPACE(ref NSColorSpace csp, NSColorSpaceModel model)
         {
             if (csp == null)
-                csp = (NSColorSpace)Alloc()._InitWithColorSpaceModel(model);
+                csp = (NSColorSpace)alloc()._InitWithColorSpaceModel(model);
             return csp;
         }
 
@@ -123,7 +123,7 @@ namespace Smartmobili.Cocoa
         public virtual id InitWithColorSyncProfile(id prof)
         {
             id self = this;
-            if (base.Init() != null)
+            if (base.init() != null)
             {
                 _colorSyncProfile = prof;
                 _colorSpaceModel = NSColorSpaceModel.NSUnknownColorSpaceModel;
@@ -135,7 +135,7 @@ namespace Smartmobili.Cocoa
         public virtual id InitWithICCProfileData(NSData iccData)
         {
             id self = this;
-            if (base.Init() != null)
+            if (base.init() != null)
             {
                 _iccData = iccData;
                 _colorSpaceModel = NSColorSpaceModel.NSUnknownColorSpaceModel;
@@ -206,12 +206,12 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
 
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 

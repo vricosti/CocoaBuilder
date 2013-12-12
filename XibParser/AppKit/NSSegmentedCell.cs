@@ -50,7 +50,7 @@ namespace Smartmobili.Cocoa
     public class NSSegmentedCell : NSActionCell
     {
         new public static Class Class = new Class(typeof(NSSegmentedCell));
-        new public static NSSegmentedCell Alloc() { return new NSSegmentedCell(); }
+        new public static NSSegmentedCell alloc() { return new NSSegmentedCell(); }
 
         public struct GSSegmentCellFlags //_segmentCellFlags
         {
@@ -78,45 +78,45 @@ namespace Smartmobili.Cocoa
         protected GSSegmentCellFlags _segmentCellFlags;
 
 
-        public override id Init()
+        public override id init()
         {
             id self = this;
 
-            if (InitTextCell(@"") == null)
+            if (initTextCell(@"") == null)
                 return null;
 
             _segmentCellFlags._tracking_mode = (uint)NSSegmentSwitchTracking.NSSegmentSwitchTrackingSelectOne;
-            _items = (NSMutableArray)NSMutableArray.Alloc().InitWithCapacity(2);
+            _items = (NSMutableArray)NSMutableArray.alloc().initWithCapacity(2);
             _selected_segment = -1;
             Alignment = NSTextAlignment.NSCenterTextAlignment;
 
             return self;
         }
 
-        public override id InitImageCell(NSImage anImage)
+        public override id initImageCell(NSImage anImage)
         {
             id self = this;
 
-            if (base.InitImageCell(anImage) == null)
+            if (base.initImageCell(anImage) == null)
                 return null;
 
             _segmentCellFlags._tracking_mode = (uint)NSSegmentSwitchTracking.NSSegmentSwitchTrackingSelectOne;
-            _items = (NSMutableArray)NSMutableArray.Alloc().InitWithCapacity(2);
+            _items = (NSMutableArray)NSMutableArray.alloc().initWithCapacity(2);
             _selected_segment = -1;
             Alignment = NSTextAlignment.NSCenterTextAlignment;
 
             return self;
         }
 
-        public override id InitTextCell(NSString aString)
+        public override id initTextCell(NSString aString)
         {
             id self = this;
 
-            if (base.InitTextCell(aString) == null)
+            if (base.initTextCell(aString) == null)
                 return null;
 
             _segmentCellFlags._tracking_mode = (uint)NSSegmentSwitchTracking.NSSegmentSwitchTrackingSelectOne;
-            _items = (NSMutableArray)NSMutableArray.Alloc().InitWithCapacity(2);
+            _items = (NSMutableArray)NSMutableArray.alloc().initWithCapacity(2);
             _selected_segment = -1;
             Alignment = NSTextAlignment.NSCenterTextAlignment;
 
@@ -144,13 +144,13 @@ namespace Smartmobili.Cocoa
   
                 size = _items.Count;
                if (count < size)
-                   _items.RemoveObjectsInRange(new NSRange((uint)count, (uint)(size - count)));
+                   _items.removeObjectsInRange(new NSRange((uint)count, (uint)(size - count)));
                     
   
                 while (count-- > size)
                 {
-                    NSSegmentItem item = (NSSegmentItem)NSSegmentItem.Alloc().Init();
-                    _items.AddObject(item);   
+                    NSSegmentItem item = (NSSegmentItem)NSSegmentItem.alloc().init();
+                    _items.addObject(item);   
                 }
             }
         }
@@ -165,12 +165,12 @@ namespace Smartmobili.Cocoa
       
         public virtual void SetSelected(bool flag, int seg)
         {
-            NSSegmentItem segment = (NSSegmentItem)_items.ObjectAtIndex(seg);
+            NSSegmentItem segment = (NSSegmentItem)_items.objectAtIndex(seg);
             NSSegmentItem previous = null;
 
             if (_selected_segment != -1)
             {
-                previous = (NSSegmentItem)_items.ObjectAtIndex(_selected_segment);
+                previous = (NSSegmentItem)_items.objectAtIndex(_selected_segment);
                 if (_segmentCellFlags._tracking_mode == (uint)NSSegmentSwitchTracking.NSSegmentSwitchTrackingSelectOne)
                 {
                     previous.Selected = false;
@@ -249,91 +249,91 @@ namespace Smartmobili.Cocoa
         // Working with individual segments...
         public virtual void SetWidthForSegment(float width, int seg)
         {
-             id segment = _items.ObjectAtIndex(seg);
+             id segment = _items.objectAtIndex(seg);
             ((NSSegmentItem)segment).Width = width;
         }
 
         public virtual float WidthForSegment(int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             return ((NSSegmentItem)segment).Width;
         }
 
         public virtual void SetImageForSegment(NSImage image, int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             ((NSSegmentItem)segment).Image = image;
         }
 
         public virtual NSImage ImageForSegment(int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             return ((NSSegmentItem)segment).Image;
         }
 
         public virtual void SetLabelForSegment(NSString label, int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             ((NSSegmentItem)segment).Label = label;
         }
 
         public virtual NSString LabelForSegment(int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             return ((NSSegmentItem)segment).Label;
         }
 
         public virtual bool IsSelectedForSegment(int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             return ((NSSegmentItem)segment).Selected;
         }
 
         public virtual void SetEnabledForSegment(bool flag, int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             ((NSSegmentItem)segment).Enabled = flag;
         }
 
         public virtual bool IsEnabledForSegment(int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             return ((NSSegmentItem)segment).Enabled;
         }
 
         public virtual void SetMenuForSegment(NSMenu menu, int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             ((NSSegmentItem)segment).Menu = menu;
         }
 
         public virtual NSMenu MenuForSegment(int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             return ((NSSegmentItem)segment).Menu;
         }
 
         public virtual void SetToolTipForSegment(NSString toolTip, int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             ((NSSegmentItem)segment).ToolTip = toolTip;
         }
 
         public virtual NSString ToolTipForSegment(int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             return ((NSSegmentItem)segment).ToolTip;
         }
 
         public virtual void SetTagForSegment(int tag, int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             ((NSSegmentItem)segment).Tag = tag;
         }
 
         public virtual int TagForSegment(int seg)
         {
-            id segment = _items.ObjectAtIndex(seg);
+            id segment = _items.objectAtIndex(seg);
             return ((NSSegmentItem)segment).Tag;
         }
         // Drawing custom content
@@ -348,11 +348,11 @@ namespace Smartmobili.Cocoa
             set { _segmentCellFlags._style = (uint)value; }
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)
@@ -361,10 +361,10 @@ namespace Smartmobili.Cocoa
 
                 _selected_segment = -1;
                 _segmentCellFlags._tracking_mode = (uint)NSSegmentSwitchTracking.NSSegmentSwitchTrackingSelectOne;
-                if (aDecoder.ContainsValueForKey(@"NSSegmentImages"))
-                    _items = (NSMutableArray)aDecoder.DecodeObjectForKey(@"NSSegmentImages");
+                if (aDecoder.containsValueForKey(@"NSSegmentImages"))
+                    _items = (NSMutableArray)aDecoder.decodeObjectForKey(@"NSSegmentImages");
                 else
-                    _items = (NSMutableArray)NSMutableArray.Alloc().InitWithCapacity(2);
+                    _items = (NSMutableArray)NSMutableArray.alloc().initWithCapacity(2);
 
                 for (i = 0; i < _items.Count; i++)
                 {
@@ -372,26 +372,26 @@ namespace Smartmobili.Cocoa
                         _selected_segment = i;
                 }
 
-                if (aDecoder.ContainsValueForKey(@"NSSelectedSegment"))
+                if (aDecoder.containsValueForKey(@"NSSelectedSegment"))
                 {
-                    _selected_segment = aDecoder.DecodeIntForKey(@"NSSelectedSegment");
+                    _selected_segment = aDecoder.decodeIntForKey(@"NSSelectedSegment");
                     if (_selected_segment != -1)
                         SelectedSegment = _selected_segment;
                 }
 
-                _segmentCellFlags._style = (uint)aDecoder.DecodeIntForKey(@"NSSegmentStyle");
+                _segmentCellFlags._style = (uint)aDecoder.decodeIntForKey(@"NSSegmentStyle");
             }
             else
             {
                 int style = 0;
 
                 _segmentCellFlags._tracking_mode = (uint)NSSegmentSwitchTracking.NSSegmentSwitchTrackingSelectOne;
-                _items = (NSMutableArray)aDecoder.DecodeObject();
-                aDecoder.DecodeValueOfObjCType<int>(ref _selected_segment);
+                _items = (NSMutableArray)aDecoder.decodeObject();
+                aDecoder.decodeValueOfObjCType<int>(ref _selected_segment);
                 if (_selected_segment != -1)
                     SelectedSegment = _selected_segment;
 
-                aDecoder.DecodeValueOfObjCType<int>(ref style);
+                aDecoder.decodeValueOfObjCType<int>(ref style);
                 _segmentCellFlags._style = (uint)style;
             }
 

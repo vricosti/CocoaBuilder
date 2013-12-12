@@ -165,7 +165,7 @@ namespace Smartmobili.Cocoa
 
         public NSView()
         {
-           //Init();
+           //init();
         }
 
 
@@ -200,10 +200,10 @@ namespace Smartmobili.Cocoa
 			 * Make a new array with copies of the type strings so we don't get
 			 * them mutated by someone else.
 			 */
-			types.GetObjects(strings);
+			types.getObjects(strings);
 			for (i = 0; i < count; i++)
 			{
-				strings[i] = strings[i].Copy();
+				strings[i] = strings[i].copy();
 			}
 			/*
 			 * Store it.
@@ -233,7 +233,7 @@ namespace Smartmobili.Cocoa
             //            NSView[] array = new NSView[count];
             //            uint i;
 
-            //            _sub_views.GetObjects(array);
+            //            _sub_views.getObjects(array);
             //            for (i = 0; i < count; i++)
             //            {
             //                NSView sub = array[i];
@@ -356,7 +356,7 @@ namespace Smartmobili.Cocoa
 					uint i;
 					NSView[] array = new NSView[count];
 
-					_sub_views.GetObjects((id[])array);
+					_sub_views.getObjects((id[])array);
 					for (i = 0; i < count; ++i)
 					{
 						array [i]._ViewDidMoveToWindow ();
@@ -427,7 +427,7 @@ namespace Smartmobili.Cocoa
 					uint i;
 					NSView[] array = new NSView[count];
 
-					_sub_views.GetObjects((id[])array);
+					_sub_views.getObjects((id[])array);
 					for (i = 0; i < count; ++i)
 					{
 						array[i]._ViewWillMoveToWindow(newWindow);
@@ -466,17 +466,17 @@ namespace Smartmobili.Cocoa
 
 		protected virtual NSString _SubtreeDescriptionWithPrefix(NSString prefix)
 		{
-			NSMutableString desc = (NSMutableString)NSMutableString.Alloc ().Init();
+			NSMutableString desc = (NSMutableString)NSMutableString.alloc().init();
 			NSEnumerator e;
 			NSView v;
 
-			desc.AppendFormat(@"%@%@\n", prefix, this.Description(), null);
+			desc.appendFormat(@"%@%@\n", prefix, this.description(), null);
 
-			prefix = prefix.StringByAppendingString(@"  ");
-			e = _sub_views.ObjectEnumerator();
-			while ((v = (NSView)e.NextObject()) != null)
+			prefix = prefix.stringByAppendingString(@"  ");
+			e = _sub_views.objectEnumerator();
+			while ((v = (NSView)e.nextObject()) != null)
 			{
-				desc.AppendString(v._SubtreeDescriptionWithPrefix(prefix));
+				desc.appendString(v._SubtreeDescriptionWithPrefix(prefix));
 			}
 
 			return desc;
@@ -497,7 +497,7 @@ namespace Smartmobili.Cocoa
 
 		public virtual NSString _ResizeDescription()
 		{
-			return NSString.StringWithFormat(@"h=%c%c%c v=%c%c%c", 
+			return NSString.stringWithFormat(@"h=%c%c%c v=%c%c%c", 
 			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMinXMargin) != 0 ? '&' : '-',
 			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewWidthSizable) != 0 ? '&' : '-',
 			                                 (_autoresizingMask & (uint)NSViewAutoresizingMasks.NSViewMaxXMargin) != 0 ? '&' : '-',
@@ -507,11 +507,11 @@ namespace Smartmobili.Cocoa
 			                                 null);
 		}
 
-		public override NSString Description()
+		public override NSString description()
 		{
-			return NSString.StringWithFormat(@"%@ %@ %@ f=%@ b=%@", 
+			return NSString.stringWithFormat(@"%@ %@ %@ f=%@ b=%@", 
 			        this._FlagDescription(), 
-			        this._ResizeDescription(), base.Description(), 
+			        this._ResizeDescription(), base.description(), 
 			        NSString.FromRect(_frame), NSString.FromRect(_bounds), null);
 		}
 
@@ -526,16 +526,16 @@ namespace Smartmobili.Cocoa
 			return null;
 		}
 
-        public override id Init()
+        public override id init()
         {
-            return InitWithFrame(NSRect.Zero);
+            return initWithFrame(NSRect.Zero);
         }
 
-        public virtual id InitWithFrame(NSRect frameRect)
+        public virtual id initWithFrame(NSRect frameRect)
         {
             id self = this;
 
-            if (base.Init() == null)
+            if (base.init() == null)
                 return null;
 
             if (frameRect.Size.Width < 0)
@@ -553,12 +553,12 @@ namespace Smartmobili.Cocoa
 
             // _frameMatrix = [NSAffineTransform new];    // Map fromsuperview to frame
             // _boundsMatrix = [NSAffineTransform new];   // Map from superview to bounds
-            _matrixToWindow = (NSAffineTransform)NSAffineTransform.Alloc().Init();   // Map to window coordinates
-            _matrixFromWindow = (NSAffineTransform)NSAffineTransform.Alloc().Init(); // Map from window coordinates
+            _matrixToWindow = (NSAffineTransform)NSAffineTransform.alloc().init();   // Map to window coordinates
+            _matrixFromWindow = (NSAffineTransform)NSAffineTransform.alloc().init(); // Map from window coordinates
 
-            _sub_views = (NSMutableArray)NSMutableArray.Alloc().Init();
-            _tracking_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
-            _cursor_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _sub_views = (NSMutableArray)NSMutableArray.alloc().init();
+            _tracking_rects = (NSMutableArray)NSMutableArray.alloc().init();
+            _cursor_rects = (NSMutableArray)NSMutableArray.alloc().init();
 
             // Some values are already set by initialisation
             //_super_view = nil;
@@ -593,7 +593,7 @@ namespace Smartmobili.Cocoa
 			}
 			if (this.IsDescendantOf(aView))
 			{
-				NSException.Raise(@"NSInvalidArgumentException", 
+				NSException.raise(@"NSInvalidArgumentException", 
 				                  @"addSubview:positioned:relativeTo: creates a loop in the views tree!");
 			}
 
@@ -611,7 +611,7 @@ namespace Smartmobili.Cocoa
 			}
 			else
 			{
-				index = _sub_views.IndexOfObjectIdenticalTo(otherView);
+				index = _sub_views.indexOfObjectIdenticalTo(otherView);
 			}
 				if (index == NS.NotFound)
 			{
@@ -628,10 +628,10 @@ namespace Smartmobili.Cocoa
 			aView._ViewWillMoveToWindow(_window);
 			aView._ViewWillMoveToSuperview(this);
 			aView.SetNextResponder(this);
-			_sub_views.InsertObject(aView,index);
+			_sub_views.insertObject(aView,index);
 			_rFlags.has_subviews = 1;
 			aView.ResetCursorRects();
-			aView.SetNeedsDisplay(true);
+			aView.setNeedsDisplay(true);
 			aView._ViewDidMoveToWindow();
 			aView.ViewDidMoveToSuperview();
 			this.DidAddSubview(aView);
@@ -740,7 +740,7 @@ namespace Smartmobili.Cocoa
             if (_window != null)
             {
                 for (view = (NSView)_window.FirstResponder;
-                     view != null && view.RespondsToSelector(new SEL(@"GetSuperview"));
+                     view != null && view.respondsToSelector(new SEL(@"GetSuperview"));
                      view = view.Superview)
                 {
                     if (view == aView)
@@ -757,8 +757,8 @@ namespace Smartmobili.Cocoa
 			aView._ViewWillMoveToSuperview(null);
 			aView.SetNextResponder(null);
 
-			_sub_views.RemoveObjectIdenticalTo(aView);
-			aView.SetNeedsDisplay(false);
+			_sub_views.removeObjectIdenticalTo(aView);
+			aView.setNeedsDisplay(false);
 			aView._ViewDidMoveToWindow();
 			aView.ViewDidMoveToSuperview();
 
@@ -791,16 +791,16 @@ namespace Smartmobili.Cocoa
 				newView._ViewWillMoveToWindow(_window);
 				newView._ViewWillMoveToSuperview(this);
 				newView.SetNextResponder(this);
-				_sub_views.AddObject(newView);
+				_sub_views.addObject(newView);
 				_rFlags.has_subviews = 1;
 				newView.ResetCursorRects();
-				newView.SetNeedsDisplay(true);
+				newView.setNeedsDisplay(true);
 				newView._ViewDidMoveToWindow();
 				newView.ViewDidMoveToSuperview();
 				this.DidAddSubview(newView);
 				//RELEASE(newView);
 			}
-			else if (_sub_views.IndexOfObjectIdenticalTo(oldView) != NS.NotFound)
+			else if (_sub_views.indexOfObjectIdenticalTo(oldView) != NS.NotFound)
 			{
 				if (newView == null)
 				{
@@ -823,15 +823,15 @@ namespace Smartmobili.Cocoa
 	   				*/
 					//RETAIN(newView);
 					newView.RemoveFromSuperview();
-					index = _sub_views.IndexOfObjectIdenticalTo(oldView);
+					index = _sub_views.indexOfObjectIdenticalTo(oldView);
 					oldView.RemoveFromSuperview();
 					newView._ViewWillMoveToWindow(_window);
 					newView._ViewWillMoveToSuperview(this);
 					newView.SetNextResponder(this);
-					_sub_views.InsertObject(newView, index);
+					_sub_views.insertObject(newView, index);
 					_rFlags.has_subviews = 1;
 					newView.ResetCursorRects();
-					newView.SetNeedsDisplay(true);
+					newView.setNeedsDisplay(true);
 					newView._ViewDidMoveToWindow();
 					newView.ViewDidMoveToSuperview();
 					this.DidAddSubview(newView);
@@ -844,50 +844,50 @@ namespace Smartmobili.Cocoa
 		{
 			NSEnumerator en;
 			NSView aView;
-			NSMutableArray uniqNew = NSMutableArray.Array();
+			NSMutableArray uniqNew = NSMutableArray.array();
 
 			if (null == newSubviews)
 			{
-				NSException.Raise(@"NSInvalidArgumentException" ,@"Setting nil as new subviews.");
+				NSException.raise(@"NSInvalidArgumentException" ,@"Setting nil as new subviews.");
 			}
 
 			// Use a copy as we remove from the subviews array
-			en = NSArray.ArrayWithArray(_sub_views).ObjectEnumerator();
-			while ((aView = (NSView)en.NextObject()) != null)
+			en = NSArray.arrayWithArray(_sub_views).objectEnumerator();
+			while ((aView = (NSView)en.nextObject()) != null)
 			{
-				if (false == newSubviews.ContainsObject(aView))
+				if (false == newSubviews.containsObject(aView))
 				{
 					aView.RemoveFromSuperview();
 				}
 			}
 
-			en = newSubviews.ObjectEnumerator();
-			while ((aView = (NSView)en.NextObject()) != null)
+			en = newSubviews.objectEnumerator();
+			while ((aView = (NSView)en.nextObject()) != null)
 			{
 				id supersub = aView.Superview;
 
 				if (supersub != null && supersub != this)
 				{
-					NSException.Raise(@"NSInvalidArgumentException" ,@"Superviews of new subviews must be either nil or receiver.");
+					NSException.raise(@"NSInvalidArgumentException" ,@"Superviews of new subviews must be either nil or receiver.");
 				}
 
-				if (uniqNew.ContainsObject(aView))
+				if (uniqNew.containsObject(aView))
 				{
-					NSException.Raise(@"NSInvalidArgumentException" ,@"Duplicated new subviews.");
+					NSException.raise(@"NSInvalidArgumentException" ,@"Duplicated new subviews.");
 				}
 
-				if (false == _sub_views.ContainsObject(aView))
+				if (false == _sub_views.containsObject(aView))
 				{
 					this.AddSubview(aView);
 				}
 
-				uniqNew.AddObject(aView);
+				uniqNew.addObject(aView);
 			}
 
 			_sub_views = uniqNew;
 
 			// The order of the subviews may have changed
-			this.SetNeedsDisplay(true);
+			this.setNeedsDisplay(true);
 		}
 
 
@@ -1111,7 +1111,7 @@ namespace Smartmobili.Cocoa
 				if (_frameMatrix == null)
 				{
 					// Map from superview to frame
-					_frameMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init();
+					_frameMatrix = (NSAffineTransform)NSAffineTransform.alloc().init();
 				}
 
 				_frameMatrix.RotateByDegrees(angle - oldAngle);
@@ -1186,7 +1186,7 @@ namespace Smartmobili.Cocoa
 
 				if (_boundsMatrix == null)
 				{
-					_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init(); 
+					_boundsMatrix = (NSAffineTransform)NSAffineTransform.alloc().init(); 
 				}
 
 				// Adjust scale
@@ -1278,7 +1278,7 @@ namespace Smartmobili.Cocoa
 
 			if (_boundsMatrix == null)
 			{
-				_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init(); 
+				_boundsMatrix = (NSAffineTransform)NSAffineTransform.alloc().init(); 
 			}
 			_boundsMatrix.ScaleTo(scale.Width, scale.Height);
 			if (!_is_rotated_from_base)
@@ -1327,7 +1327,7 @@ namespace Smartmobili.Cocoa
 			{
 				if (_boundsMatrix == null)
 				{
-					_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init();
+					_boundsMatrix = (NSAffineTransform)NSAffineTransform.alloc().init();
 				}
 				_boundsMatrix.TranslateXByYBy(point.X, point.Y);
 				// Adjust bounds
@@ -1365,7 +1365,7 @@ namespace Smartmobili.Cocoa
 
 				if (_boundsMatrix == null)
 				{
-					_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init(); 
+					_boundsMatrix = (NSAffineTransform)NSAffineTransform.alloc().init(); 
 				}
 				_boundsMatrix.ScaleXByYBy(newSize.Width, newSize.Height);
 				// Adjust bounds
@@ -1401,7 +1401,7 @@ namespace Smartmobili.Cocoa
 				frame.Origin = NS.MakePoint(0, 0);
 				if (_boundsMatrix == null)
 				{
-					_boundsMatrix = (NSAffineTransform)NSAffineTransform.Alloc().Init(); 
+					_boundsMatrix = (NSAffineTransform)NSAffineTransform.alloc().init(); 
 				}
 				_boundsMatrix.RotateByDegrees(angle);
 				// Adjust bounds
@@ -1662,12 +1662,12 @@ namespace Smartmobili.Cocoa
 				if (_autoresizes_subviews == false || _is_rotated_from_base == true)
 					return;
 
-				e = _sub_views.ObjectEnumerator();
-				o = (NSView)e.NextObject();
+				e = _sub_views.objectEnumerator();
+				o = (NSView)e.nextObject();
 				while (o != null)
 				{
 					o.ResizeWithOldSuperviewSize(oldSize);
-					o = (NSView)e.NextObject();
+					o = (NSView)e.nextObject();
 				}
 			}
 		}
@@ -1935,7 +1935,7 @@ namespace Smartmobili.Cocoa
                 if (_window != null)
                 {
                     for (view = (NSView)_window.FirstResponder;
-                         view != null && view.RespondsToSelector(new SEL("superview"));
+                         view != null && view.respondsToSelector(new SEL("superview"));
                          view = (NSView)view.Superview)
                     {
                         if (view == this)
@@ -1954,7 +1954,7 @@ namespace Smartmobili.Cocoa
                     }
                 }
                 if (Superview != null)
-                    ((NSView)this.Superview).SetNeedsDisplay(true);
+                    ((NSView)this.Superview).setNeedsDisplay(true);
             }
             else
             {
@@ -1978,7 +1978,7 @@ namespace Smartmobili.Cocoa
 
                     //[_sub_views makeObjectsPerformSelector: @selector(_invalidateCoordinates)];
                 }
-                this.SetNeedsDisplay(true);
+                this.setNeedsDisplay(true);
             }
         }
 
@@ -2014,7 +2014,7 @@ namespace Smartmobili.Cocoa
 
         
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
@@ -2022,41 +2022,41 @@ namespace Smartmobili.Cocoa
             NSView sub;
             NSArray subs;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
-            _matrixToWindow = (NSAffineTransform)NSAffineTransform.Alloc().Init();  // Map to window coordinates
-            _matrixFromWindow = (NSAffineTransform)NSAffineTransform.Alloc().Init();// Map from window coordinates
+            _matrixToWindow = (NSAffineTransform)NSAffineTransform.alloc().init();  // Map to window coordinates
+            _matrixFromWindow = (NSAffineTransform)NSAffineTransform.alloc().init();// Map from window coordinates
 
             if (aDecoder.AllowsKeyedCoding)
             {
                 NSView prevKeyView = null;
                 NSView nextKeyView = null;
 
-                if (aDecoder.ContainsValueForKey("NSFrame"))
+                if (aDecoder.containsValueForKey("NSFrame"))
                 {
-                    _frame = aDecoder.DecodeRectForKey("NSFrame");
+                    _frame = aDecoder.decodeRectForKey("NSFrame");
                 }
                 else 
                 {
                     _frame = NSRect.Zero;
-                    if (aDecoder.ContainsValueForKey("NSFrameSize"))
+                    if (aDecoder.containsValueForKey("NSFrameSize"))
                     {
-                        _frame = aDecoder.DecodeSizeForKey("NSFrameSize");
+                        _frame = aDecoder.decodeSizeForKey("NSFrameSize");
                     }
                 }
 
                 // Set bounds rectangle
                 _bounds.Origin = NSPoint.Zero;
                 _bounds.Size = _frame.Size;
-                if (aDecoder.ContainsValueForKey("NSBounds"))
+                if (aDecoder.containsValueForKey("NSBounds"))
                 {
-                    this.SetBounds(aDecoder.DecodeRectForKey(@"NSBounds"));
+                    this.SetBounds(aDecoder.decodeRectForKey(@"NSBounds"));
                 }
                 
-                _sub_views = (NSMutableArray)NSMutableArray.Alloc().Init();
-                _tracking_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
-                _cursor_rects = (NSMutableArray)NSMutableArray.Alloc().Init();
+                _sub_views = (NSMutableArray)NSMutableArray.alloc().init();
+                _tracking_rects = (NSMutableArray)NSMutableArray.alloc().init();
+                _cursor_rects = (NSMutableArray)NSMutableArray.alloc().init();
 
                 _is_rotated_from_base = false;
                 _is_rotated_or_scaled_from_base = false;
@@ -2075,8 +2075,8 @@ namespace Smartmobili.Cocoa
                  */
 
                 // previous and next key views...
-                 prevKeyView = (NSView)aDecoder.DecodeObjectForKey("NSPreviousKeyView");
-                 nextKeyView = (NSView)aDecoder.DecodeObjectForKey("NSNextKeyView");
+                 prevKeyView = (NSView)aDecoder.decodeObjectForKey("NSPreviousKeyView");
+                 nextKeyView = (NSView)aDecoder.decodeObjectForKey("NSNextKeyView");
                 if (nextKeyView != null)
                 {
                     NextKeyView = nextKeyView;
@@ -2085,9 +2085,9 @@ namespace Smartmobili.Cocoa
                 {
                     PreviousKeyView = prevKeyView;
                 }
-                if (aDecoder.ContainsValueForKey("NSvFlags"))
+                if (aDecoder.containsValueForKey("NSvFlags"))
                 {
-                    uint vFlags = (uint)aDecoder.DecodeIntForKey("NSvFlags");
+                    uint vFlags = (uint)aDecoder.decodeIntForKey("NSvFlags");
                     //2013-06-02 10:40:22.872 Gorm[26233] NSvFlags: 0x112 (274) (274)
                     //2013-06-02 10:40:22.872 Gorm[26233] NSvFlags: 0x80000100 (-2147483392) (-2147483392)
                     //2013-06-02 10:40:22.873 Gorm[26233] NSvFlags: 0x80000100 (-2147483392) (-2147483392)
@@ -2126,11 +2126,11 @@ namespace Smartmobili.Cocoa
                 }
 
                  // iterate over subviews and put them into the view...
-                subs = (NSArray)aDecoder.DecodeObjectForKey("NSSubviews");
+                subs = (NSArray)aDecoder.decodeObjectForKey("NSSubviews");
                 if (subs != null)
                 {
-                    e = subs.ObjectEnumerator();
-                    while ((sub = (NSView)e.NextObject()) != null)
+                    e = subs.objectEnumerator();
+                    while ((sub = (NSView)e.nextObject()) != null)
                     {
                         System.Diagnostics.Debug.Assert(sub.GetClass() != NSCustomView.Class);
                         System.Diagnostics.Debug.Assert(sub.Window == null);
@@ -2139,10 +2139,10 @@ namespace Smartmobili.Cocoa
                         sub._ViewWillMoveToWindow(_window);
                         sub._ViewWillMoveToSuperview(this);
                         sub.SetNextResponder(this);
-                        _sub_views.AddObject(sub);
+                        _sub_views.addObject(sub);
                         _rFlags.has_subviews = 1;
                         sub.ResetCursorRects();
-                        sub.SetNeedsDisplay(true);
+                        sub.setNeedsDisplay(true);
                         sub._ViewDidMoveToWindow();
                         sub.ViewDidMoveToSuperview();
                         this.DidAddSubview(sub);
@@ -2151,15 +2151,15 @@ namespace Smartmobili.Cocoa
                 }
 
 
-                //NSvFlags = aDecoder.DecodeIntForKey("NSvFlags");
-                //_sub_views = (NSArray)aDecoder.DecodeObjectForKey("NSSubviews");
+                //NSvFlags = aDecoder.decodeIntForKey("NSvFlags");
+                //_sub_views = (NSArray)aDecoder.decodeObjectForKey("NSSubviews");
 
-                //Window = aDecoder.DecodeObjectForKey("NSWindow");
-                //ClassName = (NSString)aDecoder.DecodeObjectForKey("NSWindow");
+                //Window = aDecoder.decodeObjectForKey("NSWindow");
+                //ClassName = (NSString)aDecoder.decodeObjectForKey("NSWindow");
 
-                //Offsets = aDecoder.DecodePointForKey("NSOffsets");
+                //Offsets = aDecoder.decodePointForKey("NSOffsets");
 
-                //Superview = aDecoder.DecodeObjectForKey("NSSuperview");
+                //Superview = aDecoder.decodeObjectForKey("NSSuperview");
             }
 
             return self;
@@ -2274,7 +2274,7 @@ namespace Smartmobili.Cocoa
             return 0.0;
         }
 
-        public virtual void SetNeedsDisplay(bool flag)
+        public virtual void setNeedsDisplay(bool flag)
         {
 
         }

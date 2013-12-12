@@ -10,7 +10,7 @@ namespace Smartmobili.Cocoa
     public class NSButtonImageSource : NSObject
     {
         new public static Class Class = new Class(typeof(NSButtonImageSource));
-        new public static NSButtonImageSource Alloc() { return new NSButtonImageSource(); }
+        new public static NSButtonImageSource alloc() { return new NSButtonImageSource(); }
 
         protected NSString _imageName;
 
@@ -22,7 +22,7 @@ namespace Smartmobili.Cocoa
 
         public virtual id initWithImageNamed(NSString name)
         {
-            id self = base.Init();
+            id self = base.init();
             if (self != null)
             {
                 _imageName = name;
@@ -32,21 +32,21 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
             if (aCoder.AllowsKeyedCoding)
             {
-                aCoder.EncodeObjectForKey(_imageName, @"NSImageName");
+                aCoder.encodeObjectForKey(_imageName, @"NSImageName");
             }
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                _imageName =  (NSString)aDecoder.DecodeObjectForKey(@"NSImageName");
+                _imageName =  (NSString)aDecoder.decodeObjectForKey(@"NSImageName");
             }
 
             return self;

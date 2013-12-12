@@ -34,13 +34,13 @@ namespace Smartmobili.Cocoa
            
         }
 
-        public override id InitWithCoder(NSCoder decoder)
+        public override id initWithCoder(NSCoder decoder)
         {
             id self = this;
 
-            base.InitWithCoder(decoder);
+            base.initWithCoder(decoder);
 
-            OrderedObjects = (NSArray)decoder.DecodeObjectForKey("orderedObjects");
+            OrderedObjects = (NSArray)decoder.decodeObjectForKey("orderedObjects");
 
             return self;
         }

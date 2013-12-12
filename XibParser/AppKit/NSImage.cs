@@ -36,7 +36,7 @@ namespace Smartmobili.Cocoa
     public class NSImage : NSObject
     {
         new public static Class Class = new Class(typeof(NSImage));
-        new public static NSImage Alloc() { return new NSImage(); }
+        new public static NSImage alloc() { return new NSImage(); }
 
         public NSString Name { get; set; }
 
@@ -54,9 +54,9 @@ namespace Smartmobili.Cocoa
             
         //}
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             return this;
         }

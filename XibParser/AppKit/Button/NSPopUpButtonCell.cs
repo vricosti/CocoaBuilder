@@ -35,46 +35,46 @@ namespace Smartmobili.Cocoa
             uint arrowPosition;
         }
 
-        [ObjcMethodAttribute("InitWithCoder")]
-        public override id InitWithCoder(NSCoder aDecoder)
+        [ObjcMethodAttribute("initWithCoder")]
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
             NSMenu menu;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
               if (aDecoder.AllowsKeyedCoding)
               {
-                  menu = (NSMenu)aDecoder.DecodeObjectForKey(@"NSMenu");
+                  menu = (NSMenu)aDecoder.decodeObjectForKey(@"NSMenu");
                   this.Menu = null;
                   this.Menu = menu;
 
-                  if (aDecoder.ContainsValueForKey(@"NSAltersState"))
+                  if (aDecoder.containsValueForKey(@"NSAltersState"))
                   {
 
                   }
-                  if (aDecoder.ContainsValueForKey(@"NSPullDown"))
+                  if (aDecoder.containsValueForKey(@"NSPullDown"))
                   {
 
                   }
-                  if (aDecoder.ContainsValueForKey(@"NSUsesItemFromMenu"))
+                  if (aDecoder.containsValueForKey(@"NSUsesItemFromMenu"))
                   {
 
                   }
-                  if (aDecoder.ContainsValueForKey(@"NSArrowPosition"))
+                  if (aDecoder.containsValueForKey(@"NSArrowPosition"))
                   {
 
                   }
-                  if (aDecoder.ContainsValueForKey(@"NSPreferredEdge"))
+                  if (aDecoder.containsValueForKey(@"NSPreferredEdge"))
                   {
 
                   }
-                  if (aDecoder.ContainsValueForKey(@"NSSelectedIndex"))
+                  if (aDecoder.containsValueForKey(@"NSSelectedIndex"))
                   {
 
                   }
-                  if (aDecoder.ContainsValueForKey(@"NSMenuItem"))
+                  if (aDecoder.containsValueForKey(@"NSMenuItem"))
                   {
 
                   }

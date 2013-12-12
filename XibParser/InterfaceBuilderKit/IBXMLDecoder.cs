@@ -32,7 +32,7 @@ namespace Smartmobili.Cocoa
     public class IBXMLElement : NSObject
     {
         new public static Class Class = new Class(typeof(IBXMLElement));
-        new public static IBXMLElement Alloc() { return new IBXMLElement(); }
+        new public static IBXMLElement alloc() { return new IBXMLElement(); }
 
 
 
@@ -41,7 +41,7 @@ namespace Smartmobili.Cocoa
     public class IBXMLDecoderApple : NSKeyedUnarchiver
     {
         new public static Class Class = new Class(typeof(IBXMLDecoderApple));
-        new public static IBXMLDecoderApple Alloc() { return new IBXMLDecoderApple(); }
+        new public static IBXMLDecoderApple alloc() { return new IBXMLDecoderApple(); }
 
         protected NSData _originalDocumentData;
         protected id _successfullyDecodedObjects;
@@ -65,28 +65,28 @@ namespace Smartmobili.Cocoa
 
         public override bool AllowsKeyedCoding { get { return true; } }
 
-        public override id InitForReadingWithData(NSData data, object dummyObject = null)
+        public override id initForReadingWithData(NSData data, object dummyObject = null)
         {
             NSError outErr = null;
-            return InitForReadingWithData(data, ref outErr);
+            return initForReadingWithData(data, ref outErr);
         }
-        public override id InitForReadingWithData(NSData data, ref NSError outError)
+        public override id initForReadingWithData(NSData data, ref NSError outError)
         {
             return null;
         }
         
-        public override float DecodeFloatForKey(NSString key)
+        public override float decodeFloatForKey(NSString key)
         {
-            NSDictionary objects = (NSDictionary)_childMap.ObjectForKey(_currentElement);
-            NSString floatString = objects.ObjectForKey(key).ToString();
+            NSDictionary objects = (NSDictionary)_childMap.objectForKey(_currentElement);
+            NSString floatString = objects.objectForKey(key).ToString();
             return IBXMLCoderDoubleFromString(floatString);
         }
-        public virtual id ObjectForOID(NSString key)
+        public virtual id objectForOID(NSString key)
         {
-            return _objectIDsToObjects.ObjectForKey(key);
+            return _objectIDsToObjects.objectForKey(key);
         }
 
-        public virtual id ObjectForXMLElement(object element)
+        public virtual id objectForXMLElement(object element)
         {
             return null;
             //if ( )

@@ -27,7 +27,7 @@ namespace Smartmobili.Cocoa
     public class NSScroller : NSControl
     {
         new public static Class Class = new Class(typeof(NSScroller));
-        new public static NSScroller Alloc() { return new NSScroller(); }
+        new public static NSScroller alloc() { return new NSScroller(); }
 
         public NSScroller()
         {

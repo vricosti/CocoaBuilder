@@ -117,19 +117,19 @@ namespace Smartmobili.Cocoa
         {
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                NSScroller hScroller = (NSScroller)aDecoder.DecodeObjectForKey("NSHScroller");
-                NSScroller vScroller = (NSScroller)aDecoder.DecodeObjectForKey("NSVScroller");
-                NSClipView content = (NSClipView)aDecoder.DecodeObjectForKey("NSContentView");
+                NSScroller hScroller = (NSScroller)aDecoder.decodeObjectForKey("NSHScroller");
+                NSScroller vScroller = (NSScroller)aDecoder.decodeObjectForKey("NSVScroller");
+                NSClipView content = (NSClipView)aDecoder.decodeObjectForKey("NSContentView");
 
-                if (aDecoder.ContainsValueForKey("NSsFlags"))
+                if (aDecoder.containsValueForKey("NSsFlags"))
                 {
-                    NSsFlags = (uint)aDecoder.DecodeIntForKey("NSsFlags");
+                    NSsFlags = (uint)aDecoder.decodeIntForKey("NSsFlags");
                 }
             }
 

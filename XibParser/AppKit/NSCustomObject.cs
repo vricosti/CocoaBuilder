@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
     public class NSCustomObject : NSObject, NSCoding2
     {
         new public static Class Class = new Class(typeof(NSCustomObject));
-        new public static NSCustomObject Alloc() { return new NSCustomObject(); }
+        new public static NSCustomObject alloc() { return new NSCustomObject(); }
 
         protected NSString _className;
         protected NSString _extension;
@@ -72,20 +72,20 @@ namespace Smartmobili.Cocoa
         }
 
         
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
-            base.EncodeWithCoder(aCoder);
+            base.encodeWithCoder(aCoder);
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                _className = (NSString)aDecoder.DecodeObjectForKey(@"NSClassName");
-                _extension = (NSString)aDecoder.DecodeObjectForKey(@"NSExtension");
-                _object = aDecoder.DecodeObjectForKey(@"NSObject");
+                _className = (NSString)aDecoder.decodeObjectForKey(@"NSClassName");
+                _extension = (NSString)aDecoder.decodeObjectForKey(@"NSExtension");
+                _object = aDecoder.decodeObjectForKey(@"NSObject");
             }
             else
             {
@@ -93,7 +93,7 @@ namespace Smartmobili.Cocoa
             }
 
 
-            //base.InitWithCoder(decoder);
+            //base.initWithCoder(decoder);
 
             //var xElement = decoder.XmlElement;
             //var xNSClassName = xElement.Descendants().Where(c =>

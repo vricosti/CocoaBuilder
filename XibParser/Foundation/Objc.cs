@@ -89,7 +89,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public static NSString Encode(Type type)
+        public static NSString encode(Type type)
         {
             return "";
         }

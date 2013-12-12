@@ -28,7 +28,7 @@ namespace Smartmobili.Cocoa
     public class NSAffineTransform : NSObject
     {
         new public static Class Class = new Class(typeof(NSAffineTransform));
-        new public static NSAffineTransform Alloc() { return new NSAffineTransform(); }
+        new public static NSAffineTransform alloc() { return new NSAffineTransform(); }
 
         NSAffineTransformStruct _matrix;
         bool _isIdentity;	// special case: A=D=1 and B=C=0
@@ -50,7 +50,7 @@ namespace Smartmobili.Cocoa
 		{
 			NSAffineTransform	t;
 
-			t = (NSAffineTransform)NSAffineTransform.Alloc().Init();
+			t = (NSAffineTransform)NSAffineTransform.alloc().init();
 			t._matrix = IdentityTransform;
 			t._isIdentity = true;
 			return t;
@@ -68,13 +68,13 @@ namespace Smartmobili.Cocoa
             return MC;
         }
 
-        public override NSString Description()
+        public override NSString description()
         {
-            return NSString.StringWithFormat(@"NSAffineTransform ((%f, %f) (%f, %f) (%f, %f))",
+            return NSString.stringWithFormat(@"NSAffineTransform ((%f, %f) (%f, %f) (%f, %f))",
                 _matrix.m11, _matrix.m12, _matrix.m21, _matrix.m22, _matrix.tX, _matrix.tY);
         }
 
-        public override id Init()
+        public override id init()
         {
             id self = this;
 
@@ -105,7 +105,7 @@ namespace Smartmobili.Cocoa
 
         public virtual void MakeIdentityMatrix()
         {
-            Init();
+            init();
         }
 
 

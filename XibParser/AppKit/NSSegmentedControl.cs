@@ -28,13 +28,13 @@ namespace Smartmobili.Cocoa
     public class NSSegmentedControl : NSControl
     {
         new public static Class Class = new Class(typeof(NSSegmentedControl));
-        new public static NSSegmentedControl Alloc() { return new NSSegmentedControl(); }
+        new public static NSSegmentedControl alloc() { return new NSSegmentedControl(); }
 
         private static Class segmentedControlCellClass;
 
 
-        static NSSegmentedControl() { Initialize(); }
-        new static void Initialize()
+        static NSSegmentedControl() { initialize(); }
+        new static void initialize()
         {
             segmentedControlCellClass = NSSegmentedCell.Class;
         }

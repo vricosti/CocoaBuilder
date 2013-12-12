@@ -29,7 +29,7 @@ namespace Smartmobili.Cocoa
     public class NSScanner : NSObject
     {
         new public static Class Class = new Class(typeof(NSScanner));
-        new public static NSScanner Alloc() { return new NSScanner(); }
+        new public static NSScanner alloc() { return new NSScanner(); }
 
         public const int LONG_MAX = Int16.MaxValue;
         public const int LONG_MIN = Int16.MinValue;
@@ -47,18 +47,18 @@ namespace Smartmobili.Cocoa
         protected NSString _string;
 
 
-        static NSScanner() { Initialize(); }
-        public static void Initialize()
+        static NSScanner() { initialize(); }
+        public static void initialize()
         {
             defaultSkipSet = NSCharacterSet.WhitespaceAndNewlineCharacterSet;
         }
 
         public static id ScannerWithString(NSString aString)
         {
-            return Alloc().InitWithString(aString);
+            return alloc().initWithString(aString);
         }
 
-        public virtual id InitWithString(NSString aString)
+        public virtual id initWithString(NSString aString)
         {
             id self = this;
 
@@ -75,7 +75,7 @@ namespace Smartmobili.Cocoa
             uint save__scanLocation;
             bool ret;
 
-            if (_scanLocation >= MyLength())
+            if (_scanLocation >= myLength())
                 return true;
             save__scanLocation = _scanLocation;
             ret = !SkipToNextField();
@@ -84,7 +84,7 @@ namespace Smartmobili.Cocoa
         }
 
         
-        private uint MyLength()
+        private uint myLength()
         {
             return _string.Length;
         }
@@ -99,7 +99,7 @@ namespace Smartmobili.Cocoa
         {
             while (_scanLocation < _string.Length && 
                  _charactersToBeSkipped != null &&
-                 _charactersToBeSkipped.CharacterIsMember(MyCharacter(_scanLocation)))
+                 _charactersToBeSkipped.characterIsMember(MyCharacter(_scanLocation)))
                  _scanLocation++;
 
             return (_scanLocation >= _string.Length) ? false : true;
@@ -194,7 +194,7 @@ namespace Smartmobili.Cocoa
             }
 
             /* Check for sign */
-            if (_scanLocation < MyLength())
+            if (_scanLocation < myLength())
             {
                 switch (MyCharacter(_scanLocation))
                 {
@@ -210,7 +210,7 @@ namespace Smartmobili.Cocoa
 
 
             /* Process number */
-            while (_scanLocation < MyLength())
+            while (_scanLocation < myLength())
             {
                 c = MyCharacter(_scanLocation);
                 if ((c >= '0') && (c <= '9'))
@@ -249,7 +249,7 @@ namespace Smartmobili.Cocoa
             }
 
             /* Check for trailing exponent */
-            if ((_scanLocation < MyLength()) && ((c == 'e') || (c == 'E')))
+            if ((_scanLocation < myLength()) && ((c == 'e') || (c == 'E')))
             {
                 uint expScanLocation = _scanLocation;
                 int expval = 0;
@@ -302,7 +302,7 @@ namespace Smartmobili.Cocoa
             start = _scanLocation;
             while (_scanLocation < _string.Length)
             {
-                if (stopSet.CharacterIsMember(_string[_scanLocation]))
+                if (stopSet.characterIsMember(_string[_scanLocation]))
                     break;
                 _scanLocation++;
             }
@@ -316,7 +316,7 @@ namespace Smartmobili.Cocoa
             NSRange range = new NSRange();
             range.Location = start;
             range.Length = _scanLocation - start;
-            stringValue = _string.SubstringWithRange(range);
+            stringValue = _string.substringWithRange(range);
 
             return true;
         }
@@ -335,10 +335,10 @@ namespace Smartmobili.Cocoa
             }
             set
             {
-                if (_scanLocation <= MyLength())
+                if (_scanLocation <= myLength())
                     _scanLocation = value;
                 else
-                    NSException.Raise("NSRangeException", @"Attempt to set scan location beyond end of string");
+                    NSException.raise("NSRangeException", @"Attempt to set scan location beyond end of string");
             }
         }
 

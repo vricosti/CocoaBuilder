@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
     public class NSCell : NSObject, INSNumber, IAction
     {
         new public static Class Class = new Class(typeof(NSCell));
-        new public static NSCell Alloc() { return new NSCell(); }
+        new public static NSCell alloc() { return new NSCell(); }
 
         public struct GSCellFlagsType
         {
@@ -192,15 +192,15 @@ namespace Smartmobili.Cocoa
             {
                 if (_cell.state == (int)NSCellStateValue.NSOffState)
                 {
-                    return NSNumber.NumberWithBool(false);
+                    return NSNumber.numberWithBool(false);
                 }
                 else if (_cell.state == (int)NSCellStateValue.NSOnState)
                 {
-                    return NSNumber.NumberWithBool(true);
+                    return NSNumber.numberWithBool(true);
                 }
                 else // NSMixedState
                 {
-                    return NSNumber.NumberWithInt(-1);
+                    return NSNumber.numberWithInt(-1);
                 }
             }
             set
@@ -211,9 +211,9 @@ namespace Smartmobili.Cocoa
                 {
                     this.State = (int)NSCellStateValue.NSOffState;
                 }
-                //else if (objVal.RespondsToSelector: @selector(intValue)])
-                // TODO : maybe implement RespondsToSelector using reflection
-                // Something like objVal.RespondsToSelector("intValue"); (int)objVal.SendObjMsg("intValue");
+                //else if (objVal.respondsToSelector: @selector(intValue)])
+                // TODO : maybe implement respondsToSelector using reflection
+                // Something like objVal.respondsToSelector("intValue"); (int)objVal.SendObjMsg("intValue");
                 // (int)objVal.ObjcSendMsg();
                 else if (objVal is INSNumber)
                 {
@@ -250,7 +250,7 @@ namespace Smartmobili.Cocoa
             }
             set
             {
-                NSNumber number = NSNumber.NumberWithDouble(value);
+                NSNumber number = NSNumber.numberWithDouble(value);
                 this.ObjectValue = number;
             }
         }
@@ -261,7 +261,7 @@ namespace Smartmobili.Cocoa
             get { return _cell.state; }
             set
             {
-                NSNumber number = NSNumber.NumberWithFloat(value);
+                NSNumber number = NSNumber.numberWithFloat(value);
                 this.ObjectValue = number;
             }
         }
@@ -272,7 +272,7 @@ namespace Smartmobili.Cocoa
             get { return _cell.state; }
             set
             {
-                NSNumber number = NSNumber.NumberWithInteger(value);
+                NSNumber number = NSNumber.numberWithInteger(value);
                 this.ObjectValue = number;
             }
         }
@@ -284,7 +284,7 @@ namespace Smartmobili.Cocoa
             get { return _cell.state; }
             set
             {
-                NSNumber number = NSNumber.NumberWithInt(value);
+                NSNumber number = NSNumber.numberWithInt(value);
                 this.ObjectValue = number;
             }
         }
@@ -732,41 +732,41 @@ namespace Smartmobili.Cocoa
 
         #region Initializing a Cell
 
-        [ObjcMethodAttribute("Init")]
-        public override id Init()
+        [ObjcMethodAttribute("init")]
+        public override id init()
         {
-            return InitTextCell((NSString)"");
+            return initTextCell((NSString)"");
         }
 
-        [ObjcMethodAttribute("InitWithCoder")]
-        public override id InitWithCoder(NSCoder aDecoder)
+        [ObjcMethodAttribute("initWithCoder")]
+        public override id initWithCoder(NSCoder aDecoder)
         {
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                id contents = (id)aDecoder.DecodeObjectForKey("NSContents");
+                id contents = (id)aDecoder.decodeObjectForKey("NSContents");
 
                 //In objc messages can be send to nil object - so in this case I had to add a 
                 // test to check if contents variable is null or not
                 // NSPopUpButtonCell doesn't have NSContents object
-                if (contents != null && contents.IsKindOfClass(NSString.Class))
+                if (contents != null && contents.isKindOfClass(NSString.Class))
                 {
-                    InitTextCell((NSString)contents);
+                    initTextCell((NSString)contents);
                 }
-                else if (contents != null && contents.IsKindOfClass(NSImage.Class))
+                else if (contents != null && contents.isKindOfClass(NSImage.Class))
                 {
-                    InitImageCell((NSImage)contents);
+                    initImageCell((NSImage)contents);
                 }
                 else
                 {
-                    Init();
+                    init();
                     this.ObjectValue = contents;
                 }
 
-                if (aDecoder.ContainsValueForKey("NSCellFlags"))
+                if (aDecoder.containsValueForKey("NSCellFlags"))
                 {
                     uint mask = 0;
-                    uint cFlags = (uint)aDecoder.DecodeIntForKey("NSCellFlags");
+                    uint cFlags = (uint)aDecoder.decodeIntForKey("NSCellFlags");
 
                     FocusRingType = (NSFocusRingType)(cFlags & 0x3);
                     ShowsFirstResponder = ((cFlags & 0x4) == 0x4);
@@ -791,9 +791,9 @@ namespace Smartmobili.Cocoa
                     this.State = (int)(((cFlags & 0x80000000) == 0x80000000) ? NSCellStateValue.NSOnState : NSCellStateValue.NSOffState);
                 }
 
-                if (aDecoder.ContainsValueForKey("NSCellFlags2"))
+                if (aDecoder.containsValueForKey("NSCellFlags2"))
                 {
-                    int cFlags2 = aDecoder.DecodeIntForKey("NSCellFlags2");
+                    int cFlags2 = aDecoder.decodeIntForKey("NSCellFlags2");
 
                     this.ControlTint = (NSControlTint)((cFlags2 & 0xE0) >> 5);
                     this.LineBreakMode = (NSLineBreakMode)((cFlags2 & 0xE00) >> 9);
@@ -806,32 +806,32 @@ namespace Smartmobili.Cocoa
                     this.AllowsEditingTextAttributes = ((cFlags2 & 0x40000000) == 0x40000000);
                 }
 
-                if (aDecoder.ContainsValueForKey("NSSupport"))
+                if (aDecoder.containsValueForKey("NSSupport"))
                 {
 
-                    id support = aDecoder.DecodeObjectForKey("NSSupport");
+                    id support = aDecoder.decodeObjectForKey("NSSupport");
 
-                    if (support.IsKindOfClass(NSFont.Class))
+                    if (support.isKindOfClass(NSFont.Class))
                     {
                         this.Font = (NSFont)support;
                     }
-                    else if (support.IsKindOfClass(NSImage.Class))
+                    else if (support.isKindOfClass(NSImage.Class))
                     {
                         this.Image = (NSImage)support;
                     }
                 }
 
-                if (aDecoder.ContainsValueForKey("NSFormatter"))
+                if (aDecoder.containsValueForKey("NSFormatter"))
                 {
-                    NSFormatter formatter = (NSFormatter)aDecoder.DecodeObjectForKey("NSFormatter");
+                    NSFormatter formatter = (NSFormatter)aDecoder.decodeObjectForKey("NSFormatter");
                     Formatter = formatter;
                 }
             }
             return this;
         }
 
-        [ObjcMethodAttribute("InitTextCell")]
-        public virtual id InitTextCell(NSString aString)
+        [ObjcMethodAttribute("initTextCell")]
+        public virtual id initTextCell(NSString aString)
         {
             id self = this;
 
@@ -845,8 +845,8 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        [ObjcMethodAttribute("InitImageCell")]
-        public virtual id InitImageCell(NSImage anImage)
+        [ObjcMethodAttribute("initImageCell")]
+        public virtual id initImageCell(NSImage anImage)
         {
             id self = this;
 

@@ -491,7 +491,7 @@ namespace AT.MIN
                         string nsstr = "{0" + (fieldLength != int.MinValue ? "," + (flagLeft2Right ? "-" : String.Empty) + fieldLength.ToString() : String.Empty) + ":s}";
                         if (o is id)
                         {
-                            w = (NSString)Objc.MsgSend((id)o, "Description", null);
+                            w = (NSString)Objc.MsgSend((id)o, "description", null);
                         }
                         else
                         {

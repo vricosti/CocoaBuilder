@@ -39,21 +39,21 @@ namespace Smartmobili.Cocoa
         {
         }
 
-		public virtual void AppendString(NSString aString)
+		public virtual void appendString(NSString aString)
 		{
 			this.Value += aString;
 		}
 
-		public virtual void AppendFormat(NSString format, params object[] args)
+		public virtual void appendFormat(NSString format, params object[] args)
 		{
 			string msg = Tools.sprintf(format, args);
 			this.Value += msg;
 		}
 
 
-        //public override id InitWithCoder(NSCoder aDecoder)
+        //public override id initWithCoder(NSCoder aDecoder)
         //{
-        //    base.InitWithCoder(aDecoder);
+        //    base.initWithCoder(aDecoder);
 
         //    foreach (var xElement in aDecoder.XmlElement.Elements())
         //    {

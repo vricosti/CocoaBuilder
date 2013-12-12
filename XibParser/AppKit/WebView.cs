@@ -8,17 +8,17 @@ namespace Smartmobili.Cocoa
     public class WebView : NSView
     {
         new public static Class Class = new Class(typeof(WebView));
-        new public static WebView Alloc() { return new WebView(); }
+        new public static WebView alloc() { return new WebView(); }
 
         public WebView()
         {
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)

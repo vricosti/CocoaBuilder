@@ -38,7 +38,7 @@ namespace Smartmobili.Cocoa
     public class IBDocument : NSDocument
     {
         new public static Class Class = new Class(typeof(IBDocument));
-        new public static IBDocument Alloc() { return new IBDocument(); }
+        new public static IBDocument alloc() { return new IBDocument(); }
 
         public NSMutableDictionary ListOfReferenceId { get; protected set; }
 
@@ -128,32 +128,32 @@ namespace Smartmobili.Cocoa
         //public override bool ReadFromFileWrapper2(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         //{
         //}
-        public override bool ReadFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
+        public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
-            //IBXMLDecoder xmlDec = (IBXMLDecoder)(IBXMLDecoder.Alloc()).InitForReadingWithData(fileWrapper.RegularFileContents(), null);
+            //IBXMLDecoder xmlDec = (IBXMLDecoder)(IBXMLDecoder.alloc()).initForReadingWithData(fileWrapper.regularFileContents(), null);
 
-            NSData data = fileWrapper.RegularFileContents();
+            NSData data = fileWrapper.regularFileContents();
             if (data != null)
             {
-                var unarc = GSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
-                SystemTarget = unarc.DecodeIntForKey(@"IBDocument.SystemTarget");
-                SystemVersion = (NSString)unarc.DecodeObjectForKey(@"IBDocument.SystemVersion");
-                InterfaceBuilderVersion = (NSString)unarc.DecodeObjectForKey(@"IBDocument.InterfaceBuilderVersion");
-                AppKitVersion = (NSString)unarc.DecodeObjectForKey(@"IBDocument.AppKitVersion");
-                HIToolboxVersion = (NSString)unarc.DecodeObjectForKey(@"IBDocument.HIToolboxVersion");
-                PluginVersions = (NSMutableDictionary)unarc.DecodeObjectForKey(@"IBDocument.PluginVersions");
-                IntegratedClassDependencies = (NSArray)unarc.DecodeObjectForKey(@"IBDocument.IntegratedClassDependencies");
-                PluginDependencies = (NSArray)unarc.DecodeObjectForKey(@"IBDocument.PluginDependencies");
-                Metadata = (NSMutableDictionary)unarc.DecodeObjectForKey(@"IBDocument.Metadata");
-                RootObjects = (NSMutableArray)unarc.DecodeObjectForKey(@"IBDocument.RootObjects");
-                Objects = (IBObjectContainer)unarc.DecodeObjectForKey(@"IBDocument.Objects");
-                Classes = (IBClassDescriber)unarc.DecodeObjectForKey(@"IBDocument.Classes");
-                LocalizationMode = unarc.DecodeIntForKey(@"IBDocument.LocalizationMode");
-                TargetRuntimeIdentifier = (NSString)unarc.DecodeObjectForKey(@"IBDocument.TargetRuntimeIdentifier");
-                PluginDeclaredDevelopmentDependencies = (NSMutableDictionary)unarc.DecodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies");
-                PluginDeclaredDependenciesTrackSystemTargetVersion = unarc.DecodeBoolForKey(@"IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion");
-                DefaultPropertyAccessControl = unarc.DecodeIntForKey(@"IBDocument.DefaultPropertyAccessControl");
-                LastKnownImageSizes = (NSMutableDictionary)unarc.DecodeObjectForKey(@"IBDocument.LastKnownImageSizes");
+                var unarc = GSXibKeyedUnarchiver.alloc().initForReadingWithData(data);
+                SystemTarget = unarc.decodeIntForKey(@"IBDocument.SystemTarget");
+                SystemVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.SystemVersion");
+                InterfaceBuilderVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.InterfaceBuilderVersion");
+                AppKitVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.AppKitVersion");
+                HIToolboxVersion = (NSString)unarc.decodeObjectForKey(@"IBDocument.HIToolboxVersion");
+                PluginVersions = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.PluginVersions");
+                IntegratedClassDependencies = (NSArray)unarc.decodeObjectForKey(@"IBDocument.IntegratedClassDependencies");
+                PluginDependencies = (NSArray)unarc.decodeObjectForKey(@"IBDocument.PluginDependencies");
+                Metadata = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.Metadata");
+                RootObjects = (NSMutableArray)unarc.decodeObjectForKey(@"IBDocument.RootObjects");
+                Objects = (IBObjectContainer)unarc.decodeObjectForKey(@"IBDocument.Objects");
+                Classes = (IBClassDescriber)unarc.decodeObjectForKey(@"IBDocument.Classes");
+                LocalizationMode = unarc.decodeIntForKey(@"IBDocument.LocalizationMode");
+                TargetRuntimeIdentifier = (NSString)unarc.decodeObjectForKey(@"IBDocument.TargetRuntimeIdentifier");
+                PluginDeclaredDevelopmentDependencies = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies");
+                PluginDeclaredDependenciesTrackSystemTargetVersion = unarc.decodeBoolForKey(@"IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion");
+                DefaultPropertyAccessControl = unarc.decodeIntForKey(@"IBDocument.DefaultPropertyAccessControl");
+                LastKnownImageSizes = (NSMutableDictionary)unarc.decodeObjectForKey(@"IBDocument.LastKnownImageSizes");
             }
 
             return true;

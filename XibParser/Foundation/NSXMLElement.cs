@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
     public class NSXMLElement : NSXMLNode
     {
         new public static Class Class = new Class(typeof(NSXMLElement));
-        new public static NSXMLElement Alloc() { return new NSXMLElement(); }
+        new public static NSXMLElement alloc() { return new NSXMLElement(); }
 
         protected NSArray _namespaces;
         protected NSArray _attributes;
@@ -130,7 +130,7 @@ namespace Smartmobili.Cocoa
 
         public virtual NSMutableArray Elements()
         {
-            return (NSMutableArray)NSMutableArray.Alloc().Init();
+            return (NSMutableArray)NSMutableArray.alloc().init();
         }
 
        

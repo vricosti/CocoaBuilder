@@ -55,7 +55,7 @@ namespace Smartmobili.Cocoa
             set
             {
                 _background_color = value;
-                _UpdateCell();
+                _updateCell();
             }
         }
 
@@ -66,7 +66,7 @@ namespace Smartmobili.Cocoa
             set
             {
                 _text_color = value;
-                _UpdateCell();
+                _updateCell();
             }
         }
 
@@ -118,11 +118,11 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override id InitTextCell(NSString aString)
+        public override id initTextCell(NSString aString)
         {
             id self = this;
 
-             if (base.InitTextCell(aString) == null)
+             if (base.initTextCell(aString) == null)
                 return null;
 
             _text_color = NSColor.TextColor;
@@ -133,14 +133,14 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                BackgroundColor = (NSColor)aDecoder.DecodeObjectForKey("NSBackgroundColor");
-                TextColor = (NSColor)aDecoder.DecodeObjectForKey("NSTextColor");
+                BackgroundColor = (NSColor)aDecoder.decodeObjectForKey("NSBackgroundColor");
+                TextColor = (NSColor)aDecoder.decodeObjectForKey("NSTextColor");
             }
 
             return this;

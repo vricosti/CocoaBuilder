@@ -65,21 +65,21 @@ namespace Smartmobili.Cocoa
         //                    <string>id</string>
         //                    <string>id</string>
         //                </object>
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                ClassName = (NSString)aDecoder.DecodeObjectForKey("className");
-                SuperClassName = (NSString)aDecoder.DecodeObjectForKey("superclassName");
-                Actions = (NSMutableDictionary)aDecoder.DecodeObjectForKey("actions");
-                ActionInfosByName = (NSMutableDictionary)aDecoder.DecodeObjectForKey("actionInfosByName");
-                Outlets = (NSMutableDictionary)aDecoder.DecodeObjectForKey("outlets");
-                ToOneOutletInfosByName = (NSMutableDictionary)aDecoder.DecodeObjectForKey("toOneOutletInfosByName");
-                SourceIdentifier = (IBClassDescriptionSource)aDecoder.DecodeObjectForKey("sourceIdentifier");
+                ClassName = (NSString)aDecoder.decodeObjectForKey("className");
+                SuperClassName = (NSString)aDecoder.decodeObjectForKey("superclassName");
+                Actions = (NSMutableDictionary)aDecoder.decodeObjectForKey("actions");
+                ActionInfosByName = (NSMutableDictionary)aDecoder.decodeObjectForKey("actionInfosByName");
+                Outlets = (NSMutableDictionary)aDecoder.decodeObjectForKey("outlets");
+                ToOneOutletInfosByName = (NSMutableDictionary)aDecoder.decodeObjectForKey("toOneOutletInfosByName");
+                SourceIdentifier = (IBClassDescriptionSource)aDecoder.decodeObjectForKey("sourceIdentifier");
 
             }
 

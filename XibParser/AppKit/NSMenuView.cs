@@ -37,7 +37,7 @@ namespace Smartmobili.Cocoa
         private NSMenu _attachedMenu;
 
 
-        new public static NSMenuView Alloc()
+        new public static NSMenuView alloc()
         {
             return new NSMenuView();
         }
@@ -48,7 +48,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithFrame(NSRect aFrame)
+        public override id initWithFrame(NSRect aFrame)
         {
             id self = this;
 
@@ -67,7 +67,7 @@ namespace Smartmobili.Cocoa
             _leftBorderOffset = 1;
 
             // Create an array to store our menu item cells.
-            _itemCells = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _itemCells = (NSMutableArray)NSMutableArray.alloc().init();
 
             return self;
         }

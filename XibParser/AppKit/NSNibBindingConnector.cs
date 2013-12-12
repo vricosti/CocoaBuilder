@@ -41,9 +41,9 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             //////////////////////////////////////////////////////////////////////////////
             //<object class="NSNibBindingConnector" key="connector">
@@ -58,14 +58,14 @@ namespace Smartmobili.Cocoa
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                if (aDecoder.DecodeIntForKey("NSNibBindingConnectorVersion") != 2)
+                if (aDecoder.decodeIntForKey("NSNibBindingConnectorVersion") != 2)
                 {
                     return null;
                 }
 
-                Binding = (NSString)aDecoder.DecodeObjectForKey("NSBinding");
-                KeyPath = (NSString)aDecoder.DecodeObjectForKey("NSKeyPath");
-                Options = (NSMutableDictionary)aDecoder.DecodeObjectForKey("NSOptions");
+                Binding = (NSString)aDecoder.decodeObjectForKey("NSBinding");
+                KeyPath = (NSString)aDecoder.decodeObjectForKey("NSKeyPath");
+                Options = (NSMutableDictionary)aDecoder.decodeObjectForKey("NSOptions");
 
             }
             else

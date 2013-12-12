@@ -79,7 +79,7 @@ namespace Smartmobili.Cocoa
     public class NSBox : NSView
     {
         new public static Class Class = new Class(typeof(NSBox));
-        new public static NSBox Alloc() { return new NSBox(); }
+        new public static NSBox alloc() { return new NSBox(); }
 
         protected id _cell;
         protected id _content_view;
@@ -174,16 +174,16 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithFrame(NSRect frameRect)
+        public override id initWithFrame(NSRect frameRect)
         {
             id self = this;
 
             NSView cv;
 
-            if (base.InitWithFrame(frameRect) == null)
+            if (base.initWithFrame(frameRect) == null)
                 return null;
 
-            _cell = (id)Objc.MsgSend(NSCell.Alloc(), "InitTextCell", @"Title");
+            _cell = (id)Objc.MsgSend(NSCell.alloc(), "initTextCell", @"Title");
             ((NSCell)_cell).Alignment = NSTextAlignment.NSCenterTextAlignment;
             ((NSCell)_cell).Bordered = false;
             ((NSCell)_cell).Editable = false;
@@ -199,7 +199,7 @@ namespace Smartmobili.Cocoa
             // FIXME
             //this.AutoresizesSubviews = false;
             
-            cv = (NSView)NSView.Alloc().Init();
+            cv = (NSView)NSView.alloc().init();
             this.ContentView = cv;
 
             return self;
@@ -222,7 +222,7 @@ namespace Smartmobili.Cocoa
             _border_type = aType;
             if (_content_view != null)
                 ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
-            this.SetNeedsDisplay(true);
+            this.setNeedsDisplay(true);
         }
 
         public virtual NSBoxType GetBoxType()
@@ -237,7 +237,7 @@ namespace Smartmobili.Cocoa
                 _box_type = aType;
                 if (_content_view != null)
                     ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
-                this.SetNeedsDisplay(true);
+                this.setNeedsDisplay(true);
             }
         }
 
@@ -246,7 +246,7 @@ namespace Smartmobili.Cocoa
             ((NSCell)_cell).StringValue = aString;
             if (_content_view != null)
                 ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
-            this.SetNeedsDisplay(true);
+            this.setNeedsDisplay(true);
         }
 
         public virtual void _SetTitleWithMnemonic(NSString aString)
@@ -255,7 +255,7 @@ namespace Smartmobili.Cocoa
             //((NSCell)_cell).StringValue = aString;
             if (_content_view != null)
                 ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
-            this.SetNeedsDisplay(true);
+            this.setNeedsDisplay(true);
         }
 
         public virtual void SetTitleFont(NSFont fontObj)
@@ -263,7 +263,7 @@ namespace Smartmobili.Cocoa
             ((NSCell)_cell).Font = fontObj;
             if (_content_view != null)
                 ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
-            this.SetNeedsDisplay(true);
+            this.setNeedsDisplay(true);
         }
 
         public virtual void SetTitlePosition(NSTitlePosition aPosition)
@@ -273,7 +273,7 @@ namespace Smartmobili.Cocoa
                 _title_position = aPosition;
                 if (_content_view != null)
                     ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
-                this.SetNeedsDisplay(true);
+                this.setNeedsDisplay(true);
             }
         }
 
@@ -327,7 +327,7 @@ namespace Smartmobili.Cocoa
             _offsets = offsetSize;
             if (_content_view != null)
                 ((NSView)_content_view).Frame = CalcSizesAllowingNegative(false);
-            this.SetNeedsDisplay(true);
+            this.setNeedsDisplay(true);
         }
 
         public override void SetFrame(NSRect frameRect)
@@ -373,7 +373,7 @@ namespace Smartmobili.Cocoa
             NSRect rect = new NSRect();
             //NSSize borderSize = [[GSTheme theme] sizeForBorderType: _border_type];
 
-            if (_content_view.RespondsToSelector(new SEL("MinimumSize")))
+            if (_content_view.respondsToSelector(new SEL("MinimumSize")))
             {
                 rect.Size = (NSSize)Objc.MsgSend(_content_view, @"MinimumSize");
             }
@@ -384,12 +384,12 @@ namespace Smartmobili.Cocoa
                 {
                     id subview;
                     NSEnumerator enumerator;
-                    enumerator = subviewArray.ObjectEnumerator();
-                    rect = ((NSView)enumerator.NextObject()).Frame;
+                    enumerator = subviewArray.objectEnumerator();
+                    rect = ((NSView)enumerator.nextObject()).Frame;
 
                     // Loop through subviews and calculate rect
                     // to encompass all
-                    while ((subview = enumerator.NextObject()) != null)
+                    while ((subview = enumerator.nextObject()) != null)
                       {
                         rect = NSRect.Union(rect, ((NSView)subview).Frame);
                       }
@@ -410,9 +410,9 @@ namespace Smartmobili.Cocoa
 
 
 
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
-            base.EncodeWithCoder(aCoder);
+            base.encodeWithCoder(aCoder);
 
             if (aCoder.AllowsKeyedCoding)
             {
@@ -425,50 +425,50 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                if (aDecoder.ContainsValueForKey(@"NSBoxType"))
+                if (aDecoder.containsValueForKey(@"NSBoxType"))
                 {
-                    int boxType = aDecoder.DecodeIntForKey(@"NSBoxType");
+                    int boxType = aDecoder.decodeIntForKey(@"NSBoxType");
                     this.BoxType = (NSBoxType)boxType;
                 }
-                if (aDecoder.ContainsValueForKey(@"NSBorderType"))
+                if (aDecoder.containsValueForKey(@"NSBorderType"))
                 {
-                    NSBorderType borderType = (NSBorderType)aDecoder.DecodeIntForKey(@"NSBorderType");
+                    NSBorderType borderType = (NSBorderType)aDecoder.decodeIntForKey(@"NSBorderType");
                     this.BorderType = borderType;
                 }
-                if (aDecoder.ContainsValueForKey(@"NSTitlePosition"))
+                if (aDecoder.containsValueForKey(@"NSTitlePosition"))
                 {
-                    NSTitlePosition titlePosition = (NSTitlePosition)aDecoder.DecodeIntForKey(@"NSTitlePosition");
+                    NSTitlePosition titlePosition = (NSTitlePosition)aDecoder.decodeIntForKey(@"NSTitlePosition");
                     this.TitlePosition = titlePosition;
                 }
-                if (aDecoder.ContainsValueForKey(@"NSTransparent"))
+                if (aDecoder.containsValueForKey(@"NSTransparent"))
                 {
                     // On Apple this is always NO, we keep it for old GNUstep archives
-                    _transparent = aDecoder.DecodeBoolForKey(@"NSTransparent");
+                    _transparent = aDecoder.decodeBoolForKey(@"NSTransparent");
                 }
-                if (aDecoder.ContainsValueForKey(@"NSFullyTransparent"))
+                if (aDecoder.containsValueForKey(@"NSFullyTransparent"))
                 {
-                    _transparent = aDecoder.DecodeBoolForKey(@"NSFullyTransparent");
+                    _transparent = aDecoder.decodeBoolForKey(@"NSFullyTransparent");
                 }
-                if (aDecoder.ContainsValueForKey(@"NSOffsets"))
+                if (aDecoder.containsValueForKey(@"NSOffsets"))
                 {
-                    this.ContentViewMargins = aDecoder.DecodeSizeForKey(@"NSOffsets");
+                    this.ContentViewMargins = aDecoder.decodeSizeForKey(@"NSOffsets");
                 }
-                if (aDecoder.ContainsValueForKey(@"NSTitleCell"))
+                if (aDecoder.containsValueForKey(@"NSTitleCell"))
                 {
-                    NSCell titleCell = (NSCell)aDecoder.DecodeObjectForKey(@"NSTitleCell");
+                    NSCell titleCell = (NSCell)aDecoder.decodeObjectForKey(@"NSTitleCell");
                     _cell = titleCell;
                 }
-                if (aDecoder.ContainsValueForKey(@"NSContentView"))
+                if (aDecoder.containsValueForKey(@"NSContentView"))
                 {
-                    NSView contentView = (NSView)aDecoder.DecodeObjectForKey(@"NSContentView");
+                    NSView contentView = (NSView)aDecoder.decodeObjectForKey(@"NSContentView");
                     this.ContentView = contentView;
                 }
             }

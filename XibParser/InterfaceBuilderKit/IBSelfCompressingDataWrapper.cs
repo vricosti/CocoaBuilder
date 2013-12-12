@@ -8,13 +8,13 @@ namespace Smartmobili.Cocoa
     public class IBSelfCompressingDataWrapper : NSObject
     {
         new public static Class Class = new Class(typeof(IBSelfCompressingDataWrapper));
-        new public static IBSelfCompressingDataWrapper Alloc() { return new IBSelfCompressingDataWrapper(); }
+        new public static IBSelfCompressingDataWrapper alloc() { return new IBSelfCompressingDataWrapper(); }
 
         protected NSData _originalData;
         protected NSData _compressedData;
 
         //IBSelfCompressingDataWrapper_initWithData_shouldCompress_
-        public virtual id InitWithData(NSData data, bool shouldCompress)
+        public virtual id initWithData(NSData data, bool shouldCompress)
         {
             id self = this;
 

@@ -32,7 +32,7 @@ namespace Smartmobili.Cocoa
     public class NSDocument : NSObject
     {
         new public static Class Class = new Class(typeof(NSDocument));
-        new public static NSDocument Alloc() { return new NSDocument(); }
+        new public static NSDocument alloc() { return new NSDocument(); }
 
         protected NSWindow _window;		// Outlet for the single window case
         protected NSMutableArray _window_controllers;	// WindowControllers for this document
@@ -66,7 +66,7 @@ namespace Smartmobili.Cocoa
             set { SetFileURL(value); }
         }
 
-        public override id Init()
+        public override id init()
         {
             id self = this;
 
@@ -75,7 +75,7 @@ namespace Smartmobili.Cocoa
 
         public virtual id InitWithType(NSString type, ref NSError error)
         {
-            id self = this.Init();
+            id self = this.init();
             if (self != null)
             {
                 this.SetFileType(type);
@@ -99,7 +99,7 @@ namespace Smartmobili.Cocoa
                     this.SetFileURL(forUrl);
                 if (this.ReadFromURL(url, type, ref error))
                 {
-                    if (!url.IsEqual(forUrl))
+                    if (!url.isEqual(forUrl))
                     {
                         //
                     }
@@ -144,7 +144,7 @@ namespace Smartmobili.Cocoa
             _file_url = url;
 
             _file_name = (url != null && url.IsFileURL ? url.Path : null);
-            this.SetLastComponentOfFileName(_file_url.Path.LastPathComponent());
+            this.SetLastComponentOfFileName(_file_url.Path.lastPathComponent());
         }
 
         public virtual void SetLastComponentOfFileName(NSString str)
@@ -155,16 +155,16 @@ namespace Smartmobili.Cocoa
 
         public virtual bool LoadDataRepresentation(NSData data, NSString type)
         {
-            NSException.Raise("NSInternalInconsistencyException", @"%@ must implement %@",
+            NSException.raise("NSInternalInconsistencyException", @"%@ must implement %@",
                 NS.StringFromClass(NSDocument.Class), SEL.StringFromSelector(new SEL("LoadDataRepresentation")));
             return false;
         }
 
         public virtual bool LoadFileWrapperRepresentation(NSFileWrapper wrapper, NSString type)
         {
-            if (wrapper.IsRegularFile())
+            if (wrapper.isRegularFile())
             {
-                return this.LoadDataRepresentation(wrapper.RegularFileContents(), type);
+                return this.LoadDataRepresentation(wrapper.regularFileContents(), type);
             }
 
             /*
@@ -178,7 +178,7 @@ namespace Smartmobili.Cocoa
 
         public virtual bool ReadFromFile(NSString fileName, NSString type)
         {
-            NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithPath(fileName);
+            NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.alloc().initWithPath(fileName);
             return this.LoadFileWrapperRepresentation(wrapper, type);
         }
 
@@ -202,8 +202,8 @@ namespace Smartmobili.Cocoa
                 }
                 else
                 {
-                    NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithPath(fileName);
-                    return this.ReadFromFileWrapper(wrapper, typeName, ref outError);
+                    NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.alloc().initWithPath(fileName);
+                    return this.readFromFileWrapper(wrapper, typeName, ref outError);
                 }
             }
             else
@@ -223,13 +223,13 @@ namespace Smartmobili.Cocoa
                 return this.LoadDataRepresentation(data, typeName);
             }
 
-            NSException.Raise("NSInternalInconsistencyException", @"%@ must implement %@",
+            NSException.raise("NSInternalInconsistencyException", @"%@ must implement %@",
                 NS.StringFromClass(NSDocument.Class), SEL.StringFromSelector(new SEL("LoadDataRepresentation")));
             return false;
         }
 
 
-        public virtual bool ReadFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
+        public virtual bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
             if (Objc.Overridden(this.GetType(), "LoadFileWrapperRepresentation"))
             {
@@ -237,9 +237,9 @@ namespace Smartmobili.Cocoa
                 return this.LoadFileWrapperRepresentation(fileWrapper, typeName);
             }
 
-            if (fileWrapper.IsRegularFile())
+            if (fileWrapper.isRegularFile())
             {
-                return this.ReadFromData(fileWrapper.RegularFileContents(), typeName, ref outError);
+                return this.ReadFromData(fileWrapper.regularFileContents(), typeName, ref outError);
             }
 
 
