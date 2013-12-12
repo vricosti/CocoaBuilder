@@ -11,7 +11,7 @@ namespace Smartmobili.Cocoa
         new public static NSArchiver alloc() { return new NSArchiver(); }
 
 
-        public static NSData ArchivedDataWithRootObject(id rootObject)
+        public static NSData archivedDataWithRootObject(id rootObject)
         {
             return null;
         }

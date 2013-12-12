@@ -131,7 +131,7 @@ namespace Smartmobili.Cocoa
             det = _matrix.m11 * _matrix.m22 - _matrix.m12 * _matrix.m21;
             if (det == 0)
             {
-                NSLog.Log(@"error: determinant of matrix is 0!");
+                NSLog.log(@"error: determinant of matrix is 0!");
                 return;
             }
 

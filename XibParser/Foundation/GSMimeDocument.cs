@@ -60,7 +60,7 @@ namespace Smartmobili.Cocoa
             length = source.Length;
             if (length == 0)
             {
-                return NSData.Data();
+                return NSData.data();
             }
 
             declen = ((length + 3) * 3) / 4;

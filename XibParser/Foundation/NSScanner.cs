@@ -53,7 +53,7 @@ namespace Smartmobili.Cocoa
             defaultSkipSet = NSCharacterSet.WhitespaceAndNewlineCharacterSet;
         }
 
-        public static id ScannerWithString(NSString aString)
+        public static id scannerWithString(NSString aString)
         {
             return alloc().initWithString(aString);
         }
@@ -70,7 +70,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public virtual bool IsAtEnd()
+        public virtual bool isAtEnd()
         {
             uint save__scanLocation;
             bool ret;
@@ -78,7 +78,7 @@ namespace Smartmobili.Cocoa
             if (_scanLocation >= myLength())
                 return true;
             save__scanLocation = _scanLocation;
-            ret = !SkipToNextField();
+            ret = !skipToNextField();
             _scanLocation = save__scanLocation;
             return ret;
         }
@@ -95,7 +95,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        private bool SkipToNextField()
+        private bool skipToNextField()
         {
             while (_scanLocation < _string.Length && 
                  _charactersToBeSkipped != null &&
@@ -106,7 +106,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        private bool _ScanInt(ref int value)
+        private bool _scanInt(ref int value)
         {
             uint num = 0;
             uint limit = UInt32.MaxValue / 10;
@@ -164,19 +164,19 @@ namespace Smartmobili.Cocoa
         {
             uint saveScanLocation = _scanLocation;
 
-            if (SkipToNextField() && _ScanInt(ref value))
+            if (skipToNextField() && _scanInt(ref value))
                 return true;
             _scanLocation = saveScanLocation;
             return false;
         }
 
-        public virtual bool ScanFloat(ref float value)
+        public virtual bool scanFloat(ref float value)
         {
             
             return false;
         }
 
-        public virtual bool ScanDouble(ref double value)
+        public virtual bool scanDouble(ref double value)
         {
             char c = (Char)0;
             double num = 0.0;
@@ -187,7 +187,7 @@ namespace Smartmobili.Cocoa
             uint saveScanLocation = _scanLocation;
 
             /* Skip whitespace */
-            if (!SkipToNextField())
+            if (!skipToNextField())
             {
                 _scanLocation = saveScanLocation;
                 return false;
@@ -256,7 +256,7 @@ namespace Smartmobili.Cocoa
 
 
                 _scanLocation++;
-                if (_ScanInt(ref expval))
+                if (_scanInt(ref expval))
                 {
                     /* Check for exponent overflow */
                     if (num != 0)
@@ -291,12 +291,12 @@ namespace Smartmobili.Cocoa
 
 
 
-        public virtual bool ScanUpToCharactersFromSet(NSCharacterSet stopSet, ref NSString stringValue)
+        public virtual bool scanUpToCharactersFromSet(NSCharacterSet stopSet, ref NSString stringValue)
         {
             uint saveScanLocation = _scanLocation;
             uint start;
 
-            if (!SkipToNextField())
+            if (!skipToNextField())
                 return false;
 
             start = _scanLocation;

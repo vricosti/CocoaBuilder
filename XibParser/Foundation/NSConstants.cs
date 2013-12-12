@@ -16,7 +16,7 @@ namespace Smartmobili.Cocoa
 
         public static void Log(NSString format, params object[] args)
         {
-            NSLog.Log(format, args);
+            NSLog.log(format, args);
         }
 
 

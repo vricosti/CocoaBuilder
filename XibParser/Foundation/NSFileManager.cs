@@ -76,7 +76,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public virtual string FileSystemRepresentationWithPath(NSString path)
+        public virtual string fileSystemRepresentationWithPath(NSString path)
         {
             string fsPath;
 
@@ -90,7 +90,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public virtual NSDictionary FileAttributesAtPath(NSString path, bool flag)
+        public virtual NSDictionary fileAttributesAtPath(NSString path, bool flag)
         {
             NSMutableDictionary attrs;
             NSString fileTypeKey = (NSString)"NSFileType";
@@ -126,7 +126,7 @@ namespace Smartmobili.Cocoa
             return attrs;
         }
 
-        public virtual NSArray DirectoryContentsAtPath(NSString path)
+        public virtual NSArray directoryContentsAtPath(NSString path)
         {
             NSArray items = null;
 
@@ -155,18 +155,18 @@ namespace Smartmobili.Cocoa
 
 
 
-        public virtual bool ChangeFileAttributes(NSDictionary attributes, NSString path)
+        public virtual bool changeFileAttributes(NSDictionary attributes, NSString path)
         {
             return false;
         }
 
-        public virtual NSString PathContentOfSymbolicLinkAtPath(NSString path)
+        public virtual NSString pathContentOfSymbolicLinkAtPath(NSString path)
         {
             return null;
         }
 
 
-        public virtual bool IsWritableFileAtPath(NSString aPath)
+        public virtual bool isWritableFileAtPath(NSString aPath)
         {
             bool isWrite = false;
 
@@ -187,13 +187,13 @@ namespace Smartmobili.Cocoa
             return isWrite;
         }
 
-        public virtual bool FileExistsAtPath(NSString aPath)
+        public virtual bool fileExistsAtPath(NSString aPath)
         {
             bool isDir = false;
-            return FileExistsAtPath(aPath, ref isDir);
+            return fileExistsAtPath(aPath, ref isDir);
         }
 
-        public virtual bool FileExistsAtPath(NSString aPath, ref bool isDirectory)
+        public virtual bool fileExistsAtPath(NSString aPath, ref bool isDirectory)
         {
             bool exists = false;
 
@@ -212,13 +212,13 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual bool CreateDirectoryAtPath(NSString path, bool createIntermediates, NSDictionary attributes, ref NSError error)
+        public virtual bool createDirectoryAtPath(NSString path, bool createIntermediates, NSDictionary attributes, ref NSError error)
         {
             return false;
         }
 
 
-        public virtual NSDirectoryEnumerator EnumeratorAtPath(NSString aPath)
+        public virtual NSDirectoryEnumerator enumeratorAtPath(NSString aPath)
         {
             return (NSDirectoryEnumerator)NSDirectoryEnumerator.alloc().initWithPath(aPath);
         }

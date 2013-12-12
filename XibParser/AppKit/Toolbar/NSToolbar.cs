@@ -73,7 +73,7 @@ namespace Smartmobili.Cocoa
         //{
         //    NSToolbar nsToolBar = new NSToolbar();
 
-        //    var elements = xElement.Elements();
+        //    var elements = xElement.elements();
         //    foreach (var elm in elements)
         //    {
         //        nsToolBar.Decode(elm);
@@ -113,7 +113,7 @@ namespace Smartmobili.Cocoa
                 IBSelectableItems = (NSArray)aDecoder.decodeObjectForKey("NSToolbarIBSelectableItems");
             }
 
-            //foreach (var xElement in decoder.XmlElement.Elements())
+            //foreach (var xElement in decoder.XmlElement.elements())
             //{
             //    string key = xElement.Attribute("key").Value;
             //    switch (key)
@@ -141,7 +141,7 @@ namespace Smartmobili.Cocoa
         //    NSToolbar nsToolBar = new NSToolbar();
 
         //    var xElement = aDecoder.XmlElement;
-        //    var elements = xElement.Elements();
+        //    var elements = xElement.elements();
         //    foreach (var elm in elements)
         //    {
         //        aDecoder.XmlElement = elm;

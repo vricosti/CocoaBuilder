@@ -106,7 +106,7 @@ namespace Smartmobili.Cocoa
                 }
                 else
                 {
-                    NS.Log(@"Data passed to Xib loading method is nil.");
+                    NS.Log(@"data passed to Xib loading method is nil.");
                 }
             }
             catch (Exception ex)
@@ -128,7 +128,7 @@ namespace Smartmobili.Cocoa
             bool isDir = false;
 
             //NSDebugLLog(@"XIB", @"Loading Xib `%@'...\n", fileName);
-            if (mgr.FileExistsAtPath(fileName, ref isDir))
+            if (mgr.fileExistsAtPath(fileName, ref isDir))
             {
                 if (isDir == false)
                 {

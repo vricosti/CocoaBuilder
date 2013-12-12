@@ -21,7 +21,7 @@ namespace Smartmobili.Cocoa
 
         //}
 
-        public NSString GetName()
+        public NSString name()
         {
             return _name;
         }

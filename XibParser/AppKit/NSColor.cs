@@ -85,7 +85,7 @@ namespace Smartmobili.Cocoa
             get { return NSColorSpace.NSNamedColorSpace; }
         }
 
-        //[ObjcProp(GetName = "description")]
+        //[ObjcProp(name = "description")]
         public override NSString description()
         {
             return "";
@@ -1605,10 +1605,10 @@ namespace Smartmobili.Cocoa
                         data = aDecoder.decodeBytesForKey(@"NSRGB", ref length);
                         str = (NSString)NSString.alloc().initWithBytes(data, (uint)data.Length, NSStringEncoding.NSASCIIStringEncoding);
                         scanner = (NSScanner)NSScanner.alloc().initWithString(str);
-                        scanner.ScanDouble(ref red);
-                        scanner.ScanDouble(ref green);
-                        scanner.ScanDouble(ref blue);
-                        scanner.ScanDouble(ref alpha);
+                        scanner.scanDouble(ref red);
+                        scanner.scanDouble(ref green);
+                        scanner.scanDouble(ref blue);
+                        scanner.scanDouble(ref alpha);
                     }
                     if (colorSpace == 1)
                     {
@@ -1633,8 +1633,8 @@ namespace Smartmobili.Cocoa
                         data = aDecoder.decodeBytesForKey(@"NSWhite", ref length);
                         str = (NSString)NSString.alloc().initWithBytes(data, (uint)data.Length, NSStringEncoding.NSASCIIStringEncoding);
                         scanner = (NSScanner)NSScanner.alloc().initWithString(str);
-                        scanner.ScanDouble(ref white);
-                        scanner.ScanDouble(ref alpha);
+                        scanner.scanDouble(ref white);
+                        scanner.scanDouble(ref alpha);
                     }
                     if (colorSpace == 3)
                     {
@@ -1662,11 +1662,11 @@ namespace Smartmobili.Cocoa
                         data = aDecoder.decodeBytesForKey(@"NSCYMK", ref length);
                         str = (NSString)NSString.alloc().initWithBytes(data, (uint)data.Length, NSStringEncoding.NSASCIIStringEncoding);
                         scanner = (NSScanner)NSScanner.alloc().initWithString(str);
-                        scanner.ScanDouble(ref cyan);
-                        scanner.ScanDouble(ref yellow);
-                        scanner.ScanDouble(ref magenta);
-                        scanner.ScanDouble(ref black);
-                        scanner.ScanDouble(ref alpha);
+                        scanner.scanDouble(ref cyan);
+                        scanner.scanDouble(ref yellow);
+                        scanner.scanDouble(ref magenta);
+                        scanner.scanDouble(ref black);
+                        scanner.scanDouble(ref alpha);
                     }
 
                     self = NSColor.ColorWithDeviceCyan((double)cyan, (double)magenta, (double)yellow, (double)black, (double)alpha);
@@ -1816,10 +1816,10 @@ namespace Smartmobili.Cocoa
                 NSScanner scanner = (NSScanner)NSScanner.alloc().initWithString(str);
 
                 r = g = b = 0;
-                if (scanner.ScanDouble(ref r) &&
-                scanner.ScanDouble(ref g) &&
-                scanner.ScanDouble(ref b) &&
-                scanner.IsAtEnd())
+                if (scanner.scanDouble(ref r) &&
+                scanner.scanDouble(ref g) &&
+                scanner.scanDouble(ref b) &&
+                scanner.isAtEnd())
                 {
 
                     return ColorWithCalibratedRed(r, g, b, 1.0);

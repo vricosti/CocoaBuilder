@@ -15,7 +15,7 @@ namespace Smartmobili.Cocoa
         protected uint _fidelity;
 
 
-        public virtual id init()
+        public override id init()
         {
             id self = this;
 
@@ -28,22 +28,22 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public virtual uint GetFidelity()
+        public virtual uint fidelity()
         {
             return _fidelity;
         }
 
-        public virtual void SetFidelity(uint fidelity)
+        public virtual void setFidelity(uint fidelity)
         {
             _fidelity = fidelity;
         }
 
-        public virtual void SetWhitespace(NSString startSpace)
+        public virtual void setWhitespace(NSString startSpace)
         {
             _startWhitespace = startSpace;
         }
 
-        public virtual void SetEndWhitespace(NSString endSpace)
+        public virtual void setEndWhitespace(NSString endSpace)
         {
             _endWhitespace = endSpace;
         }

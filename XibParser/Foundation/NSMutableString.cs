@@ -55,7 +55,7 @@ namespace Smartmobili.Cocoa
         //{
         //    base.initWithCoder(aDecoder);
 
-        //    foreach (var xElement in aDecoder.XmlElement.Elements())
+        //    foreach (var xElement in aDecoder.XmlElement.elements())
         //    {
         //        string key = xElement.Attribute("key").Value;
         //        switch (key)

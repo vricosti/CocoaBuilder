@@ -152,7 +152,7 @@ namespace Smartmobili.Cocoa
 
         //    var xElement = aDecoder.XmlElement;
             
-        //    var nodes = xElement.Elements();
+        //    var nodes = xElement.elements();
         //    foreach (var node in nodes)
         //    {
         //        if (node.Name == "bool" && node.Attribute("key") != null)

@@ -76,7 +76,7 @@ namespace Smartmobili.Cocoa
         {
             if (decoder._objectTypeElementNames == null)
             {
-                decoder._objectTypeElementNames = (NSSet)NSSet.alloc().InitWithObjects(
+                decoder._objectTypeElementNames = (NSSet)NSSet.alloc().initWithObjects(
                     (NSString)"object", (NSString)"dictionary", (NSString)"array", (NSString)"set",
                     (NSString)"integer", (NSString)"real", (NSString)"boolean", (NSString)"string", null);
             }

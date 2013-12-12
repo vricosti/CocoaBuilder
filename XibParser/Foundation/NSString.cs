@@ -228,7 +228,7 @@ namespace Smartmobili.Cocoa
                 
                 //case NSStringEncoding.NSNEXTSTEPStringEncoding:
                 //    encoding = System.Text.Encoding.GetEncoding("ISO-8859-1");
-                //    NSLog.Log("convertNSStringEncodingToCSharp %s", (NSString)"test");
+                //    NSLog.log("convertNSStringEncodingToCSharp %s", (NSString)"test");
                 //    break;
                 
                 //case NSStringEncoding.NSJapaneseEUCStringEncoding:

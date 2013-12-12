@@ -7,6 +7,6 @@ namespace Smartmobili.Cocoa
 {
     public interface INSObject
     {
-        void InitWithCoder(NSCoder decoder); 
+        void initWithCoder(NSCoder decoder); 
     }
 }

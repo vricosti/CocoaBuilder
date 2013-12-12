@@ -234,7 +234,7 @@ namespace Smartmobili.Cocoa
         //    base.initWithCoder(decoder);
 
         //    //var xElement = decoder.XmlElement;
-        //    //var firstElem = xElement.Elements().FirstOrDefault();
+        //    //var firstElem = xElement.elements().FirstOrDefault();
 
         //    //if (firstElem != null)
         //    //{
@@ -250,20 +250,20 @@ namespace Smartmobili.Cocoa
         //    //        {
         //    //            //System.Diagnostics.Debug.WriteLine("NSMutableDictionary");
 
-        //    //            var dictSortedKeyNode = xElement.Elements().Where(e => (string)e.Attribute("key") == "dict.sortedKeys").ToArray();
-        //    //            var dictValueNode = xElement.Elements().Where(e => (string)e.Attribute("key") == "dict.values").ToArray();
+        //    //            var dictSortedKeyNode = xElement.elements().Where(e => (string)e.Attribute("key") == "dict.sortedKeys").ToArray();
+        //    //            var dictValueNode = xElement.elements().Where(e => (string)e.Attribute("key") == "dict.values").ToArray();
         //    //            if (dictSortedKeyNode.Count() == 1 && dictValueNode.Count() == 1)
         //    //            {
-        //    //                dictSortedKeyElements = dictSortedKeyNode.Elements().Where(e => e.Name != "bool").ToArray();
-        //    //                dictValueElements = dictValueNode.Elements().Where(e => e.Name != "bool").ToArray();
+        //    //                dictSortedKeyElements = dictSortedKeyNode.elements().Where(e => e.Name != "bool").ToArray();
+        //    //                dictValueElements = dictValueNode.elements().Where(e => e.Name != "bool").ToArray();
         //    //            }
         //    //        }
         //    //        else
         //    //        {
-        //    //            dictSortedKeyElements = xElement.Elements().Where(c =>
+        //    //            dictSortedKeyElements = xElement.elements().Where(c =>
         //    //               ((string)c.Attribute("key")).StartsWith("NS.key.")).OrderBy(c => (string)c.Attribute("key")).ToArray();
 
-        //    //            dictValueElements = xElement.Elements().Where(c =>
+        //    //            dictValueElements = xElement.elements().Where(c =>
         //    //               ((string)c.Attribute("key")).StartsWith("NS.object.")).OrderBy(c => (string)c.Attribute("key")).ToArray();
         //    //        }
 
@@ -280,7 +280,7 @@ namespace Smartmobili.Cocoa
         //    //    }
         //    //    else if (xElement.Name == "dictionary")
         //    //    {
-        //    //        foreach (var xElm in decoder.XmlElement.Elements())
+        //    //        foreach (var xElm in decoder.XmlElement.elements())
         //    //        {
         //    //            NSString key = xElm.AttributeValueOrDefault("key", null);
         //    //            if (!string.IsNullOrWhiteSpace(key))

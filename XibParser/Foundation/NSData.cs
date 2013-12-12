@@ -55,7 +55,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public static NSData Data()
+        public static NSData data()
         {
             return NSData.alloc().initWithBytes(new Byte[0]);
         }

@@ -12,7 +12,7 @@ namespace Smartmobili.Cocoa
         new public static NSData alloc() { return new NSData(); }
 
 
-        public static void Log(NSString format, params object[] args)
+        public static void log(NSString format, params object[] args)
         {
             string msg = Tools.sprintf(format, args);
             System.Diagnostics.Debug.WriteLine(msg);

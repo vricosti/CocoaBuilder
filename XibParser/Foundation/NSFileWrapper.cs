@@ -130,14 +130,14 @@ namespace Smartmobili.Cocoa
             // Store the full path in filename, the specification is unclear in this point
             setFilename(path);
             setPreferredFilename(path.lastPathComponent());
-            setFileAttributes(fm.FileAttributesAtPath(path, false));
+            setFileAttributes(fm.fileAttributesAtPath(path, false));
 
             fileType = FileAttributes().FileType;
             if (fileType.isEqualToString("NSFileTypeDirectory"))
             {
                 NSString filename;
                 NSMutableArray fileWrappers = NSMutableArray.array();
-                NSArray filenames = fm.DirectoryContentsAtPath(path);
+                NSArray filenames = fm.directoryContentsAtPath(path);
                 NSEnumerator enumerator = filenames.objectEnumerator();
 
                 while ((filename = (NSString)enumerator.nextObject()) != null)
@@ -156,7 +156,7 @@ namespace Smartmobili.Cocoa
             }
             else if (fileType.isEqualToString("NSFileTypeSymbolicLink"))
             {
-                //this.initSymbolicLinkWithDestination(fm.PathContentOfSymbolicLinkAtPath(path));
+                //this.initSymbolicLinkWithDestination(fm.pathContentOfSymbolicLinkAtPath(path));
             }
 
             return this;
@@ -171,7 +171,7 @@ namespace Smartmobili.Cocoa
             // is needed that implements the NSObjCTypeSerializationCallBack protocol.
             // We should add this later, currently the NSArchiver is used.
             // Thanks to Richard, for pointing this out.
-            NSFileWrapper wrapper = (NSFileWrapper)NSUnarchiver.UnarchiveObjectWithData(data);
+            NSFileWrapper wrapper = (NSFileWrapper)NSUnarchiver.unarchiveObjectWithData(data);
 
             //RELEASE(this);
             return wrapper;
@@ -217,7 +217,7 @@ namespace Smartmobili.Cocoa
                         NSString key;
                         NSError err = null;
 
-                        fm.CreateDirectoryAtPath(path, true, _fileAttributes, ref err);
+                        fm.createDirectoryAtPath(path, true, _fileAttributes, ref err);
                         while ((key = (NSString)enumerator.nextObject()) != null)
                         {
                             NSString newPath = path.stringByAppendingPathComponent(key);
@@ -230,7 +230,7 @@ namespace Smartmobili.Cocoa
                 case GSFileWrapperType.GSFileWrapperRegularFileType:
                     {
                         if (((NSDictionary)_wrapperData).writeToFile(path, atomicFlag))
-                            success = fm.ChangeFileAttributes(_fileAttributes, path);
+                            success = fm.changeFileAttributes(_fileAttributes, path);
                         break;
                     }
                 //case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
@@ -254,7 +254,7 @@ namespace Smartmobili.Cocoa
             // is needed that implements the NSObjCTypeSerializationCallBack protocol.
             // We should add this later, currently the NSArchiver is used.
             // Thanks to Richard, for pointing this out.
-            return NSArchiver.ArchivedDataWithRootObject(this);
+            return NSArchiver.archivedDataWithRootObject(this);
         }
 
 
@@ -376,16 +376,16 @@ namespace Smartmobili.Cocoa
             switch (_wrapperType)
             {
                 case GSFileWrapperType.GSFileWrapperRegularFileType:
-                    if (FileAttributes().isEqualToDictionary(fm.FileAttributesAtPath(path, false)))
+                    if (FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)))
                         return false;
                     break;
                 case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
-                    if (((NSString)_wrapperData).isEqualToString(fm.PathContentOfSymbolicLinkAtPath(path)))
+                    if (((NSString)_wrapperData).isEqualToString(fm.pathContentOfSymbolicLinkAtPath(path)))
                         return false;
                     break;
                 case GSFileWrapperType.GSFileWrapperDirectoryType:
                     // Has the dictory itself changed?
-                    if (!FileAttributes().isEqualToDictionary(fm.FileAttributesAtPath(path, false)))
+                    if (!FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)))
                         return true;
 
                     // FIXME - for directory wrappers, we have to check if all the files are still there, 
@@ -407,19 +407,19 @@ namespace Smartmobili.Cocoa
             switch (_wrapperType)
             {
                 case GSFileWrapperType.GSFileWrapperRegularFileType:
-                    if (FileAttributes().isEqualToDictionary(fm.FileAttributesAtPath(path, false)))
+                    if (FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)))
                         return false;
                     initWithPath(path);
                     break;
                 case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
-                    if (FileAttributes().isEqualToDictionary(fm.FileAttributesAtPath(path, false)) &&
-                    ((NSString)_wrapperData).isEqualToString(fm.PathContentOfSymbolicLinkAtPath(path)))
+                    if (FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)) &&
+                    ((NSString)_wrapperData).isEqualToString(fm.pathContentOfSymbolicLinkAtPath(path)))
                         return false;
                     initWithPath(path);
                     break;
                 case GSFileWrapperType.GSFileWrapperDirectoryType:
                     // Has the dictory itself changed?
-                    if (!FileAttributes().isEqualToDictionary(fm.FileAttributesAtPath(path, false)))
+                    if (!FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)))
                     {
                         // FIXME: This is not effizent
                         initWithPath(path);

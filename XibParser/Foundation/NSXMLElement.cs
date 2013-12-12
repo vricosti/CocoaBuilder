@@ -45,21 +45,21 @@ namespace Smartmobili.Cocoa
         protected char[] _passing;                                  
 
 
-        public virtual id InitWithName(NSString name)
+        public virtual id initWithName(NSString name)
         {
-            return this.InitWithNameURI(name, null);
+            return this.initWithNameURI(name, null);
         }
 
 
 
-        public virtual id InitWithNameURI(NSString name, NSString uri)
+        public virtual id initWithNameURI(NSString name, NSString uri)
         {
             id self = this;
 
             return self;
         }
 
-       public virtual id InitWithNameStringValue(NSString name, NSString stringValue)
+       public virtual id initWithNameStringValue(NSString name, NSString stringValue)
        {
            id self = this;
 
@@ -128,7 +128,7 @@ namespace Smartmobili.Cocoa
 //    goto loc_160dc;
 //}
 
-        public virtual NSMutableArray Elements()
+        public virtual NSMutableArray elements()
         {
             return (NSMutableArray)NSMutableArray.alloc().init();
         }

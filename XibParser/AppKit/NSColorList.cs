@@ -112,7 +112,7 @@ namespace Smartmobili.Cocoa
             bool st = false;
             NSColor color = null;
             NSCharacterSet newlineSet = NSCharacterSet.characterSetWithCharactersInString(@"\n");
-            NSScanner scanner = (NSScanner)NSScanner.ScannerWithString(NSString.stringWithContentsOfFile(_fullFileName));
+            NSScanner scanner = (NSScanner)NSScanner.scannerWithString(NSString.stringWithContentsOfFile(_fullFileName));
 
             if (scanner.ScanInt(ref nColors) == false)
             {
@@ -134,11 +134,11 @@ namespace Smartmobili.Cocoa
                     //NSLog(@"Unable to read color file at \"%@\" -- only RGBA form " @"supported.", _fullFileName);
                     break;
                 }
-                st = scanner.ScanFloat(ref r);
-                st = st && scanner.ScanFloat(ref g);
-                st = st && scanner.ScanFloat(ref b);
-                st = st && scanner.ScanFloat(ref alpha);
-                st = st && scanner.ScanUpToCharactersFromSet(newlineSet, ref cname);
+                st = scanner.scanFloat(ref r);
+                st = st && scanner.scanFloat(ref g);
+                st = st && scanner.scanFloat(ref b);
+                st = st && scanner.scanFloat(ref alpha);
+                st = st && scanner.scanUpToCharactersFromSet(newlineSet, ref cname);
                 if (st == false)
                 {
                     //NSLog(@"Unable to read color file at \"%@\" -- unknown format.", _fullFileName);
@@ -172,7 +172,7 @@ namespace Smartmobili.Cocoa
                 bool isDir = false;
                 // previously impl wrongly expected directory containing color file
                 // rather than color file; we support this for apps that rely on it
-                if ((NSFileManager.DefaultManager.FileExistsAtPath(path, ref isDir) == false) || isDir == true)
+                if ((NSFileManager.DefaultManager.fileExistsAtPath(path, ref isDir) == false) || isDir == true)
                 {
                     //NSLog(@"NSColorList -initWithName:fromFile: warning: excluding " @"filename from path (%@) is deprecated.", path);
                     _fullFileName = path.stringByAppendingPathComponent(name).stringByAppendingPathExtension(@"clr");
@@ -201,13 +201,13 @@ namespace Smartmobili.Cocoa
                 {
                     could_load = true;
 
-                    _is_editable = NSFileManager.DefaultManager.IsWritableFileAtPath(_fullFileName);
+                    _is_editable = NSFileManager.DefaultManager.isWritableFileAtPath(_fullFileName);
 
                     _colorDictionary = NSMutableDictionary.dictionaryWithDictionary(cl._colorDictionary);
 
                     _orderedColorKeys = NSMutableArray.arrayWithArray(cl._orderedColorKeys);
                 }
-                else if (NSFileManager.DefaultManager.FileExistsAtPath(path))
+                else if (NSFileManager.DefaultManager.fileExistsAtPath(path))
                 {
                     _colorDictionary = (NSMutableDictionary)NSMutableDictionary.alloc().init();
                     _orderedColorKeys = (NSMutableArray)NSMutableArray.alloc().init();
@@ -216,7 +216,7 @@ namespace Smartmobili.Cocoa
                     if (_ReadTextColorFile(_fullFileName))
                     {
                         could_load = true;
-                        _is_editable = NSFileManager.DefaultManager.IsWritableFileAtPath(_fullFileName);
+                        _is_editable = NSFileManager.DefaultManager.isWritableFileAtPath(_fullFileName);
                     }
                     else
                     {
@@ -341,7 +341,7 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                fm.FileExistsAtPath(path, ref isDir);
+                fm.fileExistsAtPath(path, ref isDir);
             }
 
             if (isDir)
@@ -380,10 +380,10 @@ namespace Smartmobili.Cocoa
              * System standard paths should always be assumed to exist; 
              * this will normally then only try to create user paths.
              */
-            if (path_is_standard && (fm.FileExistsAtPath(path) == false))
+            if (path_is_standard && (fm.fileExistsAtPath(path) == false))
             {
                 NSError err = null;
-                if (fm.CreateDirectoryAtPath(path, true, null, ref err))
+                if (fm.createDirectoryAtPath(path, true, null, ref err))
                 {
                     //NSLog (@"Created standard directory %@", path);
                 }
@@ -460,13 +460,13 @@ namespace Smartmobili.Cocoa
                     bool flag = false;
 
                     dir = dir.stringByAppendingPathComponent(@"Colors");
-                    if (!fm.FileExistsAtPath(dir, ref flag) || !flag)
+                    if (!fm.fileExistsAtPath(dir, ref flag) || !flag)
                     {
                         // Only process existing directories
                         continue;
                     }
 
-                    de = fm.EnumeratorAtPath(dir);
+                    de = fm.enumeratorAtPath(dir);
                     while ((file = (NSString)de.nextObject()) != null)
                     {
                         if (file.pathExtension().isEqualToString(@"clr"))
