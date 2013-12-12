@@ -130,8 +130,61 @@ namespace Smartmobili.Cocoa
             decoder.setDelegate(this);
         }
 
+        public virtual bool resolvePluginDependencies(NSArray plugins, ref NSError error)
+        {
+            return true;
+        }
+
+        //targetRuntimeWithIdentifier:fromDocumentOfType:error:
+        protected virtual bool targetRuntimeWithIdentifier(NSString id, NSString type, ref NSError error)
+        {
+            return true;
+        }
+
+        protected IBCFMutableDictionary unarchiversToDocumentContexts = null;
+        public virtual id _IBDocumentContextForUnarchiver(NSCoder decoder)
+        {
+            id obj = null;
+
+            if (unarchiversToDocumentContexts == null)
+            {
+                unarchiversToDocumentContexts = (IBCFMutableDictionary)alloc().init();
+            }
+
+            return unarchiversToDocumentContexts.objectForKey(decoder);
+        }
+
+
         public virtual bool decodeDocumentOfType(NSString typeName, NSCoder decoder)
         {
+            NSError error = null;
+
+            if (decoder.containsValueForKey("IBDocument.PluginDependencies"))
+            {
+                NSArray pluginDeps = (NSArray)decoder.decodeObjectForKey("IBDocument.PluginDependencies");
+                if (pluginDeps == null)
+                {
+                    pluginDeps = (NSArray)decoder.decodeObjectForKey("IBDocument.PaletteDependencies");
+                }
+
+                if (this.resolvePluginDependencies(pluginDeps, ref error) == false)
+                    return false;
+            }
+
+            NSString targetRuntimeId = (NSString)decoder.decodeObjectForKey("IBDocument.TargetRuntimeIdentifier");
+            this.targetRuntimeWithIdentifier(targetRuntimeId, typeName, ref error);
+            if (error == null)
+            {
+                NSMutableDictionary lastKnowImagesSizes = (NSMutableDictionary)decoder.decodeObjectForKey("IBDocument.LastKnownImageSizes");
+                if (lastKnowImagesSizes != null)
+                {
+                    //eax = _IBDocumentContextForUnarchiver(decoder);
+                    //[eax setObject:lastKnowImagesSizes forKey:@"IBDocumentImageResourceNamesToSizesMap"];
+                }
+                //this.setTargetRuntime(targetRuntimeId);
+            }
+
+
             return false;
         }
 

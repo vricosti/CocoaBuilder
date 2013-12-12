@@ -49,7 +49,7 @@ namespace Smartmobili.Cocoa
             namedColors = (NSMutableDictionary)NSMutableDictionary.alloc().init();
         }
 
-        public virtual NSColor InitWithCatalogName(NSString listName, NSString colorName)
+        public virtual NSColor initWithCatalogName(NSString listName, NSString colorName)
         {
             NSColor self = this;
 
@@ -774,7 +774,7 @@ namespace Smartmobili.Cocoa
             id color;
 
             color = GSNamedColor.alloc();
-            color = ((GSNamedColor)color).InitWithCatalogName(listName, colorName);
+            color = ((GSNamedColor)color).initWithCatalogName(listName, colorName);
 
             return (NSColor)color;
         }

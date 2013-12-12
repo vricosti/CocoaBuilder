@@ -63,9 +63,9 @@ namespace Smartmobili.Cocoa
             //NSXMLNodeOptions xmlNodeOPtions = (NSXMLNodeOptions)0x800004;
 
 #if TEST_COLOR
-            GSNamedColor nColor1 = (GSNamedColor)GSNamedColor.alloc().InitWithCatalogName("list1", "color1");
-            GSNamedColor nColor2 = (GSNamedColor)GSNamedColor.alloc().InitWithCatalogName("list2", "color2");
-            GSNamedColor nColor11 = (GSNamedColor)GSNamedColor.alloc().InitWithCatalogName("list1", "color1");
+            GSNamedColor nColor1 = (GSNamedColor)GSNamedColor.alloc().initWithCatalogName("list1", "color1");
+            GSNamedColor nColor2 = (GSNamedColor)GSNamedColor.alloc().initWithCatalogName("list2", "color2");
+            GSNamedColor nColor11 = (GSNamedColor)GSNamedColor.alloc().initWithCatalogName("list1", "color1");
 
             //Why does it work without having to override GetHashCode and Equals ???
             System.Diagnostics.Debug.Assert(nColor1.Equals(nColor11));
