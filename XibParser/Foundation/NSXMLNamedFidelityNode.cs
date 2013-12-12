@@ -17,7 +17,8 @@ namespace Smartmobili.Cocoa
 
         protected NSArray _names;
 
-        protected int _fidelity;
+        protected uint _fidelity;
+
 
         public virtual NSString _XMLStringWithOptionAppendingToString(uint options, NSString str)
         {
@@ -27,6 +28,18 @@ namespace Smartmobili.Cocoa
             
             return null;
         }
+
+
+        public virtual uint GetFidelity()
+        {
+            return _fidelity;
+        }
+
+        public virtual void SetFidelity(uint fidelity)
+        {
+            _fidelity = fidelity;
+        }
+
 
         //        function methImpl_NSXMLNamedFidelityNode__XMLStringWithOptions_appendingToString_ {
         //    r14 = rcx;

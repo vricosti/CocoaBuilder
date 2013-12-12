@@ -28,22 +28,22 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public uint GetFidelity()
+        public virtual uint GetFidelity()
         {
             return _fidelity;
         }
 
-        public void SetFidelity(uint fidelity)
+        public virtual void SetFidelity(uint fidelity)
         {
             _fidelity = fidelity;
         }
 
-        public void SetWhitespace(NSString startSpace)
+        public virtual void SetWhitespace(NSString startSpace)
         {
             _startWhitespace = startSpace;
         }
 
-        public void SetEndWhitespace(NSString endSpace)
+        public virtual void SetEndWhitespace(NSString endSpace)
         {
             _endWhitespace = endSpace;
         }

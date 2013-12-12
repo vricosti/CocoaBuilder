@@ -99,15 +99,77 @@ namespace Smartmobili.Cocoa
 
         protected id _objectValue;
 
-        protected id _parent;
+        protected NSXMLNode _parent;
 
         protected id _private;
 
+
+        public virtual void _SetKind(NSXMLNodeKind kind)
+        {
+            _kind = kind;
+        }
 
         public virtual NSXMLNodeKind GetKind()
         {
             return _kind;
         }
+
+        public virtual NSString GetURI()
+        {
+            return null;
+        }
+
+        public virtual int GetIndex()
+        {
+            return _index;
+        }
+
+        public virtual NSString XMLString()
+        {
+            return this.XMLStringWithOptions(0);
+        }
+
+        public virtual NSString XMLStringWithOptions(uint options)
+        {
+            return this._XMLStringWithOptions(options, NSMutableString.String());
+        }
+
+        public virtual NSString _XMLStringWithOptions(uint options, NSString str)
+        {
+            return null;
+        }
+
+        public virtual NSData XMLData()
+        {
+            return this.XMLString().DataUsingEncoding(NSStringEncoding.NSUTF8StringEncoding);
+        }
+
+        public virtual NSString XPath()
+        {
+            NSString xpath = null;
+
+            if (_parent == null)
+            {
+                xpath = "";
+            }
+            else
+            {
+                xpath = NSString.StringWithFormat(@"%@/node()[%ld]", _parent.XPath(), this.GetIndex());
+            }
+            return xpath;
+        }
+
+
+        public override id Init()
+        {
+            id self = this;
+
+            this._SetKind(0);
+            this._index = 0;
+
+            return self;
+        }
+
 
         public virtual id InitWithKind(NSXMLNodeKind kind)
         {
@@ -116,7 +178,7 @@ namespace Smartmobili.Cocoa
        
         public virtual id InitWithKind(NSXMLNodeKind kind, uint options)
         {
-            id self = this;
+            id self = this.Init();
 
             /*
              * Check whether we are already initializing an instance of the given
@@ -125,9 +187,6 @@ namespace Smartmobili.Cocoa
              */
             switch(kind)
             {
-                case NSXMLNodeKind.NSXMLInvalidKind:
-                    break;
-
                 case NSXMLNodeKind.NSXMLDocumentKind:
                     if (self.IsKindOfClass(NSXMLDocument.Class) == false)
                     {
@@ -152,23 +211,84 @@ namespace Smartmobili.Cocoa
                         }
                     }
                     break;
+
                 case NSXMLNodeKind.NSXMLAttributeKind:
+                    if ((options & 0x8c00008) == 0)
+                    {
+                        if (self.IsKindOfClass(NSXMLNamedNode.Class) == false)
+                        {
+                            self = NSXMLNamedNode.Alloc().InitWithKind(kind);
+                        }
+                    }
+                    else
+                    {
+                        if (self.IsKindOfClass(NSXMLNamedFidelityNode.Class) == false)
+                        {
+                            self = NSXMLNamedFidelityNode.Alloc().InitWithKind(kind);
+                            ((NSXMLNamedFidelityNode)self).SetFidelity(options);
+                        }
+                   } 
                     break;
+
+
                 case NSXMLNodeKind.NSXMLNamespaceKind:
-                    break;
                 case NSXMLNodeKind.NSXMLProcessingInstructionKind:
+                    if ((options & 0x8 /*NSXMLNodeUseSingleQuotes*/) == 0)
+                    {
+                        if (self.IsKindOfClass(NSXMLNamedNode.Class) == false)
+                        {
+                            self = NSXMLNamedNode.Alloc().InitWithKind(kind);
+                        }
+                    }
+                    else
+                    {
+                        if (self.IsKindOfClass(NSXMLNamedFidelityNode.Class) == false)
+                        {
+                            self = NSXMLNamedFidelityNode.Alloc().InitWithKind(kind);
+                            ((NSXMLNamedFidelityNode)self).SetFidelity(options);
+                        }
+                    } 
                     break;
+                
                 case NSXMLNodeKind.NSXMLCommentKind:
                     break;
+
                 case NSXMLNodeKind.NSXMLTextKind:
+                    if ((options & 0x8400001) == 0)
+                    {
+                        this._SetKind(kind);
+                    }
+                    else 
+                    {
+                        if (self.IsKindOfClass(NSXMLFidelityNode.Class) == false)
+                        {
+                            self = NSXMLFidelityNode.Alloc().InitWithKind(kind);
+                            ((NSXMLNamedFidelityNode)self).SetFidelity(options);
+                        }
+                    }
                     break;
+
                 case NSXMLNodeKind.NSXMLDTDKind:
                     break;
+
+                
                 case NSXMLNodeKind.NSXMLEntityDeclarationKind:
-                    break;
-                case NSXMLNodeKind.NSXMLAttributeDeclarationKind:
-                    break;
                 case NSXMLNodeKind.NSXMLElementDeclarationKind:
+                case NSXMLNodeKind.NSXMLNotationDeclarationKind:
+                    if (self.IsKindOfClass(NSXMLDTDNode.Class) == false)
+                    {
+                        //self = NSXMLFidelityNode.Alloc().InitWithKind(kind);
+                    }
+                    break;
+
+                case NSXMLNodeKind.NSXMLAttributeDeclarationKind:
+                    if (self.IsKindOfClass(NSXMLAttributeDeclaration.Class) == false)
+                    {
+                        self = null;
+                    }
+                    break;
+                
+                default:
                     break;
 
             }

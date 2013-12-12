@@ -166,6 +166,11 @@ namespace Smartmobili.Cocoa
 			return new NSString (this.Value);
 		}
 
+        public static NSString String()
+        {
+            return new NSString("");
+        }
+
         public static NSString StringWithContentsOfFile(NSString path)
         {
             return (NSString)Alloc().InitWithContentsOfFile(path);

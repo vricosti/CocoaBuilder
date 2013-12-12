@@ -59,8 +59,8 @@ namespace Smartmobili.Cocoa
         {
             //TestNXMLParser testXMLParser = new TestNXMLParser();
             //testXMLParser.Run();
-           
 
+            //NSXMLNodeOptions xmlNodeOPtions = (NSXMLNodeOptions)0x800004;
 
 #if TEST_COLOR
             GSNamedColor nColor1 = (GSNamedColor)GSNamedColor.Alloc().InitWithCatalogName("list1", "color1");

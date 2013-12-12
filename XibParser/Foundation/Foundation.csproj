@@ -101,9 +101,12 @@
     <Compile Include="NSUnarchiver.cs" />
     <Compile Include="NSURL.cs" />
     <Compile Include="NSWindowRect.cs" />
+    <Compile Include="NSXMLAttributeDeclaration.cs" />
     <Compile Include="NSXMLDocument.cs" />
+    <Compile Include="NSXMLDTDNode.cs" />
     <Compile Include="NSXMLElement.cs" />
     <Compile Include="NSXMLFidelityElement.cs" />
+    <Compile Include="NSXMLFidelityNode.cs" />
     <Compile Include="NSXMLNamedFidelityNode.cs" />
     <Compile Include="NSXMLNamedNode.cs" />
     <Compile Include="NSXMLNode.cs" />
