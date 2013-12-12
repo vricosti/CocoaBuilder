@@ -61,7 +61,7 @@ namespace Smartmobili.Cocoa
 
         public NSArray PluginDependencies { get; set; }
 
-        public NSMutableDictionary Metadata { get; set; }
+        public NSDictionary Metadata { get; set; }
 
         public NSMutableArray RootObjects { get; set; }
 
@@ -182,6 +182,21 @@ namespace Smartmobili.Cocoa
                     //[eax setObject:lastKnowImagesSizes forKey:@"IBDocumentImageResourceNamesToSizesMap"];
                 }
                 //this.setTargetRuntime(targetRuntimeId);
+                //this.setObjectIDsToOpen(decoder.decodeObjectForKey("IBDocument.EditedObjectIDs"));
+                //NSDictionary meta = (NSDictionary)decoder.decodeObjectForKey("IBDocument.Metadata");
+                //this.setDocumentMetadata((meta != null) ? meta : NSDictionary.dictionary());
+                //this.setClassDescriber(decoder.decodeObjectForKey(@"IBDocument.Classes"));
+                //this.setLastSavedSystemVersion(decoder.decodeObjectForKey(@"IBDocument.SystemVersion"));
+                //this.setLastSavedInterfaceBuilderVersion(decoder.decodeObjectForKey(@"IBDocument.InterfaceBuilderVersion"));
+                //this.setLastSavedAppKitVersion(decoder.decodeObjectForKey(@"IBDocument.AppKitVersion"));
+                //this.setLastSavedHIToolboxVersion(decoder.decodeObjectForKey(@"IBDocument.HIToolboxVersion"));
+                //this.setLastSavedPluginVersionsForDependedPlugins(decoder.decodeObjectForKey(@"IBDocument.PluginVersions"));
+                //this.setLastKnownRelativeProjectPath(decoder.decodeObjectForKey(@"IBDocument.LastKnownRelativeProjectPath"));
+                //this.setPluginDeclaredDependencies(decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencies"),0));
+                //this.setPluginDeclaredDependencyDefaults(decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencyDefaults") ,0));
+                //this.setPluginDeclaredDependencies(decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies"), 1));
+                //this.setPluginDeclaredDependencyDefaults(decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencyDefaults"), 1));
+                //int lastSavedVersion = this.lastSavedInterfaceBuilderVersion().integerValue();
             }
 
 

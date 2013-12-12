@@ -80,6 +80,11 @@ namespace Smartmobili.Cocoa
 
         }
 
+        public static NSDictionary dictionary()
+        {
+            return (NSDictionary)NSDictionary.alloc().init();
+        }
+
         public virtual id initWithDictionary(NSDictionary aDictionary)
         {
             id self = this;
