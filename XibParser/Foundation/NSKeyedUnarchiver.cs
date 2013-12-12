@@ -58,9 +58,19 @@ namespace Smartmobili.Cocoa
 
         public virtual id Delegate
         {
-            get { return _delegate; }
-            set { _delegate = value; }
+            get { return getDelegate(); }
+            set { setDelegate(value); }
         }
+
+        public virtual id getDelegate()
+        {
+            return _delegate;
+        }
+        public virtual void setDelegate(id dlgate)
+        {
+            _delegate = dlgate;
+        }
+
 
         public override bool AllowsKeyedCoding 
         {

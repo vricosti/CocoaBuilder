@@ -125,9 +125,17 @@ namespace Smartmobili.Cocoa
 //    goto loc_12dee;
 //}
 
-        //public override bool ReadFromFileWrapper2(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
-        //{
-        //}
+        public virtual void willDecodeWithKeyedDecoder(NSKeyedUnarchiver decoder)
+        {
+            decoder.setDelegate(this);
+        }
+
+        public virtual bool decodeDocumentOfType(NSString typeName, NSCoder decoder)
+        {
+            return false;
+        }
+
+#if true
         public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
             //IBXMLDecoder xmlDec = (IBXMLDecoder)(IBXMLDecoder.alloc()).initForReadingWithData(fileWrapper.regularFileContents(), null);
@@ -158,6 +166,27 @@ namespace Smartmobili.Cocoa
 
             return true;
         }
-        
+#else
+        public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
+        {
+            bool ret = false;
+
+            NSData data = fileWrapper.regularFileContents();
+            IBXMLDecoderApple decoder = (IBXMLDecoderApple)IBXMLDecoderApple.alloc().initForReadingWithData(data, ref outError);
+            if (decoder != null)
+            {
+                this.willDecodeWithKeyedDecoder(decoder);
+                ret = this.decodeDocumentOfType(typeName, decoder);
+                decoder.finishDecoding();
+            }
+
+            return ret;
+        }
+
+
+#endif
     }
+
+   
+
 }

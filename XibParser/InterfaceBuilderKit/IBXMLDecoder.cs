@@ -75,6 +75,11 @@ namespace Smartmobili.Cocoa
             return null;
         }
         
+        public virtual void finishDecoding()
+        {
+
+        }
+
         public override float decodeFloatForKey(NSString key)
         {
             NSDictionary objects = (NSDictionary)_childMap.objectForKey(_currentElement);
