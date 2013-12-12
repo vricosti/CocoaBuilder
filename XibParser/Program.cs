@@ -26,27 +26,27 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public virtual void ParserDidStartDocument(NSXMLParserWIP parser)
+        public virtual void parserDidStartDocument(NSXMLParserWIP parser)
         {
             System.Diagnostics.Debug.WriteLine("ParserDidStartDocument");
         }
 
-        public virtual void ParserDidEndDocument(NSXMLParserWIP parser)
+        public virtual void parserDidEndDocument(NSXMLParserWIP parser)
         {
             System.Diagnostics.Debug.WriteLine("ParserDidEndDocument");
         }
 
-        public virtual void ParserDidStartElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
+        public virtual void parserDidStartElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
         {
             System.Diagnostics.Debug.WriteLine("parserDidStartElement");
         }
 
-        public virtual void ParserDidEndElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
+        public virtual void parserDidEndElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
         {
             System.Diagnostics.Debug.WriteLine("parserDidEndElement");
         }
 
-        public virtual void ParserFoundCharacters(NSXMLParserWIP parser, NSString foundCharacters)
+        public virtual void parserFoundCharacters(NSXMLParserWIP parser, NSString foundCharacters)
         {
             System.Diagnostics.Debug.WriteLine("parserFoundCharacters");
         }

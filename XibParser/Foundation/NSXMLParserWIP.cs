@@ -279,10 +279,10 @@ namespace Smartmobili.Cocoa
         {
             id dlegate = getDelegate();
             //parser:foundCDATA:
-            if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundCDATA")) == true)
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundCDATA")) == true)
             {
                 NSString cdata = (NSString)NSString.alloc().initWithBytes(value, (uint)len, NSStringEncoding.NSUTF8StringEncoding);
-                Objc.MsgSend(dlegate, "ParserFoundCDATA", this, cdata);
+                Objc.MsgSend(dlegate, "parserFoundCDATA", this, cdata);
             }
             else
             {
@@ -299,14 +299,14 @@ namespace Smartmobili.Cocoa
         {
             id dlegate = getDelegate();
             //parser:foundComment:
-            if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundComment")) == true)
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundComment")) == true)
             {
                 NSString chars = null;
                 if (pValue != IntPtr.Zero)
                 {
                     chars = _NSXMLParserNSStringFromBytes(pValue, this.info());
                 }
-                Objc.MsgSend(dlegate, "ParserFoundComment", this, chars);
+                Objc.MsgSend(dlegate, "parserFoundComment", this, chars);
             }
         }
 
@@ -321,7 +321,7 @@ namespace Smartmobili.Cocoa
 
             id dlegate = getDelegate();
             //parser:foundUnparsedEntityDeclarationWithName:publicID:systemID:notationName:
-            if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundUnparsedEntityDeclarationWithName")) == true)
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundUnparsedEntityDeclarationWithName")) == true)
             {
                 NSString name = null;
                 if (pName != IntPtr.Zero)
@@ -343,21 +343,21 @@ namespace Smartmobili.Cocoa
                 {
                     notationName = _NSXMLParserNSStringFromBytes(pNotationName, this.info());
                 }
-                Objc.MsgSend(dlegate, "ParserFoundUnparsedEntityDeclarationWithName", this, name, publicId, systemId, notationName);
+                Objc.MsgSend(dlegate, "parserFoundUnparsedEntityDeclarationWithName", this, name, publicId, systemId, notationName);
             }
         }
 
         private unsafe void _elementDecl(IntPtr ctx, IntPtr pName, int type, IntPtr content)
         {
             id dlegate = getDelegate();
-            if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundElementDeclarationWithName")) == true)
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundElementDeclarationWithName")) == true)
             {
                 NSString name = null;
                 if (pName != IntPtr.Zero)
                 {
                     name = _NSXMLParserNSStringFromBytes(pName, this.info());
                 }
-                Objc.MsgSend(dlegate, "ParserFoundElementDeclarationWithName", this, name, "");
+                Objc.MsgSend(dlegate, "parserFoundElementDeclarationWithName", this, name, "");
             }
         }
 
@@ -365,7 +365,7 @@ namespace Smartmobili.Cocoa
         {
             id dlegate = getDelegate();
             //parser:foundAttributeDeclarationWithName:forElement:type:defaultValue:
-            if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundAttributeDeclarationWithName")) == true)
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundAttributeDeclarationWithName")) == true)
             {
                 NSString elem = null;
                 if (pElem != IntPtr.Zero)
@@ -382,7 +382,7 @@ namespace Smartmobili.Cocoa
                 {
                     defaultValue = _NSXMLParserNSStringFromBytes(pDefaultValue, this.info());
                 }
-                Objc.MsgSend(dlegate, "ParserFoundAttributeDeclarationWithName", this, fullname, elem, type, defaultValue);
+                Objc.MsgSend(dlegate, "parserFoundAttributeDeclarationWithName", this, fullname, elem, type, defaultValue);
 
             }
             LibXml.xmlFreeEnumeration(tree);
@@ -392,7 +392,7 @@ namespace Smartmobili.Cocoa
         {
              id dlegate = getDelegate();
              //parser:foundNotationDeclarationWithName:publicID:systemID:
-             if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundNotationDeclarationWithName")) == true)
+             if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundNotationDeclarationWithName")) == true)
              {
                  NSString name = null;
                  if (pName != IntPtr.Zero)
@@ -409,7 +409,7 @@ namespace Smartmobili.Cocoa
                  {
                      systemId = _NSXMLParserNSStringFromBytes(pSystemId, this.info());
                  }
-                 Objc.MsgSend(dlegate, "ParserFoundNotationDeclarationWithName", this, name, publicId, systemId);
+                 Objc.MsgSend(dlegate, "parserFoundNotationDeclarationWithName", this, name, publicId, systemId);
              }
 
         }
@@ -434,7 +434,7 @@ namespace Smartmobili.Cocoa
                 {
                     id dlegate = getDelegate();
                     //parser:foundExternalEntityDeclarationWithName:publicID:systemID:
-                    if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundExternalEntityDeclarationWithName")) == true)
+                    if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundExternalEntityDeclarationWithName")) == true)
                     {
                         NSString publicId = null;
                         if (pPublicId != IntPtr.Zero)
@@ -446,12 +446,12 @@ namespace Smartmobili.Cocoa
                         {
                             systemId = _NSXMLParserNSStringFromBytes(pSystemId, this.info());
                         }
-                        Objc.MsgSend(dlegate, "ParserFoundExternalEntityDeclarationWithName", this, name, publicId, systemId);
+                        Objc.MsgSend(dlegate, "parserFoundExternalEntityDeclarationWithName", this, name, publicId, systemId);
                     }
                     //parser:foundInternalEntityDeclarationWithName:value:
-                    if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundInternalEntityDeclarationWithName")) == true)
+                    if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundInternalEntityDeclarationWithName")) == true)
                     {
-                        Objc.MsgSend(dlegate, "ParserFoundInternalEntityDeclarationWithName", this, name, content);
+                        Objc.MsgSend(dlegate, "parserFoundInternalEntityDeclarationWithName", this, name, content);
                     }
                 }
             }
@@ -459,9 +459,9 @@ namespace Smartmobili.Cocoa
             {
                  id dlegate = getDelegate();
                  //parser:foundInternalEntityDeclarationWithName:value:
-                 if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserFoundInternalEntityDeclarationWithName")) == true)
+                 if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundInternalEntityDeclarationWithName")) == true)
                  {
-                     Objc.MsgSend(dlegate, "ParserFoundInternalEntityDeclarationWithName", this, name, content);
+                     Objc.MsgSend(dlegate, "parserFoundInternalEntityDeclarationWithName", this, name, content);
                  }
             }
 
@@ -494,7 +494,7 @@ namespace Smartmobili.Cocoa
                 {
                     
                     //parser:resolveExternalEntityName:systemID:
-                    if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserResolveExternalEntityName")) == true)
+                    if (dlegate != null && dlegate.respondsToSelector(new SEL("parserResolveExternalEntityName")) == true)
                     {
                         NSString name = null;
                         if (pName != IntPtr.Zero)
@@ -502,7 +502,7 @@ namespace Smartmobili.Cocoa
                             name = _NSXMLParserNSStringFromBytes(pName, this.info());
                         }
 
-                        NSData data = (NSData)Objc.MsgSend(dlegate, "ParserResolveExternalEntityName", this, name, 0);
+                        NSData data = (NSData)Objc.MsgSend(dlegate, "parserResolveExternalEntityName", this, name, 0);
                         if (data != null && IntPtr.Add(parserCtx, 0x8) != IntPtr.Zero)
                         {
                             IntPtr pChars = ((NSString)(NSString.alloc().initWithData(data, NSStringEncoding.NSUTF8StringEncoding))).UTF8String();
@@ -767,9 +767,9 @@ namespace Smartmobili.Cocoa
         {
              id dlegate = getDelegate();
              //parserDidStartDocument:
-             if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserDidStartDocument")) == true)
+             if (dlegate != null && dlegate.respondsToSelector(new SEL("parserDidStartDocument")) == true)
             {
-                 Objc.MsgSend(dlegate, "ParserDidStartDocument", ((GCHandle)ctx).Target as NSXMLParserWIP);
+                Objc.MsgSend(dlegate, "parserDidStartDocument", ((GCHandle)ctx).Target as NSXMLParserWIP);
             }
         }
 
@@ -777,9 +777,9 @@ namespace Smartmobili.Cocoa
         {
             id dlegate = getDelegate();
             //parserDidEndDocument:
-            if (dlegate != null && dlegate.respondsToSelector(new SEL("ParserDidEndDocument")) == true)
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserDidEndDocument")) == true)
             {
-                Objc.MsgSend(dlegate, "ParserDidEndDocument", ((GCHandle)ctx).Target as NSXMLParserWIP);
+                Objc.MsgSend(dlegate, "parserDidEndDocument", ((GCHandle)ctx).Target as NSXMLParserWIP);
             }
         }
 
