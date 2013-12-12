@@ -237,7 +237,7 @@ namespace Smartmobili.Cocoa
             id self = this.initWithData(null);
             if (self != null)
             {
-                //_reserved1.parserFlags = _reserved1.parserFlags & 0xffffffffffffff7f;
+                _reserved1.parserFlags = (uint)_reserved1.parserFlags & 0xffffff7f;
             }
             return stream;
         }

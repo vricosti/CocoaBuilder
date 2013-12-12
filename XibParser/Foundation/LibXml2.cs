@@ -204,7 +204,7 @@ namespace Smartmobili.Cocoa
     {
         public const UInt32 XML_SAX2_MAGIC = 0xDEEDBEAF;
 
-        public enum XmlParserOption
+        public enum XmlParserOption : uint
         {
             XML_PARSE_RECOVER = 1, //: recover on errors
             XML_PARSE_NOENT = 2, //: substitute entities
