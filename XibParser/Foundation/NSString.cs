@@ -89,46 +89,38 @@ namespace Smartmobili.Cocoa
 
         public string Value { get; set; }
 
-        [ObjcPropAttribute("DoubleValue", SetName = null)]
-        public double DoubleValue { get  { return Value.ToDouble(); } }
+        public virtual double doubleValue() { return Value.ToDouble(); }
 
-        [ObjcPropAttribute("FloatValue", SetName = null)]
-        public float FloatValue { get { return Value.ToFloat(); } }
-        
-        [ObjcPropAttribute("IntValue", SetName = null)]
-        public int IntValue { get { return Value.ToInt(); } }
-        
-        [ObjcPropAttribute("IntegerValue", SetName = null)]
-        public int IntegerValue { get { return Value.ToInt(); } }
+        public virtual float floatValue() { return Value.ToFloat(); }
 
-        [ObjcPropAttribute("BoolValue", SetName = null)]
-        public bool BoolValue 
-        { 
-            get 
-            { 
-                //return Value.ConvertFromYesNo();
-                uint length = Length;
+        public virtual int integerValue() { return Value.ToInt(); }
 
-                if (length > 0)
+        public virtual int intValue() { return Value.ToInt(); }
+
+        public virtual bool boolValue() 
+        {
+            //return Value.ConvertFromYesNo();
+            uint length = Length;
+
+            if (length > 0)
+            {
+                uint index;
+                for (index = 0; index < length; index++)
                 {
-                    uint index;
-                    for (index = 0; index < length; index++)
-                    {
-                        Char c = this.characterAtIndex(index);
+                    Char c = this.characterAtIndex(index);
 
-                        if (c > 'y')
-                        {
-                            break;
-                        }
-                        if (c.ToString().IndexOfAny(new char[] { '1','2','3','4','5','6','7','8','9','y','Y','t','T' }) != -1)
-                        {
-                            return true;
-                        }
+                    if (c > 'y')
+                    {
+                        break;
+                    }
+                    if (c.ToString().IndexOfAny(new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'y', 'Y', 't', 'T' }) != -1)
+                    {
+                        return true;
                     }
                 }
+            }
 
-                return false;
-            } 
+            return false;
         }
 
 

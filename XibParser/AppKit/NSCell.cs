@@ -218,7 +218,7 @@ namespace Smartmobili.Cocoa
                 else if (objVal is INSNumber)
                 {
 
-                    this.State = ((INSNumber)objVal).IntValue;
+                    this.State = ((INSNumber)objVal).intValue();
                 }
                 else
                 {
@@ -233,68 +233,85 @@ namespace Smartmobili.Cocoa
             get { return Convert.ToBoolean(_cell.has_valid_object_value); }
         }
 
-        [ObjcPropAttribute("DoubleValue", SetName = null)]
         public virtual double DoubleValue
         {
-            get
+            get { return doubleValue(); }
+            set { setDoubleValue(value); }
+        }
+
+        public virtual double doubleValue()
+        {
+            if ((Convert.ToBoolean(_cell.has_valid_object_value) == true) 
+                && (_object_value is INSNumber))
             {
-                if ((Convert.ToBoolean(_cell.has_valid_object_value) == true) &&
-                    (_object_value is INSNumber))
-                {
-                    return (double)((INSNumber)_object_value).DoubleValue;
-                }
-                else
-                {
-                    return this.StringValue.DoubleValue;
-                }
+                return (double)((INSNumber)_object_value).doubleValue();
             }
-            set
+            else
             {
-                NSNumber number = NSNumber.numberWithDouble(value);
-                this.ObjectValue = number;
+                return this.StringValue.doubleValue();
             }
         }
 
-        [ObjcPropAttribute("FloatValue", SetName = null)]
+        public virtual void setDoubleValue(double value)
+        {
+            this.ObjectValue = NSNumber.numberWithDouble(value);
+        }
+
         public virtual float FloatValue
         {
-            get { return _cell.state; }
-            set
-            {
-                NSNumber number = NSNumber.numberWithFloat(value);
-                this.ObjectValue = number;
-            }
+            get { return floatValue(); }
+            set { setFloatValue(value); }
         }
 
-        [ObjcPropAttribute("IntegerValue", SetName = null)]
+        public virtual float floatValue()
+        {
+            return _cell.state;
+        }
+
+        public virtual void setFloatValue(float value)
+        {
+            this.ObjectValue = NSNumber.numberWithFloat(value);
+        }
+
         public virtual int IntegerValue
         {
-            get { return _cell.state; }
-            set
-            {
-                NSNumber number = NSNumber.numberWithInteger(value);
-                this.ObjectValue = number;
-            }
+            get { return integerValue(); }
+            set { setIntegerValue(value); }
+        }
+        public virtual int integerValue()
+        {
+            return _cell.state;
         }
 
+        public virtual void setIntegerValue(int value)
+        {
+            this.ObjectValue = NSNumber.numberWithInteger(value);
+        }
 
-        [ObjcPropAttribute("IntValue", SetName = null)]
+       
         public virtual int IntValue
         {
-            get { return _cell.state; }
-            set
-            {
-                NSNumber number = NSNumber.numberWithInt(value);
-                this.ObjectValue = number;
-            }
+            get { return intValue(); }
+            set { setIntValue(value); }
+        }
+        public virtual int intValue()
+        {
+            return _cell.state;
+        }
+        public virtual void setIntValue(int value)
+        {
+            this.ObjectValue = NSNumber.numberWithInteger(value);
         }
 
-        [ObjcPropAttribute("boolValue", SetName = null)]
         public virtual bool BoolValue
         {
-            get { return false; }
-            
+            get { return boolValue(); }  
         }
+        public virtual bool boolValue()
+        {
+            return false;
+        }
+
 
         [ObjcPropAttribute("StringValue", SetName = null)]
         public virtual NSString StringValue

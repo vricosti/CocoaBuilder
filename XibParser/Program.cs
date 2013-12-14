@@ -28,12 +28,12 @@ namespace Smartmobili.Cocoa
 
         public virtual void parserDidStartDocument(NSXMLParserWIP parser)
         {
-            System.Diagnostics.Debug.WriteLine("ParserDidStartDocument");
+            System.Diagnostics.Debug.WriteLine("parserDidStartDocument");
         }
 
         public virtual void parserDidEndDocument(NSXMLParserWIP parser)
         {
-            System.Diagnostics.Debug.WriteLine("ParserDidEndDocument");
+            System.Diagnostics.Debug.WriteLine("parserDidEndDocument");
         }
 
         public virtual void parserDidStartElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)

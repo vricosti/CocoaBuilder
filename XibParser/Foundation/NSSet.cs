@@ -33,12 +33,15 @@ namespace Smartmobili.Cocoa
 
         public virtual id initWithObjects(params id[] objects)
         {
+            id self = this;
+
             if (objects == null)
                 return null;
 
-            throw new NotImplementedException();
+            _sets = new HashSet<id>(objects.Where(x => x != null).ToArray());
 
-            return null;
+
+            return self;
         }
 
 

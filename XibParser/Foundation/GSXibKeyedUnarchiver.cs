@@ -524,7 +524,7 @@ namespace Smartmobili.Cocoa
             }
             else if (@"int".isEqualToString(elementName))
             {
-                id newObj = NSNumber.numberWithInt(element.Value.IntValue);
+                id newObj = NSNumber.numberWithInt(element.Value.intValue());
                 if (objID != null)
                     Decoded.setObjectForKey(newObj, objID);
 
@@ -532,7 +532,7 @@ namespace Smartmobili.Cocoa
             }
             else if (@"double".isEqualToString(elementName))
             {
-                id newObj = NSNumber.numberWithDouble(element.Value.DoubleValue);
+                id newObj = NSNumber.numberWithDouble(element.Value.doubleValue());
                 if (objID != null)
                     Decoded.setObjectForKey(newObj, objID);
 
@@ -541,7 +541,7 @@ namespace Smartmobili.Cocoa
             else if (@"bool".isEqualToString(elementName))
             {
                 //Fixme
-                id newObj = NSNumber.numberWithBool(element.Value.BoolValue);
+                id newObj = NSNumber.numberWithBool(element.Value.boolValue());
                 if (objID != null)
                     Decoded.setObjectForKey(newObj, objID);
 
@@ -550,7 +550,7 @@ namespace Smartmobili.Cocoa
             else if (@"integer".isEqualToString(elementName))
             {
                 NSString value = element.attributeForKey(@"value");
-                id newObj = NSNumber.numberWithInteger(value.IntegerValue);
+                id newObj = NSNumber.numberWithInteger(value.integerValue());
                 if (objID != null)
                     Decoded.setObjectForKey(newObj, objID);
 
@@ -559,7 +559,7 @@ namespace Smartmobili.Cocoa
             else if (@"real".isEqualToString(elementName))
             {
                 NSString value = element.attributeForKey(@"value");
-                id newObj = NSNumber.numberWithFloat(value.FloatValue);
+                id newObj = NSNumber.numberWithFloat(value.floatValue());
                 if (objID != null)
                     Decoded.setObjectForKey(newObj, objID);
 
@@ -568,7 +568,7 @@ namespace Smartmobili.Cocoa
             else if (@"bool".isEqualToString(elementName))
             {
                 NSString value = element.attributeForKey(@"value");
-                id newObj = NSNumber.numberWithBool(value.BoolValue);
+                id newObj = NSNumber.numberWithBool(value.boolValue());
                 if (objID != null)
                     Decoded.setObjectForKey(newObj, objID);
 
@@ -744,7 +744,7 @@ namespace Smartmobili.Cocoa
              {
                  if (o.isKindOfClass(NSNumber.Class) == true)
                  {
-                     return ((NSNumber)o).BoolValue;
+                     return ((NSNumber)o).boolValue();
                  }
              }
 
@@ -774,7 +774,7 @@ namespace Smartmobili.Cocoa
             {
                 if (o.isKindOfClass(NSNumber.Class) == true)
                 {
-                    return ((NSNumber)o).DoubleValue;
+                    return ((NSNumber)o).doubleValue();
                 }
             }
 
@@ -788,7 +788,7 @@ namespace Smartmobili.Cocoa
             {
                 if (o.isKindOfClass(NSNumber.Class) == true)
                 {
-                    return ((NSNumber)o).FloatValue;
+                    return ((NSNumber)o).floatValue();
                 }
             }
 
@@ -802,7 +802,7 @@ namespace Smartmobili.Cocoa
             {
                 if (o.isKindOfClass(NSNumber.Class) == true)
                 {
-                    return ((NSNumber)o).IntValue;
+                    return ((NSNumber)o).intValue();
                 }
             }
             return 0;
@@ -820,7 +820,7 @@ namespace Smartmobili.Cocoa
             {
                 if (o.isKindOfClass(NSNumber.Class) == true)
                 {
-                    return ((NSNumber)o).IntValue;
+                    return ((NSNumber)o).intValue();
                 }
             }
             return 0;

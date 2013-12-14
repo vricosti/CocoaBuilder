@@ -7,10 +7,10 @@ namespace Smartmobili.Cocoa
 {
     public interface INSNumber
     {
-        double DoubleValue { get; }
-        float FloatValue { get; }
-        int IntValue { get; }
-        int IntegerValue { get; }
-        bool BoolValue { get; }
+        double doubleValue();
+        float floatValue();
+        int intValue();
+        int integerValue();
+        bool boolValue();
     }
 }

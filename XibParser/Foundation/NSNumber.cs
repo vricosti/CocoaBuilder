@@ -31,21 +31,15 @@ namespace Smartmobili.Cocoa
         protected object _number;
 
         
+        public virtual double doubleValue() { return _number.ToDouble(); }
 
-        [ObjcPropAttribute("DoubleValue", SetName = null)]
-        public double DoubleValue { get { return _number.ToDouble(); } }
+        public virtual float floatValue() { return _number.ToFloat(); }
 
-        [ObjcPropAttribute("FloatValue", SetName = null)]
-        public float FloatValue { get { return _number.ToFloat(); } }
+        public virtual int integerValue() { return _number.ToInt(); }
 
-        [ObjcPropAttribute("IntegerValue", SetName = null)]
-        public int IntegerValue { get { return _number.ToInt(); } }
+        public virtual int intValue() { return _number.ToInt(); }
 
-        [ObjcPropAttribute("IntValue", SetName = null)]
-        public int IntValue { get { return _number.ToInt(); } }
-
-        [ObjcPropAttribute("BoolValue", SetName = null)]
-        public bool BoolValue { get { return _number.ToBool(); } }
+        public virtual bool boolValue() { return _number.ToBool(); }
 
         public NSNumber()
         {
