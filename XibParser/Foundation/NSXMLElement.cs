@@ -44,13 +44,71 @@ namespace Smartmobili.Cocoa
         protected bool _childrenHaveMutated;
         protected char[] _passing;                                  
 
+        public virtual void setURI(NSString uri)
+        {
+            if (this._URI == uri)
+                return;
+            
+            this._URI = uri;
+            if (this._URI == null)
+            {
+                this._setQNamesAreResolved(false);
+            }
 
+        }
+
+        public virtual void setName(NSString name)
+        {
+            if (name == _name)
+                return;
+
+
+        }
+
+
+
+        public virtual bool _QNamesAreResolved()
+        {
+            return (this._childrenHaveMutated == false);
+        }
+
+
+       
+        public virtual void _setQNamesAreResolved(bool QNamesResolved)
+        {
+            this._childrenHaveMutated = (QNamesResolved == false);
+            if (QNamesResolved == false)
+                return;
+
+            if (this.parent().kind() == NSXMLNodeKind.NSXMLElementKind)
+            {
+            loc_rec:
+                if (this._QNamesAreResolved() == true)
+                {
+                    _setQNamesAreResolved(false);
+                    if (parent().kind() == NSXMLNodeKind.NSXMLElementKind)
+                        goto loc_rec;
+                }
+            }
+
+        }
+
+        public virtual NSString prefix()
+        {
+            if (this._prefixIndex == -1)
+                return @"";
+            else
+                return this._name.substringToIndex((uint)this._prefixIndex);
+        }
+
+        public virtual id init()
+        {
+            return this.initWithName(null);
+        }
         public virtual id initWithName(NSString name)
         {
             return this.initWithNameURI(name, null);
         }
-
-
 
         public virtual id initWithNameURI(NSString name, NSString uri)
         {
@@ -65,6 +123,27 @@ namespace Smartmobili.Cocoa
 
            return self;
        }
+
+       public id _initWithName(NSString name, NSString uri, int prefixIndex)
+       {
+           id self = this;
+
+           if (base.init() != null)
+           {
+               this._zeroOrOneNamespaces = true;
+               this._zeroOrOneAttributes = true;
+               this._kind = NSXMLNodeKind.NSXMLElementKind;
+               this.setName(name);
+               this._prefixIndex = prefixIndex;
+               this._setQNamesAreResolved(uri != null);
+               this.setURI(uri);
+           }
+
+           return self;
+       }
+        
+
+
 
 
 //        – initWithName:

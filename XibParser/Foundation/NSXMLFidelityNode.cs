@@ -10,6 +10,10 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLFidelityNode));
         new public static NSXMLFidelityNode alloc() { return new NSXMLFidelityNode(); }
 
+        public static void setObjectValuePreservingEntitiesForNode(id anObject, NSString str)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

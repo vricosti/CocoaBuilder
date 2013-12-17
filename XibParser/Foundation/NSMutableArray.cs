@@ -65,12 +65,12 @@ namespace Smartmobili.Cocoa
 				//NSWarnMLog(@"attempt to remove nil object");
 				return;
 			}
-			i = (uint)this.Count;
+			i = this.count();
 			if (i > 0)
 			{
 				while (i-- > 0)
 				{
-					id	o = this.objectAtIndex((int)i);
+					id	o = this.objectAtIndex(i);
 
 					if (o == anObject)
 					{
@@ -80,6 +80,10 @@ namespace Smartmobili.Cocoa
 			}
 		}
 		
+        public virtual void removeObjectIdenticalTo(id anObject, NSRange aRange)
+        {
+            throw new NotImplementedException();
+        }
 
         public virtual void removeLastObject()
         {
@@ -98,6 +102,10 @@ namespace Smartmobili.Cocoa
             }
         }
 
+        public virtual void removeObject(id anObject, NSRange aRange)
+        {
+            throw new NotImplementedException();
+        }
 
         public virtual void removeAllObjects()
         {
@@ -129,6 +137,22 @@ namespace Smartmobili.Cocoa
             }
         }
 
+        public virtual void removeObjectsAtIndexes(NSIndexSet indexes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void replaceObjectAtIndex(uint anIndex, id anObject)
+        {
+            if (anIndex >= this.count())
+                throw new Exception("NSRangeException");
+            if (anObject == null)
+                throw new Exception("NSInvalidArgumentException");
+
+            this[(int)anIndex] = anObject;
+            
+        }
+
         public virtual void insertObject(id anObject, uint index)
         {
             if (anObject == null)
@@ -137,6 +161,15 @@ namespace Smartmobili.Cocoa
             _list.Insert((int)index, anObject);
         }
 
+        public virtual void addObjectsFromArray(NSArray otherArray)
+        {
+            foreach(id obj in otherArray)
+            {
+                this.addObject(obj);
+            }
+        }
+
+       
 
         //public NSMutableArray(NSObjectDecoder aDecoder)
         //    : base(aDecoder)

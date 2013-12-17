@@ -165,12 +165,12 @@ namespace Smartmobili.Cocoa
       
         public virtual void SetSelected(bool flag, int seg)
         {
-            NSSegmentItem segment = (NSSegmentItem)_items.objectAtIndex(seg);
+            NSSegmentItem segment = (NSSegmentItem)_items.objectAtIndex((uint)seg);
             NSSegmentItem previous = null;
 
             if (_selected_segment != -1)
             {
-                previous = (NSSegmentItem)_items.objectAtIndex(_selected_segment);
+                previous = (NSSegmentItem)_items.objectAtIndex((uint)_selected_segment);
                 if (_segmentCellFlags._tracking_mode == (uint)NSSegmentSwitchTracking.NSSegmentSwitchTrackingSelectOne)
                 {
                     previous.Selected = false;
@@ -249,91 +249,91 @@ namespace Smartmobili.Cocoa
         // Working with individual segments...
         public virtual void SetWidthForSegment(float width, int seg)
         {
-             id segment = _items.objectAtIndex(seg);
+             id segment = _items.objectAtIndex((uint)seg);
             ((NSSegmentItem)segment).Width = width;
         }
 
         public virtual float WidthForSegment(int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             return ((NSSegmentItem)segment).Width;
         }
 
         public virtual void SetImageForSegment(NSImage image, int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             ((NSSegmentItem)segment).Image = image;
         }
 
         public virtual NSImage ImageForSegment(int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             return ((NSSegmentItem)segment).Image;
         }
 
         public virtual void SetLabelForSegment(NSString label, int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             ((NSSegmentItem)segment).Label = label;
         }
 
         public virtual NSString LabelForSegment(int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             return ((NSSegmentItem)segment).Label;
         }
 
         public virtual bool IsSelectedForSegment(int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             return ((NSSegmentItem)segment).Selected;
         }
 
         public virtual void SetEnabledForSegment(bool flag, int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             ((NSSegmentItem)segment).Enabled = flag;
         }
 
         public virtual bool IsEnabledForSegment(int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             return ((NSSegmentItem)segment).Enabled;
         }
 
         public virtual void SetMenuForSegment(NSMenu menu, int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             ((NSSegmentItem)segment).Menu = menu;
         }
 
         public virtual NSMenu MenuForSegment(int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             return ((NSSegmentItem)segment).Menu;
         }
 
         public virtual void SetToolTipForSegment(NSString toolTip, int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             ((NSSegmentItem)segment).ToolTip = toolTip;
         }
 
         public virtual NSString ToolTipForSegment(int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             return ((NSSegmentItem)segment).ToolTip;
         }
 
         public virtual void SetTagForSegment(int tag, int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             ((NSSegmentItem)segment).Tag = tag;
         }
 
         public virtual int TagForSegment(int seg)
         {
-            id segment = _items.objectAtIndex(seg);
+            id segment = _items.objectAtIndex((uint)seg);
             return ((NSSegmentItem)segment).Tag;
         }
         // Drawing custom content

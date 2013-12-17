@@ -75,6 +75,11 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual uint count()
+        {
+            return (uint)this.Count;
+        }
+
         public virtual void addObject(id anObject)
         {
             if (anObject == null)
@@ -109,7 +114,7 @@ namespace Smartmobili.Cocoa
             uint i, c = (uint)this.Count;
 
             for (i = 0; i < c; i++)
-                aBuffer[i] = objectAtIndex((int)i);
+                aBuffer[i] = objectAtIndex(i);
         }
 
 		public virtual uint indexOfObjectIdenticalTo(id anObject)
@@ -121,7 +126,7 @@ namespace Smartmobili.Cocoa
 				uint i;
 
 				for (i = 0; i < c; i++)
-					if (anObject == this.objectAtIndex((int)i))
+					if (anObject == this.objectAtIndex(i))
 						return i;
 			}
 			return NS.NotFound;
@@ -137,9 +142,9 @@ namespace Smartmobili.Cocoa
             return foundIndex;
         }
 
-        public virtual id objectAtIndex(int index)
+        public virtual id objectAtIndex(uint index)
         {
-            id obj = this[index];
+            id obj = this[(int)index];
             return obj;
         }
 
@@ -334,7 +339,7 @@ namespace Smartmobili.Cocoa
 
              if (_curIndex < _array.Count)
              {
-                 nextObj = _array.objectAtIndex(_curIndex++);
+                 nextObj = _array.objectAtIndex((uint)_curIndex++);
              }
 
              return nextObj;

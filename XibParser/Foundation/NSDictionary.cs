@@ -161,7 +161,7 @@ namespace Smartmobili.Cocoa
 
             if (objects != null && keys != null && (objects.Count == keys.Count))
             {
-                for (int i = 0; i < objects.Count; i++)
+                for (uint i = 0; i < objects.count(); i++)
                 {
                     id key = keys.objectAtIndex(i);
                     id val = objects.objectAtIndex(i);

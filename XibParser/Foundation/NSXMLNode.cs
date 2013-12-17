@@ -118,10 +118,59 @@ namespace Smartmobili.Cocoa
         {
             return null;
         }
+        public virtual void setURI(NSString uri)
+        { }
+
 
         public virtual int index()
         {
             return _index;
+        }
+
+        public virtual NSXMLNode parent()
+        {
+            return _parent;
+        }
+
+        public virtual void setObjectValue(id objValue)
+        {
+            if (this._objectValue != objValue)
+            {
+                this._objectValue = objValue;
+            }
+
+        }
+
+        public virtual NSString stringValue()
+        {
+            if (this._objectValue != null)
+            {
+                return NSXMLContext.stringForObjectValue(this._objectValue);
+            }
+            else
+            {
+                return @"";
+            }
+        }
+
+
+        public virtual void setStringValue(NSString strValue)
+        {
+            this.setStringValue(strValue, false);
+        }
+
+    
+
+        public virtual void setStringValue(NSString strValue, bool resolvingEntities)
+        {
+           if (resolvingEntities == true)
+           {
+               NSXMLFidelityNode.setObjectValuePreservingEntitiesForNode(this, strValue);
+           }
+           else
+           {
+               this.setObjectValue(strValue);
+           }
         }
 
         public virtual NSString XMLString()
@@ -131,11 +180,22 @@ namespace Smartmobili.Cocoa
 
         public virtual NSString XMLStringWithOptions(uint options)
         {
-            return this._XMLStringWithOptions(options, NSMutableString.String());
+            return this._XMLStringWithOptions_appendingToString(options, NSMutableString.String());
         }
 
-        public virtual NSString _XMLStringWithOptions(uint options, NSString str)
+
+
+
+        public virtual NSString _XMLStringWithOptions_appendingToString(uint options, NSString str)
         {
+            if (this.kind() != NSXMLNodeKind.NSXMLCommentKind)
+            {
+
+            }
+            else
+            { 
+
+            }
             return null;
         }
 

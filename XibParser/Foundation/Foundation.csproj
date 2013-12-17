@@ -77,6 +77,7 @@
     <Compile Include="NSFileManager.cs" />
     <Compile Include="NSFileWrapper.cs" />
     <Compile Include="NSFormatter.cs" />
+    <Compile Include="NSIndexSet.cs" />
     <Compile Include="NSInputStream.cs" />
     <Compile Include="NSKeyedUnarchiver.cs" />
     <Compile Include="NSLock.cs" />
@@ -102,6 +103,8 @@
     <Compile Include="NSURL.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="NSXMLAttributeDeclaration.cs" />
+    <Compile Include="NSXMLChildren.cs" />
+    <Compile Include="NSXMLContext.cs" />
     <Compile Include="NSXMLDocument.cs" />
     <Compile Include="NSXMLDTDNode.cs" />
     <Compile Include="NSXMLElement.cs" />

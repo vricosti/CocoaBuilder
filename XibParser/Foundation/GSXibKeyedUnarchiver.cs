@@ -665,7 +665,7 @@ namespace Smartmobili.Cocoa
             NSArray values = element.Values;
             int max = values.Count;
             id[] list = new id[max];
-            int i;
+            uint i;
 
             for (i = 0; i < max; i++)
             {
