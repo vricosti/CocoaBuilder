@@ -161,6 +161,12 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
+        public virtual uint childCount()
+        {
+            return 0;
+        }
+
+
         public virtual void setObjectValue(id objValue)
         {
             if (this._objectValue != objValue)

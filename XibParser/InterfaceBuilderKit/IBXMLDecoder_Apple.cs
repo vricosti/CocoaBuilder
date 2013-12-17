@@ -95,10 +95,10 @@ namespace Smartmobili.Cocoa
                     {
                         if (elmt.name().isEqualToString(@"reference"))
                         {
-                            var refId = elmt.attributeForName(@"ref");
-                            if (refId != null)
+                            var refNode = elmt.attributeForName(@"ref");
+                            if (refNode != null)
                             {
-
+                                NSString refId = refNode.stringValue();
                             }
                         }
 

@@ -70,6 +70,21 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public override NSString stringValue()
+        {
+            throw new NotImplementedException("stringValue");
+            return null;
+        }
+
+
+        public override uint childCount()
+        {
+           if (this._objectValue != null)
+               return 1;
+           else
+               return this._children.count();
+        }
+
 
         // WARNING : there is also a _children but it's amibiguous
         public override NSArray children()

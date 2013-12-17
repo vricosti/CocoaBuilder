@@ -28,11 +28,38 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSXMLDocument : NSObject
+    public class NSXMLDocument : NSXMLNode
     {
         new public static Class Class = new Class(typeof(NSXMLDocument));
         new public static NSXMLDocument alloc() { return new NSXMLDocument(); }
 
-       
+        protected NSString _encoding;
+
+        protected NSString _version;
+
+        //protected NSXMLDTD _docType;
+
+        protected NSArray _children;
+
+        protected bool _childrenHaveMutated;
+
+        protected bool _standalone;
+
+        protected NSXMLElement _rootElement;
+
+        protected NSString _URI;
+
+        protected id _extraIvars;
+
+        protected uint _fidelityMask;
+
+        protected uint _contentKind;
+
+
+        public override uint childCount()
+        {
+            return this._children.count();
+        }
+
     }
 }
