@@ -47,6 +47,10 @@ namespace Smartmobili.Cocoa
             _list = collection.ToList();
         }
 
+        public static NSArray emptyArray()
+        {
+            return arrayWithCapacity(5);
+        }
 
         public static NSArray arrayWithArray(NSArray anArray)
         {
@@ -59,20 +63,28 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public static NSArray arrayWithObject(id anObject)
+        {
+            NSArray array = new NSArray();
+            array.addObject(anObject);
+
+            return array;
+        }
+
         // TODO: implements InitWithobjects
         public static NSArray arrayWithObjects(params id[] list)
         {
             if (list == null)
                 return null;
 
-            NSArray self = new NSArray();
+            NSArray array = new NSArray();
 
             foreach (id elm in list)
             {
-                self.addObject(elm);
+                array.addObject(elm);
             }
 
-            return self;
+            return array;
         }
 
         public virtual uint count()

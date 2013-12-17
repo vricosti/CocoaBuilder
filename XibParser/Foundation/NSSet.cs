@@ -40,10 +40,13 @@ namespace Smartmobili.Cocoa
 
             _sets = new HashSet<id>(objects.Where(x => x != null).ToArray());
 
-
             return self;
         }
 
+        public virtual bool containsObject(id anObject)
+        {
+            return _sets.Contains(anObject);
+        }
 
     }
 

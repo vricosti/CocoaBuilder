@@ -103,6 +103,15 @@ namespace Smartmobili.Cocoa
 
         protected id _private;
 
+     
+        public static NSString localNameForName(NSString qName)
+        {
+            throw new NotImplementedException("localNameForName");
+            //qName.le
+            //rax = [r14 length];
+            //rax = [r14 rangeOfString:@":" options:0x2 range:0x1];
+        }
+
 
         public virtual void _setKind(NSXMLNodeKind kind)
         {
@@ -113,6 +122,21 @@ namespace Smartmobili.Cocoa
         {
             return _kind;
         }
+
+
+        public virtual void setName(NSString name)
+        { }
+
+        public virtual NSString name()
+        {
+            return null;
+        }
+
+        public virtual NSString localName()
+        {
+            return null;
+        }
+
 
         public virtual NSString URI()
         {
@@ -130,6 +154,11 @@ namespace Smartmobili.Cocoa
         public virtual NSXMLNode parent()
         {
             return _parent;
+        }
+
+        public virtual NSArray children()
+        {
+            return null;
         }
 
         public virtual void setObjectValue(id objValue)

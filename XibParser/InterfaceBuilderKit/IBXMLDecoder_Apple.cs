@@ -72,7 +72,12 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
-        private uint IBXMLDecoderBuildIDIndex(IBXMLDecoder_Apple decoder, NSXMLElement element)
+        private uint _IBXMLDecoderBuildIDIndex(IBXMLDecoder_Apple decoder, 
+                                              NSXMLElement element, 
+                                              NSMutableDictionary objectIDsToObjectNodes,
+                                              id unknownRbxPlusZero,
+                                              NSMutableSet uniqueIDs,
+                                              bool notused)
         {
             if (decoder._objectTypeElementNames == null)
             {
@@ -81,7 +86,30 @@ namespace Smartmobili.Cocoa
                     (NSString)"integer", (NSString)"real", (NSString)"boolean", (NSString)"string", null);
             }
 
-            
+            var elements = element.elements();
+            if (elements != null && elements.count() != 0)
+            {
+                foreach(NSXMLElement elmt in elements)
+                {
+                    if (decoder._objectTypeElementNames.containsObject(elmt.name()) == false)
+                    {
+                        if (elmt.name().isEqualToString(@"reference"))
+                        {
+                            var refId = elmt.attributeForName(@"ref");
+                            if (refId != null)
+                            {
+
+                            }
+                        }
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
 
             return 0;
         }
@@ -111,8 +139,8 @@ namespace Smartmobili.Cocoa
 //                            if (*var_168 != var_64) {
 //                                    objc_enumerationMutation(var_76);
 //                            }
-//                            eax = [*(var_164 + var_88 * 0x4) name];
-//                            eax = [var_68 containsObject:eax];
+//                            
+//                            eax = [var_68 containsObject:[*(var_164 + var_88 * 0x4) name]];
 //                            if (eax == 0x0) {
 //                                    eax = [esi name];
 //                                    eax = [eax isEqualToString:@"reference"];

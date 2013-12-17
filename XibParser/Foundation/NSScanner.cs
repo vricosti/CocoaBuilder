@@ -86,7 +86,7 @@ namespace Smartmobili.Cocoa
         
         private uint myLength()
         {
-            return _string.Length;
+            return _string.length();
         }
 
         private Char MyCharacter(uint location)
@@ -97,12 +97,12 @@ namespace Smartmobili.Cocoa
 
         private bool skipToNextField()
         {
-            while (_scanLocation < _string.Length && 
+            while (_scanLocation < _string.length() && 
                  _charactersToBeSkipped != null &&
                  _charactersToBeSkipped.characterIsMember(MyCharacter(_scanLocation)))
                  _scanLocation++;
 
-            return (_scanLocation >= _string.Length) ? false : true;
+            return (_scanLocation >= _string.length()) ? false : true;
         }
 
 
@@ -114,7 +114,7 @@ namespace Smartmobili.Cocoa
             bool overflow = false;
             bool got_digits = false;
 
-            if (_scanLocation <_string.Length)
+            if (_scanLocation < _string.length())
             {
                 switch (_string[_scanLocation])
                 {
@@ -128,7 +128,7 @@ namespace Smartmobili.Cocoa
                 }
             }
             /* Process digits */
-            while (_scanLocation < _string.Length)
+            while (_scanLocation < _string.length())
             {
                 char digit = _string[_scanLocation];
 
@@ -300,7 +300,7 @@ namespace Smartmobili.Cocoa
                 return false;
 
             start = _scanLocation;
-            while (_scanLocation < _string.Length)
+            while (_scanLocation < _string.length())
             {
                 if (stopSet.characterIsMember(_string[_scanLocation]))
                     break;

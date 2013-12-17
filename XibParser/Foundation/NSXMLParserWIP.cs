@@ -428,7 +428,7 @@ namespace Smartmobili.Cocoa
             {
                 name = _NSXMLParserNSStringFromBytes(pName, this.info());
             }
-            if (content.Length == 0)
+            if (content.length() == 0)
             {
                 if (shouldResolveExternalEntities())
                 {

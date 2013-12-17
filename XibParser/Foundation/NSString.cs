@@ -100,12 +100,12 @@ namespace Smartmobili.Cocoa
         public virtual bool boolValue() 
         {
             //return Value.ConvertFromYesNo();
-            uint length = Length;
+            uint len = length();
 
-            if (length > 0)
+            if (len > 0)
             {
                 uint index;
-                for (index = 0; index < length; index++)
+                for (index = 0; index < len; index++)
                 {
                     Char c = this.characterAtIndex(index);
 
@@ -386,14 +386,14 @@ namespace Smartmobili.Cocoa
 
         public virtual NSRange rangeOfCharacterFromSet(NSCharacterSet aSet)
         {
-            NSRange all = new NSRange(0, Length);
+            NSRange all = new NSRange(0, length());
             return rangeOfCharacterFromSet(aSet, (NSStringCompareOptions)0, all);       
         }
 
 
         public virtual NSRange rangeOfCharacterFromSet(NSCharacterSet aSet, NSStringCompareOptions mask)
         {
-            NSRange all = new NSRange(0, Length);
+            NSRange all = new NSRange(0, length());
             return rangeOfCharacterFromSet(aSet, mask, all);       
         }
 
@@ -406,7 +406,7 @@ namespace Smartmobili.Cocoa
             NSRange range = new NSRange();
             uint mask = (uint)options;
 
-            i = (int)this.Length;
+            i = (int)this.length();
             if ((mask & (uint)NSStringCompareOptions.NSBackwardsSearch) == (uint)NSStringCompareOptions.NSBackwardsSearch)
             {
                 start = (aRange.Location + aRange.Length) - 1;
@@ -448,7 +448,7 @@ namespace Smartmobili.Cocoa
 
         public virtual NSString lastPathComponent()
         {
-            uint l = this.Length;
+            uint l = this.length();
             NSRange range;
             uint i = 0;
 
@@ -490,7 +490,7 @@ namespace Smartmobili.Cocoa
         {
             uint length = 0;
 
-            length = this.Length;
+            length = this.length();
             if (length == 0)
             {
                 return @"";
@@ -523,10 +523,15 @@ namespace Smartmobili.Cocoa
             return path;
         }
 
-        public uint Length
+        public virtual uint length()
         {
-            get { return (Value != null) ? (uint)Value.Length : 0; } 
+            return (Value != null) ? (uint)Value.Length : 0;
         }
+        
+        //public uint Length
+        //{
+        //    get { return (Value != null) ? (uint)Value.Length : 0; } 
+        //}
 
 
         public virtual NSData dataUsingEncoding(NSStringEncoding encoding, bool flag = false)
@@ -575,7 +580,7 @@ namespace Smartmobili.Cocoa
             if (idx == -1)
                 return new NSRange(0, 0);
             else
-                return new NSRange((uint)idx, aString.Length);
+                return new NSRange((uint)idx, aString.length());
         }
 
 
@@ -593,7 +598,7 @@ namespace Smartmobili.Cocoa
         {
             NSString str = null;
 
-            if (anIndex < 0 || anIndex > this.Length - 1)
+            if (anIndex < 0 || anIndex > this.length() - 1)
                 throw new ArgumentNullException();
 
             if (this.Value != null)
@@ -608,7 +613,7 @@ namespace Smartmobili.Cocoa
         {
             NSString str = "";
 
-            if (anIndex < 0 || anIndex > this.Length - 1)
+            if (anIndex < 0 || anIndex > this.length() - 1)
                 throw new ArgumentNullException();
 
             if (this.Value != null)
