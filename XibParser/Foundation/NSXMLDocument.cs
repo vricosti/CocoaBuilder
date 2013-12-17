@@ -37,7 +37,7 @@ namespace Smartmobili.Cocoa
 
         protected NSString _version;
 
-        //protected NSXMLDTD _docType;
+        protected NSXMLDTD _docType;
 
         protected NSArray _children;
 
