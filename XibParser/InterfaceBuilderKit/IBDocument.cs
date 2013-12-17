@@ -342,7 +342,7 @@ namespace Smartmobili.Cocoa
             bool ret = false;
 
             NSData data = fileWrapper.regularFileContents();
-            IBXMLDecoderApple decoder = (IBXMLDecoderApple)IBXMLDecoderApple.alloc().initForReadingWithData(data, ref outError);
+            IBXMLDecoder decoder = (IBXMLDecoder)IBXMLDecoder.alloc().initForReadingWithData(data, ref outError);
             if (decoder != null)
             {
                 this.willDecodeWithKeyedDecoder(decoder);

@@ -55,6 +55,11 @@ namespace Smartmobili.Cocoa
 
             return self;
         }
+        
+        public virtual NSString stringValue()
+        {
+            return this.ToString();
+        }
 
         public virtual bool isEqual(id otherObj)
         {

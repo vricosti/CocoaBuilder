@@ -239,8 +239,8 @@ namespace Smartmobili.Cocoa
         public override float decodeFloatForKey(NSString key)
         {
             NSDictionary objects = (NSDictionary)_childMap.objectForKey(_currentElement);
-            NSString floatString = objects.objectForKey(key).ToString();
-            return IBXMLCoderDoubleFromString(floatString);
+            NSString floatString = objects.objectForKey(key).stringValue();
+            return _IBXMLCoderDoubleFromString(floatString);
         }
         public virtual id ObjectForOID(NSString key)
         {
@@ -401,7 +401,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        private float IBXMLCoderDoubleFromString(NSString text)
+        private float _IBXMLCoderDoubleFromString(NSString text)
         {
             return 0;
         }
