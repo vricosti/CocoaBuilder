@@ -106,6 +106,7 @@
     <Compile Include="NSXMLChildren.cs" />
     <Compile Include="NSXMLContext.cs" />
     <Compile Include="NSXMLDocument.cs" />
+    <Compile Include="NSXMLDTD.cs" />
     <Compile Include="NSXMLDTDNode.cs" />
     <Compile Include="NSXMLElement.cs" />
     <Compile Include="NSXMLFidelityElement.cs" />

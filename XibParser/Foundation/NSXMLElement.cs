@@ -240,27 +240,27 @@ namespace Smartmobili.Cocoa
 
 
 
-        public virtual NSArray elements()
-        {
-            NSArray elmts;
+        //public virtual NSArray elements()
+        //{
+        //    NSArray elmts;
 
-            var children = this.children();
-            if (children != null && children.count() > 0)
-            {
-                elmts = NSMutableArray.array();
-                foreach (NSXMLNode node in children)
-                {
-                    if (node.kind() == NSXMLNodeKind.NSXMLElementKind)
-                    {
-                        elmts.addObject(node);
-                    }
-                }
-            }
-            else
-            {
-                elmts = NSArray.emptyArray();
-            }
-            return elmts;
-        }
+        //    var children = this.children();
+        //    if (children != null && children.count() > 0)
+        //    {
+        //        elmts = NSMutableArray.array();
+        //        foreach (NSXMLNode node in children)
+        //        {
+        //            if (node.kind() == NSXMLNodeKind.NSXMLElementKind)
+        //            {
+        //                elmts.addObject(node);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        elmts = NSArray.emptyArray();
+        //    }
+        //    return elmts;
+        //}
     }
 }

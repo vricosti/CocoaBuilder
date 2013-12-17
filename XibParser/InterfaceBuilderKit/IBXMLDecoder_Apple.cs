@@ -247,7 +247,7 @@ namespace Smartmobili.Cocoa
             return _objectIDsToObjects.objectForKey(key);
         }
 
-        public virtual id ObjectForXMLElement(object element)
+        public virtual id ObjectForXMLElement(NSXMLElement element)
         {
             return null;
             //if ( )
