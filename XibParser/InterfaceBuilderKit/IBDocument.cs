@@ -136,6 +136,12 @@ namespace Smartmobili.Cocoa
 
         }
 
+        public virtual void setPreviousXmlDecoderHints(id xmlDecoder)
+        {
+
+        }
+
+        //hintsForFutureXMLCoder
 
 
             //        function methImpl_IBDocument_readFromFileWrapper_ofType_error_ {
@@ -348,6 +354,8 @@ namespace Smartmobili.Cocoa
                 this.willDecodeWithKeyedDecoder(decoder);
                 ret = this.decodeDocumentOfType(typeName, decoder);
                 decoder.finishDecoding();
+
+        //    (r15)(r12, @selector(setPreviousXmlDecoderHints:), (r15)(rbx, @selector(hintsForFutureXMLCoder));
             }
 
             return ret;

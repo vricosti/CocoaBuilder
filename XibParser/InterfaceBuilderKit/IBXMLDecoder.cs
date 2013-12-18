@@ -75,7 +75,7 @@ namespace Smartmobili.Cocoa
         private uint _IBXMLDecoderBuildIDIndex(IBXMLDecoder decoder,
                                               NSXMLElement element,
                                               NSMutableDictionary objectIDsToObjectNodes,
-                                              id unknownRbxPlusZero,
+                                              IBCFMutableDictionary objectNodesToObjectIDs,
                                               NSMutableSet uniqueIDs,
                                               bool notused)
         {
@@ -99,6 +99,10 @@ namespace Smartmobili.Cocoa
                             if (refNode != null)
                             {
                                 NSString refId = refNode.stringValue();
+                                if (uniqueIDs.member(refId) == null)
+                                {
+                                    uniqueIDs.addObject(refId);
+                                }
                             }
                         }
 

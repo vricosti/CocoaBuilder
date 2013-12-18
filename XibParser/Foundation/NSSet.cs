@@ -48,6 +48,26 @@ namespace Smartmobili.Cocoa
             return _sets.Contains(anObject);
         }
 
+        public id member(id anObject)
+        {
+            if (anObject == null)
+                return null;
+
+            if (_sets.Contains(anObject))
+                return anObject;
+            else 
+                return null;
+        }
+        public virtual void addObject(id anObject)
+        { }
+
+        public virtual void addObjectsFromArray(NSArray anArray)
+        { }
+
+        public virtual void removeObject(id anObject)
+        { }
+        public virtual void removeAllObjects()
+        { }
     }
 
 
@@ -55,6 +75,29 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSMutableSet));
         new public static NSMutableSet alloc() { return new NSMutableSet(); }
+
+        public override void addObject(id anObject)
+        {
+            _sets.Add(anObject);
+        }
+
+        public override void addObjectsFromArray(NSArray anArray)
+        { 
+            foreach(id item in anArray)
+            {
+                addObject(item);
+            }
+        }
+
+        public override void removeObject(id anObject)
+        {
+            _sets.Remove(anObject);
+        }
+        public override void removeAllObjects()
+        {
+            _sets.Clear();
+        }
+        
     }
 
 
