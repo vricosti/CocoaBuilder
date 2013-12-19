@@ -33,14 +33,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AElfred">
-      <HintPath>..\lib\AElfred.dll</HintPath>
+    <Reference Include="AElfred, Version=2.0.2441.18460, Culture=neutral, PublicKeyToken=f711ce86fddb3731, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\managed\AElfred.dll</HintPath>
     </Reference>
-    <Reference Include="Org.System.Xml">
-      <HintPath>..\lib\Org.System.Xml.dll</HintPath>
+    <Reference Include="Org.System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=63191540fddeb5a7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\managed\Org.System.Xml.dll</HintPath>
     </Reference>
-    <Reference Include="Sax">
-      <HintPath>..\lib\Sax.dll</HintPath>
+    <Reference Include="Sax, Version=2.0.0.0, Culture=neutral, PublicKeyToken=be21d24d19a1d110, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\managed\Sax.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
