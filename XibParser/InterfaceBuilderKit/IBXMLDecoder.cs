@@ -36,6 +36,8 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(IBXMLDecoder));
         new public static IBXMLDecoder alloc() { return new IBXMLDecoder(); }
 
+        private static bool _compressPreviousXML;
+
         protected NSXMLElement _currentElement; //0x04
         protected NSMutableArray _successfullyDecodedObjects; //0x08
         protected IBCFMutableDictionary _objectNodesToObjectIDs; //0x0C
@@ -62,6 +64,12 @@ namespace Smartmobili.Cocoa
 
         public override bool AllowsKeyedCoding { get { return true; } }
 
+
+        public static void setDecodersShouldCompressPreviousXMLForHints(bool compressPreviousXML)
+        {
+            _compressPreviousXML = compressPreviousXML;
+        }
+
         public override id initForReadingWithData(NSData data, object dummyObject = null)
         {
             NSError outErr = null;
@@ -69,7 +77,66 @@ namespace Smartmobili.Cocoa
         }
         public override id initForReadingWithData(NSData data, ref NSError outError)
         {
-            return null;
+            id self = this;
+
+            NSError error = null;
+
+            if (base.init() == null)
+                return null;
+
+            _originalDocumentData = (IBSelfCompressingDataWrapper)IBSelfCompressingDataWrapper.alloc().initWithData(data, _compressPreviousXML);
+            _successfullyDecodedObjects = (NSMutableArray)NSMutableArray.alloc().init();
+#if false
+            _childMap = (IBCFMutableDictionary)IBCFMutableDictionary.alloc().initWithKeyCallbacks();
+            _objectIDsToObjectNodes = (NSMutableDictionary)IBCFMutableDictionary.alloc().initWithKeyCallbacks();
+            _objectNodesToObjectIDs = (IBCFMutableDictionary)IBCFMutableDictionary.alloc().initWithKeyCallbacks();
+            _objectIDsToObjects = (NSMutableDictionary)IBCFMutableDictionary.alloc().initWithKeyCallbacks();
+            _objectsToObjectIDs = (NSMutableDictionary)IBCFMutableDictionary.alloc().initWithKeyCallbacks();
+#endif
+            _uniquedValueObjects = (NSMutableSet)NSMutableSet.alloc().init();
+            _classFallbacks = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+            _uniquedIDs = (NSMutableSet)NSMutableSet.alloc().init();
+            _document = (NSXMLDocument)NSXMLDocument.alloc().initWithData(data, 0, ref error);
+            if (_document == null)
+            {
+                if (error == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    //NSError.errorWithLocalizedDescription(NSString.stringWithFormat("The archive's XML representation could not be parsed.\\n\\n%@"));
+                }
+            }
+            else
+            {
+#if false
+                NSXMLElement archiveElement = null;
+                NSXMLElement dataElement  = _document.rootElement().elementsForName("data").firstObject();
+                if (dataElement == null)
+                {
+                    NSXMLElement entityElement = _document.elementsForName("entities").firstObject();
+                    if (entityElement == null)
+                    {
+                        archiveElement = _document.elementsForName("archive").firstObject();
+                    }
+                }
+                NSXMLElement mapElement = _document.elementsForName("map").firstObject();
+                NSXMLElement classesElement = _document.elementsForName("classes").firstObject();
+                int version = _document.attributeForName("version").stringValue().integerValue();
+                if (version == 0)
+                {
+                    version = _document.elementsForName("ArchiveVersion").firstObject().stringValue().integerValue();
+                }
+
+                if (archiveElement != null)
+                {
+                    
+                }
+#endif
+            }
+
+            return self;
         }
 
         private uint _IBXMLDecoderBuildIDIndex(IBXMLDecoder decoder,

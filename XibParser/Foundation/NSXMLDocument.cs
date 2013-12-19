@@ -55,6 +55,14 @@ namespace Smartmobili.Cocoa
 
         protected uint _contentKind;
 
+       
+
+        public virtual id initWithData(NSData data, uint mask, ref NSError error)
+        {
+            id self = this;
+
+            return self;
+        }
 
         public override uint childCount()
         {

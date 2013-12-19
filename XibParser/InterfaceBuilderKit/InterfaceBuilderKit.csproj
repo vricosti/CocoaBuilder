@@ -60,6 +60,7 @@
     <Compile Include="IBSelfCompressingDataWrapper.cs" />
     <Compile Include="IBToOneOutletInfo.cs" />
     <Compile Include="IBXMLDecoder.cs" />
+    <Compile Include="NSMutableDictionary_IBMutableDictionaryAdditions.cs" />
     <Compile Include="NSObjectDecoder.cs" />
     <Compile Include="NSXMLElement_IBXMLElementAddition.cs" />
     <Compile Include="NSXMLNode_IBXMLNodeAdditions.cs" />
