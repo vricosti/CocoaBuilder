@@ -708,6 +708,11 @@ namespace Smartmobili.Cocoa
         private unsafe void _endElementNs(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI)
         {
             // FIXME
+
+            id dlegate = getDelegate();
+            if (dlegate == null || dlegate.respondsToSelector(new SEL("parserDidEndElement")) == false)
+                return;
+
             throw new NotImplementedException();
         }
         private unsafe void _startElementNs(IntPtr ctx, IntPtr pLocalname, IntPtr pPrefix, IntPtr URI, int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes)

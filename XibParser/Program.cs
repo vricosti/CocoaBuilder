@@ -41,10 +41,10 @@ namespace Smartmobili.Cocoa
             System.Diagnostics.Debug.WriteLine("parserDidStartElement");
         }
 
-        public virtual void parserDidEndElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
-        {
-            System.Diagnostics.Debug.WriteLine("parserDidEndElement");
-        }
+        //public virtual void parserDidEndElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
+        //{
+        //    System.Diagnostics.Debug.WriteLine("parserDidEndElement");
+        //}
 
         public virtual void parserFoundCharacters(NSXMLParserWIP parser, NSString foundCharacters)
         {
