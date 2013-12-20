@@ -56,6 +56,27 @@ namespace Smartmobili.Cocoa
         protected uint _contentKind;
 
        
+       public virtual void setRootElement(NSXMLElement rootElement)
+       {
+           _rootElement = rootElement;
+       }
+
+       public virtual NSXMLElement rootElement()
+       {
+           return _rootElement;
+       }
+
+        public virtual id initWithRootElement(NSXMLElement rootElement)
+        {
+            id self = this;
+
+            if (base.init() != null)
+            {
+                this.setRootElement(rootElement);
+            }
+
+            return self;
+        }
 
         public virtual id initWithData(NSData data, uint mask, ref NSError error)
         {

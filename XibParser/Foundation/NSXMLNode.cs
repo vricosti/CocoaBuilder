@@ -93,7 +93,7 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLNode));
         new public static NSXMLNode alloc() { return new NSXMLNode(); }
 
-        protected int _index;
+        protected uint _index;
 
         protected NSXMLNodeKind _kind;
 
@@ -145,12 +145,22 @@ namespace Smartmobili.Cocoa
         public virtual void setURI(NSString uri)
         { }
 
+        public virtual void _setIndex(uint index)
+         {
+            _index = index;
+         }
 
-        public virtual int index()
+        public virtual uint index()
         {
             return _index;
         }
 
+         public virtual void _setParent(NSXMLNode parent)
+         {
+             _parent = parent;
+         }
+
+      
         public virtual NSXMLNode parent()
         {
             return _parent;
@@ -166,6 +176,10 @@ namespace Smartmobili.Cocoa
             return 0;
         }
 
+        public virtual NSXMLNode childAtIndex(uint index)
+        {
+            return null;
+        }
 
         public virtual void setObjectValue(id objValue)
         {
@@ -391,7 +405,76 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        
+//        function methImpl_NSXMLNode_detach {
+//    if (rdi._parent == 0x0) goto loc_1d2b1e;
+//    goto loc_1d2ad8;
+
+//loc_1d2b1e:
+//    return rax;
+
+//loc_1d2ad8:
+//    rax = [rbx retain];
+//    if ((rbx._kind & 0xff & 0xf) != 0x4) goto loc_1d2b29;
+//    goto loc_1d2afd;
+
+//loc_1d2b29:
+//    if ((rax & 0xf) != 0x3) goto loc_1d2b5b;
+//    goto loc_1d2b31;
+
+//loc_1d2b5b:
+//    rax = [*(rbx + r14) kind];
+//    if ((rax == 0x1) || (rax == 0x2)) {
+//            [*(rbx + r14) removeChildAtIndex:rbx._index >> 0x4];
+//    }
+
+//loc_1d2b96:
+//    rbx._index = rbx._index & 0xf;
+//    [rbx _setParent:0x0];
+//    rdi = rbx;
+//    rax = [rdi autorelease];
+
+//loc_1d2b31:
+//    r14 = *(rbx + r14);
+//    rax = [rbx name];
+//    rsi = @selector(removeAttributeForName:);
+
+//loc_1d2b50:
+//    rdx = rax;
+//    (r15)(r14);
+//    goto loc_1d2b96;
+
+//loc_1d2afd:
+//    r14 = *(rbx + r14);
+//    rax = [rbx name];
+//    rsi = @selector(removeNamespaceForPrefix:);
+//    goto loc_1d2b50;
+//}
+
+        public virtual void detach()
+        {
+            if (this._parent == null)
+                return;
+
+            if(this._kind != NSXMLNodeKind.NSXMLNamespaceKind)
+            {
+                if (this._kind != NSXMLNodeKind.NSXMLAttributeKind)
+                {
+                    if ((_parent.kind() == NSXMLNodeKind.NSXMLDocumentKind) ||
+                        (_parent.kind() == NSXMLNodeKind.NSXMLElementKind))
+                    {
+                        ((NSXMLElement)_parent).removeChildAtIndex(_index);
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+
+            }
+        }
 
        
     }

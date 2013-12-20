@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public static void errorWithLocalizedDescription(NSString localizedDescription, int errCode, object)
+        public static void errorWithLocalizedDescription(NSString localizedDescription, int errCode, object qs)
         {
 
         }

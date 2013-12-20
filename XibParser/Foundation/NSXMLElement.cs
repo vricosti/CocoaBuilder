@@ -231,6 +231,73 @@ namespace Smartmobili.Cocoa
         }
        
 
+//        function methImpl_NSXMLElement_removeChildAtIndex_ {
+//    rbx = rdx;
+//    if (rdi._children == 0x0) goto loc_1c758a;
+//    goto loc_1c74ed;
+
+//loc_1c758a:
+//    if (((r14._kind & 0xf) == 0x2) && (rbx == 0x0)) goto loc_1c75a3;
+//    goto loc_1c75ec;
+
+//loc_1c75a3:
+//    rbx = *_OBJC_IVAR_$_NSXMLNode._objectValue;
+//    [*(r14 + rbx) _setParent:0x0];
+//    [*(r14 + rbx) release];
+//    rsi = r14;
+//    rdx = rbx;
+//    rax = objc_assign_ivar(0x0, rsi, rdx);
+//    return rax;
+
+//loc_1c75ec:
+//    return rax;
+
+//loc_1c74ed:
+//    r12 = *objc_msgSend;
+//    [[r14 childAtIndex:rbx] _setParent:0x0];
+//    rax = [*(r14 + _children) reallyRemoveObjectAtIndex:rbx];
+//    r15 = *_OBJC_IVAR_$_NSXMLElement._children;
+//    objc_assign_ivar(rax, self, _children);
+//    rax = [*(r14 + r15) count];
+//    if (rax > rbx) {
+//            do {
+//                    rax = [[r14._children objectAtIndex:rbx] _setIndex:rbx];
+//                    rbx = rbx + 0x1;
+//            } while (*objc_msgSend != rbx);
+//    }
+//    goto loc_1c75ec;
+//}
+
+        public override NSXMLNode childAtIndex(uint index)
+        {
+            return null;
+        }
+
+        public virtual void removeChildAtIndex(uint nodeIndex)
+        {
+            if (this._children == null)
+            {
+                if ((_kind == NSXMLNodeKind.NSXMLElementKind) && (nodeIndex == 0))
+                {
+                    ((NSXMLNode)_objectValue)._setParent(null);
+                    _index = 0;
+                }
+            }
+            else
+            {
+                this.childAtIndex(nodeIndex)._setParent(null);
+                _children = _children.reallyRemoveObjectAtIndex(nodeIndex);
+                if (_children.count() > nodeIndex)
+                {
+                    for(uint i = nodeIndex; i <  _children.count(); i++)
+                    {
+                        ((NSXMLNode)_children.objectAtIndex(i))._setIndex(i);
+                    }
+                }
+            }
+        }
+
+
         //        – initWithName:
         //– initWithName:stringValue:
         //– initWithXMLString:error:

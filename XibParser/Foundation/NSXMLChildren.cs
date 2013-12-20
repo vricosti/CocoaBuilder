@@ -101,18 +101,22 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual void reallyRemoveObjectAtIndex(uint anIndex)
+        public virtual NSXMLChildren reallyRemoveObjectAtIndex(uint anIndex)
         {
+            NSXMLChildren children = this;
+
             if (_isStale == true)
             {
                 NSMutableArray array = NSMutableArray.arrayWithArray(_array);
                 array.removeObjectAtIndex(anIndex);
-                this.initWithMutableArray(array);
+                children = (NSXMLChildren)NSXMLChildren.alloc().initWithMutableArray(array);
             }
             else
             {
                 _array.removeObjectAtIndex(anIndex);
             }
+
+            return children;
         }
 
          public virtual void reallyRemoveObject(id anObject)
