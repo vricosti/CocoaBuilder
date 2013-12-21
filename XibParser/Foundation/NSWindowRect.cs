@@ -39,7 +39,11 @@ namespace Smartmobili.Cocoa
             Location = location;
             Length = length;
         }
+
+        public static NSRange NotFound = new NSRange(NS.NotFound, 0);
     }
+
+
 
     public struct NSSize
     {

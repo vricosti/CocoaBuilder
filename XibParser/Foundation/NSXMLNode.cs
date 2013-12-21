@@ -103,13 +103,38 @@ namespace Smartmobili.Cocoa
 
         protected id _private;
 
-     
+    
+        public static NSString prefixForName(NSString qName) 
+        {
+            NSString prefix = "";
+            
+            if (qName != null && qName.length() != 0)
+            {
+                NSRange range = qName.rangeOfString(":", NSStringCompareOptions.NSLiteralSearch, new NSRange(1, qName.length()));
+                if (range.Location != NS.NotFound)
+                {
+                    prefix = qName.substringToIndex(range.Location);
+                }
+            }
+            
+            return prefix;
+        }
+
+
         public static NSString localNameForName(NSString qName)
         {
-            throw new NotImplementedException("localNameForName");
-            //qName.le
-            //rax = [r14 length];
-            //rax = [r14 rangeOfString:@":" options:0x2 range:0x1];
+            NSString localName = qName;
+
+            if (qName != null && qName.length() != 0)
+            {
+                NSRange range = qName.rangeOfString(":", NSStringCompareOptions.NSLiteralSearch, new NSRange(1, qName.length()));
+                if (range.Location != NS.NotFound)
+                {
+                    localName = qName.substringFromIndex(range.Location + range.Length);
+                }
+            }
+
+            return localName;
         }
 
 

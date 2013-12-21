@@ -571,20 +571,39 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public NSRange rangeOfString(NSString aString)
+        public virtual NSRange rangeOfString(NSString aString)
+        {
+            NSRange aRange = new NSRange(0, (aString != null) ? aString.length() : 0);
+            return this.rangeOfString(aString, NSStringCompareOptions.NSDefaultSearch, aRange, null);
+        }
+
+        
+        public virtual NSRange rangeOfString(NSString aString, NSStringCompareOptions mask)
+        {
+            NSRange aRange = new NSRange(0, (aString != null) ? aString.length() : 0);
+            return this.rangeOfString(aString, mask, aRange, null);
+        }
+
+        public virtual NSRange rangeOfString(NSString aString, NSStringCompareOptions mask, NSRange aRange)
+        {
+            return this.rangeOfString(aString, mask, aRange, null);
+        }
+
+        public virtual NSRange rangeOfString(NSString aString, NSStringCompareOptions mask, NSRange aRange, NSLocale locale)
         {
             if (aString == null)
-                throw new ArgumentNullException("aString");
+                throw new Exception("NSInvalidArgumentException");
+            if (aString == "")
+                return NSRange.NotFound;
 
             int idx = this.Value.IndexOf(aString);
             if (idx == -1)
-                return new NSRange(0, 0);
+                return NSRange.NotFound;
             else
                 return new NSRange((uint)idx, aString.length());
         }
 
-
-        public NSString substringWithRange(NSRange aRange)
+        public virtual NSString substringWithRange(NSRange aRange)
         {
             if (aRange.Location < 0 || aRange.Location > this.Value.Length - 1)
                 throw new IndexOutOfRangeException();

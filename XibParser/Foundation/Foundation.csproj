@@ -83,6 +83,7 @@
     <Compile Include="NSIndexSet.cs" />
     <Compile Include="NSInputStream.cs" />
     <Compile Include="NSKeyedUnarchiver.cs" />
+    <Compile Include="NSLocale.cs" />
     <Compile Include="NSLock.cs" />
     <Compile Include="NSLog.cs" />
     <Compile Include="NSMapTable.cs" />

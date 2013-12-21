@@ -207,12 +207,38 @@ namespace Smartmobili.Cocoa
         //    rax = (rax)(rdi, @selector(attributeForLocalName:URI:), rdx, rcx);
         //}
 
+
+
+        public virtual NSXMLNode resolveNamespaceForPrefix(NSString prefix)
+        {
+            return null;
+        }
+
+
+        public virtual NSXMLNode resolveNamespaceForName(NSString name)
+        {
+            NSXMLNode node = this;
+
+            NSString prefix = NSXMLNode.prefixForName(name);
+            if (prefix != "")
+            {
+                node = this.resolveNamespaceForPrefix(prefix);
+            }
+
+            return node;
+        }
+
         public virtual NSXMLNode attributeForName(NSString name)
         {
-            var attr = this.attributeForLocalName(name, null);
+            NSXMLNode attr = null;
+            attr = this.attributeForLocalName(name, null);
             if (attr == null)
             {
-                //NSString 
+                NSString ns = this.resolveNamespaceForName(name).stringValue();
+                if (ns != null)
+                {
+
+                }
             }
             else
             {
@@ -220,7 +246,7 @@ namespace Smartmobili.Cocoa
             }
 
             throw new NotImplementedException();
-            return null;
+            return attr;
         }
 
 
@@ -230,44 +256,6 @@ namespace Smartmobili.Cocoa
             return null;
         }
        
-
-//        function methImpl_NSXMLElement_removeChildAtIndex_ {
-//    rbx = rdx;
-//    if (rdi._children == 0x0) goto loc_1c758a;
-//    goto loc_1c74ed;
-
-//loc_1c758a:
-//    if (((r14._kind & 0xf) == 0x2) && (rbx == 0x0)) goto loc_1c75a3;
-//    goto loc_1c75ec;
-
-//loc_1c75a3:
-//    rbx = *_OBJC_IVAR_$_NSXMLNode._objectValue;
-//    [*(r14 + rbx) _setParent:0x0];
-//    [*(r14 + rbx) release];
-//    rsi = r14;
-//    rdx = rbx;
-//    rax = objc_assign_ivar(0x0, rsi, rdx);
-//    return rax;
-
-//loc_1c75ec:
-//    return rax;
-
-//loc_1c74ed:
-//    r12 = *objc_msgSend;
-//    [[r14 childAtIndex:rbx] _setParent:0x0];
-//    rax = [*(r14 + _children) reallyRemoveObjectAtIndex:rbx];
-//    r15 = *_OBJC_IVAR_$_NSXMLElement._children;
-//    objc_assign_ivar(rax, self, _children);
-//    rax = [*(r14 + r15) count];
-//    if (rax > rbx) {
-//            do {
-//                    rax = [[r14._children objectAtIndex:rbx] _setIndex:rbx];
-//                    rbx = rbx + 0x1;
-//            } while (*objc_msgSend != rbx);
-//    }
-//    goto loc_1c75ec;
-//}
-
         public override NSXMLNode childAtIndex(uint index)
         {
             return null;
