@@ -10,12 +10,13 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLContext));
         new public static NSXMLContext alloc() { return new NSXMLContext(); }
 
-        private static bool onceToken;
+        private static bool _ns_onceToken;
         
         private static NSDictionary _defaultNamespacesForPrefix;
 
         private static NSDictionary _defaultNamespacesForURI;
 
+        private static bool _ns_singleAttributes;
         private static NSSet _singleAttributes;
 
         static NSXMLContext()
@@ -27,7 +28,7 @@ namespace Smartmobili.Cocoa
 
         public static void _initDefaultNamespaces()
         {
-            if (onceToken == false)
+            if (_ns_onceToken == false)
             {
                 NSXMLNode nsXml = (NSXMLNode)NSXMLNode.alloc().initWithKind(NSXMLNodeKind.NSXMLNamespaceKind);
                 nsXml.setName("xml");
@@ -44,12 +45,25 @@ namespace Smartmobili.Cocoa
                 _defaultNamespacesForPrefix = (NSDictionary)NSDictionary.alloc().initWithObjectsAndKeys();
                 _defaultNamespacesForURI = (NSDictionary)NSDictionary.alloc().initWithObjectsAndKeys();
 
-                onceToken = true;
+                _ns_onceToken = true;
 
                 throw new NotImplementedException("FIXME");
             }
         }
 
+        public static void _initSingleAttributes()
+        {
+            if (_ns_singleAttributes == false)
+            {
+                _singleAttributes = (NSSet)NSSet.alloc().initWithObjects(
+                    (NSString)"checked", (NSString)"compact", (NSString)"declare", (NSString)"defer", 
+                    (NSString)"disabled", (NSString)"ismap", (NSString)"multiple", (NSString)"nohref", 
+                    (NSString)"noresize", (NSString)"noshade", (NSString)"nowrap", (NSString)"readonly", 
+                    (NSString)"selected", null);
+
+                _ns_singleAttributes = true;
+            } 
+        }
 
 
         public static NSString stringForObjectValue(id anObject)
