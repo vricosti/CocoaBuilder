@@ -66,6 +66,21 @@ namespace Smartmobili.Cocoa
            return _rootElement;
        }
 
+       public override id init()
+       {
+           id self = null;
+
+           if(base.init() != null)
+           {
+               self = this;
+               this._kind = NSXMLNodeKind.NSXMLDocumentKind;
+               this._fidelityMask = 0x0;
+               this._contentKind = 0x0;
+           }
+
+           return self;
+       }
+
         public virtual id initWithRootElement(NSXMLElement rootElement)
         {
             id self = this;
