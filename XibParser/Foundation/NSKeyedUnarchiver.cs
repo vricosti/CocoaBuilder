@@ -102,6 +102,11 @@ namespace Smartmobili.Cocoa
        }
 
 
+       public override id init()
+       {
+           NSException.raise("NSInvalidArgumentException", "cannot use -init for initialization");
+           return null;
+       }
         public virtual id initForReadingWithData(NSData data)
         {
             return null;
