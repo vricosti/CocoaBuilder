@@ -25,7 +25,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class id
+    public class id : INSNumber
     {
         protected bool _isInited;
 
@@ -113,5 +113,33 @@ namespace Smartmobili.Cocoa
 
             return isKindOfClass;
         }
+
+        #region INSNumber
+        public virtual double doubleValue()
+        {
+            return 0;
+        }
+
+        public virtual float floatValue()
+        {
+            return 0;
+        }
+        
+        public virtual int intValue()
+        {
+            return 0;
+        }
+        
+        public virtual int integerValue()
+        {
+            return 0;
+        }
+        
+        public virtual bool boolValue()
+        {
+            return false;
+        }
+        
+        #endregion
     }
 }

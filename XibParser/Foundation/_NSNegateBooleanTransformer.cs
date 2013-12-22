@@ -11,5 +11,29 @@ namespace Smartmobili.Cocoa
         new public static _NSNegateBooleanTransformer alloc() { return new _NSNegateBooleanTransformer(); }
 
 
+        new public static Class transformedValueClass()
+        {
+            return NSNumber.Class;
+        }
+
+        public virtual bool _isBooleanTransformer()
+        {
+            return true;
+        }
+
+        public override NSString description()
+        {
+            return new NSString("<shared NSNegateBoolean transformer>");
+        }
+
+        public override id transformedValue(id value)
+        {
+            return NSNumber.numberWithBool(!value.boolValue());
+        }
+
+
+
+
+
     }
 }

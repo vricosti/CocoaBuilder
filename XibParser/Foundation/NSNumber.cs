@@ -24,22 +24,22 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSNumber : NSObject, NSCoding2, INSNumber, IEquatable<NSNumber>
+    public class NSNumber : NSObject, NSCoding2, IEquatable<NSNumber>
     {
         new public static Class Class = new Class(typeof(NSNumber));
 
         protected object _number;
 
         
-        public virtual double doubleValue() { return _number.ToDouble(); }
+        public override double doubleValue() { return _number.ToDouble(); }
 
-        public virtual float floatValue() { return _number.ToFloat(); }
+        public override float floatValue() { return _number.ToFloat(); }
 
-        public virtual int integerValue() { return _number.ToInt(); }
+        public override int integerValue() { return _number.ToInt(); }
 
-        public virtual int intValue() { return _number.ToInt(); }
+        public override int intValue() { return _number.ToInt(); }
 
-        public virtual bool boolValue() { return _number.ToBool(); }
+        public override bool boolValue() { return _number.ToBool(); }
 
         public NSNumber()
         {

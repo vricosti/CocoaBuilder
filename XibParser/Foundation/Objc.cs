@@ -54,7 +54,7 @@ namespace Smartmobili.Cocoa
             if (!(receiver is Class))
             {
                 string methodName = (string)aString.Value;
-                MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+                MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
                 if (dynMethod != null)
                 {
 					/////////////////////////////////////////////////////////
