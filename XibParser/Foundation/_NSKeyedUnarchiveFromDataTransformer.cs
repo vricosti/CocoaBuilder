@@ -11,5 +11,27 @@ namespace Smartmobili.Cocoa
         new public static _NSKeyedUnarchiveFromDataTransformer alloc() { return new _NSKeyedUnarchiveFromDataTransformer(); }
 
 
+        public override id transformedValue(id value)
+        {
+            id data = null;
+
+            if (value != null)
+            {
+                data = NSKeyedUnarchiver.unarchiveObjectWithData((NSData)value);
+            }
+
+            return data;
+        }
+
+        public virtual id reverseTransformedValue(id value)
+        {
+            return NSKeyedArchiver.archivedDataWithRootObject(value);
+        }
+
+
+        public override NSString description()
+        {
+            return new NSString("<shared NSKeyedUnarchiveFromData transformer>");
+        }
     }
 }

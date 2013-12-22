@@ -11,5 +11,19 @@ namespace Smartmobili.Cocoa
         new public static _NSIsNilTransformer alloc() { return new _NSIsNilTransformer(); }
 
 
+        public static bool supportsReverseTransformation()
+        {
+            return false;
+        }
+
+        public override id transformedValue(id value)
+        {
+            return NSNumber.numberWithBool(value == null);
+        }
+
+        public override NSString description()
+        {
+            return new NSString("<shared NSIsNil transformer>");
+        }
     }
 }

@@ -21,10 +21,7 @@ namespace Smartmobili.Cocoa
             return true;
         }
 
-        public override NSString description()
-        {
-            return new NSString("<shared NSNegateBoolean transformer>");
-        }
+        
 
         public override id transformedValue(id value)
         {
@@ -32,7 +29,10 @@ namespace Smartmobili.Cocoa
         }
 
 
-
+        public override NSString description()
+        {
+            return new NSString("<shared NSNegateBoolean transformer>");
+        }
 
 
     }

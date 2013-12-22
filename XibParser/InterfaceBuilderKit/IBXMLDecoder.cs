@@ -70,12 +70,12 @@ namespace Smartmobili.Cocoa
             _compressPreviousXML = compressPreviousXML;
         }
 
-        public override id initForReadingWithData(NSData data, object dummyObject = null)
+        public override id initForReadingWithData(NSData data)
         {
             NSError outErr = null;
             return initForReadingWithData(data, ref outErr);
         }
-        public override id initForReadingWithData(NSData data, ref NSError outError)
+        public virtual id initForReadingWithData(NSData data, ref NSError outError)
         {
             id self = this;
 
@@ -305,7 +305,7 @@ namespace Smartmobili.Cocoa
         //}
 
 
-        public virtual void finishDecoding()
+        public override void finishDecoding()
         { }
 
 

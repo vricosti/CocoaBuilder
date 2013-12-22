@@ -40,6 +40,9 @@ namespace Smartmobili.Cocoa
     public class NSKeyedUnarchiver : NSCoder, INSKeyedUnarchiverDelegate
     {
         new public static Class Class = new Class(typeof(NSKeyedUnarchiver));
+        new public static NSKeyedUnarchiver alloc() { return new NSKeyedUnarchiver(); }
+        
+        
         protected id _delegate;
 
         public NSKeyedUnarchiver()
@@ -85,16 +88,58 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
-        //– initForReadingWithData:
 
-        public virtual id initForReadingWithData(NSData data, ref NSError outError)
+
+       public static id unarchiveObjectWithData(NSData data)
+       {
+           id decodedObject = null;
+
+           NSKeyedUnarchiver unarchiver = (NSKeyedUnarchiver)NSKeyedUnarchiver.alloc().initForReadingWithData(data);
+           decodedObject = unarchiver.decodeObjectForKey("root");
+           unarchiver.finishDecoding();
+
+           return decodedObject;
+       }
+
+
+        public virtual id initForReadingWithData(NSData data)
         {
             return null;
         }
-        public virtual id initForReadingWithData(NSData data, object dummyObject)
+
+
+//        function methImpl_NSKeyedUnarchiver_finishDecoding {
+//    if ((rdi._flags & 0x2) != 0x0) goto loc_20f2e;
+//    goto loc_20eae;
+
+//loc_20f2e:
+//    return rax;
+
+//loc_20eae:
+//    if (rbx._delegate != 0x0) {
+//            rdx = @selector(unarchiverWillFinish:);
+//            rsi = objc_msg_respondsToSelector_;
+//            rax = (*objc_msg_respondsToSelector_)();
+//            if (rax != 0x0) {
+//                    rax = [*(rbx + r14) unarchiverWillFinish:rbx];
+//            }
+//    }
+//    rbx._flags = rbx._flags | 0x2;
+//    if (*(rbx + r14) == 0x0) goto loc_20f2e;
+//    rsi = objc_msg_respondsToSelector_;
+//    rax = (*objc_msg_respondsToSelector_)();
+//    if (rax == 0x0) goto loc_20f2e;
+//    rdi = *(rbx + r14);
+//    rdx = rbx;
+//    rax = [rdi unarchiverDidFinish:rdx];
+//}
+
+
+        public virtual void finishDecoding()
         {
-            return null;
+            throw new NotImplementedException("");
         }
+
 
         public override void decodeArrayOfObjCType<T>(uint count, ref T[] array)
         {
