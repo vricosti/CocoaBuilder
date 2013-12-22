@@ -11,13 +11,17 @@ namespace Smartmobili.Cocoa
         new public static NSXMLContext alloc() { return new NSXMLContext(); }
 
         private static bool _ns_onceToken;
-        
         private static NSDictionary _defaultNamespacesForPrefix;
-
         private static NSDictionary _defaultNamespacesForURI;
 
-        private static bool _ns_singleAttributes;
+        private static bool _singleAttributes_onceToken;
         private static NSSet _singleAttributes;
+
+        private static bool _emptyHTMLNames_onceToken;
+        private static NSSet _emptyHTMLNames;
+
+        private static bool _transformers_onceToken;
+        private static NSMutableDictionary _transformers;
 
         static NSXMLContext()
         {
@@ -53,7 +57,7 @@ namespace Smartmobili.Cocoa
 
         public static void _initSingleAttributes()
         {
-            if (_ns_singleAttributes == false)
+            if (_singleAttributes_onceToken == false)
             {
                 _singleAttributes = (NSSet)NSSet.alloc().initWithObjects(
                     (NSString)"checked", (NSString)"compact", (NSString)"declare", (NSString)"defer", 
@@ -61,8 +65,40 @@ namespace Smartmobili.Cocoa
                     (NSString)"noresize", (NSString)"noshade", (NSString)"nowrap", (NSString)"readonly", 
                     (NSString)"selected", null);
 
-                _ns_singleAttributes = true;
+                _singleAttributes_onceToken = true;
             } 
+        }
+
+        public static void _initEmptyHTMLNames()
+        {
+            if (_emptyHTMLNames_onceToken == false)
+            {
+                _emptyHTMLNames = (NSSet)NSSet.alloc().initWithObjects(
+                     (NSString)"area", (NSString)"base", (NSString)"basefont", (NSString)"br",  
+                     (NSString)"col", (NSString)"frame", (NSString)"hr", (NSString)"img", 
+                     (NSString)"input", (NSString)"isindex", (NSString)"link", (NSString)"meta", 
+                     (NSString)"param", null);
+
+                _emptyHTMLNames_onceToken = true;
+            }
+        }
+
+
+
+        public static void initValueTransformers()
+        {
+            if (_transformers_onceToken == false)
+            {
+                _transformers = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+                _transformers.setObjectForKey(NSXMLNSNumberTransformerName.alloc().init(), (NSString)"NSNumber");
+                _transformers.setObjectForKey(NSXMLNSURLTransformerName.alloc().init(), (NSString)"NSURL");
+                _transformers.setObjectForKey(NSXMLNSDataTransformerName.alloc().init(), (NSString)"NSData");
+                _transformers.setObjectForKey(NSXMLNSDateTransformerName.alloc().init(), (NSString)"NSDate");
+                _transformers.setObjectForKey(NSXMLNSArrayTransformerName.alloc().init(), (NSString)"NSArray");
+                
+                
+                _transformers_onceToken = true;
+            }
         }
 
 
