@@ -54,7 +54,7 @@ namespace Smartmobili.Cocoa
             if (!(receiver is Class))
             {
                 string methodName = (string)aString.Value;
-                MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
+                MethodInfo dynMethod = receiver.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
                 if (dynMethod != null)
                 {
 					/////////////////////////////////////////////////////////
@@ -78,6 +78,7 @@ namespace Smartmobili.Cocoa
             return ret;
         }
 
+        //public static object MsgSendClass(id receiver, NSString aString, params object[] args)
         //public static object MsgSend2(id receiver, NSString aString, object getOrSetValue)
         //{
         //    object ret = null;
@@ -114,6 +115,41 @@ namespace Smartmobili.Cocoa
                 return "";
             }
         }
+
+        //new public static id alloc() 
+        //{
+        //    id self = new id();
+
+        //    try
+        //    {
+        //        self = Activator.CreateInstance(InnerType) as id;
+        //    }
+        //    catch
+        //    { 
+
+        //    }
+
+
+        //    return self;
+        //}
+
+        new public virtual id alloc()
+        {
+
+            id self = new id();
+
+            try
+            {
+                self = Activator.CreateInstance(InnerType) as id;
+            }
+            catch
+            {
+                self = new id();
+            }
+
+            return self;
+        }
+
 
         //public static bool operator ==(Class cls1, Class cls2)
         //{

@@ -27,7 +27,9 @@ namespace Smartmobili.Cocoa
         {
             // Static constructor can simulate dispatch_once behavior
             _initDefaultNamespaces();
-           
+            _initSingleAttributes();
+            _initEmptyHTMLNames();
+            _initValueTransformers();
         }
 
         public static void _initDefaultNamespaces()
@@ -85,7 +87,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public static void initValueTransformers()
+        public static void _initValueTransformers()
         {
             if (_transformers_onceToken == false)
             {
@@ -112,6 +114,29 @@ namespace Smartmobili.Cocoa
             NSXMLContext._initDefaultNamespaces();
             return (NSXMLNode)_defaultNamespacesForPrefix.objectForKey(prefix);
         }
+
+        public static NSXMLNode defaultNamespaceForURI(NSString uri)
+        {
+            NSXMLContext._initDefaultNamespaces();
+            return (NSXMLNode)_defaultNamespacesForURI.objectForKey(uri);
+        }
+
+        public static bool isEmptyHTMLElement(NSString htmlElement)
+        {
+            NSXMLContext._initEmptyHTMLNames();
+            return _emptyHTMLNames.containsObject(htmlElement.lowercaseString());
+        }
+
+        public static bool isSingleAttribute(NSString attr)
+        {
+            NSXMLContext._initSingleAttributes();
+            return _singleAttributes.containsObject(attr.lowercaseString());
+        }
+
+
+
+
+
 
 
 

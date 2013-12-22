@@ -208,7 +208,18 @@ namespace Smartmobili.Cocoa
             return true;
         }
 
+         public virtual NSArray allKeys()
+         {
+             NSMutableArray keys = (NSMutableArray)NSArray.alloc().init();
 
+             //NSArray.arrayWithObjects
+             foreach (KeyValuePair<id, id> kvp in this)
+             {
+                 keys.Add(kvp.Key);
+             }
+
+             return keys;
+         }
 
         public virtual NSArray allKeysForObject(id anObject)
         {

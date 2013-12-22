@@ -208,6 +208,11 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual NSString lowercaseString()
+        {
+            return new NSString(this.Value.ToLower());
+        }
+
         private Encoding convertNSStringEncodingToCSharp(NSStringEncoding anEncoding)
         {
             Encoding encoding = Encoding.UTF8;

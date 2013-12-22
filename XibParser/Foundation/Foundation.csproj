@@ -105,6 +105,7 @@
     <Compile Include="NSString.cs" />
     <Compile Include="NSUnarchiver.cs" />
     <Compile Include="NSURL.cs" />
+    <Compile Include="NSValueTransformer.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="NSXMLAttributeDeclaration.cs" />
     <Compile Include="NSXMLChildren.cs" />
@@ -118,6 +119,11 @@
     <Compile Include="NSXMLNamedFidelityNode.cs" />
     <Compile Include="NSXMLNamedNode.cs" />
     <Compile Include="NSXMLNode.cs" />
+    <Compile Include="NSXMLNSArrayTransformerName.cs" />
+    <Compile Include="NSXMLNSDataTransformerName.cs" />
+    <Compile Include="NSXMLNSDateTransformerName.cs" />
+    <Compile Include="NSXMLNSNumberTransformerName.cs" />
+    <Compile Include="NSXMLNSURLTransformerName.cs" />
     <Compile Include="NSXMLParser.cs" />
     <Compile Include="NSXMLParserWIP.cs" />
     <Compile Include="Objc.cs" />
@@ -127,6 +133,11 @@
     <Compile Include="Utils\Bitfields.cs" />
     <Compile Include="Utils\KeyedList.cs" />
     <Compile Include="Utils\Tools.cs" />
+    <Compile Include="_NSIsNilTransformer.cs" />
+    <Compile Include="_NSIsNotNilTransformer.cs" />
+    <Compile Include="_NSKeyedUnarchiveFromDataTransformer.cs" />
+    <Compile Include="_NSNegateBooleanTransformer.cs" />
+    <Compile Include="_NSUnarchiveFromDataTransformer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

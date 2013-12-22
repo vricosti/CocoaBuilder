@@ -43,6 +43,10 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
+        public id autorelease()
+        {
+            return this;
+        }
 
         public virtual Class GetClass()
         {
@@ -52,6 +56,9 @@ namespace Smartmobili.Cocoa
         public virtual id init()
         {
             id self = this;
+
+            if (this.GetType() == typeof(id))
+                self = null;
 
             return self;
         }
