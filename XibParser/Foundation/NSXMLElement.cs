@@ -208,10 +208,73 @@ namespace Smartmobili.Cocoa
         //}
 
 
+//        function methImpl_NSXMLElement__resolveNamespaceForPrefix_ {
+//    r14 = rdx;
+//    if (rdi == 0x0) goto loc_1c649f;
+//    goto loc_1c644e;
 
-        public virtual NSXMLNode resolveNamespaceForPrefix(NSString prefix)
+//loc_1c649f:
+//    rax = [r14 length];
+//    r15 = 0x0;
+//    if (rax == 0x0) goto loc_1c64dc;
+//    goto loc_1c64b7;
+
+//loc_1c64dc:
+//    rax = r15;
+//    return rax;
+
+//loc_1c64b7:
+//    rdx = r14;
+//    rax = [NSXMLNode predefinedNamespaceForPrefix:rdx];
+
+//loc_1c644e:
+//    do {
+//            r12 = *objc_msgSend;
+//            rax = (r12)(rbx, @selector(namespaceForPrefix:), r14);
+//            r15 = rax;
+//            rax = (r12)(rbx, @selector(parent));
+//            rbx = rax;
+//            rax = (r12)(rbx, *objc_sel_kind);
+//            if (rax != 0x2) {
+//                    rbx = 0x0;
+//            }
+//    } while ((r15 == 0x0) && (rbx != 0x0));
+//    if (r15 != 0x0) goto loc_1c64dc;
+//    goto loc_1c649f;
+//}
+       
+        public virtual NSXMLNode namespaceForPrefix(NSString name)
         {
             return null;
+        }
+
+        public virtual NSXMLNode _resolveNamespaceForPrefix(NSString prefix)
+        {
+            NSXMLNode nsNode = null;
+
+            if (prefix == null || prefix.length() == 0)
+                return null;
+
+            NSXMLNode nsPrefixNode = null;
+            bool keepOnSearch = true;
+            do
+            {
+                nsPrefixNode = namespaceForPrefix(prefix);
+                if (this.parent().kind() != NSXMLNodeKind.NSXMLElementKind)
+                { 
+                    keepOnSearch = false;
+                    nsNode = nsPrefixNode;
+                }
+
+            }
+            while ((nsPrefixNode == null) && (keepOnSearch));
+
+            if (nsNode == null)
+            {
+                nsNode = NSXMLNode.predefinedNamespaceForPrefix(prefix);
+            }
+
+            return nsNode;
         }
 
 
@@ -222,7 +285,7 @@ namespace Smartmobili.Cocoa
             NSString prefix = NSXMLNode.prefixForName(name);
             if (prefix != "")
             {
-                node = this.resolveNamespaceForPrefix(prefix);
+                node = this._resolveNamespaceForPrefix(prefix);
             }
 
             return node;

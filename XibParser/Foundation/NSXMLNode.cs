@@ -103,6 +103,12 @@ namespace Smartmobili.Cocoa
 
         protected id _private;
 
+
+
+        public static NSXMLNode predefinedNamespaceForPrefix(NSString prefix)
+        {
+            return NSXMLContext.defaultNamespaceForPrefix(prefix);
+        }
     
         public static NSString prefixForName(NSString qName) 
         {
