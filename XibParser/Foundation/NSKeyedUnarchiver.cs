@@ -156,7 +156,7 @@ namespace Smartmobili.Cocoa
             throw new NotImplementedException();
         }
 
-        public override byte[] decodeBytesForKey(NSString key, ref int lengthp)
+        public override byte[] decodeBytesForKey(NSString key, ref uint lengthp)
         {
             throw new NotImplementedException();
         }

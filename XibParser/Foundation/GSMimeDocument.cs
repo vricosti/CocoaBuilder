@@ -57,7 +57,7 @@ namespace Smartmobili.Cocoa
                 return null;
             }
 
-            length = source.Length;
+            length = (int)source.length();
             if (length == 0)
             {
                 return NSData.data();
@@ -151,7 +151,7 @@ namespace Smartmobili.Cocoa
                 dstIndex += 3 - pad;
             }
 
-            return NSData.alloc().initWithBytes(result);
+            return (NSData)NSData.alloc().initWithBytes(result);
         }
 
     }

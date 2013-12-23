@@ -172,7 +172,7 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
-        public virtual byte[] decodeBytesForKey(NSString key, ref int lengthp)
+        public virtual byte[] decodeBytesForKey(NSString key, ref uint lengthp)
         {
             return null;
         }

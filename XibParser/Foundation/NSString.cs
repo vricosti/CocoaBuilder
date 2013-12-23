@@ -177,7 +177,7 @@ namespace Smartmobili.Cocoa
             uint len = 0;
             byte[] data_bytes = null;
 
-            d = NSData.alloc().initWithContentsOfFile(path);
+            d = (NSData)NSData.alloc().initWithContentsOfFile(path);
             if (d == null)
                 return null;
             len = (uint)d.Length;
@@ -553,7 +553,7 @@ namespace Smartmobili.Cocoa
                 buffer = System.Text.Encoding.ASCII.GetBytes(this.Value);
             }
 
-            data = NSData.alloc().initWithBytes(buffer);
+            data = (NSData)NSData.alloc().initWithBytes(buffer);
             
             //byte[] ntbytes = new byte[data.Length + 1];
             //array.copy(data, 0, ntbytes, 0, data.Length);

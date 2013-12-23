@@ -751,14 +751,14 @@ namespace Smartmobili.Cocoa
              return false;
          }
 
-        public override byte[] decodeBytesForKey(NSString aKey, ref int lengthp)
+        public override byte[] decodeBytesForKey(NSString aKey, ref uint lengthp)
         {
             id o = this.decodeObjectForKey(aKey);
             if (o != null)
             {
                 if (o.isKindOfClass(NSData.Class) == true)
                 {
-                    lengthp = ((NSData)o).Length;
+                    lengthp = ((NSData)o).length();
                     return ((NSData)o).Bytes;
                 }
             }

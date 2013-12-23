@@ -34,13 +34,13 @@ namespace Smartmobili.Cocoa
             _stream = new MemoryStream(_data.Bytes);
         }
 
-        public virtual int read(byte[] buffer, int maxLength)
+        public virtual int read(byte[] buffer, uint maxLength)
         {
             int bytesRead = 0;
             
             try
             {
-               bytesRead = _stream.Read(buffer, 0, maxLength);
+               bytesRead = _stream.Read(buffer, 0, (int)maxLength);
             }
             catch (Exception ex)
             {

@@ -152,7 +152,7 @@ namespace Smartmobili.Cocoa
             }
             else if (fileType.isEqualToString("NSFileTypeRegular"))
             {
-                this.initRegularFileWithContents(NSData.alloc().initWithContentsOfFile(path));
+                this.initRegularFileWithContents((NSData)NSData.alloc().initWithContentsOfFile(path));
             }
             else if (fileType.isEqualToString("NSFileTypeSymbolicLink"))
             {

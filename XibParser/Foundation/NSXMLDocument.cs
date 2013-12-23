@@ -97,6 +97,17 @@ namespace Smartmobili.Cocoa
         {
             id self = this;
 
+            if (data == null)
+            {
+                NSException.raise("NSInvalidArgumentException", "");
+            }
+
+            if (data.length() == 0)
+            {
+                return null;
+            }
+
+
             return self;
         }
 

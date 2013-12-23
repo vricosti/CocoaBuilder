@@ -57,7 +57,7 @@ namespace Smartmobili.Cocoa
         public bool delegateAborted; //0x1C
         public bool haveDetectedEncoding; //0x1D
         public NSData bomChunk; //0x20
-        public int chunkSize; //0x24
+        public uint chunkSize; //0x24
         public int nestingLevel;
 
  
@@ -208,7 +208,7 @@ namespace Smartmobili.Cocoa
                 {
                     _reserved3 = NSInputStream.inputStreamWithData(data);
                     if (data.Length < 0x100000)
-                        _reserved1.chunkSize = data.Length;
+                        _reserved1.chunkSize = data.length();
                     else
                         _reserved1.chunkSize = 0x100000 * 256;
                 }
@@ -612,12 +612,12 @@ namespace Smartmobili.Cocoa
             LibXml.xmlSetStructuredErrorFunc(_instancePtr, _xmlStructuredErrorFuncPtr);
             if (this._reserved1.haveDetectedEncoding == true)
             {
-                result = this._handleParseResult(LibXml.xmlParseChunk(_reserved1.parserContext, data.Bytes, data.Length, 0));
+                result = this._handleParseResult(LibXml.xmlParseChunk(_reserved1.parserContext, data.Bytes, (int)data.length(), 0));
             }
             else
             {
-                int bomChunkLen = (_reserved1.bomChunk != null) ? _reserved1.bomChunk.Length : 0;
-                int dataLen = (data != null) ? data.Length : 0;
+                uint bomChunkLen = (_reserved1.bomChunk != null) ? _reserved1.bomChunk.Length : 0;
+                uint dataLen = (data != null) ? data.Length : 0;
 
                 if (bomChunkLen + dataLen <= 3)
                 {
@@ -656,7 +656,7 @@ namespace Smartmobili.Cocoa
                     if (bomChunkLen + dataLen >= 5)
                     {
                         byte[] dst = new byte[data.Length - 4];
-                        Buffer.BlockCopy(data.Bytes, 4, dst, 0, data.Length - 4);
+                        Buffer.BlockCopy(data.Bytes, 4, dst, 0, (int)data.length() - 4);
                         NSData tmpData = (NSMutableData)NSMutableData.alloc().initWithBytes(dst);
                         parseData(tmpData);
                     }

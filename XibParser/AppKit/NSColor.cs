@@ -1591,7 +1591,7 @@ namespace Smartmobili.Cocoa
 
                 if ((colorSpace == 1) || (colorSpace == 2))
                 {
-                    int length = 0;
+                    uint length = 0;
 	                byte[] data = null;
 	                double red = 0.0;
 	                double green = 0.0;
@@ -1621,7 +1621,7 @@ namespace Smartmobili.Cocoa
                 }
                 else if ((colorSpace == 3) || (colorSpace == 4))
                 {
-                    int length = 0;
+                    uint length = 0;
                     byte[] data = null;
                     double white = 0.0;
                     double alpha = 0.0;
@@ -1647,7 +1647,7 @@ namespace Smartmobili.Cocoa
                 }
                 else if (colorSpace == 5)
                 {
-                    int length = 0;
+                    uint length = 0;
                     byte[] data = null;
                     double cyan = 0.0;
                     double yellow = 0.0;

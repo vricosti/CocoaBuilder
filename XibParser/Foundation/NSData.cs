@@ -40,15 +40,9 @@ namespace Smartmobili.Cocoa
         new public static NSData alloc() { return new NSData(); }
 
         public byte[] Bytes { get; protected set;}
+        public uint Length { get { return length();} }
 
 
-        public int Length 
-        { 
-            get
-            {
-                return Bytes != null ? Bytes.Length : 0;
-            }
-        }
 
         public NSData()
         {
@@ -57,24 +51,29 @@ namespace Smartmobili.Cocoa
 
         public static NSData data()
         {
-            return NSData.alloc().initWithBytes(new Byte[0]);
+            return (NSData)NSData.alloc().initWithBytes(new Byte[0]);
         }
 
 
+        public virtual uint length()
+        {
+            return ((Bytes != null) ? (uint)Bytes.Length : 0);
+        }
+
         public static NSData dataWithBytes(byte[] bytes)
         {
-            return NSData.alloc().initWithBytes(bytes);
+            return (NSData)NSData.alloc().initWithBytes(bytes);
         }
 
         public static NSData dataWithContentsOfFile(string path)
         {
             NSError err = null;
-            NSData nsData = NSData.alloc().initWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
+            NSData nsData = (NSData)NSData.alloc().initWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
             return nsData;
         }
 
 
-        public NSData initWithBytes(byte[] bytes)
+        public virtual id initWithBytes(byte[] bytes)
         {
             NSData self = this;
 
@@ -83,13 +82,13 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public NSData initWithContentsOfFile(string path)
+        public virtual id initWithContentsOfFile(string path)
         {
             NSError err = null;
             return initWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
         }
 
-        public NSData initWithContentsOfFile(string path, NSDataReadingOptions mask, ref NSError error)
+        public virtual id initWithContentsOfFile(string path, NSDataReadingOptions mask, ref NSError error)
         {
             NSData nsData = this;
 
