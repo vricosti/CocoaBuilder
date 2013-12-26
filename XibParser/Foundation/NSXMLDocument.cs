@@ -28,6 +28,14 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+    public enum NSXMLDocumentContentKind
+    {
+        NSXMLDocumentXMLKind = 0,
+        NSXMLDocumentXHTMLKind,
+        NSXMLDocumentHTMLKind,
+        NSXMLDocumentTextKind
+    }
+
     public class NSXMLDocument : NSXMLNode
     {
         new public static Class Class = new Class(typeof(NSXMLDocument));
@@ -53,7 +61,7 @@ namespace Smartmobili.Cocoa
 
         protected uint _fidelityMask;
 
-        protected uint _contentKind;
+        protected NSXMLDocumentContentKind _contentKind;
 
 
         static const byte[] _sXMLDeclUTF8 = { 0x3C, 0x3F, 0x78, 0x6D, 0x6C };
@@ -85,6 +93,19 @@ namespace Smartmobili.Cocoa
            return _rootElement;
        }
 
+       public virtual void setDocumentContentKind(NSXMLDocumentContentKind kind)
+       {
+           _contentKind = kind;
+       }
+
+       public virtual NSXMLDocumentContentKind documentContentKind()
+       {
+           return _contentKind;
+       }
+
+       
+       
+
        public override id init()
        {
            id self = base.init();
@@ -111,9 +132,12 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        protected virtual NSData _tidyWithData()
+        
+
+        protected virtual id _initWithData(NSData data, NSString encoding, uint mask, ref NSError error)
         {
-            return null;
+            this.setCharacterEncoding(encoding);
+            return initWithData(data, mask, ref error);
         }
 
         public virtual id initWithData(NSData data, uint mask, ref NSError error)
@@ -173,6 +197,14 @@ namespace Smartmobili.Cocoa
                     NSXMLTidy.loadTidy();
                 if (NSXMLTidy.isLoaded() == false)
                     return null;
+
+                NSXMLDocument doc = (NSXMLDocument)_tidyWithData(data, ref error, isXML, encoding);
+                self = doc;
+                doc._setContentKindAndEncoding();
+                if (isXML)
+                    setDocumentContentKind(NSXMLDocumentContentKind.NSXMLDocumentXMLKind);
+                if (doc.characterEncoding() == null)
+                    doc.setCharacterEncoding(_encoding);
             }
             else
             {
@@ -194,6 +226,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+
         public virtual id _tidyWithData(NSData data, ref NSError error, bool isXML, uint detectedEncoding)
         {
             NSXMLDocument self = (NSXMLDocument)this.init();
@@ -202,7 +235,7 @@ namespace Smartmobili.Cocoa
 
             return self;
         }
-         //rax = [r13 _tidyWithData:var_48 error:var_40 isXML:r14 & 0xff detectedEncoding:r12];
+        
         protected virtual void _setContentKindAndEncoding()
         {
             if (this._rootElement != null)

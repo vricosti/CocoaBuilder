@@ -15,9 +15,6 @@ using xmlEntityPtr = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
-    
-
-   
     public static class LibTidy
     {
 

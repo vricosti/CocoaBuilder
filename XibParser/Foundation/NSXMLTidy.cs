@@ -10,14 +10,16 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLTidy));
         new public static NSXMLTidy alloc() { return new NSXMLTidy(); }
 
+        private static bool _TidyLoaded;
+
         public static bool isLoaded()
         {
-            return false;
+            return _TidyLoaded;
         }
 
         public static void loadTidy()
         {
-
+            _TidyLoaded = true;
         }
 
 
