@@ -31,7 +31,7 @@ namespace Smartmobili.Cocoa
 
         public override void open()
         {
-            _stream = new MemoryStream(_data.Bytes);
+            _stream = new MemoryStream(_data.bytes());
         }
 
         public virtual int read(byte[] buffer, uint maxLength)

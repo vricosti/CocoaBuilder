@@ -89,10 +89,10 @@ namespace Smartmobili.Cocoa
         public NSXMLParser initWithData(NSData aData)
         {
             _data = aData;
-            if (_data == null || _data.Bytes == null)
+            if (_data == null || _data.bytes() == null)
                 return null;
 
-            _xmlSource = System.Text.Encoding.Default.GetString(_data.Bytes);
+            _xmlSource = System.Text.Encoding.Default.GetString(_data.bytes());
 
             return this;
         }
@@ -120,7 +120,7 @@ namespace Smartmobili.Cocoa
            
             _saxParser.ContentHandler = this;
 
-            MemoryStream stream = new MemoryStream(_data.Bytes, false);
+            MemoryStream stream = new MemoryStream(_data.bytes(), false);
             _saxParser.Parse(new InputSource<Stream>(stream));
         }
 

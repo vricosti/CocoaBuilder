@@ -55,8 +55,41 @@ namespace Smartmobili.Cocoa
 
     class Program
     {
+        //public static bool equals(byte[] a1, byte[] a2, int len = 0)
+        //{
+        //    if (a1 == a2)
+        //    {
+        //        return true;
+        //    }
+        //    if ((a1 != null) && (a2 != null))
+        //    {
+        //        if ((len == 0) && (a1.Length != a2.Length))
+        //        {
+        //            return false;
+        //        }
+        //        for (int i = 0; i < len; i++)
+        //        {
+        //            if (a1[i] != a2[i])
+        //            {
+        //                return false;
+        //            }
+        //        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
         static void Main(string[] args)
         {
+
+            var array1 = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+            var array2 = new byte[] { 1, 2, 5, 4 };
+
+            var areEqual = array1.compare(array2, 4);
+
+            areEqual = array2.SequenceEqual(array1);
+            
+            
             TestNXMLParser testXMLParser = new TestNXMLParser();
             testXMLParser.Run();
 

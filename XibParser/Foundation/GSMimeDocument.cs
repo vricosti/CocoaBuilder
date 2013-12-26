@@ -64,7 +64,7 @@ namespace Smartmobili.Cocoa
             }
 
             declen = ((length + 3) * 3) / 4;
-            src = source.Bytes;
+            src = source.bytes();
             //end = &src[length];
 
             result = new byte[declen];

@@ -28,6 +28,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+   
     public enum NSXMLNodeOptions : uint
     {
         NSXMLNodeOptionsNone = 0,

@@ -39,7 +39,14 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSData));
         new public static NSData alloc() { return new NSData(); }
 
-        public byte[] Bytes { get; protected set;}
+        protected byte[] _bytes;
+
+        //public byte[] Bytes 
+        //{
+        //    get { return _bytes; }
+        //    protected set { setBytes(value); }
+        //}
+
         public uint Length { get { return length();} }
 
 
@@ -54,10 +61,19 @@ namespace Smartmobili.Cocoa
             return (NSData)NSData.alloc().initWithBytes(new Byte[0]);
         }
 
+        protected virtual void setBytes(byte[] bytes)
+        {
+            _bytes = bytes;
+        }
+
+        public virtual byte[] bytes()
+        {
+            return _bytes;
+        }
 
         public virtual uint length()
         {
-            return ((Bytes != null) ? (uint)Bytes.Length : 0);
+            return ((bytes() != null) ? (uint)bytes().Length : 0);
         }
 
         public static NSData dataWithBytes(byte[] bytes)
@@ -77,7 +93,7 @@ namespace Smartmobili.Cocoa
         {
             NSData self = this;
 
-            this.Bytes = bytes;
+            this.setBytes(bytes);
 
             return self;
         }
@@ -96,8 +112,8 @@ namespace Smartmobili.Cocoa
             {
                 using (FileStream fs = File.OpenRead(path))
                 {
-                    Bytes = new byte[fs.Length];
-                    fs.Read(Bytes, 0, Convert.ToInt32(fs.Length));
+                    this.setBytes(new byte[fs.Length]);
+                    fs.Read(bytes(), 0, Convert.ToInt32(fs.Length));
                     fs.Close();
                 }
 

@@ -185,7 +185,7 @@ namespace Smartmobili.Cocoa
             {
                 return (NSString)@"";
             }
-            data_bytes = d.Bytes;
+            data_bytes = d.bytes();
             if (data_bytes != null && len >= 2)
             {
                 string data_ucs2chars = Encoding.UTF8.GetString(data_bytes);
@@ -246,7 +246,7 @@ namespace Smartmobili.Cocoa
 
         public virtual id initWithData(NSData data, NSStringEncoding encoding)
         {
-            return initWithBytes(data.Bytes, (uint)data.Length, encoding);
+            return initWithBytes(data.bytes(), (uint)data.Length, encoding);
         }
 
         public virtual id initWithBytes(IntPtr ptr, uint length, NSStringEncoding anEncoding)
@@ -330,6 +330,12 @@ namespace Smartmobili.Cocoa
             }
 
             return self;
+        }
+
+
+        public virtual int caseInsensitiveCompare(NSString aString)
+        {
+            return this.Value.CompareTo(aString.Value);
         }
 
         public virtual Char characterAtIndex(uint index)

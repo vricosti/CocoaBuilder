@@ -165,7 +165,7 @@ namespace Smartmobili.Cocoa
         {
             NSData result = data;
 
-            string xml = System.Text.Encoding.Default.GetString(data.Bytes);
+            string xml = System.Text.Encoding.Default.GetString(data.bytes());
             XDocument xDoc = XDocument.Parse(xml);
 
             NSMutableDictionary customClassDict = new NSMutableDictionary();
@@ -759,7 +759,7 @@ namespace Smartmobili.Cocoa
                 if (o.isKindOfClass(NSData.Class) == true)
                 {
                     lengthp = ((NSData)o).length();
-                    return ((NSData)o).Bytes;
+                    return ((NSData)o).bytes();
                 }
             }
 

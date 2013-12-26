@@ -55,7 +55,26 @@ namespace Smartmobili.Cocoa
 
         protected uint _contentKind;
 
-       
+
+        static const byte[] _sXMLDeclUTF8 = { 0x3C, 0x3F, 0x78, 0x6D, 0x6C };
+        static const byte[] _sXMLDeclUTF16BE = { 0x00, 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C };
+        static const byte[] _sXMLDeclUTF16LE = { 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C, 0x00 };
+        static const byte[] _sXMLDeclUTF8BOM = { 0xEF, 0xBB, 0xBF, 0x3C, 0x3F, 0x78, 0x6D, 0x6C };
+        static const byte[] _sXMLDeclUTF16BEBOM = { 0xFE, 0xFF, 0x00, 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C };
+        static const byte[] _sXMLDeclUTF16LEBOM = { 0xFF, 0xFE, 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C, 0x00 };
+
+
+
+
+        public virtual void setCharacterEncoding(NSString encoding)
+        {
+            _encoding = encoding;
+        }
+
+        public virtual NSString characterEncoding()
+        {
+            return _encoding;
+        } 
        public virtual void setRootElement(NSXMLElement rootElement)
        {
            _rootElement = rootElement;
@@ -68,9 +87,9 @@ namespace Smartmobili.Cocoa
 
        public override id init()
        {
-           id self = null;
+           id self = base.init();
 
-           if(base.init() != null)
+           if (self != null)
            {
                self = this;
                this._kind = NSXMLNodeKind.NSXMLDocumentKind;
@@ -83,9 +102,8 @@ namespace Smartmobili.Cocoa
 
         public virtual id initWithRootElement(NSXMLElement rootElement)
         {
-            id self = this;
-
-            if (base.init() != null)
+            id self = this.init();
+            if (self != null)
             {
                 this.setRootElement(rootElement);
             }
@@ -93,9 +111,14 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        protected virtual NSData _tidyWithData()
+        {
+            return null;
+        }
+
         public virtual id initWithData(NSData data, uint mask, ref NSError error)
         {
-            id self = this;
+            id self = null;
 
             if (data == null)
             {
@@ -107,9 +130,89 @@ namespace Smartmobili.Cocoa
                 return null;
             }
 
+            bool isXML = true;
+            uint encoding = 0xFFFFFFFF;
+            if ((mask & 0x200) != 0)
+            {
+                var bytes = data.bytes();
+                if (data.length() >= 12)
+                {
+                    if (ByteUtil.compare(_sXMLDeclUTF8, bytes, 5) != 0)
+                    {
+                        encoding = 0x10000100;
+                        if (ByteUtil.compare(_sXMLDeclUTF16BE, bytes, 10) != 0)
+                        {
+                            if (ByteUtil.compare(_sXMLDeclUTF16LE, bytes, 10) != 0)
+                            {
+                                 if (ByteUtil.compare(_sXMLDeclUTF8BOM, bytes, 8) != 0)
+                                 {
+                                     if (ByteUtil.compare(_sXMLDeclUTF16BEBOM, bytes, 12) != 0)
+                                     {
+                                         int cmpRet = ByteUtil.compare(_sXMLDeclUTF16LEBOM, bytes, 12);
+                                         isXML = (cmpRet == 0);
+                                         encoding = 0x14000100; // FIXME not sure about that
+                                     }
+                                 }
+                                 else
+                                 {
+                                     encoding = 0x8000100;
+                                 }
+                            }
+                            else
+                            {
+                                encoding = 0x14000100;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (((mask & 0x4) != 0) || (((mask & (uint)NSXMLNodeOptions.NSXMLDocumentTidyXML) != 0) && isXML))
+            {
+                if (NSXMLTidy.isLoaded() == false)
+                    NSXMLTidy.loadTidy();
+                if (NSXMLTidy.isLoaded() == false)
+                    return null;
+            }
+            else
+            {
+                NSXMLTreeReader treeReader = (NSXMLTreeReader)NSXMLTreeReader.alloc().initWithData(data, Class, mask, ref error);
+                NSXMLDocument doc = (NSXMLDocument)treeReader.parse();
+                if(doc != null)
+                {
+                    if (doc.kind() == NSXMLNodeKind.NSXMLDocumentKind)
+                    {
+                        self = doc.retain();
+                        doc._fidelityMask = mask;
+                        doc._setContentKindAndEncoding();
+                        if (doc.characterEncoding() == null)
+                            doc.setCharacterEncoding(_encoding);
+                    }
+                }
+            }
 
             return self;
         }
+
+        public virtual id _tidyWithData(NSData data, ref NSError error, bool isXML, uint detectedEncoding)
+        {
+            NSXMLDocument self = (NSXMLDocument)this.init();
+
+
+
+            return self;
+        }
+         //rax = [r13 _tidyWithData:var_48 error:var_40 isXML:r14 & 0xff detectedEncoding:r12];
+        protected virtual void _setContentKindAndEncoding()
+        {
+            if (this._rootElement != null)
+            {
+                if (this._rootElement.name().caseInsensitiveCompare("html") != 0)
+                    return;
+            }
+        }
+
+
 
         public override uint childCount()
         {

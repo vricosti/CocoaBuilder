@@ -612,7 +612,7 @@ namespace Smartmobili.Cocoa
             LibXml.xmlSetStructuredErrorFunc(_instancePtr, _xmlStructuredErrorFuncPtr);
             if (this._reserved1.haveDetectedEncoding == true)
             {
-                result = this._handleParseResult(LibXml.xmlParseChunk(_reserved1.parserContext, data.Bytes, (int)data.length(), 0));
+                result = this._handleParseResult(LibXml.xmlParseChunk(_reserved1.parserContext, data.bytes(), (int)data.length(), 0));
             }
             else
             {
@@ -645,7 +645,7 @@ namespace Smartmobili.Cocoa
 
                    
                     IntPtr saxHandlerPtr = (_delegate != null) ? _saxHandlerPtr : IntPtr.Zero;
-                    _reserved1.parserContext = LibXml.xmlCreatePushParserCtxt(saxHandlerPtr, _instancePtr, chunkData.Bytes, 4, null);
+                    _reserved1.parserContext = LibXml.xmlCreatePushParserCtxt(saxHandlerPtr, _instancePtr, chunkData.bytes(), 4, null);
 
                     bool shouldResolveExternals = shouldResolveExternalEntities();
                     int parserFlags = (shouldResolveExternals) ? (int)LibXml.XmlParserOption.XML_PARSE_DTDLOAD : 0;
@@ -656,7 +656,7 @@ namespace Smartmobili.Cocoa
                     if (bomChunkLen + dataLen >= 5)
                     {
                         byte[] dst = new byte[data.Length - 4];
-                        Buffer.BlockCopy(data.Bytes, 4, dst, 0, (int)data.length() - 4);
+                        Buffer.BlockCopy(data.bytes(), 4, dst, 0, (int)data.length() - 4);
                         NSData tmpData = (NSMutableData)NSMutableData.alloc().initWithBytes(dst);
                         parseData(tmpData);
                     }
