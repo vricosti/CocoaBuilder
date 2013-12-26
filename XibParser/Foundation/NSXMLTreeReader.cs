@@ -19,7 +19,7 @@ namespace Smartmobili.Cocoa
 
         public virtual id parse()
         {
-
+            return null;
         }
 
 

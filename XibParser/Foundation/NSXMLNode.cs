@@ -222,7 +222,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public virtual NSString stringValue()
+        public override NSString stringValue()
         {
             if (this._objectValue != null)
             {

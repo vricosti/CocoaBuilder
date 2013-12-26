@@ -80,18 +80,9 @@ namespace Smartmobili.Cocoa
         //}
 
         static void Main(string[] args)
-        {
-
-            var array1 = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-            var array2 = new byte[] { 1, 2, 5, 4 };
-
-            var areEqual = array1.compare(array2, 4);
-
-            areEqual = array2.SequenceEqual(array1);
-            
-            
-            TestNXMLParser testXMLParser = new TestNXMLParser();
-            testXMLParser.Run();
+        { 
+            //TestNXMLParser testXMLParser = new TestNXMLParser();
+            //testXMLParser.Run();
 
             //NSXMLNodeOptions xmlNodeOPtions = (NSXMLNodeOptions)0x800004;
 

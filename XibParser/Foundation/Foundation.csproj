@@ -61,6 +61,7 @@
     <Compile Include="INSNumber.cs" />
     <Compile Include="INSObject.cs" />
     <Compile Include="INSXMLParser.cs" />
+    <Compile Include="LibTidy.cs" />
     <Compile Include="LibXml2.cs" />
     <Compile Include="NSAffineTransform.cs" />
     <Compile Include="NSArchiver.cs" />
@@ -128,12 +129,15 @@
     <Compile Include="NSXMLParser.cs" />
     <Compile Include="NSXMLParserWIP.cs" />
     <Compile Include="NSXMLSAXParser.cs" />
+    <Compile Include="NSXMLTidy.cs" />
+    <Compile Include="NSXMLTreeReader.cs" />
     <Compile Include="Objc.cs" />
     <Compile Include="ObjcAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SEL.cs" />
     <Compile Include="Utils\Bitfields.cs" />
     <Compile Include="Utils\KeyedList.cs" />
+    <Compile Include="Utils\Misc.cs" />
     <Compile Include="Utils\Tools.cs" />
     <Compile Include="_NSIsNilTransformer.cs" />
     <Compile Include="_NSIsNotNilTransformer.cs" />
