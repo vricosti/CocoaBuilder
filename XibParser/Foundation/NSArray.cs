@@ -34,7 +34,7 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSArray));
         new public static NSArray alloc() { return new NSArray(); }
 
-        protected  IList<id> _list = new List<id>();
+        protected List<id> _list = new List<id>();
 
         public NSArray()
         {
@@ -230,7 +230,17 @@ namespace Smartmobili.Cocoa
         }
 
 
-        
+        //- (NSUInteger)indexOfObjectPassingTest:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))predicate
+        public virtual uint indexOfObjectPassingTest(Predicate<id> match)
+        {
+            uint index = NS.NotFound;
+
+            int idx = _list.FindIndex(match);
+            index = (idx != -1) ? (uint)idx : NS.NotFound;
+            
+            return index;
+        }
+
 
 
 
@@ -283,7 +293,8 @@ namespace Smartmobili.Cocoa
 
         public bool IsReadOnly
         {
-            get { return _list.IsReadOnly; }
+            get { return false; }
+            //get { return _list.IsReadOnly; }
         }
 
         #endregion
@@ -357,6 +368,7 @@ namespace Smartmobili.Cocoa
              return nextObj;
          }
 
+        
     }
 
     

@@ -35,7 +35,7 @@ namespace Smartmobili.Cocoa
 
         protected NSArray _namespaces;
         protected NSArray _attributes;
-        protected NSXMLChildren _children;
+        protected NSXMLChildren _children42; // added 42 to avoid name collision
         protected bool _zeroOrOneNamespaces;
         protected bool _zeroOrOneAttributes;
         protected NSString _name;
@@ -82,11 +82,26 @@ namespace Smartmobili.Cocoa
            if (this._objectValue != null)
                return 1;
            else
-               return this._children.count();
+               return this._children42.count();
         }
 
 
-        // WARNING : there is also a _children but it's amibiguous
+        public virtual NSArray _children()
+        {
+            NSArray children;
+
+            if (_objectValue != null)
+            {
+                children = NSArray.arrayWithObject(_objectValue);
+            }
+            else
+            {
+                children = _children42;
+            }
+
+            return children;
+        }
+
         public override NSArray children()
         {
             NSArray children;
@@ -97,8 +112,8 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                _children.makeStale();
-                children = _children;
+                ((NSXMLChildren)_children42).makeStale();
+                children = _children42;
             }
 
             return children;
@@ -326,7 +341,7 @@ namespace Smartmobili.Cocoa
 
         public virtual void removeChildAtIndex(uint nodeIndex)
         {
-            if (this._children == null)
+            if (this._children42 == null)
             {
                 if ((_kind == NSXMLNodeKind.NSXMLElementKind) && (nodeIndex == 0))
                 {
@@ -337,12 +352,12 @@ namespace Smartmobili.Cocoa
             else
             {
                 this.childAtIndex(nodeIndex)._setParent(null);
-                _children = _children.reallyRemoveObjectAtIndex(nodeIndex);
-                if (_children.count() > nodeIndex)
+                _children42 = _children42.reallyRemoveObjectAtIndex(nodeIndex);
+                if (_children42.count() > nodeIndex)
                 {
-                    for(uint i = nodeIndex; i <  _children.count(); i++)
+                    for(uint i = nodeIndex; i <  _children42.count(); i++)
                     {
-                        ((NSXMLNode)_children.objectAtIndex(i))._setIndex(i);
+                        ((NSXMLNode)_children42.objectAtIndex(i))._setIndex(i);
                     }
                 }
             }

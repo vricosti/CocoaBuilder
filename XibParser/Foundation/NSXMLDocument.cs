@@ -236,6 +236,64 @@ namespace Smartmobili.Cocoa
             return self;
         }
         
+        
+
+        //int __cdecl __43__NSXMLDocument__setContentKindAndEncoding__block_invoke449(int a1, void *a2)
+        //{
+        //  unsigned __int8 v2; // bl@1
+        //  void *v3; // eax@2
+        //  void *v4; // esi@3
+        //  void *v5; // ecx@4
+        //  void *v6; // eax@4
+        
+        //  v2 = 0;
+        //  if ( objc_msgSend(a2, "kind") == (__int32 *)((char *)&stru_0.__sig + 2) )
+        //  {
+        //    v3 = objc_msgSend(a2, "name");
+        //    if ( !objc_msgSend(v3, "caseInsensitiveCompare:", &cfstr_Meta) )
+        //    {
+        //      v4 = objc_msgSend(a2, "attributes");
+        //      if ( objc_msgSend(v4, "indexOfObjectPassingTest:", &__block_literal_global460) != (void *)2147483647 )
+        //      {
+        //        v5 = objc_msgSend(v4, "indexOfObjectPassingTest:", &__block_literal_global467);
+        //        v6 = 0;
+        //        if ( v5 != (void *)2147483647 )
+        //          v6 = objc_msgSend(v4, "objectAtIndex:", v5);
+        //        objc_assign_strongCast(v6, *(_DWORD *)(*(_DWORD *)(a1 + 20) + 4) + 24);
+        //        v2 = *(_DWORD *)(*(_DWORD *)(*(_DWORD *)(a1 + 20) + 4) + 24) != 0;
+        //      }
+        //    }
+        //  }
+        //  return v2;
+        //}
+
+        //int __cdecl __43__NSXMLDocument__setContentKindAndEncoding__block_invoke_2(int a1, void *a2)
+        //{
+        //  void *v2; // eax@1
+        //  void *v3; // eax@1
+        //  unsigned __int8 v4; // cl@1
+        //  void *v5; // eax@2
+        
+        //  v2 = objc_msgSend(a2, "name");
+        //  v3 = objc_msgSend(v2, "caseInsensitiveCompare:", &cfstr_HttpEquiv);
+        //  v4 = 0;
+        //  if ( !v3 )
+        //  {
+        //    v5 = objc_msgSend(a2, "stringValue");
+        //    v4 = objc_msgSend(v5, "caseInsensitiveCompare:", &cfstr_ContentType_1) == 0;
+        //  }
+        //  return v4;
+        //}
+        
+        //bool __cdecl __43__NSXMLDocument__setContentKindAndEncoding__block_invoke_3(int a1, void *a2)
+        //{
+        //  void *v2; // eax@1
+        
+        //  v2 = objc_msgSend(a2, "name");
+        //  return objc_msgSend(v2, "caseInsensitiveCompare:", &cfstr_Content) == 0;
+        //}
+
+
         protected virtual void _setContentKindAndEncoding()
         {
             if (this._rootElement != null)
@@ -253,8 +311,26 @@ namespace Smartmobili.Cocoa
             {
                 _contentKind = NSXMLDocumentContentKind.NSXMLDocumentHTMLKind;
             }
-
-
+            NSArray children = _rootElement.children();
+            if (children != null)
+            {
+                uint headIndex = children.indexOfObjectPassingTest(i =>
+                {
+                    bool found = false;
+                    NSXMLElement element = i as NSXMLElement;
+                    if (element.kind() == NSXMLNodeKind.NSXMLElementKind)
+                    {
+                        found = (element.name().caseInsensitiveCompare("head") == 0);
+                    }
+                    return found;
+                });
+                if(headIndex != NS.NotFound)
+                {
+                    NSXMLElement headElement = (NSXMLElement)children.objectAtIndex(headIndex);
+                    //TO BE CONTINUED ...
+                    //For now I don't care about html handling
+                }
+            }
 
         }
 
