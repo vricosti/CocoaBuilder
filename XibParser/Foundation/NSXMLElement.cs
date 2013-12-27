@@ -69,6 +69,10 @@ namespace Smartmobili.Cocoa
             return this._name;
         }
 
+        public override id objectValue()
+        {
+            return this.stringValue();
+        }
 
         public override NSString stringValue()
         {
@@ -361,6 +365,21 @@ namespace Smartmobili.Cocoa
                     }
                 }
             }
+        }
+
+
+
+
+        //- (void)insertChild:(NSXMLNode *)child atIndex:(NSUInteger)index
+        public virtual void insertChild(NSXMLNode child, uint index)
+        {
+
+        }
+
+
+        public virtual void addChild(NSXMLNode child)
+        {
+            this.insertChild(child, this.childCount());
         }
 
 

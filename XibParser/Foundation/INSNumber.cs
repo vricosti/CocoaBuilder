@@ -12,5 +12,7 @@ namespace Smartmobili.Cocoa
         int intValue();
         int integerValue();
         bool boolValue();
+
+        uint unsignedIntegerValue();
     }
 }

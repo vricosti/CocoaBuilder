@@ -72,6 +72,32 @@ namespace Smartmobili.Cocoa
         static byte[] _sXMLDeclUTF16LEBOM = { 0xFF, 0xFE, 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C, 0x00 };
 
 
+        public override id objectValue()
+        {
+            return this.stringValue();
+        }
+
+        public virtual NSXMLDTD DTD()
+        {
+            return _docType;
+        }
+
+        public virtual void setDTD(NSXMLDTD dtd)
+        {
+            if (_docType != dtd)
+                _docType = dtd;
+        }
+
+        public virtual NSString URI()
+        {
+            return _URI;
+        }
+
+        public virtual void setURI(NSString uri)
+        {
+            if (_URI != uri)
+                _URI = uri;
+        }
 
 
         public virtual void setCharacterEncoding(NSString encoding)
@@ -103,7 +129,10 @@ namespace Smartmobili.Cocoa
            return _contentKind;
        }
 
-       
+       public override uint childCount()
+       {
+           return this._children.count();
+       }
        
 
        public override id init()
@@ -336,10 +365,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public override uint childCount()
-        {
-            return this._children.count();
-        }
+        
 
     }
 }

@@ -21,28 +21,48 @@ namespace Smartmobili.Cocoa
         protected NSMutableDictionary _attributes;
         protected NSString _original;
         protected bool _modified;
+        
+
+        private static NSDictionary _predefinedEntities;
+        
 
 
-//        function methImpl_NSXMLDTDNode_setSystemID_ {
-//    if (rdi._systemID == rdx) goto loc_1bc3cf;
-//    goto loc_1bc377;
+        public static NSDictionary _initializePredefinedEntities()
+        {
+            NSXMLDTDNode gtNode = (NSXMLDTDNode)NSXMLDTDNode.alloc().initWithKind(NSXMLNodeKind.NSXMLEntityDeclarationKind);
+            gtNode.setDTDKind(5); gtNode.setName("gt"); gtNode.setObjectValue((NSString)">");
+            
+            NSXMLDTDNode ltNode = (NSXMLDTDNode)NSXMLDTDNode.alloc().initWithKind(NSXMLNodeKind.NSXMLEntityDeclarationKind);
+            ltNode.setDTDKind(5); ltNode.setName("lt"); ltNode.setObjectValue((NSString)"<");
+            
+            NSXMLDTDNode ampNode = (NSXMLDTDNode)NSXMLDTDNode.alloc().initWithKind(NSXMLNodeKind.NSXMLEntityDeclarationKind);
+            ampNode.setDTDKind(5); ampNode.setName("amp"); ampNode.setObjectValue((NSString)"&");
+            
+            NSXMLDTDNode aposNode = (NSXMLDTDNode)NSXMLDTDNode.alloc().initWithKind(NSXMLNodeKind.NSXMLEntityDeclarationKind);
+            aposNode.setDTDKind(5); aposNode.setName("apos"); aposNode.setObjectValue((NSString)"'");
+            
+            NSXMLDTDNode quotNode = (NSXMLDTDNode)NSXMLDTDNode.alloc().initWithKind(NSXMLNodeKind.NSXMLEntityDeclarationKind);
+            quotNode.setDTDKind(5); quotNode.setName("quot"); quotNode.setObjectValue((NSString)"\\\"");
 
-//loc_1bc3cf:
-//    return rax;
+            _predefinedEntities = (NSDictionary)NSDictionary.alloc().initWithObjectsAndKeys(
+                gtNode, (NSString)"gt",
+                ltNode, (NSString)"lt",
+                ampNode, (NSString)"amp",
+                aposNode, (NSString)"apos",
+                quotNode, (NSString)"quot",
+                null);
 
-//loc_1bc377:
-//    (*objc_msg_release)();
-//    rax = [r14 copy];
-//    rax = objc_assign_ivar(rax, rbx, *_OBJC_IVAR_$_NSXMLDTDNode._systemID);
-//    if (rbx._parent == 0x0) goto loc_1bc3cf;
-//    rax = [rdi _setModified:0x1];
-//}
+            return _predefinedEntities;
+        }
 
-        protected virtual void _setModified(bool modified)
+
+        public virtual void _setModified(bool modified)
         {
             _modified = modified;
         }
+        
 
+        
         public virtual void setSystemID(NSString systemID)
         {
             if (_systemID != systemID)
@@ -70,6 +90,35 @@ namespace Smartmobili.Cocoa
             return _publicID;
         }
 
+//        function methImpl_NSXMLDTD_entityDeclarationForName_ {
+//    rbx = rdx;
+//    rax = [rdi._entities objectForKey:edx];
+//    if (rax != 0x0) {
+//            return rax;
+//    }
+//    else {
+//            if (*__predefinedEntities == 0x0) {
+//                    [NSXMLDTD _initializePredefinedEntities];
+//            }
+//            rax = (*objc_msg_objectForKey_)();
+//    }
+//    return rax;
+//}
 
+
+        public virtual id entityDeclarationForName(NSString name)
+        {
+            id result;
+
+            result = _entities.objectForKey(name);
+            if (result == null)
+            {
+                if (_predefinedEntities == null)
+                    NSXMLDTD._initializePredefinedEntities();
+                result = _predefinedEntities.objectForKey(name);
+            }
+
+            return result;
+        }
     }
 }

@@ -38,16 +38,27 @@ namespace Smartmobili.Cocoa
         //}
 
         private static NSCharacterSet _WhitespaceAndNewlineCharacterSet = null;
-        public static NSCharacterSet WhitespaceAndNewlineCharacterSet
+        public static NSCharacterSet whitespaceAndNewlineCharacterSet()
         {
-            get
-            {
-                if (_WhitespaceAndNewlineCharacterSet == null)
-                    _WhitespaceAndNewlineCharacterSet = NSCharacterSet.characterSetWithCharactersInString(" \r\n\t");
-                
-                return _WhitespaceAndNewlineCharacterSet;
-            }
+             if (_WhitespaceAndNewlineCharacterSet == null)
+                 _WhitespaceAndNewlineCharacterSet = NSCharacterSet.characterSetWithCharactersInString(" \r\n\t");
+
+             return _WhitespaceAndNewlineCharacterSet;
         }
+        
+        //public static NSCharacterSet WhitespaceAndNewlineCharacterSet
+        //{
+        //    get
+        //    {
+        //        if (_WhitespaceAndNewlineCharacterSet == null)
+        //            _WhitespaceAndNewlineCharacterSet = NSCharacterSet.characterSetWithCharactersInString(" \r\n\t");
+                
+        //        return _WhitespaceAndNewlineCharacterSet;
+        //    }
+        //}
+
+
+
 
         public static NSCharacterSet characterSetWithCharactersInString(NSString aString)
         {

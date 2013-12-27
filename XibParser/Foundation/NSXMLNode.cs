@@ -203,6 +203,38 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
+        //function methImpl_NSXMLNode_rootDocument {
+        //do {
+        //        rdi = rdi._parent;
+        //} while (rdi != 0x0);
+        //rax = [rbx kind];
+        //rcx = rax;
+        //rax = 0x0;
+        //if (rcx == 0x1) {
+        //        rax = rbx;
+        //}
+        //return rax;
+        //}
+
+
+        public virtual NSXMLDocument rootDocument()
+        {
+            NSXMLDocument doc = null;
+
+            NSXMLNode tmpNode = this;
+            NSXMLNode rootNode;
+            do
+            {
+                rootNode = tmpNode;
+                tmpNode = tmpNode._parent;
+            }
+            while (tmpNode != null);
+
+            if (rootNode.kind() == NSXMLNodeKind.NSXMLDocumentKind)
+                doc = (NSXMLDocument)rootNode;
+
+            return doc;
+        }
         public virtual uint childCount()
         {
             return 0;
@@ -211,6 +243,11 @@ namespace Smartmobili.Cocoa
         public virtual NSXMLNode childAtIndex(uint index)
         {
             return null;
+        }
+
+        public virtual id objectValue()
+        {
+            return _objectValue;
         }
 
         public virtual void setObjectValue(id objValue)

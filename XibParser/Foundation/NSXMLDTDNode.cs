@@ -9,5 +9,16 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSXMLDTDNode));
         new public static NSXMLDTDNode alloc() { return new NSXMLDTDNode(); }
+
+        protected uint _DTDKind;
+
+
+        public virtual void setDTDKind(uint kind)
+        {
+            _DTDKind = kind;
+            if (_parent != null)
+                ((NSXMLDTD)_parent)._setModified(true);
+
+        }
     }
 }

@@ -114,32 +114,45 @@ namespace Smartmobili.Cocoa
             return isKindOfClass;
         }
 
+        // Inside code I prefer to call those methods directly without having to write Objc.MsgSend(...)
+        // So I am declaring the id base class as implementing those interfaces
         #region INSNumber
         public virtual double doubleValue()
         {
+            throw new InvalidOperationException();
             return 0;
         }
 
         public virtual float floatValue()
         {
+            throw new InvalidOperationException();
             return 0;
         }
         
         public virtual int intValue()
         {
+            throw new InvalidOperationException();
             return 0;
         }
         
         public virtual int integerValue()
         {
+            throw new InvalidOperationException();
             return 0;
         }
         
         public virtual bool boolValue()
         {
+            throw new InvalidOperationException();
             return false;
         }
-        
+
+        public virtual uint unsignedIntegerValue()
+        {
+            throw new InvalidOperationException();
+            return 0;
+        }
+
         #endregion
     }
 }

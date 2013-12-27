@@ -50,7 +50,7 @@ namespace Smartmobili.Cocoa
         static NSScanner() { initialize(); }
         public static void initialize()
         {
-            defaultSkipSet = NSCharacterSet.WhitespaceAndNewlineCharacterSet;
+            defaultSkipSet = NSCharacterSet.whitespaceAndNewlineCharacterSet();
         }
 
         public static id scannerWithString(NSString aString)
