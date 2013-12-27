@@ -105,6 +105,7 @@
     <Compile Include="NSSet.cs" />
     <Compile Include="NSStream.cs" />
     <Compile Include="NSString.cs" />
+    <Compile Include="NSThread.cs" />
     <Compile Include="NSUnarchiver.cs" />
     <Compile Include="NSURL.cs" />
     <Compile Include="NSValueTransformer.cs" />

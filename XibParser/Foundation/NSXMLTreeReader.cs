@@ -45,14 +45,27 @@ namespace Smartmobili.Cocoa
 
         public virtual void setContent(NSMutableString content)
         {
+            if (_content == content)
+                return;
 
+            _content = (NSMutableString)content.mutableCopy();
+            if (_content != null && _text == null)
+            {
+                _text = (NSXMLNode)((NSXMLNode)_nodeClass.alloc()).initWithKind(NSXMLNodeKind.NSXMLTextKind);
+            }
         }
 
         public virtual id initWithData(NSData data, Class documentClass, uint mask, ref NSError error)
         {
+            return initWithData(data, documentClass, false, mask, ref error);
+        }
+
+        public virtual id initWithData(NSData data, Class documentClass, bool isSingleDTDNode, uint mask, ref NSError error)
+        {
 
             return null;
         }
+
 
         public virtual NSString DTDString()
         {

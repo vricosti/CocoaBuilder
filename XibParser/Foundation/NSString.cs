@@ -153,6 +153,11 @@ namespace Smartmobili.Cocoa
             Value = value;
         }
 
+        public NSString mutableCopy()
+        {
+            return new NSMutableString(this.Value);
+        }
+
 		public NSString copy()
 		{
 			return new NSString (this.Value);
