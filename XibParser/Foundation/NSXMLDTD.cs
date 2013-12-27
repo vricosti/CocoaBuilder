@@ -90,32 +90,27 @@ namespace Smartmobili.Cocoa
             return _publicID;
         }
 
-//        function methImpl_NSXMLDTD_entityDeclarationForName_ {
-//    rbx = rdx;
-//    rax = [rdi._entities objectForKey:edx];
-//    if (rax != 0x0) {
-//            return rax;
-//    }
-//    else {
-//            if (*__predefinedEntities == 0x0) {
-//                    [NSXMLDTD _initializePredefinedEntities];
-//            }
-//            rax = (*objc_msg_objectForKey_)();
-//    }
-//    return rax;
-//}
-
-
-        public virtual id entityDeclarationForName(NSString name)
+        public static NSXMLNode predefinedEntityDeclarationForName(NSString name)
         {
-            id result;
+            NSXMLNode result;
 
-            result = _entities.objectForKey(name);
+            if (_predefinedEntities == null)
+                NSXMLDTD._initializePredefinedEntities();
+            result = (NSXMLNode)_predefinedEntities.objectForKey(name);
+
+            return result;
+        }
+
+        public virtual NSXMLNode entityDeclarationForName(NSString name)
+        {
+            NSXMLNode result;
+
+            result = (NSXMLNode)_entities.objectForKey(name);
             if (result == null)
             {
                 if (_predefinedEntities == null)
                     NSXMLDTD._initializePredefinedEntities();
-                result = _predefinedEntities.objectForKey(name);
+                result = (NSXMLNode)_predefinedEntities.objectForKey(name);
             }
 
             return result;
