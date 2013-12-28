@@ -173,7 +173,10 @@ namespace Smartmobili.Cocoa
             return (NSString)alloc().initWithContentsOfFile(path);
         }
 
-
+        public static NSString stringWithUTF8String(IntPtr ptr)
+        {
+            return (NSString)NSString.alloc().initWithUTF8String(ptr);
+        }
         
 
         public virtual id initWithContentsOfFile(NSString path)

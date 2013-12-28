@@ -15,11 +15,19 @@ using DtdPtr = System.IntPtr;
 using xmlEntityPtr = System.IntPtr;
 using xmlExternalEntityLoaderPtr = System.IntPtr;
 using xmlTextReaderPtr = System.IntPtr;
+using xmlTextReaderLocatorPtr = System.IntPtr;
+using xmlTextReaderErrorFunc = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
-    
 
+    public enum xmlParserSeverities
+    {
+        XML_PARSER_SEVERITY_VALIDITY_WARNING = 1,
+        XML_PARSER_SEVERITY_VALIDITY_ERROR = 2,
+        XML_PARSER_SEVERITY_WARNING = 3,
+        XML_PARSER_SEVERITY_ERROR = 4,
+    }
     public enum ElementType 
     {
         ELEMENT_NODE,
@@ -295,9 +303,10 @@ namespace Smartmobili.Cocoa
         public unsafe delegate void endElementNsSAX2Func(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void xmlStructuredErrorFunc(IntPtr ctx, IntPtr error);
-
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate xmlParserInputPtr xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void xmlTextReaderErrorFunc(IntPtr userData, IntPtr pMsg, int severity, xmlTextReaderLocatorPtr locator);
 
 
         //int sizeOfV1 = sizeof(xmlSAXHandlerV1); => 112 bytes
@@ -420,6 +429,15 @@ namespace Smartmobili.Cocoa
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern xmlTextReaderPtr xmlReaderForMemory(byte[] buffer, int size, IntPtr URL, IntPtr encoding, int options);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlTextReaderSetErrorHandler(xmlTextReaderPtr reader, xmlTextReaderErrorFunc f, IntPtr pUserData);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderLocatorLineNumber(xmlTextReaderLocatorPtr locator);
+
+
+
 
 
 

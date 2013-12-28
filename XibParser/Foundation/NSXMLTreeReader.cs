@@ -8,7 +8,7 @@ using xmlExternalEntityLoaderPtr = System.IntPtr;
 using xmlParserInputPtr = System.IntPtr;
 using xmlParserCtxtPtr = System.IntPtr;
 using xmlTextReaderPtr = System.IntPtr;
-
+using xmlTextReaderLocatorPtr = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
@@ -16,6 +16,11 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSXMLTreeReader));
         new public static NSXMLTreeReader alloc() { return new NSXMLTreeReader(); }
+
+       
+        GCHandle _instanceHandle;
+        IntPtr _instancePtr;
+        LibXml.xmlTextReaderErrorFunc _xmlTextReaderErrorFuncDelegate;
 
         private static bool _entitySetupOncePredicate;
         private static IntPtr __originalLoader;
@@ -51,7 +56,13 @@ namespace Smartmobili.Cocoa
         protected Class _elementClass; //0x58
         protected Class _nodeClass; //0x5C
        
+        public NSXMLTreeReader()
+        {
+            _instanceHandle = GCHandle.Alloc(this);
+            _instancePtr = GCHandle.ToIntPtr(_instanceHandle);//(IntPtr)_instanceHandle;
+        }
       
+
         public virtual NSString URI()
         {
             return _uri;
@@ -166,6 +177,9 @@ namespace Smartmobili.Cocoa
 
             return self;
         }
+
+
+       
 
         //xmlParserInputPtr xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context);
         public T GetDelegateForFunctionPointer<T>(IntPtr addr, Type t) where T : class
@@ -328,6 +342,44 @@ namespace Smartmobili.Cocoa
             }
         }
 
+        protected virtual bool setError(bool error, NSString info, bool fatal)
+        {
+            return false;
+        }
+
+        private static void _xmlTextReaderErrorFunc(IntPtr userData, IntPtr pMsg, int severity, xmlTextReaderLocatorPtr locator)
+        {
+            NSString msgLine;
+
+            NSXMLTreeReader pThis = (NSXMLTreeReader)GCHandle.FromIntPtr(userData).Target;
+          
+            int line = LibXml.xmlTextReaderLocatorLineNumber(locator);
+            if (pMsg != IntPtr.Zero)
+            {
+                msgLine = NSString.stringWithFormat("Line %d: %@", line, NSString.stringWithUTF8String(pMsg));
+            }
+            else
+            {
+                msgLine = NSString.stringWithFormat("Line %d: Unexpected error", line);
+            }
+
+            switch ((xmlParserSeverities)severity)
+            {
+                case xmlParserSeverities.XML_PARSER_SEVERITY_VALIDITY_WARNING:
+                case xmlParserSeverities.XML_PARSER_SEVERITY_WARNING:
+                    pThis.setError(true, msgLine, false);
+                    break;
+                
+                case xmlParserSeverities.XML_PARSER_SEVERITY_VALIDITY_ERROR:
+                case xmlParserSeverities.XML_PARSER_SEVERITY_ERROR:
+                    pThis.setError(true, msgLine, true);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         internal void _initializeReader()
         {
             int options = 0;
@@ -351,7 +403,9 @@ namespace Smartmobili.Cocoa
             _reader = LibXml.xmlReaderForMemory(bytes, (int)len, IntPtr.Zero, IntPtr.Zero, options);
             if (_reader != IntPtr.Zero)
             {
-
+                _xmlTextReaderErrorFuncDelegate = new LibXml.xmlTextReaderErrorFunc(_xmlTextReaderErrorFunc);
+                IntPtr xmlTextReaderErrorFunc = Marshal.GetFunctionPointerForDelegate(_xmlTextReaderErrorFuncDelegate);
+                LibXml.xmlTextReaderSetErrorHandler(_reader, _xmlTextReaderErrorFunc, _instancePtr);
             }
         }
 
