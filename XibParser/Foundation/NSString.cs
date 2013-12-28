@@ -89,15 +89,15 @@ namespace Smartmobili.Cocoa
 
         public string Value { get; set; }
 
-        public virtual double doubleValue() { return Value.ToDouble(); }
+        public override double doubleValue() { return Value.ToDouble(); }
 
-        public virtual float floatValue() { return Value.ToFloat(); }
+        public override float floatValue() { return Value.ToFloat(); }
 
-        public virtual int integerValue() { return Value.ToInt(); }
+        public override int integerValue() { return Value.ToInt(); }
 
-        public virtual int intValue() { return Value.ToInt(); }
+        public override int intValue() { return Value.ToInt(); }
 
-        public virtual bool boolValue() 
+        public override bool boolValue() 
         {
             //return Value.ConvertFromYesNo();
             uint len = length();
@@ -172,6 +172,9 @@ namespace Smartmobili.Cocoa
         {
             return (NSString)alloc().initWithContentsOfFile(path);
         }
+
+
+        
 
         public virtual id initWithContentsOfFile(NSString path)
         {
@@ -288,6 +291,15 @@ namespace Smartmobili.Cocoa
 
             string str = new string(chars);
             this.Value = str;
+
+            return self;
+        }
+
+        public virtual id initWithFormat(NSString format, params object[] args)
+        {
+            id self = this;
+
+            this.Value = Tools.sprintf(format, args);
 
             return self;
         }
@@ -576,14 +588,10 @@ namespace Smartmobili.Cocoa
 
         public static NSString stringWithFormat(NSString format, params object[] args)
         {
-            NSString str = new NSString();
-
             if (format == null)
                 throw new ArgumentNullException("format");
 
-            str = Tools.sprintf(format, args);
-
-            return str;
+            return (NSString)NSString.alloc().initWithFormat(format, args);
         }
 
 

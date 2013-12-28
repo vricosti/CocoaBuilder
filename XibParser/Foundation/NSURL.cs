@@ -106,6 +106,14 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual id initWithString(NSString aURLString)
+        {
+            if (aURLString == null)
+                throw new ArgumentNullException();
+
+            return this;
+        }
+
         
 
     }

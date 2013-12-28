@@ -140,6 +140,12 @@ namespace Smartmobili.Cocoa
             return new NSNumber(aFloat);
         }
 
+        public static NSNumber numberWithUnsignedInteger(uint aUint)
+        {
+            return new NSNumber(aUint);
+        }
+
+
         // implicit NSNumber to int conversion operator
 
         public static implicit operator Nullable<Int32>(NSNumber nsNumber)

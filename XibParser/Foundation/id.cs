@@ -38,13 +38,25 @@ namespace Smartmobili.Cocoa
 
         }
 
+        public void release()
+        {
+        }
+
+        public T retain<T>() where T : class
+        {
+            //return (T)Convert.ChangeType(, typeof(this.GetType()));
+            return this as T;
+        }
+
         public id retain()
         {
+            // DOES NOTHING - JUST TO BE CONSISTENT WITH ORIGINAL COCOA
             return this;
         }
 
         public id autorelease()
         {
+            // DOES NOTHING - JUST TO BE CONSISTENT WITH ORIGINAL COCOA
             return this;
         }
 

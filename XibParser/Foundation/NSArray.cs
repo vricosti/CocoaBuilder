@@ -182,6 +182,19 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual id initWithObjects(params id[] objects)
+        {
+            id self = this;
+
+            if (objects == null)
+                return null;
+
+            id[] arr = objects.Where(x => x != null).ToArray();
+            _list = new List<id>(arr);
+
+            return self;
+        }
+
         public override id initWithCoder(NSCoder aCoder)
         {
             id self = this;

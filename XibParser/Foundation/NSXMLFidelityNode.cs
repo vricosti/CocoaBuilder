@@ -10,11 +10,21 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLFidelityNode));
         new public static NSXMLFidelityNode alloc() { return new NSXMLFidelityNode(); }
 
-        protected uint _fidelity;
-        protected NSString _whitespace;
-        protected NSMutableArray _names;
-        protected NSMutableArray _ranges;
+        protected uint _fidelity; //0x14
+        protected NSString _whitespace; //0x18
+        protected NSMutableArray _ranges; //0x1C
+        protected NSMutableArray _names; //0x20
+        
 
+
+        public virtual uint fidelity()
+        {
+            return _fidelity;
+        }
+        public virtual void setFidelity(uint fidelity)
+        {
+            _fidelity = fidelity;
+        }
 
         public static NSString stringValueSubstitutingEntitiesForNode(NSXMLNode node, NSMutableArray ranges, NSMutableArray names, NSString objectValue)
         {
@@ -79,6 +89,22 @@ namespace Smartmobili.Cocoa
         {
             throw new NotImplementedException();
         }
+
+        internal virtual void addEntity(NSXMLNode anEntity, uint anIndex)
+        {
+            if (_ranges != null)
+            {
+                _ranges.addObject(NSNumber.numberWithUnsignedInteger(anIndex));
+                _names.addObject(anEntity);
+            }
+            else
+            {
+                NSNumber nsIdx = NSNumber.numberWithUnsignedInteger(anIndex);
+                _ranges = (NSMutableArray)NSMutableArray.alloc().initWithObjects(nsIdx, null);
+                _names = (NSMutableArray)NSMutableArray.alloc().initWithObjects(anEntity, null);
+            }
+        }
+
 
     }
 }
