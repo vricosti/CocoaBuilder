@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
+
+using xmlExternalEntityLoaderPtr = System.IntPtr;
+using xmlParserInputPtr = System.IntPtr;
+using xmlParserCtxtPtr = System.IntPtr;
+using xmlTextReaderPtr = System.IntPtr;
+
 
 namespace Smartmobili.Cocoa
 {
@@ -9,6 +16,12 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSXMLTreeReader));
         new public static NSXMLTreeReader alloc() { return new NSXMLTreeReader(); }
+
+        private static bool _entitySetupOncePredicate;
+        private static IntPtr __originalLoader;
+        private NSString ThreadXmlTreeReaderTag = "__CurrentNSXMLTreeReader";
+        private  LibXml.xmlExternalEntityLoader _xmlExternalEntityLoaderDelegate;
+        private static int _enableXMLParsingMemoryGuards = -1;
 
         protected bool _hadError; //0x04
         protected bool _additiveContent; //0x05
@@ -31,7 +44,7 @@ namespace Smartmobili.Cocoa
         protected NSMapTable _xmlCharToNSString; //0x3C
         protected NSMapTable _xmlCharHashToNSString; //0x40
         protected id _readerCharacters; //0x44
-        protected id _reader; //0x48
+        protected IntPtr _reader; //0x48
         protected Class _documentClass; //0x4C
         protected Class _dtdClass; //0x50
         protected Class _dtdNodeClass; //0x54
@@ -111,8 +124,134 @@ namespace Smartmobili.Cocoa
 
         public virtual id initWithData(NSData data, Class documentClass, bool isSingleDTDNode, uint mask, ref NSError error)
         {
+            id self = base.init();
+            if (base.init() != null)
+            {
+                self = this;
+                if (NSThread.currentThread().threadDictionary().objectForKey(ThreadXmlTreeReaderTag) != null)
+                {
+                    NSException.raise("NSInternalInconsistencyException", "%@", "NSXMLDocument does not support reentrant parsing.");
+                }
+                NSThread.currentThread().threadDictionary().setObjectForKey(self, ThreadXmlTreeReaderTag);
+                if (_entitySetupOncePredicate == false)
+                {
+                    _entitySetupOncePredicate = true;
+                    __originalLoader = LibXml.xmlGetExternalEntityLoader();
 
-            return null;
+                    _xmlExternalEntityLoaderDelegate = new LibXml.xmlExternalEntityLoader(_xmlExternalEntityLoader);
+                    LibXml.xmlSetExternalEntityLoader(Marshal.GetFunctionPointerForDelegate(_xmlExternalEntityLoaderDelegate));
+                }
+                _isSingleDTDNode = isSingleDTDNode;
+                _data = (NSData)data.retain();
+                _error = error;
+                
+                bool additiveContent = true;
+                if ((_fidelityMask & 0x8400000) == 0x0)
+                    additiveContent = ((_fidelityMask & 0x1000000) >> 24) != 0;
+                _additiveContent = additiveContent;
+                _hadError = false;
+                _wasEmpty = false;
+                _isMissingDTD = false;
+
+                _xmlCharToNSString = NS.CreateMapTable(200);
+                _xmlCharHashToNSString = NS.CreateMapTable(200);
+
+                _documentClass = (Class)Objc.MsgSend(documentClass, (NSString)"replacementClassForClass", NSXMLDocument.Class);
+                _dtdClass = (Class)Objc.MsgSend(documentClass, (NSString)"replacementClassForClass", NSXMLDTD.Class);
+                _dtdNodeClass = (Class)Objc.MsgSend(documentClass, (NSString)"replacementClassForClass", NSXMLDTDNode.Class);
+                _elementClass = (Class)Objc.MsgSend(documentClass, (NSString)"replacementClassForClass", NSXMLElement.Class);
+                _elementClassOverridden = (_elementClass != NSXMLElement.Class);
+                _nodeClass = (Class)Objc.MsgSend(documentClass, (NSString)"replacementClassForClass", NSXMLNode.Class);
+            }
+
+            return self;
+        }
+
+        //xmlParserInputPtr xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context);
+        public T GetDelegateForFunctionPointer<T>(IntPtr addr, Type t) where T : class
+        {
+            System.Delegate fn_ptr = Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
+            return fn_ptr as T;
+        }
+
+        private unsafe xmlParserInputPtr _xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context)
+        {
+            xmlParserInputPtr result = IntPtr.Zero;
+
+            var originalLoader = GetDelegateForFunctionPointer<LibXml.xmlExternalEntityLoader>(__originalLoader, typeof(LibXml.xmlExternalEntityLoader));
+
+            NSXMLTreeReader treeReaderInstance = NSThread.currentThread().threadDictionary().objectForKey(ThreadXmlTreeReaderTag) as NSXMLTreeReader;
+            if (treeReaderInstance == null)
+            {
+                result = originalLoader(URL, ID, context);
+            }
+            else 
+            {
+                int externalPolicy = treeReaderInstance.externalEntityLoadingPolicy();
+                NSURL url = null;
+                NSSet allowedEntityURLs = treeReaderInstance.allowedEntityURLs();
+                if (allowedEntityURLs != null)
+                {
+                    NSString urlText = (NSString)NSString.alloc().initWithUTF8String(URL);
+                    url = (NSURL)NSURL.alloc().initWithString(urlText);
+                    if (url.scheme().isEqualToString("file"))
+                    {
+                        NSURL fileUrl = (NSURL)NSURL.alloc().initFileURLWithPath(url.path());
+                        url.release();
+                        url = fileUrl;
+                    }
+                    urlText.release();
+
+                    if (url != null)
+                    {
+                        bool isAllowedEntityURL = (allowedEntityURLs.member(url) == null) ? true : false;
+                        if ((externalPolicy == 0x8000) || (isAllowedEntityURL == false))
+                        {
+                            url.release();
+                            if (!isAllowedEntityURL)
+                                return originalLoader(URL, ID, context);
+                        }
+                    }
+                }
+                if (externalPolicy == 0x4000)
+                    return originalLoader(URL, ID, context);
+                if (externalPolicy != 0x80000)
+                {
+                    if(externalPolicy != 0x8000)
+                    {
+                        //xmlParserInputPtr	xmlNoNetExternalEntityLoader	(const char * URL, const char * ID, xmlParserCtxtPtr ctxt)
+                        return originalLoader(URL, ID, context);
+                    }
+                    NSURL urlv36 = treeReaderInstance.url();
+                    NSString urlText = (NSString)NSString.alloc().initWithUTF8String(URL);
+                    NSURL url3 = (NSURL)NSURL.alloc().initWithString(urlText);
+                    urlText.release();
+
+                    if ((urlv36 == null) || (url3 == null))
+                        return originalLoader(URL, ID, context);
+
+                    if (url.host().isEqualToString(urlv36.host()))
+                    {
+                        if (url.port().isEqualToNumber(urlv36.port()))
+                        {
+                            bool isSchemeEqual = url.scheme().isEqualToString(urlv36.scheme());
+                            url.release();
+
+                            if (isSchemeEqual == false)
+                                return IntPtr.Zero;
+                            else
+                                return originalLoader(URL, ID, context);
+                        }
+                        url.release();
+                    }
+                    else
+                    {
+                        url.release();
+                    }
+                }
+            }
+
+           return result;
         }
 
 
@@ -189,8 +328,39 @@ namespace Smartmobili.Cocoa
             }
         }
 
+        internal void _initializeReader()
+        {
+            int options = 0;
+            
+            options = (( ((_fidelityMask & 0x12000000) == 0)) ? 1 : 0 << 8) + 1024;
+            if ((_fidelityMask & 0x10000) == 0)
+                options = (((_fidelityMask & 0x12000000) == 0)) ? 1 : 0 << 8;
+            if (_enableXMLParsingMemoryGuards == -1)
+            {
+                _enableXMLParsingMemoryGuards = NSUserDefaults
+                    .standardUserDefaults()
+                    .boolForKey("NSXMLDocumentEnableXMLParsingMemoryGuards") ? 1 : 0;
+            }
+
+            if (_enableXMLParsingMemoryGuards == 0)
+                options |= 0x80000;
+
+
+            byte[] bytes = _data.bytes();
+            uint len = (_data != null) ? _data.length() : 0;
+            _reader = LibXml.xmlReaderForMemory(bytes, (int)len, IntPtr.Zero, IntPtr.Zero, options);
+            if (_reader != IntPtr.Zero)
+            {
+
+            }
+        }
+
+
         public virtual id parse()
         {
+           // _error = null;
+            this._initializeReader();
+
             return null;
         }
 

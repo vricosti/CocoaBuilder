@@ -748,7 +748,7 @@ namespace Smartmobili.Cocoa
         {
             NSString str = null;
 
-            string tmpStr = string.Format("{0}:{1}", pPrefix.GetString(), pLocalname.GetString());
+            string tmpStr = string.Format("{0}:{1}", pPrefix.GetStringFromUTF8(), pLocalname.GetStringFromUTF8());
             str = (NSString)tmpStr;
 
             return str;

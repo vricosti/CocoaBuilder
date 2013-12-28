@@ -111,6 +111,11 @@ namespace Smartmobili.Cocoa
 			return rect;
 		}
 
+
+        public static NSMapTable CreateMapTable(uint capacity)
+        {
+            return (NSMapTable)NSMapTable.alloc().init();
+        }
         public static id MapGet(NSMapTable map, IntPtr ptr)
         {
             return NSMapTable.get(map, ptr);

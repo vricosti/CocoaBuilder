@@ -188,7 +188,7 @@ namespace System
             return buffer;
         }
 
-        public static string GetString(this IntPtr nativeUtf8)
+        public static string GetStringFromUTF8(this IntPtr nativeUtf8)
         {
             return Encoding.UTF8.GetString(nativeUtf8.GetBytes());
         }

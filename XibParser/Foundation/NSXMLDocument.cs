@@ -71,6 +71,15 @@ namespace Smartmobili.Cocoa
         static byte[] _sXMLDeclUTF16BEBOM = { 0xFE, 0xFF, 0x00, 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C };
         static byte[] _sXMLDeclUTF16LEBOM = { 0xFF, 0xFE, 0x3C, 0x00, 0x3F, 0x00, 0x78, 0x00, 0x6D, 0x00, 0x6C, 0x00 };
 
+        public static Class replacementClassForClass(Class currentClass)
+        {
+            Class result = currentClass;
+
+            if (NSXMLDocument.Class == currentClass)
+                result = NSXMLDocument.Class;
+
+            return result;
+        }
 
         public override id objectValue()
         {
@@ -88,12 +97,12 @@ namespace Smartmobili.Cocoa
                 _docType = dtd;
         }
 
-        public virtual NSString URI()
+        public override NSString URI()
         {
             return _URI;
         }
 
-        public virtual void setURI(NSString uri)
+        public override void setURI(NSString uri)
         {
             if (_URI != uri)
                 _URI = uri;

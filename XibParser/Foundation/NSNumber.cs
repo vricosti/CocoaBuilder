@@ -146,6 +146,12 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public virtual bool isEqualToNumber(NSNumber aNumber)
+        {
+            return _number == aNumber._number;
+        }
+
+
         // implicit NSNumber to int conversion operator
 
         public static implicit operator Nullable<Int32>(NSNumber nsNumber)

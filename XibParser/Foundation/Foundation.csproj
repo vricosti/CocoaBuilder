@@ -108,6 +108,7 @@
     <Compile Include="NSThread.cs" />
     <Compile Include="NSUnarchiver.cs" />
     <Compile Include="NSURL.cs" />
+    <Compile Include="NSUserDefaults.cs" />
     <Compile Include="NSValueTransformer.cs" />
     <Compile Include="NSWindowRect.cs" />
     <Compile Include="NSXMLAttributeDeclaration.cs" />

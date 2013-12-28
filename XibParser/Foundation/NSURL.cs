@@ -51,6 +51,10 @@ namespace Smartmobili.Cocoa
         //NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
         //NSURL *fileURL = [NSURL fileURLWithPath:filePath];
 
+        public virtual NSString scheme()
+        {
+            return _scheme;
+        }
 
         public virtual bool IsFileURL
         {
@@ -61,6 +65,18 @@ namespace Smartmobili.Cocoa
         {
             get { return path(); }
         }
+
+        public virtual NSString host()
+        {
+            return _host;
+        }
+
+
+        public virtual NSNumber port()
+        {
+            return _port;
+        }
+
 
         public NSURL()
         {}

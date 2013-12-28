@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using xmlParserInputPtr = System.IntPtr;
 using xmlParserCtxtPtr = System.IntPtr;
 using xmlSAXHandlerPtr = System.IntPtr;
 using NodePtr = System.IntPtr;
@@ -12,6 +13,8 @@ using NsPtr = System.IntPtr;
 using AttrPtr = System.IntPtr;
 using DtdPtr = System.IntPtr;
 using xmlEntityPtr = System.IntPtr;
+using xmlExternalEntityLoaderPtr = System.IntPtr;
+using xmlTextReaderPtr = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
@@ -293,6 +296,8 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void xmlStructuredErrorFunc(IntPtr ctx, IntPtr error);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate xmlParserInputPtr xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context);
 
 
         //int sizeOfV1 = sizeof(xmlSAXHandlerV1); => 112 bytes
@@ -406,6 +411,15 @@ namespace Smartmobili.Cocoa
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern xmlEntityPtr xmlGetPredefinedEntity(IntPtr pName);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlExternalEntityLoaderPtr xmlGetExternalEntityLoader();
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlSetExternalEntityLoader(xmlExternalEntityLoaderPtr f);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlTextReaderPtr xmlReaderForMemory(byte[] buffer, int size, IntPtr URL, IntPtr encoding, int options);
 
 
 

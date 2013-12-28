@@ -285,6 +285,19 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+
+        public virtual id initWithUTF8String(System.IntPtr addr)
+        {
+            id self = this;
+
+            if (addr == System.IntPtr.Zero)
+                throw new ArgumentNullException();
+
+            this.Value = addr.GetStringFromUTF8();
+
+            return self;
+        }
+
         public virtual id initWithCString(char[] chars)
         {
             id self = this;

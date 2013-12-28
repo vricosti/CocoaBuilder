@@ -617,9 +617,9 @@ namespace Smartmobili.Cocoa
                 id newObj = element.Value.dataUsingEncoding(NSStringEncoding.NSASCIIStringEncoding, false);
                 newObj = GSMimeDocument.decodeBase64((NSData)newObj);
 
-                //string encodedData = Encoding.ASCII.GetString(((NSData)newObj).Bytes);
+                //string encodedData = Encoding.ASCII.GetStringFromUTF8(((NSData)newObj).Bytes);
                 //byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedData);
-                //objID = new NSString(System.Text.Encoding.ASCII.GetString(encodedDataAsBytes));
+                //objID = new NSString(System.Text.Encoding.ASCII.GetStringFromUTF8(encodedDataAsBytes));
                 
                 //newObj = GSMimeDocument.decodeBase64(newObj);
                 if (objID != null)
