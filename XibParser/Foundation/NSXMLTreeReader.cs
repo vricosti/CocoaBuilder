@@ -24,7 +24,7 @@ namespace Smartmobili.Cocoa
 
         private static bool _entitySetupOncePredicate;
         private static IntPtr __originalLoader;
-        private NSString ThreadXmlTreeReaderTag = "__CurrentNSXMLTreeReader";
+        private static NSString ThreadXmlTreeReaderTag = "__CurrentNSXMLTreeReader";
         private LibXml.xmlExternalEntityLoader _xmlExternalEntityLoaderDelegate;
         private static int _enableXMLParsingMemoryGuards = -1;
 
@@ -184,19 +184,19 @@ namespace Smartmobili.Cocoa
 
 
         //xmlParserInputPtr xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context);
-        public T GetDelegateForFunctionPointer<T>(IntPtr addr) where T : class
-        {
-            System.Delegate fn_ptr = Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
-            return fn_ptr as T;
-        }
+        //public T GetDelegateForFunctionPointer<T>(IntPtr addr) where T : class
+        //{
+        //    System.Delegate fn_ptr = Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
+        //    return fn_ptr as T;
+        //}
 
-        private unsafe xmlParserInputPtr _xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context)
+        private static unsafe xmlParserInputPtr _xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context)
         {
             xmlParserInputPtr result = IntPtr.Zero;
 
-            var originalLoader = GetDelegateForFunctionPointer<LibXml.xmlExternalEntityLoader>(__originalLoader);
+            var originalLoader = InteropHelper.GetDelegateForFunctionPointer<LibXml.xmlExternalEntityLoader>(__originalLoader);
 
-            NSXMLTreeReader treeReaderInstance = NSThread.currentThread().threadDictionary().objectForKey(ThreadXmlTreeReaderTag) as NSXMLTreeReader;
+            NSXMLTreeReader treeReaderInstance = NSThread.currentThread().threadDictionary().objectForKey(NSXMLTreeReader.ThreadXmlTreeReaderTag) as NSXMLTreeReader;
             if (treeReaderInstance == null)
             {
                 result = originalLoader(URL, ID, context);
@@ -346,7 +346,18 @@ namespace Smartmobili.Cocoa
 
         protected virtual bool setError(bool error, NSString info, bool fatal)
         {
-            return false;
+            bool result = false;
+
+            if (_reader != IntPtr.Zero)
+            {
+
+            }
+            else
+            {
+
+            }
+
+            return result;
         }
 
         private static void _xmlTextReaderErrorFunc(IntPtr userData, IntPtr pMsg, int severity, xmlTextReaderLocatorPtr locator)
@@ -413,19 +424,22 @@ namespace Smartmobili.Cocoa
                 //reader->sax->startElementNs = reader->startElementNs
                 //reader->startElementNs = _startElementNs_1dc7d5
                 //reader->sax->entityDecl =  _getEntity_209819
-
+                
+                int prop;
                 if ((_fidelityMask & 0x1400000) == 0)
                 {
                     //reader->sax->cdataBlock = null;
                 }
-                LibXml.xmlTextReaderSetParserProp(_reader, 4, ((_fidelityMask & 0x400000) == 0) ? 1 : 0);
+                prop = ((_fidelityMask & 0x400000) == 0) ? 1 : 0;
+                LibXml.xmlTextReaderSetParserProp(_reader, 4, prop);
 
 
                 if ((_fidelityMask & 0x8000000) != 0)
                 {
                     //reader->ctxt->+0x168(x86)??? |= 0x80000000;
                 }
-                LibXml.xmlTextReaderSetParserProp(_reader, 3, ((_fidelityMask & 0x20) != 0) ? 1 : 0);
+                prop = ((_fidelityMask & 0x20) != 0) ? 1 : 0;
+                LibXml.xmlTextReaderSetParserProp(_reader, 3, prop);
             }
         }
 

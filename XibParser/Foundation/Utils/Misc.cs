@@ -1,10 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+
+    public static class InteropHelper
+    {
+        public static T GetDelegateForFunctionPointer<T>(IntPtr addr) where T : class
+        {
+            System.Delegate fn_ptr = Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
+            return fn_ptr as T;
+        }
+
+    }
     public static class ByteUtil
     {
 
