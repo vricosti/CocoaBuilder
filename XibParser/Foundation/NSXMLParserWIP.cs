@@ -184,12 +184,14 @@ namespace Smartmobili.Cocoa
 
         public virtual id initWithData(NSData data)
         {
-            id self = this;
-
             SetupLibXml();
+
+            id self = base.init();
 
             if (base.init() != null)
             {
+                self = this;
+
                 _reserved1 = (NSXMLParserInfo)NSXMLParserInfo.alloc().init();
                 
                 _reserved1.saxHandler = new LibXml.xmlSAXHandler();
@@ -219,27 +221,25 @@ namespace Smartmobili.Cocoa
 
          public virtual id initWithStream(NSInputStream aStream)
          {
-             id self = this;
-
-             NSInputStream stream = initForIncrementalParsing(aStream);
-             if (stream != null)
+             id self = initForIncrementalParsing(aStream);
+             if (self != null)
              {
                  _reserved1.parserFlags |= 0x80;
-                 _reserved3 = stream;
+                 _reserved3 = (NSInputStream)aStream.retain();
              }
 
              return self;
          }
 
 
-         protected virtual NSInputStream initForIncrementalParsing(NSInputStream stream)
+         protected virtual id initForIncrementalParsing(NSInputStream stream)
         {
             id self = this.initWithData(null);
             if (self != null)
             {
                 _reserved1.parserFlags = (uint)_reserved1.parserFlags & 0xffffff7f;
             }
-            return stream;
+            return self;
         }
 
         private void initializeSAX2Callbacks()
