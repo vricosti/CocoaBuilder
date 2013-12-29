@@ -431,13 +431,15 @@ namespace Smartmobili.Cocoa
         internal static extern xmlTextReaderPtr xmlReaderForMemory(byte[] buffer, int size, IntPtr URL, IntPtr encoding, int options);
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderSetParserProp(xmlTextReaderPtr reader, int prop, int value);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlTextReaderSetErrorHandler(xmlTextReaderPtr reader, xmlTextReaderErrorFunc f, IntPtr pUserData);
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlTextReaderLocatorLineNumber(xmlTextReaderLocatorPtr locator);
 
-
-
+        
 
 
 

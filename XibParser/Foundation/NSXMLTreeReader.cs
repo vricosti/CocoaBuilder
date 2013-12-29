@@ -17,7 +17,7 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLTreeReader));
         new public static NSXMLTreeReader alloc() { return new NSXMLTreeReader(); }
 
-       
+
         GCHandle _instanceHandle;
         IntPtr _instancePtr;
         LibXml.xmlTextReaderErrorFunc _xmlTextReaderErrorFuncDelegate;
@@ -25,7 +25,7 @@ namespace Smartmobili.Cocoa
         private static bool _entitySetupOncePredicate;
         private static IntPtr __originalLoader;
         private NSString ThreadXmlTreeReaderTag = "__CurrentNSXMLTreeReader";
-        private  LibXml.xmlExternalEntityLoader _xmlExternalEntityLoaderDelegate;
+        private LibXml.xmlExternalEntityLoader _xmlExternalEntityLoaderDelegate;
         private static int _enableXMLParsingMemoryGuards = -1;
 
         protected bool _hadError; //0x04
@@ -55,13 +55,14 @@ namespace Smartmobili.Cocoa
         protected Class _dtdNodeClass; //0x54
         protected Class _elementClass; //0x58
         protected Class _nodeClass; //0x5C
-       
+
         public NSXMLTreeReader()
         {
             _instanceHandle = GCHandle.Alloc(this);
             _instancePtr = GCHandle.ToIntPtr(_instanceHandle);//(IntPtr)_instanceHandle;
+            _xmlTextReaderErrorFuncDelegate = new LibXml.xmlTextReaderErrorFunc(_xmlTextReaderErrorFunc);
         }
-      
+
 
         public virtual NSString URI()
         {
@@ -78,7 +79,7 @@ namespace Smartmobili.Cocoa
 
         public virtual NSURL url()
         {
-            if(_url == null)
+            if (_url == null)
             {
                 if (_uri != null)
                 {
@@ -97,7 +98,7 @@ namespace Smartmobili.Cocoa
 
         public virtual void setAllowedEntityURLs(NSSet allowedEntityURLs)
         {
-            if(_allowedEntityURLs != allowedEntityURLs)
+            if (_allowedEntityURLs != allowedEntityURLs)
             {
                 _allowedEntityURLs.autorelease();
                 _allowedEntityURLs = (NSSet)allowedEntityURLs.retain();
@@ -120,6 +121,7 @@ namespace Smartmobili.Cocoa
             if (_content == content)
                 return;
 
+            _content.release();
             _content = (NSMutableString)content.mutableCopy();
             if (_content != null && _text == null)
             {
@@ -155,7 +157,7 @@ namespace Smartmobili.Cocoa
                 _isSingleDTDNode = isSingleDTDNode;
                 _data = (NSData)data.retain();
                 _error = error;
-                
+
                 bool additiveContent = true;
                 if ((_fidelityMask & 0x8400000) == 0x0)
                     additiveContent = ((_fidelityMask & 0x1000000) >> 24) != 0;
@@ -179,10 +181,10 @@ namespace Smartmobili.Cocoa
         }
 
 
-       
+
 
         //xmlParserInputPtr xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxtPtr context);
-        public T GetDelegateForFunctionPointer<T>(IntPtr addr, Type t) where T : class
+        public T GetDelegateForFunctionPointer<T>(IntPtr addr) where T : class
         {
             System.Delegate fn_ptr = Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
             return fn_ptr as T;
@@ -192,14 +194,14 @@ namespace Smartmobili.Cocoa
         {
             xmlParserInputPtr result = IntPtr.Zero;
 
-            var originalLoader = GetDelegateForFunctionPointer<LibXml.xmlExternalEntityLoader>(__originalLoader, typeof(LibXml.xmlExternalEntityLoader));
+            var originalLoader = GetDelegateForFunctionPointer<LibXml.xmlExternalEntityLoader>(__originalLoader);
 
             NSXMLTreeReader treeReaderInstance = NSThread.currentThread().threadDictionary().objectForKey(ThreadXmlTreeReaderTag) as NSXMLTreeReader;
             if (treeReaderInstance == null)
             {
                 result = originalLoader(URL, ID, context);
             }
-            else 
+            else
             {
                 int externalPolicy = treeReaderInstance.externalEntityLoadingPolicy();
                 NSURL url = null;
@@ -231,7 +233,7 @@ namespace Smartmobili.Cocoa
                     return originalLoader(URL, ID, context);
                 if (externalPolicy != 0x80000)
                 {
-                    if(externalPolicy != 0x8000)
+                    if (externalPolicy != 0x8000)
                     {
                         //xmlParserInputPtr	xmlNoNetExternalEntityLoader	(const char * URL, const char * ID, xmlParserCtxtPtr ctxt)
                         return originalLoader(URL, ID, context);
@@ -265,7 +267,7 @@ namespace Smartmobili.Cocoa
                 }
             }
 
-           return result;
+            return result;
         }
 
 
@@ -277,20 +279,20 @@ namespace Smartmobili.Cocoa
             var startDTDCharSet = NSCharacterSet.characterSetWithCharactersInString("\\\"'[>");
             var endDTDCharSet = NSCharacterSet.characterSetWithCharactersInString("\\\"']");
             var wsCharSet = NSCharacterSet.whitespaceAndNewlineCharacterSet();
-            
+
             var text = (NSString)NSString.alloc().initWithData(_data, NSStringEncoding.NSUTF8StringEncoding);
             NSRange range = text.rangeOfString("<!DOCTYPE");
             uint index = range.Location;
             if (range.Location < text.length())
             {
-                while(true)
+                while (true)
                 {
                     char c = text.characterAtIndex(index);
                     // FIXME
                 }
             }
 
-            
+
 
             return dtdString;
         }
@@ -299,13 +301,13 @@ namespace Smartmobili.Cocoa
         {
             if (_text != null)
             {
-                if(_text.isKindOfClass(NSXMLFidelityNode.Class) == false)
+                if (_text.isKindOfClass(NSXMLFidelityNode.Class) == false)
                 {
                     _text.release();
                 }
             }
             _text = (NSXMLFidelityNode)NSXMLFidelityNode.alloc().initWithKind(NSXMLNodeKind.NSXMLTextKind);
-            
+
             uint v9 = _fidelityMask & 0x400000;
             uint v10 = v9 + 0x8000000;
             if ((_fidelityMask & 0x8000000) == 0)
@@ -320,7 +322,7 @@ namespace Smartmobili.Cocoa
             {
                 _content.appendString(str);
             }
-            else 
+            else
             {
                 this.setContent(str);
             }
@@ -352,7 +354,7 @@ namespace Smartmobili.Cocoa
             NSString msgLine;
 
             NSXMLTreeReader pThis = (NSXMLTreeReader)GCHandle.FromIntPtr(userData).Target;
-          
+
             int line = LibXml.xmlTextReaderLocatorLineNumber(locator);
             if (pMsg != IntPtr.Zero)
             {
@@ -369,7 +371,7 @@ namespace Smartmobili.Cocoa
                 case xmlParserSeverities.XML_PARSER_SEVERITY_WARNING:
                     pThis.setError(true, msgLine, false);
                     break;
-                
+
                 case xmlParserSeverities.XML_PARSER_SEVERITY_VALIDITY_ERROR:
                 case xmlParserSeverities.XML_PARSER_SEVERITY_ERROR:
                     pThis.setError(true, msgLine, true);
@@ -383,8 +385,8 @@ namespace Smartmobili.Cocoa
         internal void _initializeReader()
         {
             int options = 0;
-            
-            options = (( ((_fidelityMask & 0x12000000) == 0)) ? 1 : 0 << 8) + 1024;
+
+            options = ((((_fidelityMask & 0x12000000) == 0)) ? 1 : 0 << 8) + 1024;
             if ((_fidelityMask & 0x10000) == 0)
                 options = (((_fidelityMask & 0x12000000) == 0)) ? 1 : 0 << 8;
             if (_enableXMLParsingMemoryGuards == -1)
@@ -403,16 +405,34 @@ namespace Smartmobili.Cocoa
             _reader = LibXml.xmlReaderForMemory(bytes, (int)len, IntPtr.Zero, IntPtr.Zero, options);
             if (_reader != IntPtr.Zero)
             {
-                _xmlTextReaderErrorFuncDelegate = new LibXml.xmlTextReaderErrorFunc(_xmlTextReaderErrorFunc);
                 IntPtr xmlTextReaderErrorFunc = Marshal.GetFunctionPointerForDelegate(_xmlTextReaderErrorFuncDelegate);
                 LibXml.xmlTextReaderSetErrorHandler(_reader, _xmlTextReaderErrorFunc, _instancePtr);
+
+                //reader->sax->characters = reader->characters
+                //reader->characters = _characters3
+                //reader->sax->startElementNs = reader->startElementNs
+                //reader->startElementNs = _startElementNs_1dc7d5
+                //reader->sax->entityDecl =  _getEntity_209819
+
+                if ((_fidelityMask & 0x1400000) == 0)
+                {
+                    //reader->sax->cdataBlock = null;
+                }
+                LibXml.xmlTextReaderSetParserProp(_reader, 4, ((_fidelityMask & 0x400000) == 0) ? 1 : 0);
+
+
+                if ((_fidelityMask & 0x8000000) != 0)
+                {
+                    //reader->ctxt->+0x168(x86)??? |= 0x80000000;
+                }
+                LibXml.xmlTextReaderSetParserProp(_reader, 3, ((_fidelityMask & 0x20) != 0) ? 1 : 0);
             }
         }
 
 
         public virtual id parse()
         {
-           // _error = null;
+            // _error = null;
             this._initializeReader();
 
             return null;
