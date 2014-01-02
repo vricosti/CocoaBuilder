@@ -17,6 +17,9 @@ using xmlExternalEntityLoaderPtr = System.IntPtr;
 using xmlTextReaderPtr = System.IntPtr;
 using xmlTextReaderLocatorPtr = System.IntPtr;
 using xmlTextReaderErrorFunc = System.IntPtr;
+using xmlNodePtr = System.IntPtr;
+using xmlDocPtr = System.IntPtr;
+using xmlErrorPtr = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
@@ -215,6 +218,13 @@ namespace Smartmobili.Cocoa
     {
         public const UInt32 XML_SAX2_MAGIC = 0xDEEDBEAF;
 
+        //xmlParserInputState
+        public const Int32 XML_PARSER_CONTENT = 7;
+        //xmlEntityType
+        public const Int32 XML_INTERNAL_PREDEFINED_ENTITY = 6;
+
+
+
         public enum XmlParserOption : uint
         {
             XML_PARSE_RECOVER = 1, //: recover on errors
@@ -253,7 +263,7 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate IntPtr resolveEntitySAXFunc(IntPtr ctx, IntPtr publicId, IntPtr systemId);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate IntPtr getEntitySAXFunc(IntPtr ctx, IntPtr name);
+        public unsafe delegate xmlEntityPtr getEntitySAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void entityDeclSAXFunc(IntPtr ctx, IntPtr name, int type, IntPtr publicId, IntPtr systemId, IntPtr content);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -407,6 +417,10 @@ namespace Smartmobili.Cocoa
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlSetStructuredErrorFunc(IntPtr ctx, IntPtr /*xmlStructuredErrorFunc*/ handler);
 
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlErrorPtr xmlCtxtGetLastError(IntPtr ctx);
+
+
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern xmlParserCtxtPtr xmlCreatePushParserCtxt(xmlSAXHandlerPtr sax, IntPtr user_data,
@@ -439,8 +453,20 @@ namespace Smartmobili.Cocoa
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlTextReaderLocatorLineNumber(xmlTextReaderLocatorPtr locator);
 
-        
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlNodePtr xmlAddChild(xmlNodePtr parent, xmlNodePtr cur);
 
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlNodePtr xmlNewCharRef(xmlDocPtr doc, IntPtr name);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlNodePtr xmlNewReference(xmlDocPtr doc, IntPtr name);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern IntPtr xmlStrsub(IntPtr str, int start, int len);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlFree(IntPtr ptr);
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////

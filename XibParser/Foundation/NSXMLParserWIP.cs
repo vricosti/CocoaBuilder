@@ -29,7 +29,7 @@ using Org.System.Xml.Sax.Helpers;
 using SaxConsts = Org.System.Xml.Sax.Constants;
 using System.Runtime.InteropServices;
 using xmlEntityPtr = System.IntPtr;
-
+using xmlErrorPtr = System.IntPtr;
 
 
 namespace Smartmobili.Cocoa
@@ -113,7 +113,7 @@ namespace Smartmobili.Cocoa
             return _delegate; 
         }
 
-        protected virtual NSXMLParserInfo info()
+        protected virtual NSXMLParserInfo _info()
         {
             return this._reserved1;
         }
@@ -205,6 +205,7 @@ namespace Smartmobili.Cocoa
                 initializeSAX2Callbacks();
                 _reserved1.parserFlags |= 0x40;
                 _reserved1.parserFlags |= 0x80;
+                _reserved1.namespaces = null;
 
                 if (data != null)
                 {
@@ -237,7 +238,7 @@ namespace Smartmobili.Cocoa
             id self = this.initWithData(null);
             if (self != null)
             {
-                _reserved1.parserFlags = (uint)_reserved1.parserFlags & 0xffffff7f;
+                _reserved1.parserFlags &= 0xffffff7f;
             }
             return self;
         }
@@ -310,7 +311,7 @@ namespace Smartmobili.Cocoa
                 NSString chars = null;
                 if (pValue != IntPtr.Zero)
                 {
-                    chars = pThis._NSXMLParserNSStringFromBytes(pValue, pThis.info());
+                    chars = pThis._NSXMLParserNSStringFromBytes(pValue, pThis._info());
                 }
                 Objc.MsgSend(dlegate, "parserFoundComment", pThis, chars);
             }
@@ -334,22 +335,22 @@ namespace Smartmobili.Cocoa
                 NSString name = null;
                 if (pName != IntPtr.Zero)
                 {
-                    name = pThis._NSXMLParserNSStringFromBytes(pName, pThis.info());
+                    name = pThis._NSXMLParserNSStringFromBytes(pName, pThis._info());
                 }
                 NSString publicId = null;
                 if (pPublicId != IntPtr.Zero)
                 {
-                    publicId = pThis._NSXMLParserNSStringFromBytes(pPublicId, pThis.info());
+                    publicId = pThis._NSXMLParserNSStringFromBytes(pPublicId, pThis._info());
                 }
                 NSString systemId = null;
                 if (pSystemId != IntPtr.Zero)
                 {
-                    systemId = pThis._NSXMLParserNSStringFromBytes(pSystemId, pThis.info());
+                    systemId = pThis._NSXMLParserNSStringFromBytes(pSystemId, pThis._info());
                 }
                 NSString notationName = null;
                 if (pNotationName != IntPtr.Zero)
                 {
-                    notationName = pThis._NSXMLParserNSStringFromBytes(pNotationName, pThis.info());
+                    notationName = pThis._NSXMLParserNSStringFromBytes(pNotationName, pThis._info());
                 }
                 Objc.MsgSend(dlegate, "parserFoundUnparsedEntityDeclarationWithName", pThis, name, publicId, systemId, notationName);
             }
@@ -365,7 +366,7 @@ namespace Smartmobili.Cocoa
                 NSString name = null;
                 if (pName != IntPtr.Zero)
                 {
-                    name = pThis._NSXMLParserNSStringFromBytes(pName, pThis.info());
+                    name = pThis._NSXMLParserNSStringFromBytes(pName, pThis._info());
                 }
                 Objc.MsgSend(dlegate, "parserFoundElementDeclarationWithName", pThis, name, "");
             }
@@ -382,17 +383,17 @@ namespace Smartmobili.Cocoa
                 NSString elem = null;
                 if (pElem != IntPtr.Zero)
                 {
-                    elem = pThis._NSXMLParserNSStringFromBytes(pElem, pThis.info());
+                    elem = pThis._NSXMLParserNSStringFromBytes(pElem, pThis._info());
                 }
                 NSString fullname = null;
                 if (pFullname != IntPtr.Zero)
                 {
-                    fullname = pThis._NSXMLParserNSStringFromBytes(pFullname, pThis.info());
+                    fullname = pThis._NSXMLParserNSStringFromBytes(pFullname, pThis._info());
                 }
                 NSString defaultValue = null;
                 if (pDefaultValue != IntPtr.Zero)
                 {
-                    defaultValue = pThis._NSXMLParserNSStringFromBytes(pDefaultValue, pThis.info());
+                    defaultValue = pThis._NSXMLParserNSStringFromBytes(pDefaultValue, pThis._info());
                 }
                 Objc.MsgSend(dlegate, "parserFoundAttributeDeclarationWithName", pThis, fullname, elem, type, defaultValue);
 
@@ -411,17 +412,17 @@ namespace Smartmobili.Cocoa
                  NSString name = null;
                  if (pName != IntPtr.Zero)
                  {
-                     name = pThis._NSXMLParserNSStringFromBytes(pName, pThis.info());
+                     name = pThis._NSXMLParserNSStringFromBytes(pName, pThis._info());
                  }
                  NSString publicId = null;
                  if (pPublicId != IntPtr.Zero)
                  {
-                     publicId = pThis._NSXMLParserNSStringFromBytes(pPublicId, pThis.info());
+                     publicId = pThis._NSXMLParserNSStringFromBytes(pPublicId, pThis._info());
                  }
                  NSString systemId = null;
                  if (pSystemId != IntPtr.Zero)
                  {
-                     systemId = pThis._NSXMLParserNSStringFromBytes(pSystemId, pThis.info());
+                     systemId = pThis._NSXMLParserNSStringFromBytes(pSystemId, pThis._info());
                  }
                  Objc.MsgSend(dlegate, "parserFoundNotationDeclarationWithName", pThis, name, publicId, systemId);
              }
@@ -437,12 +438,12 @@ namespace Smartmobili.Cocoa
             NSString content = null;
             if (pContent != IntPtr.Zero)
             {
-                content = pThis._NSXMLParserNSStringFromBytes(pContent, pThis.info());
+                content = pThis._NSXMLParserNSStringFromBytes(pContent, pThis._info());
             }
             NSString name = null;
             if (pName != IntPtr.Zero)
             {
-                name = pThis._NSXMLParserNSStringFromBytes(pName, pThis.info());
+                name = pThis._NSXMLParserNSStringFromBytes(pName, pThis._info());
             }
             if (content.length() == 0)
             {
@@ -455,12 +456,12 @@ namespace Smartmobili.Cocoa
                         NSString publicId = null;
                         if (pPublicId != IntPtr.Zero)
                         {
-                            publicId = pThis._NSXMLParserNSStringFromBytes(pPublicId, pThis.info());
+                            publicId = pThis._NSXMLParserNSStringFromBytes(pPublicId, pThis._info());
                         }
                         NSString systemId = null;
                         if (pSystemId != IntPtr.Zero)
                         {
-                            systemId = pThis._NSXMLParserNSStringFromBytes(pSystemId, pThis.info());
+                            systemId = pThis._NSXMLParserNSStringFromBytes(pSystemId, pThis._info());
                         }
                         Objc.MsgSend(dlegate, "parserFoundExternalEntityDeclarationWithName", pThis, name, publicId, systemId);
                     }
@@ -496,17 +497,13 @@ namespace Smartmobili.Cocoa
                 pEntity = LibXml.xmlSAX2GetEntity(parserCtx, pName);
                 if (pEntity != IntPtr.Zero)
                 {
-                    //FIXME (x86)
-                    //if (*(edi + 0xac) == 0x7)
-                    //{
-                    //    *(edi + 0x110) = 0x1;
-                    //}
-
-                    // (x64)
-                    //if (*(int32_t*)(r15 + 0x110) == 0x7)
-                    //{
-                    //    *(r15 + 0x1a8) = 0x1;
-                    //}
+                    IntPtr parserCtxt_instate = parserCtx.Inc(0xAC).Deref();
+                    if((int)parserCtxt_instate.Deref() == 7 /*LibXml.XML_PARSER_CONTENT*/)
+                    {
+                        //reader->ctxt->_private = 1;
+                        parserCtx.Inc(0x110).Deref().Assign((IntPtr)1);
+                        
+                    }
                 }
                 else
                 {
@@ -516,7 +513,7 @@ namespace Smartmobili.Cocoa
                         NSString name = null;
                         if (pName != IntPtr.Zero)
                         {
-                            name = pThis._NSXMLParserNSStringFromBytes(pName, pThis.info());
+                            name = pThis._NSXMLParserNSStringFromBytes(pName, pThis._info());
                         }
 
                         NSData data = (NSData)Objc.MsgSend(dlegate, "parserResolveExternalEntityName", pThis, name, 0);
@@ -698,10 +695,55 @@ namespace Smartmobili.Cocoa
             System.Diagnostics.Debug.WriteLine("_StructuredErrorFunc");
         }
 
+        protected virtual NSError _setExpandedParserError(NSError error)
+        {
+            if (this._reserved1.error != null)
+                this._reserved1.error.autorelease();
+            this._reserved1.error = (NSError)error.retain();
+
+            return _reserved1.error;
+        }
+
+        protected virtual NSError _setParserError(int code)
+        {
+            NSError err = (NSError)NSError.alloc().initWithDomain("NSXMLParserErrorDomain", code, null).autorelease();
+            return this._setExpandedParserError(err);
+        }
+
+        private static NSError _NSErrorFromXMLError(xmlErrorPtr pError, NSXMLParserWIP pThis)
+        {
+            NSError err = null;
+
+
+            return err;
+        }
+
+
+
         protected virtual bool _handleParseResult(int xmlParserError)
         {
-            // FIXME
-            return true;
+            if (xmlParserError != -1)
+            {
+                if( this._info().delegateAborted == false)
+                {
+                    xmlErrorPtr pError = LibXml.xmlCtxtGetLastError(this._reserved1.parserContext);
+                    if (pError != IntPtr.Zero && Marshal.ReadInt32(pError.Inc(0x04), 0) == xmlParserError)
+                    {
+                        this._setExpandedParserError(_NSErrorFromXMLError(pError, this));
+                    }
+                    else 
+                    {
+                        this._setParserError(xmlParserError);
+                    }
+                }
+                else
+                {
+
+                }
+            }
+
+
+            return false;
         }
 
         protected virtual bool finishIncrementalParse()
@@ -709,11 +751,7 @@ namespace Smartmobili.Cocoa
             return this._handleParseResult(LibXml.xmlParseChunk(_reserved1.parserContext,null,0,1));
         }
 
-        protected virtual NSError _setExpandedParserError(NSError error)
-        {
-            _reserved1.error = error;
-            return _reserved1.error;
-        }
+        
        
 
         
@@ -756,7 +794,7 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                qName = pThis._NSXMLParserNSStringFromBytes(pLocalname, pThis.info());
+                qName = pThis._NSXMLParserNSStringFromBytes(pLocalname, pThis._info());
             }
 
             // FIXME

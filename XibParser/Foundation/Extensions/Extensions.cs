@@ -41,7 +41,7 @@ namespace Smartmobili.Cocoa
 
 namespace System
 {
-    public delegate bool Predicate4<in T>(T obj);
+    
 
     public static class Extensions
     {
@@ -158,6 +158,47 @@ namespace System
         //    return ret;
         //}
 
+        public static IntPtr Inc(this IntPtr ptr, int offSet = 1)
+        {
+            IntPtr ret = new IntPtr(ptr.ToInt64() + offSet);
+            return ret;
+        }
+
+        public static IntPtr Dec(this IntPtr ptr, int offSet = -1)
+        {
+            IntPtr ret = new IntPtr(ptr.ToInt64() + offSet);
+            return ret;
+        }
+
+        public static IntPtr Deref(this IntPtr ptr)
+        {
+            return DerefInc(ptr, 0);
+        }
+
+        //public static IntPtr Deref<T>(this IntPtr ptr) where T : struct
+        //{
+        //    return DerefInc(ptr, 0);
+        //}
+
+
+
+        public static IntPtr DerefInc(this IntPtr ptr, int offset = 0)
+        {
+            var deref = (IntPtr)Marshal.PtrToStructure(ptr, typeof(IntPtr));
+            return deref.Inc(offset);
+        }
+
+        public static IntPtr Assign(this IntPtr lhs, IntPtr rhs)
+        {
+            return IntPtr.Zero;
+        }
+
+        public static IntPtr ToIntPtr(this Delegate dlgate)
+        {
+            return Marshal.GetFunctionPointerForDelegate(dlgate);
+        }
+
+
         public static int strlen(this IntPtr nativeUtf8)
         {
             int len = 0;
@@ -169,6 +210,19 @@ namespace System
             }
 
             return len;
+        }
+
+
+        public static char GetChar(this IntPtr nativeUtf8)
+        {
+            char chr = '\0';
+
+            if (nativeUtf8 != IntPtr.Zero)
+            {
+                chr = (char)Marshal.ReadByte(nativeUtf8, 0);
+            }
+
+            return chr;
         }
 
         public static byte[] GetBytes(this IntPtr nativeUtf8)

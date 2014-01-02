@@ -9,6 +9,7 @@ using xmlParserInputPtr = System.IntPtr;
 using xmlParserCtxtPtr = System.IntPtr;
 using xmlTextReaderPtr = System.IntPtr;
 using xmlTextReaderLocatorPtr = System.IntPtr;
+using xmlEntityPtr = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
@@ -20,7 +21,10 @@ namespace Smartmobili.Cocoa
 
         GCHandle _instanceHandle;
         IntPtr _instancePtr;
-        LibXml.xmlTextReaderErrorFunc _xmlTextReaderErrorFuncDelegate;
+        private static LibXml.xmlTextReaderErrorFunc _xmlTextReaderErrorFuncDelegate;
+        private static LibXml.charactersSAXFunc _characters3Delegate;
+        private static LibXml.startElementNsSAX2Func _startElementNs1Delegate;
+        private static LibXml.getEntitySAXFunc _getEntity1Delegate;
 
         private static bool _entitySetupOncePredicate;
         private static IntPtr __originalLoader;
@@ -49,7 +53,7 @@ namespace Smartmobili.Cocoa
         protected NSMapTable _xmlCharToNSString; //0x3C
         protected NSMapTable _xmlCharHashToNSString; //0x40
         protected id _readerCharacters; //0x44
-        protected IntPtr _reader; //0x48
+        protected xmlTextReaderPtr _reader; //0x48
         protected Class _documentClass; //0x4C
         protected Class _dtdClass; //0x50
         protected Class _dtdNodeClass; //0x54
@@ -61,6 +65,9 @@ namespace Smartmobili.Cocoa
             _instanceHandle = GCHandle.Alloc(this);
             _instancePtr = GCHandle.ToIntPtr(_instanceHandle);//(IntPtr)_instanceHandle;
             _xmlTextReaderErrorFuncDelegate = new LibXml.xmlTextReaderErrorFunc(_xmlTextReaderErrorFunc);
+            _characters3Delegate = new LibXml.charactersSAXFunc(_characters3);
+            _startElementNs1Delegate = new LibXml.startElementNsSAX2Func(_startElementNs3);
+            _getEntity1Delegate = new LibXml.getEntitySAXFunc(_getEntity3);
         }
 
 
@@ -416,15 +423,25 @@ namespace Smartmobili.Cocoa
             _reader = LibXml.xmlReaderForMemory(bytes, (int)len, IntPtr.Zero, IntPtr.Zero, options);
             if (_reader != IntPtr.Zero)
             {
-                IntPtr xmlTextReaderErrorFunc = Marshal.GetFunctionPointerForDelegate(_xmlTextReaderErrorFuncDelegate);
+                IntPtr xmlTextReaderErrorFunc = _xmlTextReaderErrorFuncDelegate.ToIntPtr();
                 LibXml.xmlTextReaderSetErrorHandler(_reader, _xmlTextReaderErrorFunc, _instancePtr);
 
+                ///////////////////////////////////////////////////////////////////////////////////////////
                 //reader->sax->characters = reader->characters
                 //reader->characters = _characters3
                 //reader->sax->startElementNs = reader->startElementNs
                 //reader->startElementNs = _startElementNs_1dc7d5
-                //reader->sax->entityDecl =  _getEntity_209819
-                
+                //reader->sax->getEntity =  _getEntity_209819
+#if WIN32
+                _reader.Inc(0x18).Deref().Inc(0x44).Assign(_reader.Inc(0x30));
+                _reader.Inc(0x30).Assign(_characters3Delegate.ToIntPtr());
+                _reader.Inc(0x18).Deref().Inc(0x74).Assign(_reader.Inc(0x28));
+                _reader.Inc(0x28).Assign(_startElementNs1Delegate.ToIntPtr());
+                _reader.Inc(0x18).Deref().Inc(0x18).Assign(_getEntity1Delegate.ToIntPtr());
+#else
+
+#endif
+                ///////////////////////////////////////////////////////////////////////////////////////////
                 int prop;
                 if ((_fidelityMask & 0x1400000) == 0)
                 {
@@ -441,6 +458,186 @@ namespace Smartmobili.Cocoa
                 prop = ((_fidelityMask & 0x20) != 0) ? 1 : 0;
                 LibXml.xmlTextReaderSetParserProp(_reader, 3, prop);
             }
+        }
+
+        private static unsafe void _startElementNs3(IntPtr pCtx, 
+            IntPtr pLocalname, IntPtr pPrefix, IntPtr pURI, 
+            int nb_namespaces, string[] namespaces, 
+            int nb_attributes, int nb_defaulted, string[] attributes)
+        {
+            xmlParserCtxtPtr parserCtxt = pCtx;
+
+            //reader = (xmlTextReaderPtr)parserCtxt->_private
+            xmlTextReaderPtr pReader = parserCtxt.Inc(0x110).Deref();
+            if (pReader != IntPtr.Zero)
+            {
+                IntPtr reader_startElementNs = pReader.Inc(0x28).Deref();
+                if (reader_startElementNs != IntPtr.Zero)
+                {
+                    var reader_sax_startElementNs = pReader.Inc(0x18).DerefInc(0x74);
+                    var readerSaxStartElementNs = InteropHelper.GetDelegateForFunctionPointer<LibXml.startElementNsSAX2Func>(reader_sax_startElementNs);
+                    readerSaxStartElementNs(pCtx, pLocalname, pPrefix, pURI, nb_namespaces, namespaces, nb_attributes, nb_defaulted, attributes);
+
+                    IntPtr parserCtxt_node = parserCtxt.Inc(0x34).Deref();
+                    if (parserCtxt_node != IntPtr.Zero)
+                    {
+                        IntPtr node_input = parserCtxt_node.Inc(0x24).Deref();
+                        if (node_input != IntPtr.Zero)
+                        {
+                            IntPtr node_input_cur = node_input.Inc(0x10).Deref();
+                            if (node_input_cur != IntPtr.Zero)
+                            {
+                                char curChar = node_input_cur.GetChar();
+                                char nextChar = node_input_cur.Inc().GetChar();
+                                if (curChar == '/' && nextChar == '>')
+                                {
+                                    //FIXME
+                                    //*(_WORD*)(parserCtxt_node + 0x3A) = 1;
+                                }
+                            }
+
+                            //FIXME
+                            //v14 = *(_DWORD*)(parserCtxt_node + 0x2C);
+                            //if (v14 && nb_attr > 0)
+                            //{
+                            //    v15 = attr + 0x10;
+                            //    do
+                            //    {
+                            //        *(_DWORD*)v14 = **(_BYTE**)v15;
+                            //        v15 += 20;
+                            //        v14 = *(_DWORD*)(v14 + 0x18);
+                            //        --v10;
+                            //    }
+                            //    while (v10);
+                            //}
+                        }
+                    }
+                }
+                //*(_DWORD*)(reader + 0x10) = 1;
+            }
+        }
+
+        private static unsafe void _characters3(IntPtr ctx, IntPtr ch, int aLen)
+        {
+            xmlParserCtxtPtr parserCtx = ctx;
+            
+            xmlTextReaderPtr reader = IntPtr.Zero;
+            IntPtr reader_characters = IntPtr.Zero;
+            IntPtr parserCtx_input_base =  IntPtr.Zero;
+            IntPtr parserCtx_input_cur =  IntPtr.Zero;
+
+#if WIN32
+            //reader = (xmlTextReaderPtr)reader->ctx->_private
+            reader = parserCtx.Inc(0x110).Deref();
+            reader_characters = reader.Inc(0x30).Deref();
+#endif
+            if ((reader != IntPtr.Zero) && (reader_characters != IntPtr.Zero))
+            {
+                //options = (int)parserCtx->options;
+                int options = (Int32)parserCtx.Inc(0x168).Deref();
+                parserCtx_input_base = parserCtx.Inc(0x24).Deref().Inc(0x0C).Deref();
+                parserCtx_input_cur = parserCtx.Inc(0x24).Deref().Inc(0x10).Deref();
+                IntPtr pPrevChar = parserCtx_input_cur.Dec(-1);
+                IntPtr pCurChar = parserCtx_input_cur;
+               
+                //if (options < 0 && *(parserCtx->input->cur - 1))
+                char prevChar = pPrevChar.Deref().GetChar();
+                if ((options < 0) && (prevChar == ';'))
+                {
+                    if (ch.GetChar() != pCurChar.Deref().GetChar())
+                    {
+                        if (pPrevChar.GetChar() != parserCtx_input_base.GetChar())
+                        {
+                            int index = 0;
+                            while (true)
+                            {
+                                if (prevChar == ' ')
+                                    return;
+                                if (prevChar == '#')
+                                    break;
+
+                                prevChar = pPrevChar.Dec().GetChar();
+                                index++;
+                                pPrevChar = pPrevChar.Dec();
+
+                                if (pPrevChar == parserCtx_input_base)
+                                {
+                                    if (prevChar == '#')
+                                    {
+                                        goto LABEL_14;
+                                    }
+                                }
+                            }
+                            parserCtx_input_base = pPrevChar;
+                        
+                        LABEL_14:
+                            IntPtr parserCtxt_myDoc = parserCtx.Inc(0x8).Deref();
+                            IntPtr parserCtxt_node = parserCtx.Inc(0x34).Deref();
+                            var name = LibXml.xmlStrsub(parserCtx_input_base, 0, index);
+                            var pCurnode = LibXml.xmlNewCharRef(parserCtxt_myDoc, name);
+                            LibXml.xmlAddChild(parserCtxt_node, pCurnode);
+                            LibXml.xmlFree(name);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private static unsafe IntPtr _getEntity3(IntPtr pCtx, IntPtr pName)
+        {
+            IntPtr result = IntPtr.Zero;
+
+            xmlParserCtxtPtr parserCtxt = pCtx;
+
+            //reader = (xmlTextReaderPtr)reader->ctx->_private
+            xmlTextReaderPtr pReader = parserCtxt.Inc(0x110).Deref();
+            if (pReader != IntPtr.Zero)
+            {
+                //reader_sax_getEntity = pReader->sax.getEntity;
+                IntPtr reader_sax_getEntity = pReader.Inc(0x18).DerefInc(0x14).Deref();
+                if (reader_sax_getEntity != IntPtr.Zero)
+                {
+                    var readerSaxGetEntity = InteropHelper.GetDelegateForFunctionPointer<LibXml.getEntitySAXFunc>(reader_sax_getEntity);
+                    xmlEntityPtr pEntity = readerSaxGetEntity(pCtx, pName);
+                    
+                    //if ( parserCtxt->replaceEntities == 0)
+                    if ((int)parserCtxt.Inc(0x10).Deref() == 0)
+                    {
+                        if ((int)parserCtxt.Inc(0xAC).Deref() == LibXml.XML_PARSER_CONTENT)
+                        {
+                            if (pEntity != IntPtr.Zero)
+                            {
+                                if ((int)pEntity.Inc(0x30).Deref() == LibXml.XML_INTERNAL_PREDEFINED_ENTITY)
+                                {
+                                    IntPtr parserCtxt_node = parserCtxt.Inc(0x34).Deref();
+                                    if (parserCtxt_node != IntPtr.Zero)
+                                    {
+                                        IntPtr parserCtxt_myDoc = parserCtxt.Inc(0x8).Deref();
+                                        var pCurnode = LibXml.xmlNewReference(parserCtxt_myDoc, pName);
+                                        LibXml.xmlAddChild(parserCtxt_node, pCurnode);
+                                    }
+                                    //FIXME
+                                    //*(_DWORD *)(pEntity + 0x28) = &byte_2B5785[1];
+                                    // MAYBE pEntity->content = "";
+                                }
+                            }
+                            else
+                            {
+                                IntPtr parserCtxt_node = parserCtxt.Inc(0x34).Deref();
+                                if (parserCtxt_node != IntPtr.Zero)
+                                {
+                                    IntPtr parserCtxt_myDoc = parserCtxt.Inc(0x8).Deref();
+                                    var pCurnode = LibXml.xmlNewReference(parserCtxt_myDoc, pName);
+                                    LibXml.xmlAddChild(parserCtxt_node, pCurnode);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return IntPtr.Zero;
         }
 
 

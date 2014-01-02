@@ -42,7 +42,7 @@ namespace Smartmobili.Cocoa
         //NSDate _file_modification_date;// file modification date
         protected NSString _last_component_file_name; // file name last component
         protected NSURL _autosaved_file_url;	// Autosave location as URL
-        //NSPrintInfo* _print_info;		// print info record
+        //NSPrintInfo* _print_info;		// print _info record
         protected id _printOp_delegate;	// delegate and selector called
         protected SEL _printOp_didRunSelector;//   after modal print operation
         protected NSView _save_panel_accessory;	// outlet for the accessory save-panel view
