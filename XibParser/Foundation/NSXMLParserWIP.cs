@@ -746,7 +746,7 @@ namespace Smartmobili.Cocoa
         {
             bool result = true;
 
-            if (xmlParserError != -1)
+            if (xmlParserError > 0)
             {
                 if (this._info().delegateAborted == false)
                 {
