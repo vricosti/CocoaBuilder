@@ -33,9 +33,16 @@ namespace Smartmobili.Cocoa
         {
 
         }
-        
+        public static void errorWithLocalizedDescription(NSString localizedDescription, int errCode, object qs)
+        {
 
-        public virtual id initWithDomain(NSString domain, int code, NSDictionary dict)
+        }
+
+        public static NSError errorWithDomain(NSString domain, int code, NSDictionary userInfo)
+        {
+            return (NSError)NSError.alloc().initWithDomain(domain, code, userInfo);
+        }
+        public virtual id initWithDomain(NSString domain, int code, NSDictionary userInfo)
         {
             id self = this;
 
@@ -44,9 +51,6 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
-        public static void errorWithLocalizedDescription(NSString localizedDescription, int errCode, object qs)
-        {
-
-        }
+        
     }
 }

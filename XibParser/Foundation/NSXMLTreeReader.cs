@@ -462,8 +462,8 @@ namespace Smartmobili.Cocoa
 
         private static unsafe void _startElementNs3(IntPtr pCtx, 
             IntPtr pLocalname, IntPtr pPrefix, IntPtr pURI, 
-            int nb_namespaces, string[] namespaces, 
-            int nb_attributes, int nb_defaulted, string[] attributes)
+            int nb_namespaces, IntPtr namespaces,
+            int nb_attributes, int nb_defaulted, IntPtr attributes)
         {
             xmlParserCtxtPtr parserCtxt = pCtx;
 

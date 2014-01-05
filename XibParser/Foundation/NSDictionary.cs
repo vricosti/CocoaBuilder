@@ -176,6 +176,10 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public static id dictionaryWithObjectsAndKeys(params id[] objkey)
+        {
+            return (NSDictionary)NSDictionary.alloc().initWithObjectsAndKeys(objkey);
+        }
 
         public virtual id initWithObjectsAndKeys(params id[] objkey)
         {

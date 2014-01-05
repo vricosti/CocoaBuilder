@@ -308,7 +308,7 @@ namespace Smartmobili.Cocoa
         public unsafe delegate void externalSubsetSAXFunc(IntPtr ctx, IntPtr name, IntPtr ExternalID, IntPtr SystemID);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void startElementNsSAX2Func(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI,
-        int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes);
+        int nb_namespaces, IntPtr namespaces, int nb_attributes, int nb_defaulted, IntPtr attributes);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void endElementNsSAX2Func(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

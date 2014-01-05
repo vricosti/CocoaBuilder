@@ -172,13 +172,34 @@ namespace System
 
         public static IntPtr Deref(this IntPtr ptr)
         {
-            return DerefInc(ptr, 0);
+            var deref = (IntPtr)Marshal.PtrToStructure(ptr, typeof(IntPtr));
+            return deref;
         }
 
-        //public static IntPtr Deref<T>(this IntPtr ptr) where T : struct
-        //{
-        //    return DerefInc(ptr, 0);
-        //}
+        public static T Deref<T>(this IntPtr ptr) where T : struct
+        {
+            var val = default(T);
+
+            if (typeof(T) == typeof(bool))
+            {
+                bool bVal = Marshal.ReadByte(ptr) != 0 ? true : false;
+                val = (T)Convert.ChangeType(bVal, typeof(bool));
+            }
+            else if (typeof(T) == typeof(Int32))
+            {
+                val = (T)Convert.ChangeType(Marshal.ReadInt32(ptr), typeof(Int32));
+            }
+            else if ((typeof(T) == typeof(Int64)))
+            {
+                val = (T)Convert.ChangeType(Marshal.ReadInt64(ptr), typeof(Int64));
+            }
+            else
+            {
+                val = (T)Convert.ChangeType(Marshal.ReadIntPtr(ptr), typeof(IntPtr));
+            }
+
+            return val;
+        }
 
 
 
