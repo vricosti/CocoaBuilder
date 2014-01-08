@@ -14,8 +14,8 @@ namespace Smartmobili.Cocoa
             System.Delegate fn_ptr = Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
             return fn_ptr as T;
         }
-
     }
+
     public static class ByteUtil
     {
 

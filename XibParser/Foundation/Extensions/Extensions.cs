@@ -158,6 +158,17 @@ namespace System
         //    return ret;
         //}
 
+        public static IntPtr[] ReadArray(this IntPtr ptr, int size)
+        {
+            IntPtr[] ret = new IntPtr[size];
+            for (int i = 0; i < size; i++)
+            {
+                ret[i] = Marshal.ReadIntPtr(ptr, i * IntPtr.Size);
+            }
+
+            return ret;
+        }
+
         public static IntPtr Inc(this IntPtr ptr, int offSet = 1)
         {
             IntPtr ret = new IntPtr(ptr.ToInt64() + offSet);

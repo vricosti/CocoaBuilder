@@ -60,7 +60,7 @@ namespace Smartmobili.Cocoa
         public uint chunkSize; //0x24
         public int nestingLevel;
 
-
+        
 
     }
 
@@ -71,7 +71,7 @@ namespace Smartmobili.Cocoa
 
         private bool _disposed;
 
-
+        private static NSDictionary _emptyDic = (NSDictionary)NSDictionary.alloc().init();
         private static volatile bool _isInited;
         private static volatile bool _isCleanedUp;
         private static object syncRoot = new Object();
@@ -779,6 +779,56 @@ namespace Smartmobili.Cocoa
             return result;
         }
 
+        protected virtual void _pushNamespaces(NSDictionary aNsDict)
+        {
+            if (this._reserved1.namespaces == null)
+            {
+                this._reserved1.namespaces = (NSMutableArray)NSMutableArray.alloc().init();
+            }
+
+            if (aNsDict != null)
+            {
+                this._reserved1.namespaces.addObject(aNsDict);
+
+                //parser:didStartMappingPrefix:toURI:
+                if (this._delegate != null && this._delegate.respondsToSelector(new SEL("parserDidStartMappingPrefix")))
+                {
+                    foreach(id key in aNsDict.allKeys())
+                    {
+                        NSString prefix = (NSString)key;
+                        NSString nsURI = (NSString) aNsDict[key];
+                        Objc.MsgSend(this._delegate, "parserDidStartMappingPrefix", this, prefix, nsURI);
+                    }
+                }
+            }
+            else
+            {
+                this._reserved1.namespaces.addObject(NSNull.getNull());
+            }
+        }
+
+
+        protected virtual void _popNamespaces()
+        {
+            uint lastIndex = _reserved1.namespaces.count() - 1;
+            NSDictionary nsDict = (NSDictionary)_reserved1.namespaces.objectAtIndex(lastIndex);
+            if (nsDict.isEqual(NSNull.getNull()) == false)
+            {
+                if (this._delegate != null && this._delegate.respondsToSelector(new SEL("parserDidEndMappingPrefix")))
+                {
+                    foreach (id key in nsDict.allKeys())
+                    {
+                        NSString prefix = (NSString)key;
+                        Objc.MsgSend(this._delegate, "parserDidEndMappingPrefix", this, prefix);
+                    }
+                }
+            }
+
+            _reserved1.namespaces.removeObjectAtIndex(lastIndex);
+
+        }
+
+
         protected virtual bool finishIncrementalParse()
         {
             return this._handleParseResult(LibXml.xmlParseChunk(_reserved1.parserContext, null, 0, 1));
@@ -803,13 +853,16 @@ namespace Smartmobili.Cocoa
             int nb_attributes, int nb_defaulted, IntPtr pAttributes)
         {
             NSXMLParserWIP pThis = ((GCHandle)ctx).Target as NSXMLParserWIP;
-            IntPtr[] namespaces = new IntPtr[nb_namespaces];
-            IntPtr[] attributes = new IntPtr[nb_attributes];
 
+            //namespaces: pointer to the array of prefix/URI pairs namespace definitions
+            IntPtr[] namespaces = pNamespaces.ReadArray(nb_namespaces * 2);
+            //attributes: pointer to the array of (localname/prefix/URI/value/end) attribute values.
+            IntPtr[] attributes = pNamespaces.ReadArray(nb_attributes * 5);
 
+            id dlegate = pThis.getDelegate();
             bool shouldProcessNs = pThis.shouldProcessNamespaces();
             bool shouldReportNsPrefixes = pThis.shouldReportNamespacePrefixes();
-            int prefixLen = LibXml.xmlStrlen(pLocalname);
+            int prefixLen = LibXml.xmlStrlen(pPrefix);
 
             NSString qName = null;
             if (shouldProcessNs || prefixLen == 0)
@@ -847,74 +900,155 @@ namespace Smartmobili.Cocoa
                     int index = 0;
                     do
                     {
-                        NSString keyReport = @"";
-                        NSString keyProcess = @"xmlns";
-                        IntPtr pQName = namespaces[index]; //Marshal.ReadIntPtr(pNamespaces, 0);
-                        if (pQName != IntPtr.Zero)
+                        NSString prefixWithNs = @"";
+                        NSString defaultPrefix = @"xmlns";
+                        IntPtr pNsPrefix = namespaces[index]; //Marshal.ReadIntPtr(pNamespaces, 0);
+                        if (pNsPrefix != IntPtr.Zero)
                         {
-                            keyReport = null;
+                            prefixWithNs = null;
                             if(shouldReportNsPrefixes)
                             {
-                                keyReport = pThis._NSXMLParserNSStringFromBytes(pQName, pThis._info());
+                                prefixWithNs = pThis._NSXMLParserNSStringFromBytes(pNsPrefix, pThis._info());
                                 //pQName  = pNamespaces[index].Deref();
                             }
-                            keyProcess = pThis._NewColonSeparatedStringFromPrefixAndSuffix("xmlns", pQName);
+                            defaultPrefix = pThis._NewColonSeparatedStringFromPrefixAndSuffix("xmlns", pNsPrefix);
                         }
 
-                        NSString obj = "";
-                        IntPtr pQName2 = namespaces[index + 1];
-                        if (pQName2 != IntPtr.Zero)
+                        NSString nsURI = "";
+                        IntPtr pNsURI = namespaces[index + 1];
+                        if (pNsURI != IntPtr.Zero)
                         {
-                            obj = pThis._NSXMLParserNSStringFromBytes(pQName2, pThis._info());
+                            nsURI = pThis._NSXMLParserNSStringFromBytes(pNsURI, pThis._info());
                         }
                         if (shouldReportNsPrefixes) 
                         {
-                            reportDict.setObjectForKey(obj, keyReport);
+                            reportDict.setObjectForKey(nsURI, prefixWithNs);
                         }
                         if (shouldProcessNs ) 
                         {
-                            processDict.setObjectForKey(obj, keyProcess);
+                            processDict.setObjectForKey(nsURI, defaultPrefix);
                         }
 
                         index += 2;
                     }
                     while (index < (2 * nb_namespaces));
                 }
-
             }
 
-            //if (prefixLen != 0)
-            //{
-            //    qName = pThis._NewColonSeparatedStringFromPrefixAndSuffix(pPrefix, pLocalname);
-            //}
-            //else
-            //{
-            //    qName = pThis._NSXMLParserNSStringFromBytes(pLocalname, pThis._info());
-            //}
+            if (shouldReportNsPrefixes)
+                pThis._pushNamespaces(reportDict);
+            
+            if (nb_attributes != 0)
+            {
+                int index = 0;
+                do
+                {
+                    IntPtr pLocalName = attributes[0];
+                    if (pLocalName != IntPtr.Zero)
+                    {
+                        NSString localName = null;
 
-            // FIXME
-            //if (nb_attributes != 0)
-            //{
-            //    NSMutableDictionary attrs = (NSMutableDictionary)NSMutableDictionary.alloc().initWithCapacity((uint)nb_attributes);
-            //    NSMutableDictionary nssPrefixes = null;
-            //    if (shouldReportNssPrefixes)
-            //        nssPrefixes = (NSMutableDictionary)NSMutableDictionary.alloc().initWithCapacity((uint)nb_namespaces);
+                        IntPtr prefix = attributes[0];
+                        if (prefix.strlen() != 0)
+                        {
+                            localName = pThis._NewColonSeparatedStringFromPrefixAndSuffix(prefix, pLocalName);
+                        }
+                        else
+                        {
+                            localName = (NSString)pThis._NSXMLParserNSStringFromBytes(pLocalName, pThis._info()).retain();
+                        }
 
+                        NSString value = "";
+                        IntPtr pValue = attributes[3];
+                        if(pValue != IntPtr.Zero)
+                        {
+                           
+                            IntPtr pEnd = attributes[4];
+                            if (pEnd != IntPtr.Zero)
+                            {
+                                value = (NSString)NSString.alloc().initWithBytes(pValue, (uint)(pEnd.ToInt64() - pValue.ToInt64()), NSStringEncoding.NSUTF8StringEncoding);
+                            }
+                        }
 
-            //}
+                        if (processDict != null)
+                            processDict.setObjectForKey(value, localName);
+                    }
+
+                    index += 5;
+                }
+                while (index < (5 * nb_attributes));
+            }
+
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserDidStartElement")))
+            {
+                if (shouldProcessNs)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            
 
         }
 
-        private static unsafe void _endElementNs(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI)
+        private static unsafe void _endElementNs(IntPtr ctx, IntPtr pLocalname, IntPtr pPrefix, IntPtr pURI)
         {
             NSXMLParserWIP pThis = ((GCHandle)ctx).Target as NSXMLParserWIP;
-            // FIXME
+
+            bool shouldProcessNs = pThis.shouldProcessNamespaces();
+            bool shouldReportNsPrefixes = pThis.shouldReportNamespacePrefixes();
+            int prefixLen = LibXml.xmlStrlen(pPrefix);
+
+            NSString localname = null;
+            NSString qname = "";
+            if (prefixLen != 0 & shouldProcessNs == false)
+            {
+                //v10 = pLocalname;
+            }
+            else
+            {
+                //v10 = pLocalname;
+                if (pLocalname != IntPtr.Zero)
+                {
+                    localname = pThis._NSXMLParserNSStringFromBytes(pLocalname, pThis._info());
+                }
+            }
+
+            if (prefixLen != 0)
+            {
+                qname = pThis._NewColonSeparatedStringFromPrefixAndSuffix(pPrefix, pLocalname);
+            }
+            else
+            {
+                qname = (NSString)localname.retain();
+            }
+
+            NSString uri = "";
+            if (shouldProcessNs && pURI != IntPtr.Zero)
+            {
+                uri = pThis._NSXMLParserNSStringFromBytes(pURI, pThis._info());
+            }
+
 
             id dlegate = pThis.getDelegate();
-            if (dlegate == null || dlegate.respondsToSelector(new SEL("parserDidEndElement")) == false)
-                return;
+            //"parser:didEndElement:namespaceURI:qualifiedName:"
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserDidEndElement")) == true)
+            {
+                if (shouldProcessNs)
+                {
+                    Objc.MsgSend(dlegate, "parserDidEndElement", pThis, localname, uri, qname);
+                }
+                else
+                {
+                    Objc.MsgSend(dlegate, "parserDidEndElement", pThis, qname, uri, null);
+                }
+            }
 
-            throw new NotImplementedException();
+            pThis._popNamespaces();
+            qname.release();
         }
         
 
@@ -938,7 +1072,7 @@ namespace Smartmobili.Cocoa
             return str;
         }
 
-        private string _NSXMLParserNSStringFromBytes(IntPtr pLocalname, NSXMLParserInfo info)
+        private NSString _NSXMLParserNSStringFromBytes(IntPtr pLocalname, NSXMLParserInfo info)
         {
             NSString str = (NSString)NS.MapGet(info.slowStringMap, pLocalname);
             if (str == null)

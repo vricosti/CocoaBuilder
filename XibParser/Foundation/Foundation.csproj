@@ -95,6 +95,7 @@
     <Compile Include="NSMutableDictionary.cs" />
     <Compile Include="NSMutableString.cs" />
     <Compile Include="NSNotificationCenter.cs" />
+    <Compile Include="NSNull.cs" />
     <Compile Include="NSNumber.cs" />
     <Compile Include="NSNumberFormatter.cs" />
     <Compile Include="NSObject.cs" />
