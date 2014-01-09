@@ -29,16 +29,32 @@ using System.Xml.XPath;
 
 namespace Smartmobili.Cocoa
 {
-    internal struct IBDocumentStorage
-    {
-        id objectContainer; //0x10
-    }
-
-
+   
     public class IBDocument : NSDocument
     {
         new public static Class Class = new Class(typeof(IBDocument));
         new public static IBDocument alloc() { return new IBDocument(); }
+
+        private static int _documentWindowUsesStaticOrigin = -1;
+
+        protected IBDocumentStorage _storage; // 0x34(x86) - 0x68(x64)
+
+        static IBDocument() { initialize(); }
+        new static void initialize()
+        {
+            //FIXME
+        }
+
+        public static bool shouldUpdateSourceFileRelativePaths()
+        {
+            return false;
+        }
+
+        public static IBPlugin plugin()
+        {
+            NSException.raise("plugin is abstract", "");
+            return null;
+        }
 
         public NSMutableDictionary ListOfReferenceId { get; protected set; }
 
@@ -81,45 +97,99 @@ namespace Smartmobili.Cocoa
 
         public NSMutableDictionary LastKnownImageSizes { get; set; }
 
-        protected IBObjectContainer _ibObjectContainer;
-        public virtual void setObjectContainer(IBObjectContainer ibObjectContainer) { _ibObjectContainer = ibObjectContainer; }
 
-        private NSString _targetRuntime;
-        public virtual void setTargetRuntime(NSString targetRuntime)  { _targetRuntime = targetRuntime; }
-        public virtual NSString targetRuntime() { return _targetRuntime; }
+        public virtual IBObjectContainer objectContainer() { return _storage.objectContainer; }
+        public virtual void setObjectContainer(IBObjectContainer ibObjectContainer) 
+        { 
+            if (_storage.objectContainer == null)
+            {
+                _storage.objectContainer = (IBObjectContainer)ibObjectContainer.retain();
+                //_storage.objectContainer.setDelegate(this);
+                NSMutableArray objects = _storage.objectContainer.objects();
 
-        private NSDictionary _metadata;
-        public virtual void setDocumentMetadata(NSDictionary metadata) { _metadata = metadata; }
-        public virtual NSDictionary documentMetadata() { return _metadata; }
+            }
+        }
 
-        private IBClassDescriber _classDescriber;
-        public virtual void setClassDescriber(IBClassDescriber classDescriber) { _classDescriber = classDescriber; }
-        public virtual IBClassDescriber classDescriber() { return _classDescriber; }
+        public virtual void setTargetRuntime(IBTargetRuntime targetRuntime)  
+        {
+            if (_storage.targetRuntime != targetRuntime)
+            {
+                _storage.targetRuntime.release();
+                _storage.targetRuntime = (IBTargetRuntime)targetRuntime.retain();
+                NSDocument activeDocument = ((IBDocumentController)IBDocumentController.sharedDocumentController()).activeDocument();
+                if (activeDocument == this)
+                {
+                    IBTargetRuntime.setLastActiveTargetRuntime(this.targetRuntime());
+                }
+            }
+        }
+        public virtual IBTargetRuntime targetRuntime() { return _storage.targetRuntime; }
+
+        public virtual void setDocumentMetadata(NSDictionary metadata) 
+        {
+            if (_storage.metadata != metadata)
+            {
+                _storage.metadata.release();
+                _storage.metadata = metadata; //metadata.mutableCopy();
+            }
+        }
+        public virtual NSDictionary documentMetadata() { return _storage.metadata; }
+
+
+        public virtual void setClassDescriber(IBClassDescriber classDescriber) 
+        { 
+            if (_storage.classDescriber == null)
+            {
+                _storage.classDescriber = (IBClassDescriber)classDescriber.retain();
+                _storage.classDescriber.setDocument(this);
+            }
+        }
+        public virtual IBClassDescriber classDescriber() { return _storage.classDescriber; }
             
-        private NSString _systemVersion;
-        public virtual void setLastSavedSystemVersion(NSString systemVersion) { _systemVersion = systemVersion; }
-        public virtual NSString lastSavedSystemVersion() { return _systemVersion; }
+        private NSString _lastSavedSystemVersion;
+        public virtual void setLastSavedSystemVersion(NSString systemVersion) { _lastSavedSystemVersion = systemVersion; }
+        public virtual NSString lastSavedSystemVersion() { return _lastSavedSystemVersion; }
 
-        private NSString _interfaceBuilderVersion;
-        public virtual void setLastSavedInterfaceBuilderVersion(NSString interfaceBuilderVersion) { _interfaceBuilderVersion = interfaceBuilderVersion; }
-        public virtual NSString lastSavedInterfaceBuilderVersion() { return _interfaceBuilderVersion; }
+        private NSString _lastSavedInterfaceBuilderVersion;
+        public virtual void setLastSavedInterfaceBuilderVersion(NSString interfaceBuilderVersion) { _lastSavedInterfaceBuilderVersion = interfaceBuilderVersion; }
+        public virtual NSString lastSavedInterfaceBuilderVersion() { return _lastSavedInterfaceBuilderVersion; }
 
-        private NSString _appKitVersion;
-        public virtual void setLastSavedAppKitVersion(NSString appKitVersion) { _appKitVersion = appKitVersion; }
-        public virtual NSString lastSavedAppKitVersion() { return _appKitVersion; }
+        private NSString _lastSavedAppKitVersion;
+        public virtual void setLastSavedAppKitVersion(NSString appKitVersion) { _lastSavedAppKitVersion = appKitVersion; }
+        public virtual NSString lastSavedAppKitVersion() { return _lastSavedAppKitVersion; }
 
-        private NSString _HIToolboxVersion;
-        public virtual void setLastSavedHIToolboxVersion(NSString HIToolboxVersion) { _HIToolboxVersion = HIToolboxVersion; }
-        public virtual NSString lastSavedHIToolboxVersion() { return _HIToolboxVersion; }
+        private NSString _lastSavedHIToolboxVersion;
+        public virtual void setLastSavedHIToolboxVersion(NSString HIToolboxVersion) { _lastSavedHIToolboxVersion = HIToolboxVersion; }
+        public virtual NSString lastSavedHIToolboxVersion() { return _lastSavedHIToolboxVersion; }
 
-        private NSDictionary _pluginVersions;
-        public virtual void setLastSavedPluginVersionsForDependedPlugins(NSDictionary pluginVersions) { _pluginVersions = pluginVersions; }
-        public virtual NSDictionary lastSavedPluginVersionsForDependedPlugins() { return _pluginVersions; }
+        private NSDictionary _lastSavedpluginVersionsForDependedPlugins;
+        public virtual void setLastSavedPluginVersionsForDependedPlugins(NSDictionary pluginVersions) { _lastSavedpluginVersionsForDependedPlugins = pluginVersions; }
+        public virtual NSDictionary lastSavedPluginVersionsForDependedPlugins() { return _lastSavedpluginVersionsForDependedPlugins; }
 
         private NSString _lastKnownRelativeProjectPath;
         public virtual void setLastKnownRelativeProjectPath(NSString lastKnownRelativeProjectPath) { _lastKnownRelativeProjectPath = lastKnownRelativeProjectPath; }
         public virtual NSString lastKnownRelativeProjectPath() { return _lastKnownRelativeProjectPath; }
+
+        private NSMutableDictionary _lastKnownImageSizes;
+        public virtual void setLastKnownImageSizes(NSMutableDictionary lastKnownImageSizes) { _lastKnownImageSizes = lastKnownImageSizes; }
+        public virtual NSMutableDictionary lastKnownImageSizes() { return _lastKnownImageSizes; }
+
+        private NSMutableArray _objectIDsToOpen;
+        public virtual void setObjectIDsToOpen(NSMutableArray objectIDsToOpen) { _objectIDsToOpen = _objectIDsToOpen; }
+        public virtual NSMutableArray objectIDsToOpen() { return _objectIDsToOpen; }
+
         
+
+        private int _localizationMode;
+        public virtual void setLocalizationMode(int localizationMode) { _localizationMode = localizationMode; }
+        public virtual int localizationMode() { return _localizationMode; }
+
+        private int _defaultPropertyAccessControl;
+        public virtual void setDefaultPropertyAccessControl(int defaultPropertyAccessControl) { _defaultPropertyAccessControl = defaultPropertyAccessControl; }
+        public virtual int defaultPropertyAccessControl() { return _defaultPropertyAccessControl; }
+
+        
+
 
         public virtual void setPluginDeclaredDependencies(NSArray pluginDeclaredDeps, int category)
         {
@@ -136,56 +206,16 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public virtual void setPreviousXmlDecoderHints(id xmlDecoder)
+        NSMutableDictionary _previousXmlDecoderHints;
+        public virtual void setPreviousXmlDecoderHints(NSMutableDictionary previousXmlDecoderHints)
         {
-
+            _previousXmlDecoderHints = previousXmlDecoderHints;
         }
 
         //hintsForFutureXMLCoder
 
 
-            //        function methImpl_IBDocument_readFromFileWrapper_ofType_error_ {
-//    rdx = fileWrapper, 
-//    rcx = type, 
-//    r8 = error
 
-//    r14 = r8;
-//    var_0 = rcx;
-//    r13 = rdx;
-//    r12 = rdi;
-//    r15 = *objc_msgSend;
-//    rax = [rdi additionalInstantiationInformation];
-//    rax = [rax objectForKey:@"IBAsyncXMLDecoderWrapper"];
-//    rax = [rax initializedDecoder];
-//    if (rax != 0x0) goto loc_12dee;
-//    goto loc_12d9f;
-
-//loc_12dee:
-//    r15 = *objc_msgSend;
-//    (r15)(r12, @selector(willDecodeWithKeyedDecoder:), rbx);
-//    rax = (r15)(r12, @selector(decodeDocumentOfType:withCoder:), var_0, rbx);
-//    *r14 = rax;
-//    (r15)(rbx, @selector(finishDecoding));
-//    rax = (r15)(rbx, @selector(hintsForFutureXMLCoder));
-//    (r15)(r12, @selector(setPreviousXmlDecoderHints:), rax);
-
-//loc_12e3f:
-//    r15 = *objc_msgSend;
-//    rax = (r15)(r12, @selector(undoManager));
-//    (r15)(rax, @selector(removeAllActions));
-//    rax = (*r14 == 0x0 ? 0xff : 0x0) & 0xff;
-//    return rax;
-
-//loc_12d9f:
-//    r15 = *objc_msgSend;
-//    rax = (r15)(r13, @selector(regularFileContents));
-//    rbx = rax;
-//    rax = [IBXMLDecoder alloc];
-//    rax = (r15)(rax, @selector(initForReadingWithData:error:), rbx, r14);
-//    rax = [rax autorelease];
-//    if (rax == 0x0) goto loc_12e3f;
-//    goto loc_12dee;
-//}
 
         public virtual void willDecodeWithKeyedDecoder(NSKeyedUnarchiver decoder)
         {
@@ -198,29 +228,67 @@ namespace Smartmobili.Cocoa
         }
 
         //targetRuntimeWithIdentifier:fromDocumentOfType:error:
-        protected virtual bool targetRuntimeWithIdentifier(NSString id, NSString type, ref NSError error)
+        protected virtual IBTargetRuntime targetRuntimeWithIdentifier(NSString targetRuntimeID, NSString type, ref NSError error)
         {
-            return true;
-        }
+            IBTargetRuntime targetRuntime = null;
 
-        protected IBCFMutableDictionary unarchiversToDocumentContexts = null;
-        public virtual id _IBDocumentContextForUnarchiver(NSCoder decoder)
-        {
-            id obj = null;
-
-            if (unarchiversToDocumentContexts == null)
+            if (targetRuntimeID != null)
             {
-                unarchiversToDocumentContexts = (IBCFMutableDictionary)alloc().init();
+                targetRuntime = IBTargetRuntime.targetRuntimeWithIdentifier(targetRuntimeID);
+                if (targetRuntime == null)
+                {
+                    NSString id = ((IBPlugin)Objc.MsgSend(Class, "plugin")).userPresentableIdentifierForTargetRuntimeIdentifier(targetRuntimeID);
+                    NSString errMsg = NSString.stringWithFormat("This version of Coconut Builder does not support documents targeting %@.", id);
+                    //
+                }
+            }
+            else
+            {
+                targetRuntime = (IBTargetRuntime)Objc.MsgSend(Class, "defaultTargetRuntime");
+            }
+            
+            IBPlugin plugin = (IBPlugin)Objc.MsgSend(Class, "plugin");
+            if(!plugin.supportedTargetRuntimes().containsObject(targetRuntime))
+            {
+                targetRuntime = null;
             }
 
-            return unarchiversToDocumentContexts.objectForKey(decoder);
+
+            return targetRuntime ;
+        }
+
+        protected static IBCFMutableDictionary _unarchiversToDocumentContexts = null;
+        protected static id _IBDocumentContextForUnarchiver(NSCoder decoder)
+        {
+            if (_unarchiversToDocumentContexts == null)
+            {
+                _unarchiversToDocumentContexts = (IBCFMutableDictionary)alloc().init();
+            }
+
+            return _unarchiversToDocumentContexts.objectForKey(decoder);
+        }
+
+
+
+        
+        public virtual int documentWindowUsesStaticOrigin()
+        {
+            int result = _documentWindowUsesStaticOrigin;
+            if (result == -1)
+            {
+                NSUserDefaults defaults = NSUserDefaults.standardUserDefaults();
+                if (defaults.hasPreferenceForKey("IBDocument.DocumentWindowUsesStaticOrigin"))
+                    result = defaults.boolForKey("IBDocument.DocumentWindowUsesStaticOrigin") ? 1 : 0;
+                else
+                    result = 0;
+            }
+
+            return result;
         }
 
         
 
-        
-
-#if true
+#if false
         public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
             NSData data = fileWrapper.regularFileContents();
@@ -250,13 +318,21 @@ namespace Smartmobili.Cocoa
             return true;
         }
 #else
-        public virtual bool decodeDocumentOfType(NSString typeName, NSCoder decoder)
-        {
-            bool ret = false;
 
+        public virtual void setVersion(NSNumber aNumber, id pluginId, int cat)
+        {
+
+        }
+
+
+
+
+        public virtual NSError decodeDocumentOfType(NSString typeName, NSCoder decoder)
+        {
             NSError error = null;
 
-            if (decoder.containsValueForKey("IBDocument.PluginDependencies"))
+            if (decoder.containsValueForKey("IBDocument.PluginDependencies") ||
+                decoder.containsValueForKey("IBDocument.PaletteDependencies"))
             {
                 NSArray pluginDeps = (NSArray)decoder.decodeObjectForKey("IBDocument.PluginDependencies");
                 if (pluginDeps == null)
@@ -264,101 +340,110 @@ namespace Smartmobili.Cocoa
                     pluginDeps = (NSArray)decoder.decodeObjectForKey("IBDocument.PaletteDependencies");
                 }
 
-                if (this.resolvePluginDependencies(pluginDeps, ref error) == false)
-                    return false;
+                if (this.resolvePluginDependencies(pluginDeps, ref error))
+                {
+                    NSString targetRuntimeId = (NSString)decoder.decodeObjectForKey("IBDocument.TargetRuntimeIdentifier");
+                    IBTargetRuntime targetRuntime = this.targetRuntimeWithIdentifier(targetRuntimeId, typeName, ref error);
+                    if (error == null)
+                    {
+                        NSMutableDictionary lastKnowImagesSizes = (NSMutableDictionary)decoder.decodeObjectForKey("IBDocument.LastKnownImageSizes");
+                        if (lastKnowImagesSizes != null)
+                        {
+                            NSMutableDictionary docContext = (NSMutableDictionary)_IBDocumentContextForUnarchiver(decoder);
+                            docContext.setObjectForKey(lastKnowImagesSizes, (NSString)"IBDocumentImageResourceNamesToSizesMap");
+                        }
+
+                        this.setTargetRuntime(targetRuntime);
+                        this.setObjectIDsToOpen((NSMutableArray)decoder.decodeObjectForKey("IBDocument.EditedObjectIDs"));
+                        NSDictionary meta = (NSDictionary)decoder.decodeObjectForKey("IBDocument.Metadata");
+                        this.setDocumentMetadata((meta != null) ? meta : NSDictionary.dictionary());
+                        this.setClassDescriber((IBClassDescriber)decoder.decodeObjectForKey(@"IBDocument.Classes"));
+                        this.setLastSavedSystemVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.SystemVersion"));
+                        this.setLastSavedInterfaceBuilderVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.InterfaceBuilderVersion"));
+                        this.setLastSavedAppKitVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.AppKitVersion"));
+                        this.setLastSavedHIToolboxVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.HIToolboxVersion"));
+                        this.setLastSavedPluginVersionsForDependedPlugins((NSDictionary)decoder.decodeObjectForKey(@"IBDocument.PluginVersions"));
+                        this.setLastKnownRelativeProjectPath((NSString)decoder.decodeObjectForKey(@"IBDocument.LastKnownRelativeProjectPath"));
+                        this.setPluginDeclaredDependencies((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencies"), 0);
+                        this.setPluginDeclaredDependencyDefaults((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencyDefaults"), 0);
+                        this.setPluginDeclaredDependencies((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies"), 1);
+                        this.setPluginDeclaredDependencyDefaults((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencyDefaults"), 1);
+                        int lastSavedIBVersion = this.lastSavedInterfaceBuilderVersion().integerValue();
+                        if (lastSavedIBVersion <= 714)
+                        {
+                            NSNumber version = NSNumber.numberWithInteger(3000);
+                            IBPlugin plugin = (IBPlugin)Objc.MsgSend(Class, "plugin");
+                            this.setVersion(version, plugin.primaryDeclaredDependencyIdentifierForCategory(1), 1);
+                        }
+
+                        bool pluginDeclaredDepsTrackSV = decoder.decodeBoolForKey(@"IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion");
+                        if (!pluginDeclaredDepsTrackSV && decoder.containsValueForKey(@"IBDocument.SystemTarget"))
+                        {
+                            NSNumber sysTargetVersion = NSNumber.numberWithInteger(decoder.decodeIntegerForKey(@"IBDocument.SystemTarget"));
+                            IBPlugin plugin = (IBPlugin)Objc.MsgSend(Class, "plugin");
+                            this.setVersion(sysTargetVersion, plugin.primaryDeclaredDependencyIdentifierForCategory(0), 0);
+                        }
+                        this.setLocalizationMode(decoder.decodeIntegerForKey(@"IBDocument.SystemTarget"));
+
+                        if (decoder.containsValueForKey("IBDocument.defaultPropertyAccessControl"))
+                        {
+                            this.setDefaultPropertyAccessControl(decoder.decodeIntegerForKey(@"IBDocument.defaultPropertyAccessControl"));
+                        }
+
+                        if (Convert.ToBoolean(this.documentWindowUsesStaticOrigin()))
+                        {
+                            NSPoint origin = decoder.decodePointForKey("IBDocument.DocumentWindowStaticOrigin");
+                            //this.setDocumentWindowStaticOrigin();
+                        }
+                        else
+                        {
+                            //this.setDocumentWindowStaticOrigin();
+                        }
+
+                        if (error == null)
+                        {
+                            IBObjectContainer ibObjContainer = (IBObjectContainer)decoder.decodeObjectForKey(@"IBDocument.Objects");
+                            this.setObjectContainer((ibObjContainer != null) ? ibObjContainer : (IBObjectContainer)IBObjectContainer.alloc().init());
+                        }
+                        else
+                        {
+                            //return
+                        }
+                    }
+                }
             }
             else
             {
-                if (decoder.containsValueForKey("IBDocument.PaletteDependencies"))
-                {
-
-                }
-                else
-                {
-                     if (decoder.containsValueForKey("GDocument.PluginDependencies"))
-                     {
-                         ret = false;
-                     }
-                }
-            }
-
-            NSString targetRuntimeId = (NSString)decoder.decodeObjectForKey("IBDocument.TargetRuntimeIdentifier");
-            this.targetRuntimeWithIdentifier(targetRuntimeId, typeName, ref error);
-            if (error == null)
-            {
-                NSMutableDictionary lastKnowImagesSizes = (NSMutableDictionary)decoder.decodeObjectForKey("IBDocument.LastKnownImageSizes");
-                if (lastKnowImagesSizes != null)
-                {
-                    //eax = _IBDocumentContextForUnarchiver(decoder);
-                    //[eax setObject:lastKnowImagesSizes forKey:@"IBDocumentImageResourceNamesToSizesMap"];
-                }
-                this.setTargetRuntime(targetRuntimeId);
-                //this.setObjectIDsToOpen(decoder.decodeObjectForKey("IBDocument.EditedObjectIDs"));
-                NSDictionary meta = (NSDictionary)decoder.decodeObjectForKey("IBDocument.Metadata");
-                this.setDocumentMetadata((meta != null) ? meta : NSDictionary.dictionary());
-                this.setClassDescriber((IBClassDescriber)decoder.decodeObjectForKey(@"IBDocument.Classes"));
-                this.setLastSavedSystemVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.SystemVersion"));
-                this.setLastSavedInterfaceBuilderVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.InterfaceBuilderVersion"));
-                this.setLastSavedAppKitVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.AppKitVersion"));
-                this.setLastSavedHIToolboxVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.HIToolboxVersion"));
-                this.setLastSavedPluginVersionsForDependedPlugins((NSDictionary)decoder.decodeObjectForKey(@"IBDocument.PluginVersions"));
-                this.setLastKnownRelativeProjectPath((NSString)decoder.decodeObjectForKey(@"IBDocument.LastKnownRelativeProjectPath"));
-                this.setPluginDeclaredDependencies ((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencies"),0);
-                this.setPluginDeclaredDependencyDefaults((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencyDefaults") ,0);
-                this.setPluginDeclaredDependencies((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies"), 1);
-                this.setPluginDeclaredDependencyDefaults((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencyDefaults"), 1);
-                int lastSavedVersion = this.lastSavedInterfaceBuilderVersion().integerValue();
-                if (lastSavedVersion <= 714)
-                { 
-                    //    NSNumber version = NSNumber.numberWithInteger(3000);
-                    //    esi = version;
-                    //    eax = [var_self class];
-                    //    eax = [eax plugin];
-                    //    eax = [eax primaryDeclaredDependencyIdentifierForCategory:0x1];
-                    //    [var_self setVersion:esi forPluginDeclaredDependency:eax forCategory:0x1];
-                }
-
-                bool pluginDeclaredDepsTrackSV = decoder.decodeBoolForKey(@"IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion");
-                if (pluginDeclaredDepsTrackSV == false)
-                {
-                   if(decoder.containsValueForKey(@"IBDocument.SystemTarget") != false)
-                    {
-
-                    }
-                }
-                if(error == null)
-                {
-                    IBObjectContainer ibObjContainer = (IBObjectContainer)decoder.decodeObjectForKey(@"IBDocument.Objects");
-                    this.setObjectContainer((ibObjContainer != null) ? ibObjContainer : (IBObjectContainer)IBObjectContainer.alloc().init() );
-                    ret = true;
-                }
-                else
-                {
-
-                }
 
             }
 
+            return error;
+        }
 
-            return ret;
+        public virtual NSDictionary additionalInstantiationInformation()
+        {
+            return (NSDictionary)NSDictionary.alloc().init();
         }
 
         public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
-            bool ret = false;
+            //IBAsyncXMLDecoderWrapper asyncXMLDecoder = null;
+            //NSDictionary additionalInstanceInfo = this.additionalInstantiationInformation();
+            //asyncXMLDecoder = (IBAsyncXMLDecoderWrapper)additionalInstanceInfo.objectForKey((NSString)"IBAsyncXMLDecoderWrapper");
+            
 
             NSData data = fileWrapper.regularFileContents();
             IBXMLDecoder decoder = (IBXMLDecoder)IBXMLDecoder.alloc().initForReadingWithData(data, ref outError);
             if (decoder != null)
             {
                 this.willDecodeWithKeyedDecoder(decoder);
-                ret = this.decodeDocumentOfType(typeName, decoder);
+                outError = this.decodeDocumentOfType(typeName, decoder);
                 decoder.finishDecoding();
-
-        //    (r15)(r12, @selector(setPreviousXmlDecoderHints:), (r15)(rbx, @selector(hintsForFutureXMLCoder));
+                this.setPreviousXmlDecoderHints(decoder.hintsForFutureXMLCoder());
             }
-
-            return ret;
+            this.undoManager().removeAllActions();
+            
+            return outError == null;
         }
 
 

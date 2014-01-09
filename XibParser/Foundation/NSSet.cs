@@ -31,6 +31,13 @@ namespace Smartmobili.Cocoa
 
         protected HashSet<id> _sets;
 
+
+        public static NSSet setWithObject(id obj)
+        {
+            return (NSSet)NSSet.alloc().initWithObjects(obj);
+        }
+
+
         public virtual id initWithObjects(params id[] objects)
         {
             id self = this;

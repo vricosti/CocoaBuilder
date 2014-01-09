@@ -76,6 +76,12 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual NSMutableArray objects()
+        {
+            NSMutableArray objects = NSMutableArray.array();
+
+            return objects;
+        }
 
 
     }

@@ -39,7 +39,7 @@ namespace Smartmobili.Cocoa
         private static bool _compressPreviousXML;
 
         protected NSXMLElement _currentElement; //0x04
-        protected NSMutableArray _successfullyDecodedObjects; //0x08
+        protected NSMutableArray _successfullyDecodedObjects; //0x08(x86) - 0x10(x64)
         protected IBCFMutableDictionary _objectNodesToObjectIDs; //0x0C
         protected NSMutableDictionary _objectsToObjectIDs; //0x10
         protected NSMutableDictionary _objectIDsToObjectNodes; //0x14
@@ -309,6 +309,24 @@ namespace Smartmobili.Cocoa
         { }
 
 
+        public virtual NSMutableDictionary hintsForFutureXMLCoder()
+        {
+            NSMutableDictionary hints = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+            NSMutableDictionary dict = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+
+            //for (int i = 0; i < )
+            foreach (id decodedObj in this._successfullyDecodedObjects)
+            {
+                id oid = this.oidForObject(decodedObj);
+                dict.setObjectForKey(decodedObj, oid);
+            }
+            hints.setObjectForKey(dict, (NSString)"IBPreviousPointersToObjectIDMap");
+            hints.setObjectForKey(_originalDocumentData, (NSString)"IBPreviousXML");
+
+            return hints;
+        }
+
+
         public override float decodeFloatForKey(NSString key)
         {
             NSDictionary objects = (NSDictionary)_childMap.objectForKey(_currentElement);
@@ -318,6 +336,11 @@ namespace Smartmobili.Cocoa
         public virtual id ObjectForOID(NSString key)
         {
             return _objectIDsToObjects.objectForKey(key);
+        }
+
+        public virtual id oidForObject(id obj)
+        {
+            return this._objectsToObjectIDs.objectForKey(obj);
         }
 
         public virtual id ObjectForXMLElement(NSXMLElement element)

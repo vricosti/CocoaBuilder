@@ -28,9 +28,62 @@ namespace Smartmobili.Cocoa
     {
         public NSMutableArray ReferencedPartialClassDescriptions { get; set; }
 
+        protected NSMutableDictionary _compositeDescriptions; //0x04(x86)
+        protected NSMutableDictionary _classNamesToSubclasseNames; //0x08(x86)
+        protected IBDocument _document; //0x0C(x86)
+        
+        private static NSMutableDictionary _systemClassDescriptions;
+        
         public IBClassDescriber()
         {
             ReferencedPartialClassDescriptions = new NSMutableArray();
+        }
+
+
+        public static NSMutableArray systemClassDescriptionsForTargetRuntime(IBTargetRuntime targetRuntime)
+        {
+            NSMutableArray sysClassDescs = NSMutableArray.array();
+
+            NSArray values = ((NSDictionary)_systemClassDescriptions.objectForKey(targetRuntime)).allValues();
+            foreach(id value in values)
+            {
+                NSDictionary valDict = (NSDictionary)value;
+                sysClassDescs.addObjectsFromArray(valDict.allValues());
+            }
+
+            return sysClassDescs;
+        }
+
+
+
+        public virtual void setDocument(IBDocument doc)
+        {
+            if ((doc != null) && (_document == null || (_document == doc)))
+            {
+                _document = doc;
+                this.integrateSystemClassDescriptions();
+                if (IBDocument.shouldUpdateSourceFileRelativePaths())
+                {
+                    //this.documentURLChangedFrom(null, _document.fileURL());
+                }
+            }
+            else
+            {
+                NSException.raise("dqsdqsd", "");
+            }
+            
+        }
+
+        public virtual void integrateSystemClassDescriptions()
+        {
+            NSError error = null;
+            var sysClassDesc = systemClassDescriptionsForTargetRuntime(_document.targetRuntime());
+            this.integratePartialClassDescriptions(sysClassDesc, ref error);
+        }
+
+        public virtual void integratePartialClassDescriptions(NSMutableArray classDescs, ref NSError error)
+        {
+            //FIXME
         }
 
 

@@ -34,7 +34,10 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
-
+        public virtual bool hasPreferenceForKey(NSString key)
+        {
+            return false;
+        }
 
     }
 }

@@ -62,8 +62,8 @@ namespace Smartmobili.Cocoa
 
         public virtual NSURL FileURL
         {
-            get { return GetFileURL(); }
-            set { SetFileURL(value); }
+            get { return fileURL(); }
+            set { setFileURL(value); }
         }
 
         public override id init()
@@ -84,7 +84,10 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-
+        public virtual NSUndoManager undoManager()
+        {
+            return null;
+        }
         
 
         //-(id)initForURL:(NSURL *)absoluteDocumentURL withContentsOfURL:(NSURL *)absoluteDocumentContentsURL ofType:(NSString *)typeName error:(NSError **)outError
@@ -96,7 +99,7 @@ namespace Smartmobili.Cocoa
             {
                 this.SetFileType(type);
                 if (forUrl != null)
-                    this.SetFileURL(forUrl);
+                    this.setFileURL(forUrl);
                 if (this.ReadFromURL(url, type, ref error))
                 {
                     if (!url.isEqual(forUrl))
@@ -134,12 +137,12 @@ namespace Smartmobili.Cocoa
             _file_type = type;
         }
 
-        public virtual NSURL GetFileURL()
+        public virtual NSURL fileURL()
         {
             return _file_url;
         }
 
-        public virtual void SetFileURL(NSURL url)
+        public virtual void setFileURL(NSURL url)
         {
             _file_url = url;
 
