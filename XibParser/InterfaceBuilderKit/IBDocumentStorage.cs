@@ -27,6 +27,7 @@ namespace Smartmobili.Cocoa
         public IBCFMutableDictionary unknown1; //0x4C(x86) - ???(x64)
         public NSString uniqueID; //0x50(x86) - ???(x64)
         public NSMutableArray objectIDsToOpen; //0x5C(x86) - 0xB8(x64)
+        public NSString classNameThatPreventedDecode; //0x60(x86) - ???(x64)
         public int localizationMode; //0x68(x86) - 0x0D0(x64)
         public int defaultPropertyAccessControl; //0x98(x86) - 0x130(x64)
         public NSMutableDictionary unknownA8; //0xA8(x86) - ???(x64)

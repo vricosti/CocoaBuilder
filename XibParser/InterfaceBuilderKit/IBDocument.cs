@@ -212,13 +212,19 @@ namespace Smartmobili.Cocoa
             _previousXmlDecoderHints = previousXmlDecoderHints;
         }
 
-        //hintsForFutureXMLCoder
-
-
-
-
+        public virtual void setClassNameThatPreventedDecode(NSString classNameThatPreventedDecode)
+        {
+            if (_storage.classNameThatPreventedDecode != classNameThatPreventedDecode)
+            {
+                _storage.classNameThatPreventedDecode.release();
+                _storage.classNameThatPreventedDecode = classNameThatPreventedDecode.copy();
+            }
+            
+        }
+        
         public virtual void willDecodeWithKeyedDecoder(NSKeyedUnarchiver decoder)
         {
+            this.setClassNameThatPreventedDecode(null);
             decoder.setDelegate(this);
         }
 
@@ -288,7 +294,7 @@ namespace Smartmobili.Cocoa
 
         
 
-#if false
+#if true
         public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
             NSData data = fileWrapper.regularFileContents();
