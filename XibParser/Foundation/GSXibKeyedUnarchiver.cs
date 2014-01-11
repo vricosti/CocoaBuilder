@@ -214,7 +214,7 @@ namespace Smartmobili.Cocoa
                                 var classNodes = xDoc.XPathSelectElements(refXpath, null).ToArray();
                                 if (classNodes != null && classNodes.Count() > 0)
                                 {
-                                    Class cls = Class.NSClassFromString(className);
+                                    Class cls = NS.ClassFromString(className);
 
                                     var classNode = classNodes[0];
                                     var classAttr = classNode.Attribute("class");

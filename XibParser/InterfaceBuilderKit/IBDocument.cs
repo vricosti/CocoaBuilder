@@ -145,25 +145,59 @@ namespace Smartmobili.Cocoa
             }
         }
         public virtual IBClassDescriber classDescriber() { return _storage.classDescriber; }
-            
-        private NSString _lastSavedSystemVersion;
-        public virtual void setLastSavedSystemVersion(NSString systemVersion) { _lastSavedSystemVersion = systemVersion; }
-        public virtual NSString lastSavedSystemVersion() { return _lastSavedSystemVersion; }
 
-        private NSString _lastSavedInterfaceBuilderVersion;
-        public virtual void setLastSavedInterfaceBuilderVersion(NSString interfaceBuilderVersion) { _lastSavedInterfaceBuilderVersion = interfaceBuilderVersion; }
-        public virtual NSString lastSavedInterfaceBuilderVersion() { return _lastSavedInterfaceBuilderVersion; }
 
-        private NSString _lastSavedAppKitVersion;
-        public virtual void setLastSavedAppKitVersion(NSString appKitVersion) { _lastSavedAppKitVersion = appKitVersion; }
-        public virtual NSString lastSavedAppKitVersion() { return _lastSavedAppKitVersion; }
+        //protected virtual void setGenericReleaseCopy()
 
-        private NSString _lastSavedHIToolboxVersion;
-        public virtual void setLastSavedHIToolboxVersion(NSString HIToolboxVersion) { _lastSavedHIToolboxVersion = HIToolboxVersion; }
-        public virtual NSString lastSavedHIToolboxVersion() { return _lastSavedHIToolboxVersion; }
+        public virtual void setLastSavedSystemVersion(NSString lastSavedSystemVersion) 
+        {
+            if (_storage.lastSavedSystemVersion != lastSavedSystemVersion)
+            {
+                _storage.lastSavedSystemVersion.release();
+                _storage.lastSavedSystemVersion = lastSavedSystemVersion.copy();
+            }
+        }
+        public virtual NSString lastSavedSystemVersion() { return (NSString)_storage.lastSavedSystemVersion.retain().autorelease(); }
+
+
+        public virtual void setLastSavedInterfaceBuilderVersion(NSString lastSavedInterfaceBuilderVersion) 
+        {
+            if (_storage.lastSavedInterfaceBuilderVersion != lastSavedInterfaceBuilderVersion)
+            {
+                _storage.lastSavedInterfaceBuilderVersion.release();
+                _storage.lastSavedInterfaceBuilderVersion = lastSavedInterfaceBuilderVersion.copy();
+            } 
+        }
+        public virtual NSString lastSavedInterfaceBuilderVersion() { return (NSString)_storage.lastSavedInterfaceBuilderVersion.retain().autorelease(); }
+
+       
+        public virtual void setLastSavedAppKitVersion(NSString lastSavedAppKitVersion) 
+        {
+            if (_storage.lastSavedAppKitVersion != lastSavedAppKitVersion)
+            {
+                _storage.lastSavedAppKitVersion.release();
+                _storage.lastSavedAppKitVersion = lastSavedAppKitVersion.copy();
+            }  
+        }
+        public virtual NSString lastSavedAppKitVersion() { return (NSString)_storage.lastSavedAppKitVersion.retain().autorelease(); }
+
+
+        public virtual void setLastSavedHIToolboxVersion(NSString lastSavedHIToolboxVersion)
+        {
+            if (_storage.lastSavedHIToolboxVersion != lastSavedHIToolboxVersion)
+            {
+                _storage.lastSavedHIToolboxVersion.release();
+                _storage.lastSavedHIToolboxVersion = lastSavedHIToolboxVersion.copy();
+            }
+        }
+        public virtual NSString lastSavedHIToolboxVersion() { return (NSString)_storage.lastSavedHIToolboxVersion.retain().autorelease(); }
 
         private NSDictionary _lastSavedpluginVersionsForDependedPlugins;
-        public virtual void setLastSavedPluginVersionsForDependedPlugins(NSDictionary pluginVersions) { _lastSavedpluginVersionsForDependedPlugins = pluginVersions; }
+        public virtual void setLastSavedPluginVersionsForDependedPlugins(NSDictionary pluginVersions) 
+        { 
+            _lastSavedpluginVersionsForDependedPlugins = pluginVersions; 
+        }
+
         public virtual NSDictionary lastSavedPluginVersionsForDependedPlugins() { return _lastSavedpluginVersionsForDependedPlugins; }
 
         private NSString _lastKnownRelativeProjectPath;
@@ -175,7 +209,7 @@ namespace Smartmobili.Cocoa
         public virtual NSMutableDictionary lastKnownImageSizes() { return _lastKnownImageSizes; }
 
         private NSMutableArray _objectIDsToOpen;
-        public virtual void setObjectIDsToOpen(NSMutableArray objectIDsToOpen) { _objectIDsToOpen = _objectIDsToOpen; }
+        public virtual void setObjectIDsToOpen(NSMutableArray objectIDsToOpen) { _objectIDsToOpen = objectIDsToOpen; }
         public virtual NSMutableArray objectIDsToOpen() { return _objectIDsToOpen; }
 
         
@@ -188,28 +222,41 @@ namespace Smartmobili.Cocoa
         public virtual void setDefaultPropertyAccessControl(int defaultPropertyAccessControl) { _defaultPropertyAccessControl = defaultPropertyAccessControl; }
         public virtual int defaultPropertyAccessControl() { return _defaultPropertyAccessControl; }
 
+
+
+
+        public virtual void setPluginDeclaredDependencies(NSMutableDictionary pluginDeclaredDeps, int category)
+        {
+            IBTargetVersionDependencySet targetVersionDepSet = null;
+            if (category == 0)
+                targetVersionDepSet = _storage.pluginDeclaredDependenciesCat0;
+            else if (category == 1)
+                targetVersionDepSet = _storage.pluginDeclaredDependenciesCat1;
+
+            targetVersionDepSet.setPluginDeclaredDependencies(pluginDeclaredDeps);
+        }
+
+        public virtual void setPluginDeclaredDependencyDefaults(NSMutableDictionary pluginDeclaredDeps, int category)
+        {
+            IBTargetVersionDependencySet targetVersionDepSet = null;
+            if (category == 0)
+                targetVersionDepSet = _storage.pluginDeclaredDependenciesCat0;
+            else if (category == 1)
+                targetVersionDepSet = _storage.pluginDeclaredDependenciesCat1;
+
+            targetVersionDepSet.setPluginDeclaredDependencyDefaults(pluginDeclaredDeps);
+        }
+
+
         
-
-
-        public virtual void setPluginDeclaredDependencies(NSArray pluginDeclaredDeps, int category)
-        {
-
-        }
-
-        public virtual void setPluginDeclaredDependencyDefaults(NSArray pluginDeclaredDeps, int category)
-        {
-
-        }
-
-        public virtual void setPluginDeclaredDependencyDefaults(NSArray pluginDeclaredDepsDefault)
-        {
-
-        }
-
-        NSMutableDictionary _previousXmlDecoderHints;
         public virtual void setPreviousXmlDecoderHints(NSMutableDictionary previousXmlDecoderHints)
         {
-            _previousXmlDecoderHints = previousXmlDecoderHints;
+            if (_storage.previousXmlDecoderHints != previousXmlDecoderHints)
+            {
+                _storage.previousXmlDecoderHints.release();
+                _storage.previousXmlDecoderHints = (NSMutableDictionary)previousXmlDecoderHints.retain();
+            }
+            
         }
 
         public virtual void setClassNameThatPreventedDecode(NSString classNameThatPreventedDecode)
@@ -257,6 +304,7 @@ namespace Smartmobili.Cocoa
             if(!plugin.supportedTargetRuntimes().containsObject(targetRuntime))
             {
                 targetRuntime = null;
+                //Error...
             }
 
 
@@ -370,10 +418,10 @@ namespace Smartmobili.Cocoa
                         this.setLastSavedHIToolboxVersion((NSString)decoder.decodeObjectForKey(@"IBDocument.HIToolboxVersion"));
                         this.setLastSavedPluginVersionsForDependedPlugins((NSDictionary)decoder.decodeObjectForKey(@"IBDocument.PluginVersions"));
                         this.setLastKnownRelativeProjectPath((NSString)decoder.decodeObjectForKey(@"IBDocument.LastKnownRelativeProjectPath"));
-                        this.setPluginDeclaredDependencies((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencies"), 0);
-                        this.setPluginDeclaredDependencyDefaults((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencyDefaults"), 0);
-                        this.setPluginDeclaredDependencies((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies"), 1);
-                        this.setPluginDeclaredDependencyDefaults((NSArray)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencyDefaults"), 1);
+                        this.setPluginDeclaredDependencies((NSMutableDictionary)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencies"), 0);
+                        this.setPluginDeclaredDependencyDefaults((NSMutableDictionary)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDependencyDefaults"), 0);
+                        this.setPluginDeclaredDependencies((NSMutableDictionary)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencies"), 1);
+                        this.setPluginDeclaredDependencyDefaults((NSMutableDictionary)decoder.decodeObjectForKey(@"IBDocument.PluginDeclaredDevelopmentDependencyDefaults"), 1);
                         int lastSavedIBVersion = this.lastSavedInterfaceBuilderVersion().integerValue();
                         if (lastSavedIBVersion <= 714)
                         {

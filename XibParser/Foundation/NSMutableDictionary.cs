@@ -59,6 +59,10 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+        public virtual id mutableCopy()
+        {
+            return this;
+        }
 
         public virtual void addEntriesFromDictionary(NSDictionary otherDictionary)
         {

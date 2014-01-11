@@ -13,7 +13,7 @@ namespace Smartmobili.Cocoa
         private static IBTargetRuntime _lastActiveTargetRuntime;
 
         private static IBCFMutableDictionary _classesToSharedTargetRuntimes;
-
+        private static NSMutableDictionary _identifiersToSharedTargetRuntimes;
         public static void setLastActiveTargetRuntime(IBTargetRuntime lastActiveTargetRuntime)
         {
             if (_lastActiveTargetRuntime != lastActiveTargetRuntime)
@@ -37,7 +37,7 @@ namespace Smartmobili.Cocoa
 
         public static IBTargetRuntime fallbackTargetRuntime()
         {
-            Class cocoaTargetRuntimeClass = Class.NSClassFromString("IBCocoaTargetRuntime");
+            Class cocoaTargetRuntimeClass = Class.ClassFromString("IBCocoaTargetRuntime");
             return (IBTargetRuntime)Objc.MsgSend(cocoaTargetRuntimeClass, "sharedTargetRuntime");
         }
 
@@ -45,8 +45,12 @@ namespace Smartmobili.Cocoa
 
         public static IBTargetRuntime targetRuntimeWithIdentifier(NSString targetRuntimeID)
         {
-            //NSString id = ((IBPlugin)Objc.MsgSend(Class, "plugin")).userPresentableIdentifierForTargetRuntimeIdentifier(targetRuntimeID);
-            return null;
+            if (_identifiersToSharedTargetRuntimes == null)
+            {
+                _identifiersToSharedTargetRuntimes = (NSMutableDictionary)NSMutableDictionary.alloc().init();
+            }
+
+            return (IBTargetRuntime)_identifiersToSharedTargetRuntimes.objectForKey(targetRuntimeID);
         }
 
 

@@ -59,8 +59,8 @@ namespace Smartmobili.Cocoa
 
         static void Main(string[] args)
         { 
-            TestNXMLParser testXMLParser = new TestNXMLParser();
-            testXMLParser.Run();
+            //TestNXMLParser testXMLParser = new TestNXMLParser();
+            //testXMLParser.Run();
 
             //NSXMLNodeOptions xmlNodeOPtions = (NSXMLNodeOptions)0x800004;
 

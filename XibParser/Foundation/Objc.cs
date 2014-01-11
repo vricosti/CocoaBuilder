@@ -180,7 +180,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public static Class NSClassFromString(string className)
+        public static Class ClassFromString(string className)
         {
             Class cls = null;
 

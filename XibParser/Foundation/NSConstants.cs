@@ -125,6 +125,11 @@ namespace Smartmobili.Cocoa
         {
             NSMapTable.insertKnownAbsent(table, key, value);
         }
+
+        public static Class ClassFromString(NSString className)
+        {
+           return Class.ClassFromString(className);
+        }
     }
     
     public static class GS

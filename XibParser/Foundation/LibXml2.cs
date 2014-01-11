@@ -81,6 +81,9 @@ namespace Smartmobili.Cocoa
         XML_XINCLUDE_END = 20
     }
 
+
+    
+
     //public unsafe struct Entity
     //{
 
@@ -452,6 +455,12 @@ namespace Smartmobili.Cocoa
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlTextReaderLocatorLineNumber(xmlTextReaderLocatorPtr locator);
+        
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlDocPtr xmlTextReaderCurrentDoc(xmlTextReaderPtr reader);
+        
+
+
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern xmlNodePtr xmlAddChild(xmlNodePtr parent, xmlNodePtr cur);

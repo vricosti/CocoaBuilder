@@ -10,6 +10,7 @@ using xmlParserCtxtPtr = System.IntPtr;
 using xmlTextReaderPtr = System.IntPtr;
 using xmlTextReaderLocatorPtr = System.IntPtr;
 using xmlEntityPtr = System.IntPtr;
+using xmlDocPtr = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
@@ -46,7 +47,7 @@ namespace Smartmobili.Cocoa
         protected NSSet _allowedEntityURLs; //0x20
         protected NSXMLNode _root; //0x24
         protected NSXMLNode _current; //0x28
-        protected NSError _error; //0x2C
+        protected NSError _error; //0x2C(x86) - 0x50(x64)
         protected NSMutableString _content; //0x30
         protected NSString _whitespace; //0x34
         protected NSXMLNode _text; //0x38
@@ -641,10 +642,18 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual id parse()
+        public virtual NSXMLNode parse()
         {
-            // _error = null;
+            _error = null;
             this._initializeReader();
+            if (this._reader == IntPtr.Zero)
+                goto LABEL_22;
+
+            xmlDocPtr doc = LibXml.xmlTextReaderCurrentDoc(this._reader);
+
+
+        LABEL_22: 
+            ;
 
             return null;
         }

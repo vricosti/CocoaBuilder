@@ -74,7 +74,7 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                Class cls = Class.NSClassFromString(name);
+                Class cls = Class.ClassFromString(name);
                 if (cls != null)
                 {
                     transformer = cls.alloc().init() as NSValueTransformer;
