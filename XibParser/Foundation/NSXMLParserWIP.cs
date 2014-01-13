@@ -835,16 +835,16 @@ namespace Smartmobili.Cocoa
         }
 
 
-        private static unsafe void _characters(IntPtr ctx, IntPtr ch, int len)
+        private static unsafe void _characters(IntPtr ctx, IntPtr pCh, int len)
         {
             NSXMLParserWIP pThis = ((GCHandle)ctx).Target as NSXMLParserWIP;
 
             id dlegate = pThis.getDelegate();
-            if (dlegate == null || dlegate.respondsToSelector(new SEL("parserFoundCharacters")) == false)
-                return;
-
-            NSString chars = (NSString)NSString.alloc().initWithBytes(ch, (uint)len, NSStringEncoding.NSUTF8StringEncoding);
-            Objc.MsgSend(dlegate, "parserFoundCharacters", pThis, chars);
+            if (dlegate != null && dlegate.respondsToSelector(new SEL("parserFoundCharacters")) )
+            {
+                NSString chars = (NSString)NSString.alloc().initWithBytes(pCh, (uint)len, NSStringEncoding.NSUTF8StringEncoding);
+                Objc.MsgSend(dlegate, "parserFoundCharacters", pThis, chars);
+            }
         }
 
         private static unsafe void _startElementNs(
