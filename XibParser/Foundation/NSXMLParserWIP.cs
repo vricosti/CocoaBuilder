@@ -545,7 +545,7 @@ namespace Smartmobili.Cocoa
                             IntPtr pChars = ((NSString)(NSString.alloc().initWithData(data, NSStringEncoding.NSUTF8StringEncoding))).UTF8String();
                             if (pChars != IntPtr.Zero)
                             {
-                                NSXMLParserWIP._characters(ctx, pChars, pChars.strlen());
+                                _characters(ctx, pChars, pChars.strlen());
                             }
                         }
                     }
