@@ -10,15 +10,31 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSMapTable));
         new public static NSMapTable alloc() { return new NSMapTable(); }
 
-        public static id get(NSMapTable map, IntPtr ptr)
+        protected Dictionary<object, id> _dict = new Dictionary<object,id>();
+
+        public static id Get(NSMapTable map, object key)
         {
-            // FIXME
-            return null;
+            id val = null;
+            map._dict.TryGetValue(key, out val);
+            return val;
         }
 
-        public static void insertKnownAbsent(NSMapTable map, IntPtr key, id value)
+        public static void InsertKnownAbsent(NSMapTable map, IntPtr key, id value)
         {
-            // FIXME
+            if (map._dict.ContainsKey(key) != false)
+                NSException.raise(" NSInvalidArgumentException", "");
+
+            map.setObjectForKey(value, key);
+        }
+
+        public virtual id objectForKey(object aKey)
+        {
+            return _dict[aKey];
+        }
+
+        public virtual void setObjectForKey(id anObject, object aKey)
+        {
+            _dict[aKey] = anObject;
         }
 
     }

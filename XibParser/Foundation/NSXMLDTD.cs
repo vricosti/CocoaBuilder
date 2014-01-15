@@ -20,7 +20,7 @@ namespace Smartmobili.Cocoa
         protected NSMutableDictionary _notations;
         protected NSMutableDictionary _attributes;
         protected NSString _original;
-        protected bool _modified;
+        protected bool _modified; //0x3C(x86) - 0x70(x64)
         
 
         private static NSDictionary _predefinedEntities;
@@ -53,6 +53,27 @@ namespace Smartmobili.Cocoa
                 null);
 
             return _predefinedEntities;
+        }
+
+        public virtual NSString _DTDString()
+        {
+            if (this._modified == true)
+            {
+                return null;
+            }
+            else
+            {
+                return (NSString)_original.retain().autorelease();            
+            }
+        }
+        public virtual void _setDTDString(NSString dtdString)
+        {
+            if (_original != dtdString)
+            {
+                _original.release();
+                _original = (NSString)dtdString.retain();
+                _modified = false;
+            }
         }
 
 

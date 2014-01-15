@@ -489,13 +489,20 @@ namespace AT.MIN
                     #region @ - NSString
                     case '@':   // NSString
                         string nsstr = "{0" + (fieldLength != int.MinValue ? "," + (flagLeft2Right ? "-" : String.Empty) + fieldLength.ToString() : String.Empty) + ":s}";
-                        if (o is id)
+                        if (o != null)
                         {
-                            w = (NSString)Objc.MsgSend((id)o, "description", null);
+                            if (o is id)
+                            {
+                                w = (NSString)Objc.MsgSend((id)o, "description", null);
+                            }
+                            else
+                            {
+                                w = o.ToString();
+                            }
                         }
                         else
                         {
-                            w = o.ToString();
+                            w = "(null)";
                         }
 
                         if (fieldPrecision >= 0)

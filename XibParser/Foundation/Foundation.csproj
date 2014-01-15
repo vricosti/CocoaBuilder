@@ -63,7 +63,6 @@
     <Compile Include="INSXMLParser.cs" />
     <Compile Include="LibTidy.cs" />
     <Compile Include="LibXml2.cs" />
-    <Compile Include="LibXml2WIP.cs" />
     <Compile Include="NSAffineTransform.cs" />
     <Compile Include="NSArchiver.cs" />
     <Compile Include="NSArray.cs" />

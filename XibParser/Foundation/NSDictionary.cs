@@ -150,6 +150,21 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+
+        public static id dictionaryWithObjectForKey(id anObject, id aKey)
+        {
+            return (NSDictionary)NSDictionary.alloc().initWithObjectForKey(anObject, aKey);
+        }
+
+        public virtual id initWithObjectForKey(id anObject, id aKey)
+        {
+            id self = this;
+            
+            this.Add(aKey, anObject);
+            
+            return self;
+        }
+
         public static id dictionaryWithObjectsForKeys(NSArray objects, NSArray keys)
         {
             return (NSDictionary)NSDictionary.alloc().initWithObjectsForKeys(objects, keys);
@@ -524,6 +539,18 @@ namespace Smartmobili.Cocoa
         }
 
         #endregion
+
+        public override NSString description()
+        {
+            return (NSString)"description : FIXME";
+//            attributes={
+//    emptyAttribute = "";
+//    name = test1;
+//    "test:ns_id" = auio;
+//}
+        }
+
+
     }
 
     public class NSDictionaryEnumerator : NSEnumerator

@@ -41,9 +41,9 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLDocument));
         new public static NSXMLDocument alloc() { return new NSXMLDocument(); }
 
-        protected NSString _encoding;
+        protected NSString _encoding; //0x14(x86)
 
-        protected NSString _version;
+        protected NSString _version; //0x18(x86)
 
         protected NSXMLDTD _docType;
 
@@ -51,7 +51,7 @@ namespace Smartmobili.Cocoa
 
         protected bool _childrenHaveMutated;
 
-        protected bool _standalone;
+        protected bool _standalone; //0x25(x86)
 
         protected NSXMLElement _rootElement;
 
@@ -81,6 +81,8 @@ namespace Smartmobili.Cocoa
             return result;
         }
 
+        
+
         public override id objectValue()
         {
             return this.stringValue();
@@ -108,10 +110,27 @@ namespace Smartmobili.Cocoa
                 _URI = uri;
         }
 
+        public virtual void setStandalone(bool standalone)
+        {
+            _standalone = standalone;
+        }
+
+        public virtual void setVersion(NSString version)
+        {
+            if (_version != version)
+            {
+                _version.release();
+                _version = version.copy();
+            }
+        }
 
         public virtual void setCharacterEncoding(NSString encoding)
         {
-            _encoding = encoding;
+            if (_encoding != encoding)
+            {
+                _encoding.release();
+                _encoding = encoding.copy();
+            }
         }
 
         public virtual NSString characterEncoding()
@@ -263,7 +282,12 @@ namespace Smartmobili.Cocoa
 
             return self;
         }
+        
 
+        public virtual bool _validateWithSchemaAndReturnError(NSError error)
+        {
+            return false;
+        }
 
         public virtual id _tidyWithData(NSData data, ref NSError error, bool isXML, uint detectedEncoding)
         {

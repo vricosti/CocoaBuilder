@@ -29,6 +29,10 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSError));
         new public static NSError alloc() { return new NSError(); }
 
+        protected int _code; //0x08(x86)
+        protected NSString _domain; //0x0C(x86)
+        protected NSDictionary _userInfo; //0x10(x86)
+
         public NSError()
         {
 

@@ -28,23 +28,34 @@ namespace Smartmobili.Cocoa
 
         public virtual void parserDidStartDocument(NSXMLParserWIP parser)
         {
-            System.Diagnostics.Debug.WriteLine("parserDidStartDocument");
+            NS.Log("parserDidStartDocument");
         }
 
         public virtual void parserDidEndDocument(NSXMLParserWIP parser)
         {
-            System.Diagnostics.Debug.WriteLine("parserDidEndDocument");
+            NS.Log("Document finished");
         }
 
         public virtual void parserDidStartElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName, NSDictionary attributeDict)
         {
-            System.Diagnostics.Debug.WriteLine("parserDidStartElement");
+            NS.Log("didStartElement : elementName=%@, namespaceURI=%@, qualifiedName=%@, attributes=%@",
+                elementName, namespaceURI, qualifiedName, attributeDict);
         }
 
-        //public virtual void parserDidEndElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
-        //{
-        //    System.Diagnostics.Debug.WriteLine("parserDidEndElement");
-        //}
+
+        public virtual void parserDidStartMappingPrefix(NSString prefix, NSString namespaceURI)
+        {
+            NS.Log("didStartMappingPrefix : prefix=%@, namespaceURI=%@", prefix, namespaceURI);
+        }
+
+        //didStartMappingPrefix : prefix=test, namespaceURI=http://test.org/schema
+        public virtual void parserDidEndElement(NSXMLParserWIP parser, NSString elementName, NSString namespaceURI, NSString qualifiedName)
+        {
+            NS.Log("didEndElement : elementName=%@, namespaceURI=%@, qualifiedName=%@",
+                elementName, namespaceURI, qualifiedName);
+
+           // System.Diagnostics.Debug.WriteLine("parserDidEndElement");
+        }
 
         public virtual void parserFoundCharacters(NSXMLParserWIP parser, NSString foundCharacters)
         {
@@ -59,8 +70,8 @@ namespace Smartmobili.Cocoa
 
         static void Main(string[] args)
         { 
-            //TestNXMLParser testXMLParser = new TestNXMLParser();
-            //testXMLParser.Run();
+            TestNXMLParser testXMLParser = new TestNXMLParser();
+            testXMLParser.Run();
 
             //NSXMLNodeOptions xmlNodeOPtions = (NSXMLNodeOptions)0x800004;
 
