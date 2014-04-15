@@ -19,6 +19,12 @@ namespace Smartmobili.Cocoa
             return val;
         }
 
+
+        public static void Insert(NSMapTable map, IntPtr key, id value)
+        {
+            map.setObjectForKey(value, key);
+        }
+
         public static void InsertKnownAbsent(NSMapTable map, IntPtr key, id value)
         {
             if (map._dict.ContainsKey(key) != false)

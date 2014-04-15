@@ -352,19 +352,35 @@ namespace Smartmobili.Cocoa
             str.release();
         }
 
-        protected virtual void _addContent(NSString content)
+        protected virtual void _addContent()
         {
-            _text.setObjectValue(content);
-            try
+            if (_content != null)
             {
-                ((NSXMLElement)_current).addChild(_text);
+                _text.setObjectValue(_content);
+                try
+                { 
+                    ((NSXMLElement)_current).addChild(_text);
+                }
+                catch
+                {
+
+                }
+                _text.release();
                 _text = null;
                 setContent(null);
             }
-            catch
-            {
 
-            }
+            //_text.setObjectValue(content);
+            //try
+            //{
+            //    ((NSXMLElement)_current).addChild(_text);
+            //    _text = null;
+            //    setContent(null);
+            //}
+            //catch
+            //{
+
+            //}
         }
 
         protected virtual bool setError(int error, NSString info, bool fatal)
@@ -724,10 +740,171 @@ namespace Smartmobili.Cocoa
             return;
         }
 
-        
+
+        public unsafe virtual NSXMLNamedNode createNamedNodeFromNode(xmlNode* pNode, xmlTextReader* pReader)
+        {
+            NSXMLNamedNode node = null;
+
+            var nodekind = (pNode->type != xmlElementType.XML_ATTRIBUTE_NODE) ? NSXMLNodeKind.NSXMLNamespaceKind : NSXMLNodeKind.NSXMLAttributeKind;
+            if ((_fidelityMask & 0x800018) != 0)
+            {
+                node = (NSXMLNamedFidelityNode)NSXMLNamedFidelityNode.alloc().initWithKind(nodekind);
+                if ((_fidelityMask & 0x18) != 0)
+                {
+                    if ((int)pNode->_private == 39)
+                    {
+                        ((NSXMLNamedFidelityNode)node).setFidelity(0x800008);
+                    }
+                    else
+                    {
+                        ((NSXMLNamedFidelityNode)node).setFidelity(0x800010);
+                    }
+                }
+            }
+            else
+            {
+                node = (NSXMLNamedNode)NSXMLNamedNode.alloc().initWithKind(nodekind);
+            }
+
+            if (pNode->type == xmlElementType.XML_ATTRIBUTE_NODE)
+            {
+                IntPtr pName = LibXml.xmlTextReaderConstName(pReader);
+                NSString name = (NSString)NS.MapGet(_xmlCharToNSString, pName);
+                if (name != null)
+                {
+                    node.setName(name);
+                }
+                else
+                {
+                    name = (NSString)NSString.alloc().initWithUTF8String(pName);
+                    NS.MapInsert(_xmlCharToNSString, pName, name);
+                    node.setName(name);
+                    name.release();
+                }
+                IntPtr pNsUri = LibXml.xmlTextReaderConstNamespaceUri(pReader);
+                if (pNsUri != null)
+                {
+                    NSString nsUri = (NSString)NSString.alloc().initWithUTF8String(pNsUri);
+                    node.setURI(nsUri);
+                    nsUri.release();
+                }
+            }
+            else
+            {
+                NSString name;
+                if (pNode->name == IntPtr.Zero)
+                {
+                    name = (NSString)NSString.alloc().initWithString("");
+                }
+                else
+                {
+                    name = (NSString)NSString.alloc().initWithUTF8String(pNode->name);
+                }
+                node.setName(name);
+                name.release();
+            }
+
+            var pTextValue = LibXml.xmlTextReaderConstValue(pReader);
+            if (pTextValue != null)
+            {
+                NSString textValue = (NSString)NSString.alloc().initWithUTF8String(pTextValue);
+                node.setObjectValue(textValue);
+                textValue.release();
+            }
+
+            return node;
+        }
+
 
         public unsafe virtual void processElement(xmlTextReader* reader)
         {
+            NSXMLElement element = null;
+            
+            bool shouldReleaseName = false;
+
+            bool isEmptyElement = LibXml.xmlTextReaderIsEmptyElement(reader) == 1 ? true : false;
+            if (_additiveContent)
+                this._addContent();
+
+            NSString name = null;
+            IntPtr pName = LibXml.xmlTextReaderConstName(reader);
+            if (NS.MapGet(_xmlCharToNSString, pName) == null)
+            {
+                name = (NSString)NSString.alloc().initWithUTF8String(pName);
+                NS.MapInsert(_xmlCharToNSString, pName, name);
+                shouldReleaseName = true;
+            }
+
+            IntPtr pPrefix = LibXml.xmlTextReaderConstPrefix(reader);
+
+            NSString nsUri = null;
+            IntPtr pNsUri = LibXml.xmlTextReaderConstNamespaceUri(reader);
+            if (pNsUri != IntPtr.Zero)
+            {
+                nsUri = (NSString)NS.MapGet(_xmlCharToNSString, pNsUri);
+                if (nsUri == null)
+                {
+                     nsUri = (NSString)NSString.alloc().initWithUTF8String(pNsUri);
+                    NS.MapInsert(_xmlCharToNSString, pNsUri, nsUri);
+                }
+                else
+                    nsUri.retain();
+            }
+
+            uint fidelity = 0;
+            if ((_fidelityMask & 0x800000) != 0)
+            {
+                fidelity = 0x800000;
+            }
+            if ((_fidelityMask & 0x06) != 0 && isEmptyElement)
+            {
+                fidelity = 0x800004;
+            }
+            if ((_fidelityMask & 0x2800006) == 0)
+            {
+                if (_elementClassOverridden == false)
+                {
+                    if (pPrefix != IntPtr.Zero)
+                       element = (NSXMLElement)NSXMLElement.alloc()._initWithName(name, nsUri, pPrefix.strlen());
+                    else
+                        element = (NSXMLElement)NSXMLElement.alloc()._initWithName(name, nsUri, -2);   
+                }
+                else
+                {
+                    element = (NSXMLElement)((NSXMLElement)_elementClass.alloc()).initWithNameURI(name, nsUri);
+                }
+            }
+            else
+            {
+                if (pPrefix != IntPtr.Zero)
+                    element = (NSXMLFidelityElement)NSXMLFidelityElement.alloc()._initWithName(name, nsUri, pPrefix.strlen());
+                else
+                    element = (NSXMLFidelityElement)NSXMLFidelityElement.alloc()._initWithName(name, nsUri, -2);
+
+                ((NSXMLFidelityElement)element).setFidelity(fidelity);
+                
+            }
+
+            if (shouldReleaseName)
+                name.release();
+            nsUri.release();
+
+            int ret = LibXml.xmlTextReaderMoveToFirstAttribute(reader);
+            for (uint i = 0; ret == 1; i++ )
+            {
+                xmlNode* curNode = LibXml.xmlTextReaderCurrentNode(reader);
+                NSXMLNamedNode namedNode = createNamedNodeFromNode(curNode, reader);
+                if (curNode->type == xmlElementType.XML_ATTRIBUTE_NODE)
+                {
+                    if (_elementClassOverridden)
+                        element.addAttribute(namedNode);
+                    else
+                        element._addTrustedAttribute(namedNode, i);
+
+                }
+
+                ret = LibXml.xmlTextReaderMoveToFirstAttribute(reader);
+            }
 
         }
 

@@ -94,15 +94,10 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLNode));
         new public static NSXMLNode alloc() { return new NSXMLNode(); }
 
-        protected uint _index;
-
-        protected NSXMLNodeKind _kind;
-
-        protected id _objectValue;
-
-        protected NSXMLNode _parent;
-
-        protected id _private;
+        protected NSXMLNodeKind _kind; //0x04(x86)
+        protected NSXMLNode _parent; //0x08(x86)
+        protected uint _index; //0x0C(x86)
+        protected id _objectValue; //0x10(x86)
 
 
 

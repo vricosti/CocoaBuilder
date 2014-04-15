@@ -14,7 +14,7 @@ namespace Smartmobili.Cocoa
 
         protected NSString _name;
 
-        protected int _prefixIndex;
+        protected int _prefixIndexNC;
 
         //public virtual NSString _XMLStringWithOptions()
         //{
@@ -27,7 +27,10 @@ namespace Smartmobili.Cocoa
         }
 
 
-
+        public virtual int _prefixIndex()
+        {
+            return _prefixIndexNC;
+        }
 
 
 

@@ -30,6 +30,7 @@ using System.Xml.XPath;
 namespace Smartmobili.Cocoa
 {
    
+
     public class IBDocument : NSDocument
     {
         new public static Class Class = new Class(typeof(IBDocument));

@@ -908,6 +908,28 @@ namespace Smartmobili.Cocoa
         internal static extern int xmlTextReaderRead(xmlTextReader* reader);
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlCharPtr xmlTextReaderConstName(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlCharPtr xmlTextReaderConstPrefix(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlCharPtr xmlTextReaderConstNamespaceUri(xmlTextReader* reader);
+        
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlCharPtr xmlTextReaderConstValue(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderMoveToFirstAttribute(xmlTextReader* reader);
+        
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlNode* xmlTextReaderCurrentNode(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderIsEmptyElement(xmlTextReader* reader);
+        
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern int xmlTextReaderClose(xmlTextReader* reader);
         
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]

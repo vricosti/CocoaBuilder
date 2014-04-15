@@ -33,15 +33,18 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(NSXMLElement));
         new public static NSXMLElement alloc() { return new NSXMLElement(); }
 
-        protected NSArray _namespaces;
-        protected NSArray _attributes;
-        protected NSXMLChildren _children42; // added 42 to avoid name collision
-        protected bool _zeroOrOneNamespaces;
-        protected bool _zeroOrOneAttributes;
-        protected NSString _name;
-        protected int _prefixIndex;
-        protected NSString _URI;
-        protected bool _childrenHaveMutated;
+        protected NSString _name; //0x14(x86) - 0x20(x64)
+        protected NSXMLChildren _attributes; //0x18(x86) - 0x28(x64)
+        protected NSArray _namespaces; //0x1C(x86) - 0x30(x64)
+        protected NSXMLChildren _children42; //0x20(x86) - 0x38(x64)
+        protected bool _childrenHaveMutated; //0x24(x86) - 0x40(x64)
+        protected bool _zeroOrOneAttributes; //0x25(x86) - 0x41(x64)
+        protected bool _zeroOrOneNamespaces; //0x26(x86) - 0x42(x64)
+        protected bool _padding; //0x27(x86) - 0x43(x64)
+        protected NSString _URI; //0x28(x86) - 0x48(x64)
+        protected int _prefixIndexNC; //0x2C(x86) - 0x50(x64)
+       
+        
         protected char[] _passing;
 
         public override void setURI(NSString uri)
@@ -80,6 +83,10 @@ namespace Smartmobili.Cocoa
             return null;
         }
 
+        public virtual int _prefixIndex()
+        {
+            return _prefixIndexNC;
+        }
 
         public override uint childCount()
         {
@@ -129,33 +136,33 @@ namespace Smartmobili.Cocoa
             return (this._childrenHaveMutated == false);
         }
 
-
-
-        public virtual void _setQNamesAreResolved(bool QNamesResolved)
+        public virtual void _setQNamesAreResolved(bool qNamesAreResolved)
         {
-            this._childrenHaveMutated = (QNamesResolved == false);
-            if (QNamesResolved == false)
-                return;
-
-            if (this.parent().kind() == NSXMLNodeKind.NSXMLElementKind)
+            this._childrenHaveMutated = (qNamesAreResolved == false);
+            if (qNamesAreResolved == false)
             {
-            loc_rec:
-                if (this._QNamesAreResolved() == true)
+                NSXMLNode curNode = this.parent();
+                while (curNode != null)
                 {
-                    _setQNamesAreResolved(false);
-                    if (parent().kind() == NSXMLNodeKind.NSXMLElementKind)
-                        goto loc_rec;
+                    if ((curNode.kind() != NSXMLNodeKind.NSXMLElementKind) || 
+                        ((NSXMLElement)curNode)._QNamesAreResolved() == false)
+                        break;
+
+                    ((NSXMLElement)curNode)._setQNamesAreResolved(false);
+
+                    curNode = curNode.parent();
                 }
             }
 
         }
 
+
         public virtual NSString prefix()
         {
-            if (this._prefixIndex == -1)
+            if (this._prefixIndexNC == -1)
                 return @"";
             else
-                return this._name.substringToIndex((uint)this._prefixIndex);
+                return this._name.substringToIndex((uint)this._prefixIndexNC);
         }
 
         public virtual id init()
@@ -174,6 +181,9 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
+
+
+
         public virtual id initWithNameStringValue(NSString name, NSString stringValue)
         {
             id self = this;
@@ -191,7 +201,7 @@ namespace Smartmobili.Cocoa
                 this._zeroOrOneAttributes = true;
                 this._kind = NSXMLNodeKind.NSXMLElementKind;
                 this.setName(name);
-                this._prefixIndex = prefixIndex;
+                this._prefixIndexNC = prefixIndex;
                 this._setQNamesAreResolved(uri != null);
                 this.setURI(uri);
             }
@@ -309,6 +319,110 @@ namespace Smartmobili.Cocoa
 
             return node;
         }
+
+       
+
+        public virtual uint countOfAttributes()
+        {
+            uint result; 
+
+            if (_zeroOrOneAttributes)
+                result = (uint)((_attributes != null) ? 1 : 0);
+            else
+                result = _attributes.count();
+
+            return result;
+        }
+
+        public virtual void insertObject_inAttributesAtIndex(NSXMLNode aNode, uint anIndex)
+        {
+            if (aNode.kind() != NSXMLNodeKind.NSXMLAttributeKind)
+            {
+                NSException.raise("not an attribute", "");
+            }
+            if(aNode.parent() != null)
+            {
+                NSException.raise("Cannot add an attribute with a parent; detach or copy first", "");
+            }
+
+            aNode._setParent(this);
+            if ((int)Objc.MsgSend(aNode, "_prefixIndex") != -2)
+            {
+                if (aNode.URI() == null)
+                {
+                    Objc.MsgSend(aNode, "_resolveName");
+                    if (aNode.URI() == null)
+                        this._setQNamesAreResolved(false);
+                }
+            }
+            if(_attributes == null)
+            {
+                _attributes = (NSXMLChildren)aNode.retain(); 
+                return;
+            }
+
+            uint attrCount;
+            if (_zeroOrOneAttributes)
+            {
+                NSXMLChildren children = (NSXMLChildren)NSXMLChildren.alloc().init();
+                _attributes = (NSXMLChildren)children.reallyInsertObject(_attributes.autorelease(), 0);
+                _zeroOrOneAttributes = false;
+                attrCount = 1;
+            }
+            else
+            {
+                attrCount = _attributes.count();
+                if (attrCount == 0)
+                {
+                    //FIXME
+                    return;
+                }
+            }
+
+            uint index = 0;
+            do
+            {
+                var curNodeAttr = _attributes.objectAtIndex(index);
+                if ((bool)Objc.MsgSend(curNodeAttr, "_nameIsEqualToNameOfNode", aNode) == false)
+                    index = NS.NotFound;
+                index++;
+            }
+            while (index < attrCount && index == NS.NotFound);
+            
+            if(index ==  NS.NotFound)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        public virtual void addAttribute(NSXMLNode node)
+        {
+            this.insertObject_inAttributesAtIndex(node, countOfAttributes());
+        }
+
+
+        public virtual void _addTrustedAttribute(NSXMLNode node, uint index)
+        {
+            node._setParent(this);
+            if (_attributes != null)
+            {
+                if (_zeroOrOneAttributes)
+                {
+                    NSXMLChildren children = (NSXMLChildren)NSXMLChildren.alloc().init();
+                    _attributes = (NSXMLChildren)children.reallyAddObject(_attributes.autorelease());
+                    _zeroOrOneAttributes = false;
+                }
+                _attributes = (NSXMLChildren)_attributes.reallyInsertObject(node, index);
+            }
+            else
+            {
+                _attributes = (NSXMLChildren)node.retain();
+            }
+        }
+
 
         public virtual NSXMLNode attributeForName(NSString name)
         {

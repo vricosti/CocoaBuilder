@@ -121,6 +121,11 @@ namespace Smartmobili.Cocoa
             return NSMapTable.Get(map, ptr);
         }
 
+        public static void MapInsert(NSMapTable table, IntPtr key, id value)
+        {
+            NSMapTable.Insert(table, key, value);
+        }
+
         public static void MapInsertKnownAbsent(NSMapTable table, IntPtr key, id value)
         {
             NSMapTable.InsertKnownAbsent(table, key, value);

@@ -52,39 +52,50 @@ namespace Smartmobili.Cocoa
             return _array.objectAtIndex(index);
         }
 
-        
 
 
-        
 
-        public virtual void reallyAddObject(id anObject)
+
+
+        public virtual id reallyAddObject(id anObject)
         {
+            id result;
+
             if (_isStale == true)
             {
                 NSMutableArray array = NSMutableArray.arrayWithArray(_array);
                 array.addObject(anObject);
-                this.initWithMutableArray(array);
+                this.autorelease();
+                result = NSXMLChildren.alloc().initWithMutableArray(array);
             }
             else
             {
                 _array.addObject(anObject);
+                result = this;
             }
+
+            return result;
         }
 
 
-        public virtual void reallyInsertObject(id anObject, uint index)
+        public virtual id reallyInsertObject(id anObject, uint index)
         {
+            id result;
+
             if (_isStale == true)
             {
                 NSMutableArray array = NSMutableArray.arrayWithArray(_array);
                 array.insertObject(anObject, index);
-                this.initWithMutableArray(array);
-
+                this.autorelease();
+                result = NSXMLChildren.alloc().initWithMutableArray(array);
             }
             else
             {
                 _array.insertObject(anObject, index);
+                result = this;
             }
+
+            return result;
         }
 
         public virtual void reallyRemoveAllObjects()
