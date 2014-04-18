@@ -107,5 +107,46 @@ namespace Smartmobili.Cocoa
         
     }
 
+    public class NSCountedSet : NSMutableSet
+    {
+        new public static Class Class = new Class(typeof(NSCountedSet));
+        new public static NSCountedSet alloc() { return new NSCountedSet(); }
 
+        public virtual id initWithArray(NSArray anArray)
+        {
+            return null;
+        }
+
+        public virtual id initWithCapacity(UInt32/*NSUInteger*/ numItems)
+        {
+            return null;
+        }
+
+        public virtual id initWithSet(NSSet aSet)
+        {
+            return null;
+        }
+
+        public virtual void addObject(id anObject)
+        {
+
+        }
+
+
+        //- (NSUInteger)countForObject:(id)anObject
+    }
+
+    public class NSOrderedSet : NSObject
+    {
+        new public static Class Class = new Class(typeof(NSOrderedSet));
+        new public static NSOrderedSet alloc() { return new NSOrderedSet(); }
+    }
+
+
+    public class NSMutableOrderedSet : NSOrderedSet
+    {
+        new public static Class Class = new Class(typeof(NSMutableOrderedSet));
+        new public static NSMutableOrderedSet alloc() { return new NSMutableOrderedSet(); }
+    }
+    
 }
