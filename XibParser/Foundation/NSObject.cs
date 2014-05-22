@@ -67,7 +67,7 @@ namespace Smartmobili.Cocoa
 
         
 
-        public virtual NSString description()
+        public override NSString description()
         {
             return this.ToString();
         }

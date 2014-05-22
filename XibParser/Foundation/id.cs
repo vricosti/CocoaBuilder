@@ -74,7 +74,12 @@ namespace Smartmobili.Cocoa
 
             return self;
         }
-        
+
+        public virtual NSString description()
+        {
+            return "id";
+        }
+
         public virtual NSString stringValue()
         {
             return this.ToString();

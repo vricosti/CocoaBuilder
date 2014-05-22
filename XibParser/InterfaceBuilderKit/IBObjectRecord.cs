@@ -45,7 +45,7 @@ namespace Smartmobili.Cocoa
         {
             id self = this;
 
-            if (aDecoder.AllowsKeyedCoding)
+            if (aDecoder.retain<NSCoder>().allowsKeyedCoding())
             {
                 ObjectID = aDecoder.decodeIntForKey("objectID");
                 Object = aDecoder.decodeObjectForKey("object");

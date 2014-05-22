@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Smartmobili.Cocoa
 {
-    public class IBGroup
+    public class IBGroup : NSObject
     {
         new public static Class Class = new Class(typeof(IBGroup));
         new public static IBGroup alloc() { return new IBGroup(); }

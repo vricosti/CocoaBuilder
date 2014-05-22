@@ -13,5 +13,19 @@ namespace Smartmobili.Cocoa
 
         protected NSString _memberIdentifier;
         protected int _retainCountMinusOne;
+
+
+        //void IBEncodeMemberID(NSCoder *__strong, IBMemberID *__strong, NSString *__strong, NSString *__strong, IBMemberIDEncodingStrategy)
+        //"/SourceCache/IDEInterfaceBuilder/IDEInterfaceBuilder-4514/Framework/Document/IBMemberID.m"
+        public static void IBEncodeMemberID(NSCoder aCoder, IBMemberID aMemberID, NSString aString, NSString aString2, int aIBMemberStrategy)
+        {
+
+        }
+
+        //"IBMemberID *IBDecodeMemberID(NSCoder *__strong, NSString *__strong, NSString *__strong)"
+        public static IBMemberID IBDecodeMemberID(NSCoder aDecoder, NSString aString, NSString aString2)
+        {
+            return null;
+        }
     }
 }

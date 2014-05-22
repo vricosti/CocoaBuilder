@@ -159,7 +159,12 @@ namespace Smartmobili.Cocoa
         ////////////////////////////////////////////////////////////////////////////////////////////
         public virtual bool AllowsKeyedCoding
         {
-            get { return false; }
+            get { return allowsKeyedCoding(); }
+        }
+
+        public virtual bool allowsKeyedCoding()
+        {
+            return false;
         }
 
         public virtual bool containsValueForKey(NSString key)

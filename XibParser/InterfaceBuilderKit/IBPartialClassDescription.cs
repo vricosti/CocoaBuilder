@@ -71,7 +71,7 @@ namespace Smartmobili.Cocoa
 
             base.initWithCoder(aDecoder);
 
-            if (aDecoder.AllowsKeyedCoding)
+            if (aDecoder.retain <NSCoder>().allowsKeyedCoding())
             {
                 ClassName = (NSString)aDecoder.decodeObjectForKey("className");
                 SuperClassName = (NSString)aDecoder.decodeObjectForKey("superclassName");
