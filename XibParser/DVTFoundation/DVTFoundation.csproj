@@ -44,7 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\..\cygwin\home\Vincent\projects\CocoaBuilder\XibParser\Foundation\Foundation.csproj">
+    <ProjectReference Include="..\Foundation\Foundation.csproj">
       <Project>{2850d5ff-f423-48f3-9acb-4921b1be9954}</Project>
       <Name>Foundation</Name>
     </ProjectReference>

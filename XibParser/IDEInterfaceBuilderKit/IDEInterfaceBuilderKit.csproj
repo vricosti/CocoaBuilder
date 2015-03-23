@@ -58,13 +58,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\Developer\cygwin\home\Vincent\projects\CocoaBuilder\XibParser\DVTFoundation\DVTFoundation.csproj">
-      <Project>{84ef54b9-c2ba-43fd-bb50-28282f24ae12}</Project>
-      <Name>DVTFoundation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AppKit\AppKit.csproj">
       <Project>{49b7a163-c6d1-40f5-9974-08a31d4f58ee}</Project>
       <Name>AppKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DVTFoundation\DVTFoundation.csproj">
+      <Project>{84ef54b9-c2ba-43fd-bb50-28282f24ae12}</Project>
+      <Name>DVTFoundation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Foundation\Foundation.csproj">
       <Project>{2850d5ff-f423-48f3-9acb-4921b1be9954}</Project>
