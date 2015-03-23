@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace Smartmobili.Cocoa
 {
+    public struct EnumerationMap
+    {
+        public Int64 numValue;
+        public string strValue;
+    }
+
+
     public class IBDocumentArchivingSchema : NSObject
     {
         new public static Class Class = new Class(typeof(IBDocumentArchivingSchema));
