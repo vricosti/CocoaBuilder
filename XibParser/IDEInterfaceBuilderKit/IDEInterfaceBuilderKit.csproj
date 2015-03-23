@@ -44,6 +44,7 @@
     <Compile Include="IBClassDescriptionBasedClassProvider.cs" />
     <Compile Include="IBDocument.cs" />
     <Compile Include="IBDocumentArchivingSchema.cs" />
+    <Compile Include="IBDocumentArchivingSchemaBitmask.cs" />
     <Compile Include="IBDocumentArchivingSchemaEnumeration.cs" />
     <Compile Include="IBGroup.cs" />
     <Compile Include="IBLocalDescriptionsClassProvider.cs" />
