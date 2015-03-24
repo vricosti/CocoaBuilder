@@ -99,7 +99,16 @@ namespace Smartmobili.Cocoa
 
         public virtual bool decodeBitmask(ref Int64 bitmask, NSSet fromBits)
         {
-            return false;
+            bitmask = 0;
+            for (int i = 0; i < _mapCount; i++)
+            {
+                if (fromBits.containsObject(_map[i].strValue))
+                {
+                    bitmask |= _map[i].numValue;
+                }
+            }
+
+            return true;
         }
 
         //+ (id)sharedInstance;
