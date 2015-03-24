@@ -39,7 +39,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBBindingManager.cs" />
+    <Compile Include="IBCocoaDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppKit\AppKit.csproj">
+      <Project>{49b7a163-c6d1-40f5-9974-08a31d4f58ee}</Project>
+      <Name>AppKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DVTFoundation\DVTFoundation.csproj">
+      <Project>{84ef54b9-c2ba-43fd-bb50-28282f24ae12}</Project>
+      <Name>DVTFoundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\Foundation.csproj">
+      <Project>{2850d5ff-f423-48f3-9acb-4921b1be9954}</Project>
+      <Name>Foundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IDEInterfaceBuilderKit\IDEInterfaceBuilderKit.csproj">
+      <Project>{1b40e258-56ea-48c3-ab78-436bbf18c40d}</Project>
+      <Name>IDEInterfaceBuilderKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IDEKit\IDEKit.csproj">
+      <Project>{c18f88da-9ae8-4552-9627-a9b30b9a3163}</Project>
+      <Name>IDEKit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

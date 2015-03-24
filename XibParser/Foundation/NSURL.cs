@@ -28,6 +28,7 @@ namespace Smartmobili.Cocoa
 
     //https://github.com/stevegeek/cocotron/blob/master/Foundation/NSURL/NSURL.h
 
+
     public class NSURL : NSObject
     {
         new public static Class Class = new Class(typeof(NSURL));
@@ -83,7 +84,14 @@ namespace Smartmobili.Cocoa
 
         public virtual bool isFileURL()
         {
-            return true;
+            bool bRet = false;
+
+            NSString scheme = this.scheme();
+            if( scheme != null)
+            {
+                bRet = (scheme.caseInsensitiveCompare(NSURLFileScheme) == 0);
+            }
+            return bRet;
         }
 
         public virtual NSString path()

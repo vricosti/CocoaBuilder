@@ -126,7 +126,7 @@ namespace Smartmobili.Cocoa
             //NSData data = NSData.alloc().initWithContentsOfFile(xibPath);
             //if (data != null)
             IBDocument ibDoc = (IBDocument)IBDocument.alloc().init();
-            if (ibDoc.ReadFromURL((NSURL)NSURL.fileURLWithPath(xibPath), ""))
+            if (ibDoc.readFromURL((NSURL)NSURL.fileURLWithPath(xibPath), ""))
             {
                // var u = GSXibKeyedUnarchiver.alloc().initForReadingWithData(data);
                 //id container = u.decodeObjectForKey(@"IBDocument.Objects");

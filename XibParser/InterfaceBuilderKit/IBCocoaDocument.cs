@@ -34,7 +34,7 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(IBCocoaDocument));
         new public static IBDocument alloc() { return new IBCocoaDocument(); }
 
-        //public virtual override InitForURL(NSURL forUrl, NSURL url, NSString type, ref NSError error)
+        //public virtual override InitForURL(NSURL url, NSURL contentsUrl, NSString type, ref NSError error)
         //{
 
         //}

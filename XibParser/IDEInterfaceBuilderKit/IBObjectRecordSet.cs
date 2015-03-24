@@ -11,7 +11,13 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(IBObjectRecordSet));
         new public static IBObjectRecordSet alloc() { return new IBObjectRecordSet(); }
 
-        IBMutableOrderedSet _records;
-        NSArray _objects;
+        protected IBMutableOrderedSet _records;
+        protected NSMutableArray _objects;
+
+        public virtual void addObject(id anObject)
+        {
+            _records.addObject(anObject);
+        }
+
     }
 }

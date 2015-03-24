@@ -39,8 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DVTDeclaredPrimitiveFileDataType.cs" />
+    <Compile Include="DVTFileDataType.cs" />
+    <Compile Include="DVTFileDataTypeDetection.cs" />
     <Compile Include="DVTMapTable.cs" />
     <Compile Include="DVTMutableOrderedSet.cs" />
+    <Compile Include="DVTPrimitiveFileDataType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

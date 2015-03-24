@@ -56,5 +56,17 @@ namespace Smartmobili.Cocoa
         //protected bool _wholeDocumentChanged;
         //protected NSSet _readOnlyClients;
         //protected DVTFilePath _autosavedContentsFilePath;
+
+
+         public override id initForURL(NSURL forUrl, NSURL url, NSString type, ref NSError error)
+        {
+            id self = base.initForURL(forUrl, url, type, ref error);
+            if (self != null)
+            {
+
+            }
+
+            return self;
+        }
     }
 }

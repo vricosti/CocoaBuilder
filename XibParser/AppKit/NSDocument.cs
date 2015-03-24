@@ -54,6 +54,16 @@ namespace Smartmobili.Cocoa
         protected int _document_index;
 
 
+        public static void _fileModificationDateForURL(NSURL url)
+        {
+            //TODO
+        }
+
+        public static bool _autosavesInPlace()
+        {
+            return false;
+        }
+
         public virtual NSString FileType 
         {
             get { return GetFileType(); }
@@ -73,7 +83,7 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public virtual id InitWithType(NSString type, ref NSError error)
+        public virtual id initWithType(NSString type, ref NSError error)
         {
             id self = this.init();
             if (self != null)
@@ -92,36 +102,86 @@ namespace Smartmobili.Cocoa
 
         //-(id)initForURL:(NSURL *)absoluteDocumentURL withContentsOfURL:(NSURL *)absoluteDocumentContentsURL ofType:(NSString *)typeName error:(NSError **)outError
         //-[IBCocoaDocument initForURL:withContentsOfURL:ofType:error:]
-        public virtual id InitForURL(NSURL forUrl, NSURL url, NSString type, ref NSError error)
+        public virtual id initForURL(NSURL absoluteURL, NSURL absoluteDocumentContentsURL, NSString typeName, object dummyNullable)
         {
-            id self = this.InitWithType(type, ref error);
-            if (self != null)
+            NSError outError = null;
+            return this.initForURL(absoluteURL, absoluteDocumentContentsURL, typeName, ref outError);
+        }
+
+        public virtual id initForURL(NSURL url, NSURL contentsUrl, NSString type, ref NSError error)
+        {
+            id self = null;
+
+            if (Objc.Overridden(this.GetType(), "initWithContentsOfFile") && contentsUrl.isFileURL())
             {
-                this.SetFileType(type);
-                if (forUrl != null)
-                    this.setFileURL(forUrl);
-                if (this.ReadFromURL(url, type, ref error))
+                self = this.initWithContentsOfFile(contentsUrl.path(), type);
+                if (self != null)
                 {
-                    if (!url.isEqual(forUrl))
-                    {
-                        //
-                    }
+                    this.setFileURL(url);
+                }
+            }
+            else
+            {
+                self = this.init();
+                if (self != null)
+                {
+                    this._initForURL(url, contentsUrl, type, ref error);
                 }
             }
 
             return self;
         }
-        public virtual id InitForURL(NSURL absoluteURL, NSURL absoluteDocumentContentsURL, NSString typeName, object dummyNullable)
+
+        public virtual bool _initForURL(NSURL url, NSURL contentsUrl, NSString typeName, ref NSError error)
         {
-            NSError outError = null;
-            return this.InitForURL(absoluteURL, absoluteDocumentContentsURL, typeName, ref outError);
+            bool bRet = false;
+
+            this.setFileURL(url);
+            this.SetFileType(typeName);
+            if (url != null)
+            {
+                //this.setFileModificationDate(NSDocument._fileModificationDateForURL(url));
+                //this._setTagNames(NSDocument._tagNamesForURL(url));
+            }
+
+            bRet = readFromURL(contentsUrl, typeName, ref error);
+            if (bRet == true)
+            {
+                //*(_BYTE *)(*(_DWORD *)(self + 0x24) + 0x151) = 1;
+                if (url.isEqual(contentsUrl) == false)
+                {
+                    //this.setAutosavedContentsFileURL(contentsUrl);
+                    //this.updateChangeCount(3);
+                }
+                if( NSDocument._autosavesInPlace() == true)
+                {
+                    //if( url != null)
+                    //{
+                    //    if (NSDocument._preservesVersions() == true)
+                    //        this._setFileContentsDeservesPreservingForReason(20);
+                    //}
+                    //if (this.isInViewingMode() == false)
+                    //    this._checkAutosavingAndUpdateLockedState();
+                }
+            }
+            return bRet;
         }
 
-        public virtual id InitWithContentsOfURL(NSURL url, NSString type, ref NSError error)
+
+        public virtual id initWithContentsOfFile(NSString fileName, NSString docType)
+        {
+            return null;
+        }
+
+
+
+        
+
+        public virtual id initWithContentsOfURL(NSURL url, NSString type, ref NSError error)
         {
             id self = null;
 
-            self = this.InitForURL(url, url, type, ref error);
+            self = this.initForURL(url, url, type, ref error);
             //this.SetFileModificationDate(NSDate.Date);
 
              return self;
@@ -179,29 +239,28 @@ namespace Smartmobili.Cocoa
             return false;
         }
 
-        public virtual bool ReadFromFile(NSString fileName, NSString type)
+        public virtual bool readFromFile(NSString fileName, NSString type)
         {
             NSFileWrapper wrapper = (NSFileWrapper)NSFileWrapper.alloc().initWithPath(fileName);
             return this.LoadFileWrapperRepresentation(wrapper, type);
         }
 
-        public virtual bool ReadFromURL(NSURL url, NSString typeName, object unused = null)
+        public virtual bool readFromURL(NSURL url, NSString typeName, object unused = null)
         {
             NSError err = null;
-            return this.ReadFromURL(url, typeName, ref err);
+            return this.readFromURL(url, typeName, ref err);
         }
 
-        public virtual bool ReadFromURL(NSURL url, NSString typeName, ref NSError outError)
+        public virtual bool readFromURL(NSURL url, NSString typeName, ref NSError outError)
         {
-
             if (url.isFileURL())
             {
                 NSString fileName = url.Path;
 
-                if (Objc.Overridden(this.GetType(), "ReadFromFile"))
+                if (Objc.Overridden(this.GetType(), "readFromFile"))
                 {
                     outError = null;
-                    return this.ReadFromFile(fileName, typeName);
+                    return this.readFromFile(fileName, typeName);
                 }
                 else
                 {
@@ -212,7 +271,7 @@ namespace Smartmobili.Cocoa
             else
             {
                 //FIXME
-                //return this.ReadFromData(url.ResourceDataUsingCache(true), typeName, ref outError);
+                //return this.ReadFromData(contentsUrl.ResourceDataUsingCache(true), typeName, ref outError);
                 return false;
             }
         }

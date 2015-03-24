@@ -100,6 +100,61 @@ namespace Smartmobili.Cocoa
         //protected DVTNotificationToken _warningSeverityToken;
         protected bool _previouslyAttemptedUpgradeToXcode5;
 
+
+
+        public void setClassNameThatPreventedDecode(NSString aClassNameThatPreventedDecode)
+        {
+            _classNameThatPreventedDecode = aClassNameThatPreventedDecode;
+        }
+
+        public virtual id initForURL(NSURL forUrl, NSURL url, NSString type, ref NSError error)
+        {
+            id self = base.initForURL(forUrl, url, type, ref error);
+            if (self != null)
+            {
+
+            }
+
+            return self;
+        }
+
+        public delegate bool InvokeWithUndoSuppressedDelegate(NSURL url, NSString typeName, ref NSError outError);
+
+        public override bool readFromURL(NSURL url, NSString typeName, ref NSError outError)
+        {
+            bool bRet = false;
+
+            InvokeWithUndoSuppressedDelegate myDelegate = _readFromURL;
+            bRet = invokeWithUndoSuppressed(myDelegate);
+   
+            return bRet;
+        }
+
+        private bool _readFromURL(NSURL url, NSString typeName, ref NSError outError)
+        {
+            bool bRet = false;
+            this.setClassNameThatPreventedDecode(null);
+            //
+            bRet = base.readFromURL(url, typeName, ref outError);
+
+
+            return false;
+        }
+
+        public virtual bool invokeWithUndoSuppressed(InvokeWithUndoSuppressedDelegate delgate)
+        {
+            return false;
+        }
+
+
+        public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
+        {
+            return false;
+        }
+
+
+
+
     }
     
 
