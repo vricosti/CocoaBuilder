@@ -9,7 +9,7 @@ namespace Smartmobili.Cocoa
     public struct EnumerationMap
     {
         public Int64 numValue;
-        public string strValue;
+        public NSString strValue;
     }
 
 

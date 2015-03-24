@@ -33,9 +33,27 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual id initWithTypeName(NSString typeName, NSString elementName, EnumerationMap bitmaskMap, Int64 count, bool copy)
+        public virtual id initWithTypeName(NSString typeName, NSString elementName, EnumerationMap[] bitmaskMap, Int64 count, bool copy)
         {
-            return null;
+            IBDocumentArchivingSchemaBitmask self = this;
+
+            if (copy == false)
+            {
+                if (base.init() != null)
+                {
+                    _typeName = typeName;
+                    _elementName = elementName;
+                    _map = bitmaskMap;
+                    _mapCount = count;
+
+                }
+            }
+            else 
+            { 
+
+            }
+
+            return self;
         }
 
         public virtual NSString elementName()
@@ -50,9 +68,38 @@ namespace Smartmobili.Cocoa
 
         public virtual NSSet allBitNames()
         {
-            NSMutableSet allNames = (NSMutableSet)NSMutableSet.alloc().init().autorelease();
+            NSMutableSet allNames = (NSMutableSet)NSMutableSet.alloc().init().autorelease().retain();
 
+            for (int i = 0; i < _mapCount; i++)
+            {
+                allNames.addObject(_map[i].strValue);
+            }
+            
             return allNames;
+        }
+
+
+        public virtual NSArray bitNamesForBitmask(Int64 bitmask)
+        {
+            NSMutableArray bitNames = NSMutableArray.array();
+
+            for (int i = 0; i < _mapCount; i++)
+            {
+                if ((bitmask & _map[i].numValue) == _map[i].numValue)
+                {
+                    bitNames.addObject(_map[i].strValue);
+                }
+                
+            }
+
+
+            return bitNames;
+        }
+
+
+        public virtual bool decodeBitmask(ref Int64 bitmask, NSSet fromBits)
+        {
+            return false;
         }
 
         //+ (id)sharedInstance;
