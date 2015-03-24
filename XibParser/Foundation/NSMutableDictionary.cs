@@ -42,8 +42,11 @@ namespace Smartmobili.Cocoa
 
         }
 
-       
-        
+
+        new public static NSMutableDictionary dictionary()
+        {
+            return (NSMutableDictionary)NSMutableDictionary.alloc().init();
+        }
 
         public static NSMutableDictionary dictionaryWithDictionary(NSDictionary anotherDic)
         {

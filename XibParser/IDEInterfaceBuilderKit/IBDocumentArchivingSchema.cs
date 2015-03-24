@@ -46,6 +46,33 @@ namespace Smartmobili.Cocoa
             return ms;
         }
 
+
+        public virtual IBDocumentArchivingSchema initWithIdentifier(NSString identifier)
+        {
+            IBDocumentArchivingSchema self = this;
+
+            if (base.init() != null)
+            {
+                _identifier = (NSString)identifier.retain();
+                _enumerationsByTypeNames = NSMutableDictionary.dictionary();
+                _bitmasksByTypeNames = (NSMutableDictionary)NSMutableDictionary.dictionary();
+                _bitmasksByElementNames = NSMutableDictionary.dictionary();
+                _elementNamesToClasses = NSMutableDictionary.dictionary();
+                _classesToElementNames = IBMutableIdentityDictionary.dictionary();
+                _dictionaryNames = NSMutableSet.set();
+                _arrayNames = NSMutableSet.set();
+                _groupNames = NSMutableSet.set();
+
+            }
+
+            return self;
+        }
+
+        public override NSString description()
+        {
+            return "";
+        }
+
 //+ (id)sharedSchemaForSchemaExtensionIdentifier:(id)arg1;
 //+ (id)schemaForSchemaExtensionPointIdentifier:(id)arg1;
 //@property(readonly) NSString *identifier; // @synthesize identifier;

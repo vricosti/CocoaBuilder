@@ -32,6 +32,11 @@ namespace Smartmobili.Cocoa
         protected HashSet<id> _sets;
 
 
+        public static NSSet set()
+        {
+            return (NSSet)NSSet.alloc().init();
+        }
+
         public static NSSet setWithObject(id obj)
         {
             return (NSSet)NSSet.alloc().initWithObjects(obj);
@@ -82,6 +87,11 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSMutableSet));
         new public static NSMutableSet alloc() { return new NSMutableSet(); }
+
+        public static NSMutableSet set()
+        {
+            return (NSMutableSet)NSMutableSet.alloc().init();
+        }
 
         public override void addObject(id anObject)
         {
