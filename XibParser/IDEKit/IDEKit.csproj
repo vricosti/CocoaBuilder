@@ -7,7 +7,7 @@
     <ProjectGuid>{C18F88DA-9AE8-4552-9627-A9B30B9A3163}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IDEKit</RootNamespace>
+    <RootNamespace>Smartmobili.Cocoa</RootNamespace>
     <AssemblyName>IDEKit</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDEDocumentController.cs" />
     <Compile Include="IDEEditorDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

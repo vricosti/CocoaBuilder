@@ -32,7 +32,7 @@ namespace Smartmobili.Cocoa
             return _instance;
         }
 
-
+        // ex: typeName = "NSModifierMask", elementName = "modifierMask"
         public virtual id initWithTypeName(NSString typeName, NSString elementName, EnumerationMap[] bitmaskMap, Int64 count, bool copy)
         {
             IBDocumentArchivingSchemaBitmask self = this;
