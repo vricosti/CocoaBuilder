@@ -40,12 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBAbstractClassProvider.cs" />
+    <Compile Include="IBAbstractFileDataTypeDescription.cs" />
     <Compile Include="IBClassDescriber.cs" />
     <Compile Include="IBClassDescriptionBasedClassProvider.cs" />
     <Compile Include="IBDocument.cs" />
     <Compile Include="IBDocumentArchivingSchema.cs" />
     <Compile Include="IBDocumentArchivingSchemaBitmask.cs" />
     <Compile Include="IBDocumentArchivingSchemaEnumeration.cs" />
+    <Compile Include="IBDocumentContentDescription.cs" />
+    <Compile Include="IBDocumentDataTypeDescription.cs" />
     <Compile Include="IBGroup.cs" />
     <Compile Include="IBLocalDescriptionsClassProvider.cs" />
     <Compile Include="IBMemberID.cs" />
