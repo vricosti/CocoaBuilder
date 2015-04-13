@@ -42,6 +42,8 @@
     <Compile Include="DVTDeclaredPrimitiveFileDataType.cs" />
     <Compile Include="DVTFileDataType.cs" />
     <Compile Include="DVTFileDataTypeDetection.cs" />
+    <Compile Include="DVTFilePath.cs" />
+    <Compile Include="DVTFileSystemVNode .cs" />
     <Compile Include="DVTMapTable.cs" />
     <Compile Include="DVTMutableOrderedSet.cs" />
     <Compile Include="DVTPrimitiveFileDataType.cs" />
