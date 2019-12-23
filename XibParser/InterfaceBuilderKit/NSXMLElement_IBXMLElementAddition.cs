@@ -7,14 +7,33 @@ namespace Smartmobili.Cocoa
 {
     public static class NSXMLElement_IBXMLElementAddition
     {
-        public static NSMutableArray Elements(this NSXMLElement element)
+        public static NSArray elements(this NSXMLElement xmlElement)
         {
-            return (NSMutableArray)NSMutableArray.Alloc().Init();
+            NSArray elmts;
+
+            var children = xmlElement.children();
+            if (children != null && children.count() > 0)
+            {
+                elmts = NSMutableArray.array();
+                foreach (NSXMLNode node in children)
+                {
+                    if (node.kind() == NSXMLNodeKind.NSXMLElementKind)
+                    {
+                        elmts.addObject(node);
+                    }
+                }
+            }
+            else
+            {
+                elmts = NSArray.emptyArray();
+            }
+            return elmts;
+            
         }
 
 
 
-        public static void AddAttributeWithName(this NSXMLElement element, NSString stringValue)
+        public static void addAttributeWithName(this NSXMLElement element, NSString stringValue)
         {
            
         }

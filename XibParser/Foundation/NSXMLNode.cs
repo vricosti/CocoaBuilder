@@ -28,6 +28,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
+   
     public enum NSXMLNodeOptions : uint
     {
         NSXMLNodeOptionsNone = 0,
@@ -91,37 +92,198 @@ namespace Smartmobili.Cocoa
     public class NSXMLNode : NSObject
     {
         new public static Class Class = new Class(typeof(NSXMLNode));
-        new public static NSXMLNode Alloc() { return new NSXMLNode(); }
+        new public static NSXMLNode alloc() { return new NSXMLNode(); }
 
-        protected int _index;
-
-        protected NSXMLNodeKind _kind;
-
-        protected id _objectValue;
-
-        protected NSXMLNode _parent;
-
-        protected id _private;
+        protected NSXMLNodeKind _kind; //0x04(x86)
+        protected NSXMLNode _parent; //0x08(x86)
+        protected uint _index; //0x0C(x86)
+        protected id _objectValue; //0x10(x86)
 
 
-        public virtual void _SetKind(NSXMLNodeKind kind)
+
+        public static NSXMLNode predefinedNamespaceForPrefix(NSString prefix)
+        {
+            return NSXMLContext.defaultNamespaceForPrefix(prefix);
+        }
+    
+        public static NSString prefixForName(NSString qName) 
+        {
+            NSString prefix = "";
+            
+            if (qName != null && qName.length() != 0)
+            {
+                NSRange range = qName.rangeOfString(":", NSStringCompareOptions.NSLiteralSearch, new NSRange(1, qName.length()));
+                if (range.Location != NS.NotFound)
+                {
+                    prefix = qName.substringToIndex(range.Location);
+                }
+            }
+            
+            return prefix;
+        }
+
+
+        public static NSString localNameForName(NSString qName)
+        {
+            NSString localName = qName;
+
+            if (qName != null && qName.length() != 0)
+            {
+                NSRange range = qName.rangeOfString(":", NSStringCompareOptions.NSLiteralSearch, new NSRange(1, qName.length()));
+                if (range.Location != NS.NotFound)
+                {
+                    localName = qName.substringFromIndex(range.Location + range.Length);
+                }
+            }
+
+            return localName;
+        }
+
+
+        public virtual void _setKind(NSXMLNodeKind kind)
         {
             _kind = kind;
         }
 
-        public virtual NSXMLNodeKind GetKind()
+        public virtual NSXMLNodeKind kind()
         {
             return _kind;
         }
 
-        public virtual NSString GetURI()
+
+        public virtual void setName(NSString name)
+        { }
+
+        public virtual NSString name()
         {
             return null;
         }
 
-        public virtual int GetIndex()
+        public virtual NSString localName()
+        {
+            return null;
+        }
+
+
+        public virtual NSString URI()
+        {
+            return null;
+        }
+        public virtual void setURI(NSString uri)
+        { }
+
+        public virtual void _setIndex(uint index)
+         {
+            _index = index;
+         }
+
+        public virtual uint index()
         {
             return _index;
+        }
+
+         public virtual void _setParent(NSXMLNode parent)
+         {
+             _parent = parent;
+         }
+
+      
+        public virtual NSXMLNode parent()
+        {
+            return _parent;
+        }
+
+        public virtual NSArray children()
+        {
+            return null;
+        }
+
+        //function methImpl_NSXMLNode_rootDocument {
+        //do {
+        //        rdi = rdi._parent;
+        //} while (rdi != 0x0);
+        //rax = [rbx kind];
+        //rcx = rax;
+        //rax = 0x0;
+        //if (rcx == 0x1) {
+        //        rax = rbx;
+        //}
+        //return rax;
+        //}
+
+
+        public virtual NSXMLDocument rootDocument()
+        {
+            NSXMLDocument doc = null;
+
+            NSXMLNode tmpNode = this;
+            NSXMLNode rootNode;
+            do
+            {
+                rootNode = tmpNode;
+                tmpNode = tmpNode._parent;
+            }
+            while (tmpNode != null);
+
+            if (rootNode.kind() == NSXMLNodeKind.NSXMLDocumentKind)
+                doc = (NSXMLDocument)rootNode;
+
+            return doc;
+        }
+        public virtual uint childCount()
+        {
+            return 0;
+        }
+
+        public virtual NSXMLNode childAtIndex(uint index)
+        {
+            return null;
+        }
+
+        public virtual id objectValue()
+        {
+            return _objectValue;
+        }
+
+        public virtual void setObjectValue(id objValue)
+        {
+            if (this._objectValue != objValue)
+            {
+                this._objectValue = objValue;
+            }
+
+        }
+
+        public override NSString stringValue()
+        {
+            if (this._objectValue != null)
+            {
+                return NSXMLContext.stringForObjectValue(this._objectValue);
+            }
+            else
+            {
+                return @"";
+            }
+        }
+
+
+        public virtual void setStringValue(NSString strValue)
+        {
+            this.setStringValue(strValue, false);
+        }
+
+    
+
+        public virtual void setStringValue(NSString strValue, bool resolvingEntities)
+        {
+           if (resolvingEntities == true)
+           {
+               NSXMLFidelityNode.setObjectValuePreservingEntitiesForNode(this, strValue);
+           }
+           else
+           {
+               this.setObjectValue(strValue);
+           }
         }
 
         public virtual NSString XMLString()
@@ -131,17 +293,28 @@ namespace Smartmobili.Cocoa
 
         public virtual NSString XMLStringWithOptions(uint options)
         {
-            return this._XMLStringWithOptions(options, NSMutableString.String());
+            return this._XMLStringWithOptions_appendingToString(options, NSMutableString.String());
         }
 
-        public virtual NSString _XMLStringWithOptions(uint options, NSString str)
+
+
+
+        public virtual NSString _XMLStringWithOptions_appendingToString(uint options, NSString str)
         {
+            if (this.kind() != NSXMLNodeKind.NSXMLCommentKind)
+            {
+
+            }
+            else
+            { 
+
+            }
             return null;
         }
 
         public virtual NSData XMLData()
         {
-            return this.XMLString().DataUsingEncoding(NSStringEncoding.NSUTF8StringEncoding);
+            return this.XMLString().dataUsingEncoding(NSStringEncoding.NSUTF8StringEncoding);
         }
 
         public virtual NSString XPath()
@@ -154,31 +327,31 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                xpath = NSString.StringWithFormat(@"%@/node()[%ld]", _parent.XPath(), this.GetIndex());
+                xpath = NSString.stringWithFormat(@"%@/node()[%ld]", _parent.XPath(), this.index());
             }
             return xpath;
         }
 
 
-        public override id Init()
+        public override id init()
         {
             id self = this;
 
-            this._SetKind(0);
+            this._setKind(0);
             this._index = 0;
 
             return self;
         }
 
 
-        public virtual id InitWithKind(NSXMLNodeKind kind)
+        public virtual id initWithKind(NSXMLNodeKind kind)
         {
-            return this.InitWithKind(kind, 0);
+            return this.initWithKind(kind, 0);
         }
        
-        public virtual id InitWithKind(NSXMLNodeKind kind, uint options)
+        public virtual id initWithKind(NSXMLNodeKind kind, uint options)
         {
-            id self = this.Init();
+            id self = this.init();
 
             /*
              * Check whether we are already initializing an instance of the given
@@ -188,26 +361,26 @@ namespace Smartmobili.Cocoa
             switch(kind)
             {
                 case NSXMLNodeKind.NSXMLDocumentKind:
-                    if (self.IsKindOfClass(NSXMLDocument.Class) == false)
+                    if (self.isKindOfClass(NSXMLDocument.Class) == false)
                     {
-                        self = NSXMLDocument.Alloc().Init();
+                        self = NSXMLDocument.alloc().init();
                     }
                     break;
                     
                 case NSXMLNodeKind.NSXMLElementKind:
                     if ((options & 0x800004) == 0)
                     {
-                        if (self.IsKindOfClass(NSXMLElement.Class) == false)
+                        if (self.isKindOfClass(NSXMLElement.Class) == false)
                         {
-                            self = NSXMLElement.Alloc().Init();
+                            self = NSXMLElement.alloc().init();
                         }
                     }
                     else
                     {
-                        if (self.IsKindOfClass(NSXMLFidelityElement.Class) == false)
+                        if (self.isKindOfClass(NSXMLFidelityElement.Class) == false)
                         {
-                            self = NSXMLFidelityElement.Alloc().Init();
-                            ((NSXMLFidelityElement)self).SetFidelity(options);
+                            self = NSXMLFidelityElement.alloc().init();
+                            ((NSXMLFidelityElement)self).setFidelity(options);
                         }
                     }
                     break;
@@ -215,17 +388,17 @@ namespace Smartmobili.Cocoa
                 case NSXMLNodeKind.NSXMLAttributeKind:
                     if ((options & 0x8c00008) == 0)
                     {
-                        if (self.IsKindOfClass(NSXMLNamedNode.Class) == false)
+                        if (self.isKindOfClass(NSXMLNamedNode.Class) == false)
                         {
-                            self = NSXMLNamedNode.Alloc().InitWithKind(kind);
+                            self = NSXMLNamedNode.alloc().initWithKind(kind);
                         }
                     }
                     else
                     {
-                        if (self.IsKindOfClass(NSXMLNamedFidelityNode.Class) == false)
+                        if (self.isKindOfClass(NSXMLNamedFidelityNode.Class) == false)
                         {
-                            self = NSXMLNamedFidelityNode.Alloc().InitWithKind(kind);
-                            ((NSXMLNamedFidelityNode)self).SetFidelity(options);
+                            self = NSXMLNamedFidelityNode.alloc().initWithKind(kind);
+                            ((NSXMLNamedFidelityNode)self).setFidelity(options);
                         }
                    } 
                     break;
@@ -235,17 +408,17 @@ namespace Smartmobili.Cocoa
                 case NSXMLNodeKind.NSXMLProcessingInstructionKind:
                     if ((options & 0x8 /*NSXMLNodeUseSingleQuotes*/) == 0)
                     {
-                        if (self.IsKindOfClass(NSXMLNamedNode.Class) == false)
+                        if (self.isKindOfClass(NSXMLNamedNode.Class) == false)
                         {
-                            self = NSXMLNamedNode.Alloc().InitWithKind(kind);
+                            self = NSXMLNamedNode.alloc().initWithKind(kind);
                         }
                     }
                     else
                     {
-                        if (self.IsKindOfClass(NSXMLNamedFidelityNode.Class) == false)
+                        if (self.isKindOfClass(NSXMLNamedFidelityNode.Class) == false)
                         {
-                            self = NSXMLNamedFidelityNode.Alloc().InitWithKind(kind);
-                            ((NSXMLNamedFidelityNode)self).SetFidelity(options);
+                            self = NSXMLNamedFidelityNode.alloc().initWithKind(kind);
+                            ((NSXMLNamedFidelityNode)self).setFidelity(options);
                         }
                     } 
                     break;
@@ -256,14 +429,14 @@ namespace Smartmobili.Cocoa
                 case NSXMLNodeKind.NSXMLTextKind:
                     if ((options & 0x8400001) == 0)
                     {
-                        this._SetKind(kind);
+                        this._setKind(kind);
                     }
                     else 
                     {
-                        if (self.IsKindOfClass(NSXMLFidelityNode.Class) == false)
+                        if (self.isKindOfClass(NSXMLFidelityNode.Class) == false)
                         {
-                            self = NSXMLFidelityNode.Alloc().InitWithKind(kind);
-                            ((NSXMLNamedFidelityNode)self).SetFidelity(options);
+                            self = NSXMLFidelityNode.alloc().initWithKind(kind);
+                            ((NSXMLNamedFidelityNode)self).setFidelity(options);
                         }
                     }
                     break;
@@ -275,14 +448,14 @@ namespace Smartmobili.Cocoa
                 case NSXMLNodeKind.NSXMLEntityDeclarationKind:
                 case NSXMLNodeKind.NSXMLElementDeclarationKind:
                 case NSXMLNodeKind.NSXMLNotationDeclarationKind:
-                    if (self.IsKindOfClass(NSXMLDTDNode.Class) == false)
+                    if (self.isKindOfClass(NSXMLDTDNode.Class) == false)
                     {
-                        //self = NSXMLFidelityNode.Alloc().InitWithKind(kind);
+                        //self = NSXMLFidelityNode.alloc().initWithKind(kind);
                     }
                     break;
 
                 case NSXMLNodeKind.NSXMLAttributeDeclarationKind:
-                    if (self.IsKindOfClass(NSXMLAttributeDeclaration.Class) == false)
+                    if (self.isKindOfClass(NSXMLAttributeDeclaration.Class) == false)
                     {
                         self = null;
                     }
@@ -296,7 +469,76 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        
+//        function methImpl_NSXMLNode_detach {
+//    if (rdi._parent == 0x0) goto loc_1d2b1e;
+//    goto loc_1d2ad8;
+
+//loc_1d2b1e:
+//    return rax;
+
+//loc_1d2ad8:
+//    rax = [rbx retain];
+//    if ((rbx._kind & 0xff & 0xf) != 0x4) goto loc_1d2b29;
+//    goto loc_1d2afd;
+
+//loc_1d2b29:
+//    if ((rax & 0xf) != 0x3) goto loc_1d2b5b;
+//    goto loc_1d2b31;
+
+//loc_1d2b5b:
+//    rax = [*(rbx + r14) kind];
+//    if ((rax == 0x1) || (rax == 0x2)) {
+//            [*(rbx + r14) removeChildAtIndex:rbx._index >> 0x4];
+//    }
+
+//loc_1d2b96:
+//    rbx._index = rbx._index & 0xf;
+//    [rbx _setParent:0x0];
+//    rdi = rbx;
+//    rax = [rdi autorelease];
+
+//loc_1d2b31:
+//    r14 = *(rbx + r14);
+//    rax = [rbx name];
+//    rsi = @selector(removeAttributeForName:);
+
+//loc_1d2b50:
+//    rdx = rax;
+//    (r15)(r14);
+//    goto loc_1d2b96;
+
+//loc_1d2afd:
+//    r14 = *(rbx + r14);
+//    rax = [rbx name];
+//    rsi = @selector(removeNamespaceForPrefix:);
+//    goto loc_1d2b50;
+//}
+
+        public virtual void detach()
+        {
+            if (this._parent == null)
+                return;
+
+            if(this._kind != NSXMLNodeKind.NSXMLNamespaceKind)
+            {
+                if (this._kind != NSXMLNodeKind.NSXMLAttributeKind)
+                {
+                    if ((_parent.kind() == NSXMLNodeKind.NSXMLDocumentKind) ||
+                        (_parent.kind() == NSXMLNodeKind.NSXMLElementKind))
+                    {
+                        ((NSXMLElement)_parent).removeChildAtIndex(_index);
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+
+            }
+        }
 
        
     }

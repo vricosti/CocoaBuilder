@@ -14,13 +14,13 @@ namespace Smartmobili.Cocoa
 
         }
 
-        static void Initialize()
+        static void initialize()
         {
             //Version = 1;
         }
 
 
-        public override id Init()
+        public override id init()
         {
             int style =  (int)(NSWindowStyleMasks.NSTitledWindowMask | NSWindowStyleMasks.NSClosableWindowMask);
             return InitWithContentRect(NSRect.Zero, style, NSBackingStoreType.NSBackingStoreBuffered, false);

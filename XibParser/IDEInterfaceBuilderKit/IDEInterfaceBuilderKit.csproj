@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1B40E258-56EA-48C3-AB78-436BBF18C40D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Smartmobili.Cocoa</RootNamespace>
+    <AssemblyName>IDEInterfaceBuilderKit</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IBAbstractClassProvider.cs" />
+    <Compile Include="IBAbstractFileDataTypeDescription.cs" />
+    <Compile Include="IBClassDescriber.cs" />
+    <Compile Include="IBClassDescriptionBasedClassProvider.cs" />
+    <Compile Include="IBDocument.cs" />
+    <Compile Include="IBDocumentArchivingSchema.cs" />
+    <Compile Include="IBDocumentArchivingSchemaBitmask.cs" />
+    <Compile Include="IBDocumentArchivingSchemaEnumeration.cs" />
+    <Compile Include="IBDocumentContentDescription.cs" />
+    <Compile Include="IBDocumentDataTypeDescription.cs" />
+    <Compile Include="IBGroup.cs" />
+    <Compile Include="IBLocalDescriptionsClassProvider.cs" />
+    <Compile Include="IBMemberID.cs" />
+    <Compile Include="IBMemberIDMap.cs" />
+    <Compile Include="IBMutableBijectiveDictionary.cs" />
+    <Compile Include="IBMutableOrderedSet.cs" />
+    <Compile Include="IBObjectContainer.cs" />
+    <Compile Include="IBObjectRecord.cs" />
+    <Compile Include="IBObjectRecordSet.cs" />
+    <Compile Include="IBSystemClassProvider.cs" />
+    <Compile Include="IBTargetRuntime.cs" />
+    <Compile Include="IBUserDefinedActionClassProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppKit\AppKit.csproj">
+      <Project>{49b7a163-c6d1-40f5-9974-08a31d4f58ee}</Project>
+      <Name>AppKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DVTFoundation\DVTFoundation.csproj">
+      <Project>{84ef54b9-c2ba-43fd-bb50-28282f24ae12}</Project>
+      <Name>DVTFoundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\Foundation.csproj">
+      <Project>{2850d5ff-f423-48f3-9acb-4921b1be9954}</Project>
+      <Name>Foundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IBFoundation\IBFoundation.csproj">
+      <Project>{c527c6b0-6830-4959-bbb6-fa7e903aa38a}</Project>
+      <Name>IBFoundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IDEKit\IDEKit.csproj">
+      <Project>{c18f88da-9ae8-4552-9627-a9b30b9a3163}</Project>
+      <Name>IDEKit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

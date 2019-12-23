@@ -30,7 +30,7 @@ namespace Smartmobili.Cocoa
     public class NSDictionary : NSObject, IDictionary<id, id>
     {
         new public static Class Class = new Class(typeof(NSDictionary));
-        new public static NSDictionary Alloc() { return new NSDictionary(); }
+        new public static NSDictionary alloc() { return new NSDictionary(); }
 
         protected Dictionary<id, id> _dict = new Dictionary<id, id>();
 
@@ -80,7 +80,12 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public virtual id InitWithDictionary(NSDictionary aDictionary)
+        public static NSDictionary dictionary()
+        {
+            return (NSDictionary)NSDictionary.alloc().init();
+        }
+
+        public virtual id initWithDictionary(NSDictionary aDictionary)
         {
             id self = this;
 
@@ -93,7 +98,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSCoder aCoder)
+        public override id initWithCoder(NSCoder aCoder)
         {
             id self = this;
 
@@ -102,15 +107,15 @@ namespace Smartmobili.Cocoa
                 id keys = null;
                 id objects = null;
 
-                if (aCoder.ContainsValueForKey(@"NS.keys"))
+                if (aCoder.containsValueForKey(@"NS.keys"))
                 {
-                    keys = ((NSKeyedUnarchiver)aCoder)._DecodeArrayOfObjectsForKey(@"NS.keys");
-                    objects = ((NSKeyedUnarchiver)aCoder)._DecodeArrayOfObjectsForKey(@"NS.objects");
+                    keys = ((NSKeyedUnarchiver)aCoder)._decodeArrayOfObjectsForKey(@"NS.keys");
+                    objects = ((NSKeyedUnarchiver)aCoder)._decodeArrayOfObjectsForKey(@"NS.objects");
                 }
-                else if (aCoder.ContainsValueForKey(@"dict.sortedKeys"))
+                else if (aCoder.containsValueForKey(@"dict.sortedKeys"))
                 {
-                    keys = aCoder.DecodeObjectForKey(@"dict.sortedKeys");
-                    objects = aCoder.DecodeObjectForKey(@"dict.values");
+                    keys = aCoder.decodeObjectForKey(@"dict.sortedKeys");
+                    objects = aCoder.decodeObjectForKey(@"dict.values");
                 }
 
                 if (keys == null)
@@ -119,25 +124,25 @@ namespace Smartmobili.Cocoa
                     NSString key;
                     id val;
 
-                    keys = NSArray.ArrayWithCapacity(2);
-                    objects = NSArray.ArrayWithCapacity(2);
+                    keys = NSArray.arrayWithCapacity(2);
+                    objects = NSArray.arrayWithCapacity(2);
 
-                    key = NSString.StringWithFormat(@"NS.object.%u", i);
-                    val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
+                    key = NSString.stringWithFormat(@"NS.object.%u", i);
+                    val = ((NSKeyedUnarchiver)aCoder).decodeObjectForKey(key);
 
                     while (val != null)
                     {
-                        ((NSArray)objects).AddObject(val);
-                        key = NSString.StringWithFormat(@"NS.key.%u", i);
-                        val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
-                        ((NSArray)keys).AddObject(val);
+                        ((NSArray)objects).addObject(val);
+                        key = NSString.stringWithFormat(@"NS.key.%u", i);
+                        val = ((NSKeyedUnarchiver)aCoder).decodeObjectForKey(key);
+                        ((NSArray)keys).addObject(val);
                         i++;
-                        key = NSString.StringWithFormat(@"NS.object.%u", i);
-                        val = ((NSKeyedUnarchiver)aCoder).DecodeObjectForKey(key);
+                        key = NSString.stringWithFormat(@"NS.object.%u", i);
+                        val = ((NSKeyedUnarchiver)aCoder).decodeObjectForKey(key);
                     }
                 }
 
-                return InitWithObjectsForKeys((NSArray)objects, (NSArray)keys);
+                return initWithObjectsForKeys((NSArray)objects, (NSArray)keys);
                 //return [self initWithObjects: objects forKeys: keys];;
             }
 
@@ -145,21 +150,36 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public static id DictionaryWithObjectsForKeys(NSArray objects, NSArray keys)
+
+        public static id dictionaryWithObjectForKey(id anObject, id aKey)
         {
-            return (NSDictionary)NSDictionary.Alloc().InitWithObjectsForKeys(objects, keys);
+            return (NSDictionary)NSDictionary.alloc().initWithObjectForKey(anObject, aKey);
         }
 
-        public virtual id InitWithObjectsForKeys(NSArray objects, NSArray keys)
+        public virtual id initWithObjectForKey(id anObject, id aKey)
+        {
+            id self = this;
+            
+            this.Add(aKey, anObject);
+            
+            return self;
+        }
+
+        public static id dictionaryWithObjectsForKeys(NSArray objects, NSArray keys)
+        {
+            return (NSDictionary)NSDictionary.alloc().initWithObjectsForKeys(objects, keys);
+        }
+
+        public virtual id initWithObjectsForKeys(NSArray objects, NSArray keys)
         {
             id self = this;
 
             if (objects != null && keys != null && (objects.Count == keys.Count))
             {
-                for (int i = 0; i < objects.Count; i++)
+                for (uint i = 0; i < objects.count(); i++)
                 {
-                    id key = keys.ObjectAtIndex(i);
-                    id val = objects.ObjectAtIndex(i);
+                    id key = keys.objectAtIndex(i);
+                    id val = objects.objectAtIndex(i);
                     if (key == null || val == null)
                         throw new ArgumentNullException();
 
@@ -171,8 +191,12 @@ namespace Smartmobili.Cocoa
         }
 
 
+        public static id dictionaryWithObjectsAndKeys(params id[] objkey)
+        {
+            return (NSDictionary)NSDictionary.alloc().initWithObjectsAndKeys(objkey);
+        }
 
-        public virtual id InitWithObjectsAndKeys(params id[] objkey)
+        public virtual id initWithObjectsAndKeys(params id[] objkey)
         {
             NSArray objects = null;
             NSArray keys = null;
@@ -180,11 +204,11 @@ namespace Smartmobili.Cocoa
             objects = new NSArray(objkey.ToList().Where((c, i) => (i % 2 == 0) && (c != null)));
             keys = new NSArray(objkey.ToList().Where((c, i) => i % 2 != 0));
             
-            return InitWithObjectsForKeys(objects, keys);
+            return initWithObjectsForKeys(objects, keys);
         }
 
 
-        public virtual bool IsEqualToDictionary(NSDictionary otherDictionary)
+        public virtual bool isEqualToDictionary(NSDictionary otherDictionary)
         {
             if (this.Count != otherDictionary.Count)
                 return false;
@@ -193,7 +217,7 @@ namespace Smartmobili.Cocoa
             {
                 if (otherDictionary.ContainsKey(kvp.Key))
                 {
-                    if (!kvp.Value.IsEqual(this[kvp.Key]))
+                    if (!kvp.Value.isEqual(this[kvp.Key]))
                         return false;
                 }
                 else
@@ -205,13 +229,41 @@ namespace Smartmobili.Cocoa
 
 
 
-        public virtual NSArray AllKeysForObject(id anObject)
+        public virtual NSArray allValues()
         {
-            NSArray objs = (NSArray)NSArray.Alloc().Init();
+            //TODO use linq, toArray and NSArray.NSArray.arrayWithArray
+            NSMutableArray values = (NSMutableArray)NSArray.alloc().init();
+
+            //NSArray.arrayWithArray
+            foreach (KeyValuePair<id, id> kvp in this)
+            {
+                values.Add(kvp.Value);
+            }
+
+            return values;
+        }
+
+
+         public virtual NSArray allKeys()
+         {
+             NSMutableArray keys = (NSMutableArray)NSArray.alloc().init();
+
+             //NSArray.arrayWithObjects
+             foreach (KeyValuePair<id, id> kvp in this)
+             {
+                 keys.Add(kvp.Key);
+             }
+
+             return keys;
+         }
+
+        public virtual NSArray allKeysForObject(id anObject)
+        {
+            NSArray objs = (NSArray)NSArray.alloc().init();
 
             foreach (KeyValuePair<id, id> kvp in this)
             {
-                if (kvp.Value.IsEqual(anObject))
+                if (kvp.Value.isEqual(anObject))
                     objs.Add(kvp.Key);
             }
 
@@ -219,22 +271,22 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual void RemoveObjectsForKeys(NSArray keyArray)
+        public virtual void removeObjectsForKeys(NSArray keyArray)
         {
             foreach (id key in keyArray)
             {
-                RemoveObjectForKey(key);
+                removeObjectForKey(key);
             }
         }
 
 
 
-        //public override id InitWithCoder(NSCoder decoder)
+        //public override id initWithCoder(NSCoder decoder)
         //{
-        //    base.InitWithCoder(decoder);
+        //    base.initWithCoder(decoder);
 
         //    //var xElement = decoder.XmlElement;
-        //    //var firstElem = xElement.Elements().FirstOrDefault();
+        //    //var firstElem = xElement.elements().FirstOrDefault();
 
         //    //if (firstElem != null)
         //    //{
@@ -250,20 +302,20 @@ namespace Smartmobili.Cocoa
         //    //        {
         //    //            //System.Diagnostics.Debug.WriteLine("NSMutableDictionary");
 
-        //    //            var dictSortedKeyNode = xElement.Elements().Where(e => (string)e.Attribute("key") == "dict.sortedKeys").ToArray();
-        //    //            var dictValueNode = xElement.Elements().Where(e => (string)e.Attribute("key") == "dict.values").ToArray();
+        //    //            var dictSortedKeyNode = xElement.elements().Where(e => (string)e.Attribute("key") == "dict.sortedKeys").ToArray();
+        //    //            var dictValueNode = xElement.elements().Where(e => (string)e.Attribute("key") == "dict.values").ToArray();
         //    //            if (dictSortedKeyNode.Count() == 1 && dictValueNode.Count() == 1)
         //    //            {
-        //    //                dictSortedKeyElements = dictSortedKeyNode.Elements().Where(e => e.Name != "bool").ToArray();
-        //    //                dictValueElements = dictValueNode.Elements().Where(e => e.Name != "bool").ToArray();
+        //    //                dictSortedKeyElements = dictSortedKeyNode.elements().Where(e => e.Name != "bool").ToArray();
+        //    //                dictValueElements = dictValueNode.elements().Where(e => e.Name != "bool").ToArray();
         //    //            }
         //    //        }
         //    //        else
         //    //        {
-        //    //            dictSortedKeyElements = xElement.Elements().Where(c =>
+        //    //            dictSortedKeyElements = xElement.elements().Where(c =>
         //    //               ((string)c.Attribute("key")).StartsWith("NS.key.")).OrderBy(c => (string)c.Attribute("key")).ToArray();
 
-        //    //            dictValueElements = xElement.Elements().Where(c =>
+        //    //            dictValueElements = xElement.elements().Where(c =>
         //    //               ((string)c.Attribute("key")).StartsWith("NS.object.")).OrderBy(c => (string)c.Attribute("key")).ToArray();
         //    //        }
 
@@ -280,7 +332,7 @@ namespace Smartmobili.Cocoa
         //    //    }
         //    //    else if (xElement.Name == "dictionary")
         //    //    {
-        //    //        foreach (var xElm in decoder.XmlElement.Elements())
+        //    //        foreach (var xElm in decoder.XmlElement.elements())
         //    //        {
         //    //            NSString key = xElm.AttributeValueOrDefault("key", null);
         //    //            if (!string.IsNullOrWhiteSpace(key))
@@ -302,13 +354,13 @@ namespace Smartmobili.Cocoa
         //    return this;
         //}
 
-        public virtual NSEnumerator KeyEnumerator()
+        public virtual NSEnumerator keyEnumerator()
         {
-            return (NSEnumerator)NSDictionaryEnumerator.Alloc().InitWithDictionary(this);
+            return (NSEnumerator)NSDictionaryEnumerator.alloc().InitWithDictionary(this);
         }
 
 
-        public virtual void SetObjectForKey(id anObject, id aKey)
+        public virtual void setObjectForKey(id anObject, id aKey)
         {
             if (anObject == null)
                 throw new ArgumentNullException("anObject");
@@ -319,7 +371,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual id ObjectForKey(id aKey)
+        public virtual id objectForKey(id aKey)
         {
             id obj = null;
 
@@ -331,7 +383,7 @@ namespace Smartmobili.Cocoa
             return obj;
         }
 
-        public virtual void RemoveObjectForKey(id aKey)
+        public virtual void removeObjectForKey(id aKey)
         {
             if (aKey == null)
                 throw new ArgumentNullException();
@@ -395,10 +447,10 @@ namespace Smartmobili.Cocoa
 
         public virtual NSString fileType()
         {
-            return (NSString)this.ObjectForKey((NSString)"NSFileType");
+            return (NSString)this.objectForKey((NSString)"NSFileType");
         }
 
-        public virtual bool WriteToFile(NSString path, bool flag)
+        public virtual bool writeToFile(NSString path, bool flag)
         {
             return false;
         }
@@ -487,11 +539,23 @@ namespace Smartmobili.Cocoa
         }
 
         #endregion
+
+        public override NSString description()
+        {
+            return (NSString)"description : FIXME";
+//            attributes={
+//    emptyAttribute = "";
+//    name = test1;
+//    "test:ns_id" = auio;
+//}
+        }
+
+
     }
 
     public class NSDictionaryEnumerator : NSEnumerator
     {
-        new public static NSDictionaryEnumerator Alloc() { return new NSDictionaryEnumerator(); }
+        new public static NSDictionaryEnumerator alloc() { return new NSDictionaryEnumerator(); }
 
         protected NSDictionary _dict;
         protected int _curIndex;
@@ -507,7 +571,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id NextObject()
+        public override id nextObject()
         {
             id nextObj = null;
 

@@ -34,8 +34,8 @@ namespace Smartmobili.Cocoa
     public class NSObject : id, NSCoding2
     {
         public static Class Class = new Class(typeof(NSObject));
-        public static NSObject Alloc()  { return new NSObject(); }
-        //public static id New() { return Alloc().Init(); }
+        public static NSObject alloc()  { return new NSObject(); }
+        //public static id New() { return alloc().init(); }
 
         public string Key { get; set; }
 
@@ -65,17 +65,19 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSString Description()
+        
+
+        public override NSString description()
         {
             return this.ToString();
         }
 
-        public virtual void EncodeWithCoder(NSCoder aCoder)
+        public virtual void encodeWithCoder(NSCoder aCoder)
         {
 
         }
 
-        public virtual id InitWithCoder(NSCoder aDecoder)
+        public virtual id initWithCoder(NSCoder aDecoder)
         {
             //var xElement = aDecoder.XmlElement;
             //NSString id = xElement.AttributeValueOrDefault("id", null);

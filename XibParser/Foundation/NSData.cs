@@ -37,59 +37,74 @@ namespace Smartmobili.Cocoa
     public class NSData : NSObject
     {
         new public static Class Class = new Class(typeof(NSData));
-        new public static NSData Alloc() { return new NSData(); }
+        new public static NSData alloc() { return new NSData(); }
 
-        public byte[] Bytes { get; protected set;}
+        protected byte[] _bytes;
+
+        //public byte[] Bytes 
+        //{
+        //    get { return _bytes; }
+        //    protected set { setBytes(value); }
+        //}
+
+        public uint Length { get { return length();} }
 
 
-        public int Length 
-        { 
-            get
-            {
-                return Bytes != null ? Bytes.Length : 0;
-            }
-        }
 
         public NSData()
         {
 
         }
 
-        public static NSData Data()
+        public static NSData data()
         {
-            return NSData.Alloc().InitWithBytes(new Byte[0]);
+            return (NSData)NSData.alloc().initWithBytes(new Byte[0]);
         }
 
-
-        public static NSData DataWithBytes(byte[] bytes)
+        protected virtual void setBytes(byte[] bytes)
         {
-            return NSData.Alloc().InitWithBytes(bytes);
+            _bytes = bytes;
         }
 
-        public static NSData DataWithContentsOfFile(string path)
+        public virtual byte[] bytes()
+        {
+            return _bytes;
+        }
+
+        public virtual uint length()
+        {
+            return ((bytes() != null) ? (uint)bytes().Length : 0);
+        }
+
+        public static NSData dataWithBytes(byte[] bytes)
+        {
+            return (NSData)NSData.alloc().initWithBytes(bytes);
+        }
+
+        public static NSData dataWithContentsOfFile(string path)
         {
             NSError err = null;
-            NSData nsData = NSData.Alloc().InitWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
+            NSData nsData = (NSData)NSData.alloc().initWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
             return nsData;
         }
 
 
-        public NSData InitWithBytes(byte[] bytes)
+        public virtual id initWithBytes(byte[] bytes)
         {
             NSData self = this;
 
-            this.Bytes = bytes;
+            this.setBytes(bytes);
 
             return self;
         }
 
-        public NSData InitWithContentsOfFile(string path)
+        public virtual id initWithContentsOfFile(string path)
         {
             NSError err = null;
-            return InitWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
+            return initWithContentsOfFile(path, NSDataReadingOptions.NSDataReadingNoOption, ref err);
         }
 
-        public NSData InitWithContentsOfFile(string path, NSDataReadingOptions mask, ref NSError error)
+        public virtual id initWithContentsOfFile(string path, NSDataReadingOptions mask, ref NSError error)
         {
             NSData nsData = this;
 
@@ -97,8 +112,8 @@ namespace Smartmobili.Cocoa
             {
                 using (FileStream fs = File.OpenRead(path))
                 {
-                    Bytes = new byte[fs.Length];
-                    fs.Read(Bytes, 0, Convert.ToInt32(fs.Length));
+                    this.setBytes(new byte[fs.Length]);
+                    fs.Read(bytes(), 0, Convert.ToInt32(fs.Length));
                     fs.Close();
                 }
 

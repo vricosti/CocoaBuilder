@@ -73,7 +73,7 @@ namespace Smartmobili.Cocoa
         //{
         //    NSToolbar nsToolBar = new NSToolbar();
 
-        //    var elements = xElement.Elements();
+        //    var elements = xElement.elements();
         //    foreach (var elm in elements)
         //    {
         //        nsToolBar.Decode(elm);
@@ -94,26 +94,26 @@ namespace Smartmobili.Cocoa
            
         //}
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                Identifier = (NSString)aDecoder.DecodeObjectForKey("NSToolbarIdentifier");
-                Delegate = (NSString)aDecoder.DecodeObjectForKey("NSToolbarDelegate");
-                PrefersToBeShown = aDecoder.DecodeBoolForKey("NSToolbarPrefersToBeShown");
-                ShowsBaselineSeparator = aDecoder.DecodeBoolForKey("NSToolbarShowsBaselineSeparator");
-                AllowsUserCustomization = aDecoder.DecodeBoolForKey("NSToolbarAllowsUserCustomization");
-                AutosavesConfiguration = aDecoder.DecodeBoolForKey("NSToolbarAutosavesConfiguration");
-                SizeMode = (NSToolbarSizeMode)aDecoder.DecodeIntForKey("NSToolbarSizeMode");
-                IBIdentifiedItems = (NSMutableDictionary)aDecoder.DecodeObjectForKey("NSToolbarIBIdentifiedItems");
-                IBAllowedItems = (NSArray)aDecoder.DecodeObjectForKey("NSToolbarIBAllowedItems");
-                IBDefaultItems = (NSArray)aDecoder.DecodeObjectForKey("NSToolbarIBDefaultItems");
-                IBSelectableItems = (NSArray)aDecoder.DecodeObjectForKey("NSToolbarIBSelectableItems");
+                Identifier = (NSString)aDecoder.decodeObjectForKey("NSToolbarIdentifier");
+                Delegate = (NSString)aDecoder.decodeObjectForKey("NSToolbarDelegate");
+                PrefersToBeShown = aDecoder.decodeBoolForKey("NSToolbarPrefersToBeShown");
+                ShowsBaselineSeparator = aDecoder.decodeBoolForKey("NSToolbarShowsBaselineSeparator");
+                AllowsUserCustomization = aDecoder.decodeBoolForKey("NSToolbarAllowsUserCustomization");
+                AutosavesConfiguration = aDecoder.decodeBoolForKey("NSToolbarAutosavesConfiguration");
+                SizeMode = (NSToolbarSizeMode)aDecoder.decodeIntForKey("NSToolbarSizeMode");
+                IBIdentifiedItems = (NSMutableDictionary)aDecoder.decodeObjectForKey("NSToolbarIBIdentifiedItems");
+                IBAllowedItems = (NSArray)aDecoder.decodeObjectForKey("NSToolbarIBAllowedItems");
+                IBDefaultItems = (NSArray)aDecoder.decodeObjectForKey("NSToolbarIBDefaultItems");
+                IBSelectableItems = (NSArray)aDecoder.decodeObjectForKey("NSToolbarIBSelectableItems");
             }
 
-            //foreach (var xElement in decoder.XmlElement.Elements())
+            //foreach (var xElement in decoder.XmlElement.elements())
             //{
             //    string key = xElement.Attribute("key").Value;
             //    switch (key)
@@ -141,7 +141,7 @@ namespace Smartmobili.Cocoa
         //    NSToolbar nsToolBar = new NSToolbar();
 
         //    var xElement = aDecoder.XmlElement;
-        //    var elements = xElement.Elements();
+        //    var elements = xElement.elements();
         //    foreach (var elm in elements)
         //    {
         //        aDecoder.XmlElement = elm;

@@ -35,14 +35,14 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                MajorKey = (NSString)aDecoder.DecodeObjectForKey("majorKey");
-                MinorKey = (NSString)aDecoder.DecodeObjectForKey("minorKey");
+                MajorKey = (NSString)aDecoder.decodeObjectForKey("majorKey");
+                MinorKey = (NSString)aDecoder.decodeObjectForKey("minorKey");
             }
 
             return self;

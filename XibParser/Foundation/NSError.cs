@@ -26,9 +26,35 @@ namespace Smartmobili.Cocoa
 {
     public class NSError : NSObject
     {
+        new public static Class Class = new Class(typeof(NSError));
+        new public static NSError alloc() { return new NSError(); }
+
+        protected int _code; //0x08(x86)
+        protected NSString _domain; //0x0C(x86)
+        protected NSDictionary _userInfo; //0x10(x86)
+
         public NSError()
         {
 
         }
+        public static void errorWithLocalizedDescription(NSString localizedDescription, int errCode, object qs)
+        {
+
+        }
+
+        public static NSError errorWithDomain(NSString domain, int code, NSDictionary userInfo)
+        {
+            return (NSError)NSError.alloc().initWithDomain(domain, code, userInfo);
+        }
+        public virtual id initWithDomain(NSString domain, int code, NSDictionary userInfo)
+        {
+            id self = this;
+
+
+
+            return this;
+        }
+
+        
     }
 }

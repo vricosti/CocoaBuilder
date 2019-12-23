@@ -60,7 +60,7 @@ namespace Smartmobili.Cocoa
                 var key = element.Attributes().Where(attr => attr.Name == "key").FirstOrDefault();
                 if (key != null && element.Attribute("key").Value.StartsWith("IBDocument."))
                 {
-                    //IBDocument.Parse(ibArchive.Data, element);
+                    //IBDocument.parse(ibArchive.data, element);
                 }
             }
 

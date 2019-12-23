@@ -8,10 +8,10 @@ namespace Smartmobili.Cocoa
     public class NSArchiver : NSCoder
     {
         new public static Class Class = new Class(typeof(NSArchiver));
-        new public static NSArchiver Alloc() { return new NSArchiver(); }
+        new public static NSArchiver alloc() { return new NSArchiver(); }
 
 
-        public static NSData ArchivedDataWithRootObject(id rootObject)
+        public static NSData archivedDataWithRootObject(id rootObject)
         {
             return null;
         }

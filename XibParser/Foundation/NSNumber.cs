@@ -24,28 +24,22 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class NSNumber : NSObject, NSCoding2, INSNumber, IEquatable<NSNumber>
+    public class NSNumber : NSObject, NSCoding2, IEquatable<NSNumber>
     {
         new public static Class Class = new Class(typeof(NSNumber));
 
         protected object _number;
 
         
+        public override double doubleValue() { return _number.ToDouble(); }
 
-        [ObjcPropAttribute("DoubleValue", SetName = null)]
-        public double DoubleValue { get { return _number.ToDouble(); } }
+        public override float floatValue() { return _number.ToFloat(); }
 
-        [ObjcPropAttribute("FloatValue", SetName = null)]
-        public float FloatValue { get { return _number.ToFloat(); } }
+        public override int integerValue() { return _number.ToInt(); }
 
-        [ObjcPropAttribute("IntegerValue", SetName = null)]
-        public int IntegerValue { get { return _number.ToInt(); } }
+        public override int intValue() { return _number.ToInt(); }
 
-        [ObjcPropAttribute("IntValue", SetName = null)]
-        public int IntValue { get { return _number.ToInt(); } }
-
-        [ObjcPropAttribute("BoolValue", SetName = null)]
-        public bool BoolValue { get { return _number.ToBool(); } }
+        public override bool boolValue() { return _number.ToBool(); }
 
         public NSNumber()
         {
@@ -100,51 +94,63 @@ namespace Smartmobili.Cocoa
 
 
 
-         [ObjcMethodAttribute("EncodeWithCoder")]
-        public override void EncodeWithCoder(NSCoder aCoder)
+         [ObjcMethodAttribute("encodeWithCoder")]
+        public override void encodeWithCoder(NSCoder aCoder)
         {
-            base.EncodeWithCoder(aCoder);
+            base.encodeWithCoder(aCoder);
         }
 
-        [ObjcMethodAttribute("InitWithCoder")]
-        public override id InitWithCoder(NSCoder decoder)
+        [ObjcMethodAttribute("initWithCoder")]
+        public override id initWithCoder(NSCoder decoder)
         {
-            base.InitWithCoder(decoder);
+            base.initWithCoder(decoder);
 
             //_number = decoder.XmlElement.Value;
 
             return this;
         }
 
-        [ObjcMethodAttribute("NumberWithBool")]
-        public static NSNumber NumberWithBool(bool aBool)
+        [ObjcMethodAttribute("numberWithBool")]
+        public static NSNumber numberWithBool(bool aBool)
         {
             return new NSNumber(aBool);
         }
 
-        [ObjcMethodAttribute("NumberWithInt")]
-        public static NSNumber NumberWithInt(int aInt)
+        [ObjcMethodAttribute("numberWithInt")]
+        public static NSNumber numberWithInt(int aInt)
         {
             return new NSNumber(aInt);
         }
 
-        [ObjcMethodAttribute("NumberWithInteger")]
-        public static NSNumber NumberWithInteger(int aInt)
+        [ObjcMethodAttribute("numberWithInteger")]
+        public static NSNumber numberWithInteger(int aInt)
         {
             return new NSNumber(aInt);
         }
 
-        [ObjcMethodAttribute("NumberWithDouble")]
-        public static NSNumber NumberWithDouble(double aDouble)
+        [ObjcMethodAttribute("numberWithDouble")]
+        public static NSNumber numberWithDouble(double aDouble)
         {
             return new NSNumber(aDouble);
         }
 
-        [ObjcMethodAttribute("NumberWithFloat")]
-        public static NSNumber NumberWithFloat(float aFloat)
+        [ObjcMethodAttribute("numberWithFloat")]
+        public static NSNumber numberWithFloat(float aFloat)
         {
             return new NSNumber(aFloat);
         }
+
+        public static NSNumber numberWithUnsignedInteger(uint aUint)
+        {
+            return new NSNumber(aUint);
+        }
+
+
+        public virtual bool isEqualToNumber(NSNumber aNumber)
+        {
+            return _number == aNumber._number;
+        }
+
 
         // implicit NSNumber to int conversion operator
 

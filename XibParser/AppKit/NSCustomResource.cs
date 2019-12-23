@@ -56,14 +56,14 @@ namespace Smartmobili.Cocoa
             
         //}
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
 
             NSObject realObject = null;
             if (aDecoder.AllowsKeyedCoding)
             {
-                _className = (NSString)aDecoder.DecodeObjectForKey("NSClassName");
-                _resourceName = (NSString)aDecoder.DecodeObjectForKey("NSResourceName");
+                _className = (NSString)aDecoder.decodeObjectForKey("NSClassName");
+                _resourceName = (NSString)aDecoder.decodeObjectForKey("NSResourceName");
 
                 if (_className == "NSSound")
                 {

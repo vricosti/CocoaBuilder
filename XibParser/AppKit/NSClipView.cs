@@ -30,7 +30,7 @@ namespace Smartmobili.Cocoa
     public class NSClipView : NSView
     {
         new public static Class Class = new Class(typeof(NSClipView));
-        new public static NSClipView Alloc() { return new NSClipView(); }
+        new public static NSClipView alloc() { return new NSClipView(); }
 
         NSView _documentView;
         //NSCursor _cursor;
@@ -84,11 +84,11 @@ namespace Smartmobili.Cocoa
             return dummy;
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)

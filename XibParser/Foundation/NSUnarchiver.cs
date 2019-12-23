@@ -8,11 +8,11 @@ namespace Smartmobili.Cocoa
     public class NSUnarchiver : NSCoder
     {
         new public static Class Class = new Class(typeof(NSUnarchiver));
-        new public static NSUnarchiver Alloc() { return new NSUnarchiver(); }
+        new public static NSUnarchiver alloc() { return new NSUnarchiver(); }
 
 
 
-        public static id UnarchiveObjectWithData(NSData data)
+        public static id unarchiveObjectWithData(NSData data)
         {
             return null;
         }

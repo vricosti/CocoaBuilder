@@ -9,7 +9,7 @@ namespace Smartmobili.Cocoa
     {
         public static NSMutableArray Elements(this NSXMLElement element)
         {
-            return (NSMutableArray)NSMutableArray.Alloc().Init();
+            return (NSMutableArray)NSMutableArray.alloc().init();
         }
 
 //        __NSXMLNode_IBXMLNodeAdditions__elementWithName_attributes__             __text 00000000001002D8 0000003C R . . . B . .

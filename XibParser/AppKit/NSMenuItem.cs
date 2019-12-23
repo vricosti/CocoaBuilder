@@ -82,9 +82,9 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
@@ -94,18 +94,18 @@ namespace Smartmobili.Cocoa
                 bool isSeparator = false;
                 //int keyMask;
 
-                if (aDecoder.ContainsValueForKey(@"NSIsSeparator"))
+                if (aDecoder.containsValueForKey(@"NSIsSeparator"))
                 {
-                    isSeparator = aDecoder.DecodeBoolForKey(@"NSIsSeparator");
+                    isSeparator = aDecoder.decodeBoolForKey(@"NSIsSeparator");
                 }
 
-                Title = (NSString)aDecoder.DecodeObjectForKey("NSTitle");
+                Title = (NSString)aDecoder.decodeObjectForKey("NSTitle");
 
-                IsDisabled = aDecoder.DecodeBoolForKey("NSIsDisabled");
+                IsDisabled = aDecoder.decodeBoolForKey("NSIsDisabled");
 
-                IsSeparator = aDecoder.DecodeBoolForKey("NSIsSeparator");
+                IsSeparator = aDecoder.decodeBoolForKey("NSIsSeparator");
 
-                SubMenu = (NSMenu)aDecoder.DecodeObjectForKey("NSSubmenu");
+                SubMenu = (NSMenu)aDecoder.decodeObjectForKey("NSSubmenu");
             }
 
             return this;

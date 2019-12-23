@@ -56,45 +56,45 @@ namespace Smartmobili.Cocoa
         public NSFileWrapper()
         {}
 
-        new public static NSFileWrapper Alloc()
+        new public static NSFileWrapper alloc()
         {
             return new NSFileWrapper();
         }
 
 
-        public virtual id InitDirectoryWithFileWrappers(NSDictionary docs)
+        public virtual id initDirectoryWithFileWrappers(NSDictionary docs)
         {
             NSFileWrapper self = this;
 
-            if (base.Init() != null)
+            if (base.init() != null)
             {
                 NSEnumerator enumerator;
                 id key;
                 NSFileWrapper wrapper;
 
                 _wrapperType = GSFileWrapperType.GSFileWrapperDirectoryType;
-                _wrapperData = NSMutableDictionary.Alloc().InitWithCapacity((uint)docs.Count);
+                _wrapperData = NSMutableDictionary.alloc().initWithCapacity((uint)docs.Count);
 
-                enumerator = docs.KeyEnumerator();
-                while ((key = enumerator.NextObject()) != null)
+                enumerator = docs.keyEnumerator();
+                while ((key = enumerator.nextObject()) != null)
                 {
-                    wrapper = (NSFileWrapper)docs.ObjectForKey(key);
+                    wrapper = (NSFileWrapper)docs.objectForKey(key);
 
-                    if (wrapper.PreferredFilename() == null)
+                    if (wrapper.preferredFilename() == null)
                     {
-                        wrapper.SetPreferredFilename((NSString)key);
+                        wrapper.setPreferredFilename((NSString)key);
                     }
-                    ((NSMutableDictionary)_wrapperData).SetObjectForKey(wrapper, key);
+                    ((NSMutableDictionary)_wrapperData).setObjectForKey(wrapper, key);
                 }
             }
             return self;
         }
 
-        // Init instance of regular file type
+        // init instance of regular file type
 
-        public virtual id InitRegularFileWithContents(NSData data)
+        public virtual id initRegularFileWithContents(NSData data)
         {
-            if (base.Init() != null)
+            if (base.init() != null)
             {
                 _wrapperData = data;
                 _wrapperType = GSFileWrapperType.GSFileWrapperRegularFileType;
@@ -102,11 +102,11 @@ namespace Smartmobili.Cocoa
             return this;
         }
 
-        // Init instance of symbolic link type
+        // init instance of symbolic link type
 
-        public virtual id InitSymbolicLinkWithDestination(NSString path)
+        public virtual id initSymbolicLinkWithDestination(NSString path)
         {
-            if (base.Init() != null)
+            if (base.init() != null)
             {
                 _wrapperData = path;
                 _wrapperType = GSFileWrapperType.GSFileWrapperSymbolicLinkType;
@@ -115,11 +115,11 @@ namespace Smartmobili.Cocoa
         }
 
         /**
-         * Init an instance from the file, directory, or symbolic link at path.<br /> 
+         * init an instance from the file, directory, or symbolic link at path.<br /> 
          * This can create a tree of instances with a directory instance at the top
          */
 
-        public virtual id InitWithPath(NSString path)
+        public virtual id initWithPath(NSString path)
         {
 
             NSFileManager fm = NSFileManager.DefaultManager;
@@ -128,57 +128,57 @@ namespace Smartmobili.Cocoa
             //NS.DebugLLog(@"NSFileWrapper", @"initWithPath: %@", path);
 
             // Store the full path in filename, the specification is unclear in this point
-            SetFilename(path);
-            SetPreferredFilename(path.LastPathComponent());
-            SetFileAttributes(fm.FileAttributesAtPath(path, false));
+            setFilename(path);
+            setPreferredFilename(path.lastPathComponent());
+            setFileAttributes(fm.fileAttributesAtPath(path, false));
 
             fileType = FileAttributes().FileType;
-            if (fileType.IsEqualToString("NSFileTypeDirectory"))
+            if (fileType.isEqualToString("NSFileTypeDirectory"))
             {
                 NSString filename;
-                NSMutableArray fileWrappers = NSMutableArray.Array();
-                NSArray filenames = fm.DirectoryContentsAtPath(path);
-                NSEnumerator enumerator = filenames.ObjectEnumerator();
+                NSMutableArray fileWrappers = NSMutableArray.array();
+                NSArray filenames = fm.directoryContentsAtPath(path);
+                NSEnumerator enumerator = filenames.objectEnumerator();
 
-                while ((filename = (NSString)enumerator.NextObject()) != null)
+                while ((filename = (NSString)enumerator.nextObject()) != null)
                 {
                     NSFileWrapper w;
 
-                    w = (NSFileWrapper)NSFileWrapper.Alloc().InitWithPath(path.StringByAppendingPathComponent(filename));
-                    fileWrappers.AddObject(w);
+                    w = (NSFileWrapper)NSFileWrapper.alloc().initWithPath(path.stringByAppendingPathComponent(filename));
+                    fileWrappers.addObject(w);
                     //RELEASE(w);
                 }
-                this.InitDirectoryWithFileWrappers((NSDictionary)NSMutableDictionary.DictionaryWithObjectsForKeys(fileWrappers, filenames));
+                this.initDirectoryWithFileWrappers((NSDictionary)NSMutableDictionary.dictionaryWithObjectsForKeys(fileWrappers, filenames));
             }
-            else if (fileType.IsEqualToString("NSFileTypeRegular"))
+            else if (fileType.isEqualToString("NSFileTypeRegular"))
             {
-                this.InitRegularFileWithContents(NSData.Alloc().InitWithContentsOfFile(path));
+                this.initRegularFileWithContents((NSData)NSData.alloc().initWithContentsOfFile(path));
             }
-            else if (fileType.IsEqualToString("NSFileTypeSymbolicLink"))
+            else if (fileType.isEqualToString("NSFileTypeSymbolicLink"))
             {
-                //this.InitSymbolicLinkWithDestination(fm.PathContentOfSymbolicLinkAtPath(path));
+                //this.initSymbolicLinkWithDestination(fm.pathContentOfSymbolicLinkAtPath(path));
             }
 
             return this;
         }
 
-        // Init an instance from data in std serial format.  Serial format is the
+        // init an instance from data in std serial format.  Serial format is the
         // same as that used by NSText's RTFDFromRange: method.  This can 
         // create a tree of instances with a directory instance at the top
-        public virtual id InitWithSerializedRepresentation(NSData data)
+        public virtual id initWithSerializedRepresentation(NSData data)
         {
             // FIXME - This should use a serializer. To get that working a helper object 
             // is needed that implements the NSObjCTypeSerializationCallBack protocol.
             // We should add this later, currently the NSArchiver is used.
             // Thanks to Richard, for pointing this out.
-            NSFileWrapper wrapper = (NSFileWrapper)NSUnarchiver.UnarchiveObjectWithData(data);
+            NSFileWrapper wrapper = (NSFileWrapper)NSUnarchiver.unarchiveObjectWithData(data);
 
             //RELEASE(this);
             return wrapper;
         }
 
 
-        public virtual id InitWithURL(NSURL url, NSFileWrapperReadingOptions options, ref NSError outError)
+        public virtual id initWithURL(NSURL url, NSFileWrapperReadingOptions options, ref NSError outError)
         {
 
             return this;
@@ -200,7 +200,7 @@ namespace Smartmobili.Cocoa
         // will be updated with the name used in writing the file
 
 
-        public virtual bool WriteToFile(NSString path, bool atomicFlag, bool updateFilenamesFlag)
+        public virtual bool writeToFile(NSString path, bool atomicFlag, bool updateFilenamesFlag)
         {
             NSFileManager fm = NSFileManager.DefaultManager;
             bool success = false;
@@ -213,24 +213,24 @@ namespace Smartmobili.Cocoa
                 case GSFileWrapperType.GSFileWrapperDirectoryType:
                     {
                         // FIXME - more robust save proceedure when atomicFlag set
-                        NSEnumerator enumerator = ((NSDictionary)_wrapperData).KeyEnumerator();
+                        NSEnumerator enumerator = ((NSDictionary)_wrapperData).keyEnumerator();
                         NSString key;
                         NSError err = null;
 
-                        fm.CreateDirectoryAtPath(path, true, _fileAttributes, ref err);
-                        while ((key = (NSString)enumerator.NextObject()) != null)
+                        fm.createDirectoryAtPath(path, true, _fileAttributes, ref err);
+                        while ((key = (NSString)enumerator.nextObject()) != null)
                         {
-                            NSString newPath = path.StringByAppendingPathComponent(key);
-                            NSFileWrapper fw = (NSFileWrapper)((NSDictionary)_wrapperData).ObjectForKey(key);
-                            fw.WriteToFile(newPath, atomicFlag, updateFilenamesFlag);
+                            NSString newPath = path.stringByAppendingPathComponent(key);
+                            NSFileWrapper fw = (NSFileWrapper)((NSDictionary)_wrapperData).objectForKey(key);
+                            fw.writeToFile(newPath, atomicFlag, updateFilenamesFlag);
                         }
                         success = true;
                         break;
                     }
                 case GSFileWrapperType.GSFileWrapperRegularFileType:
                     {
-                        if (((NSDictionary)_wrapperData).WriteToFile(path, atomicFlag))
-                            success = fm.ChangeFileAttributes(_fileAttributes, path);
+                        if (((NSDictionary)_wrapperData).writeToFile(path, atomicFlag))
+                            success = fm.changeFileAttributes(_fileAttributes, path);
                         break;
                     }
                 //case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
@@ -241,28 +241,28 @@ namespace Smartmobili.Cocoa
             }
             if (success && updateFilenamesFlag)
             {
-                SetFilename(path.LastPathComponent());
+                setFilename(path.lastPathComponent());
             }
 
             return success;
         }
 
 
-        public virtual NSData SerializedRepresentation()
+        public virtual NSData serializedRepresentation()
         {
             // FIXME - This should use a serializer. To get that working a helper object 
             // is needed that implements the NSObjCTypeSerializationCallBack protocol.
             // We should add this later, currently the NSArchiver is used.
             // Thanks to Richard, for pointing this out.
-            return NSArchiver.ArchivedDataWithRootObject(this);
+            return NSArchiver.archivedDataWithRootObject(this);
         }
 
 
-        public virtual void SetFilename(NSString filename)
+        public virtual void setFilename(NSString filename)
         {
-            if (filename == null || filename.IsEqualToString(""))
+            if (filename == null || filename.isEqualToString(""))
             {
-                NSException.Raise("NSInternalInconsistencyException", "Empty or nil argument to setFilename: ");
+                NSException.raise("NSInternalInconsistencyException", "Empty or nil argument to setFilename: ");
             }
             else
             {
@@ -271,17 +271,17 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSString Filename()
+        public virtual NSString filename()
         {
             return _filename;
         }
 
 
-        public virtual void SetPreferredFilename(NSString filename)
+        public virtual void setPreferredFilename(NSString filename)
         {
-            if (filename == null || filename.IsEqualToString(""))
+            if (filename == null || filename.isEqualToString(""))
             {
-                NSException.Raise("NSInternalInconsistencyException", "Empty or nil argument to setPreferredFilename: ");
+                NSException.raise("NSInternalInconsistencyException", "Empty or nil argument to setPreferredFilename: ");
             }
             else
             {
@@ -290,20 +290,20 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSString PreferredFilename()
+        public virtual NSString preferredFilename()
         {
             return _preferredFilename;
         }
 
 
-        public virtual void SetFileAttributes(NSDictionary attributes)
+        public virtual void setFileAttributes(NSDictionary attributes)
         {
             if (_fileAttributes == null)
             {
-                _fileAttributes = (NSMutableDictionary)NSMutableDictionary.Alloc().Init();
+                _fileAttributes = (NSMutableDictionary)NSMutableDictionary.alloc().init();
             }
 
-            _fileAttributes.AddEntriesFromDictionary(attributes);
+            _fileAttributes.addEntriesFromDictionary(attributes);
         }
 
 
@@ -313,7 +313,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual bool IsRegularFile()
+        public virtual bool isRegularFile()
         {
             if (_wrapperType == GSFileWrapperType.GSFileWrapperRegularFileType)
             {
@@ -326,7 +326,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual bool IsDirectory()
+        public virtual bool isDirectory()
         {
             if (_wrapperType == GSFileWrapperType.GSFileWrapperDirectoryType)
             {
@@ -339,7 +339,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual bool IsSymbolicLink()
+        public virtual bool isSymbolicLink()
         {
             if (_wrapperType == GSFileWrapperType.GSFileWrapperSymbolicLinkType)
             {
@@ -358,9 +358,9 @@ namespace Smartmobili.Cocoa
 
 
         //public virtual NSImage Icon() {
-        //  if (_iconImage == nil && Filename())
+        //  if (_iconImage == nil && filename())
         //    {
-        //      return NSWorkspace.SharedWorkspace().IconForFile(Filename());
+        //      return NSWorkspace.SharedWorkspace().IconForFile(filename());
         //    }
         //  else
         //    {
@@ -376,16 +376,16 @@ namespace Smartmobili.Cocoa
             switch (_wrapperType)
             {
                 case GSFileWrapperType.GSFileWrapperRegularFileType:
-                    if (FileAttributes().IsEqualToDictionary(fm.FileAttributesAtPath(path, false)))
+                    if (FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)))
                         return false;
                     break;
                 case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
-                    if (((NSString)_wrapperData).IsEqualToString(fm.PathContentOfSymbolicLinkAtPath(path)))
+                    if (((NSString)_wrapperData).isEqualToString(fm.pathContentOfSymbolicLinkAtPath(path)))
                         return false;
                     break;
                 case GSFileWrapperType.GSFileWrapperDirectoryType:
                     // Has the dictory itself changed?
-                    if (!FileAttributes().IsEqualToDictionary(fm.FileAttributesAtPath(path, false)))
+                    if (!FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)))
                         return true;
 
                     // FIXME - for directory wrappers, we have to check if all the files are still there, 
@@ -407,22 +407,22 @@ namespace Smartmobili.Cocoa
             switch (_wrapperType)
             {
                 case GSFileWrapperType.GSFileWrapperRegularFileType:
-                    if (FileAttributes().IsEqualToDictionary(fm.FileAttributesAtPath(path, false)))
+                    if (FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)))
                         return false;
-                    InitWithPath(path);
+                    initWithPath(path);
                     break;
                 case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
-                    if (FileAttributes().IsEqualToDictionary(fm.FileAttributesAtPath(path, false)) &&
-                    ((NSString)_wrapperData).IsEqualToString(fm.PathContentOfSymbolicLinkAtPath(path)))
+                    if (FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)) &&
+                    ((NSString)_wrapperData).isEqualToString(fm.pathContentOfSymbolicLinkAtPath(path)))
                         return false;
-                    InitWithPath(path);
+                    initWithPath(path);
                     break;
                 case GSFileWrapperType.GSFileWrapperDirectoryType:
                     // Has the dictory itself changed?
-                    if (!FileAttributes().IsEqualToDictionary(fm.FileAttributesAtPath(path, false)))
+                    if (!FileAttributes().isEqualToDictionary(fm.fileAttributesAtPath(path, false)))
                     {
                         // FIXME: This is not effizent
-                        InitWithPath(path);
+                        initWithPath(path);
                         return true;
                     }
                     // FIXME - for directory wrappers, we have to check if all the files are still there, 
@@ -445,42 +445,42 @@ namespace Smartmobili.Cocoa
         {
             if (_wrapperType != GSFileWrapperType.GSFileWrapperDirectoryType)
             {
-                NSException.Raise("NSInternalInconsistencyException", @"Can't invoke blabla on a file wrapper that does not wrap a directory!");
+                NSException.raise("NSInternalInconsistencyException", @"Can't invoke blabla on a file wrapper that does not wrap a directory!");
             }
         }
 
-        public virtual NSString AddFileWrapper(NSFileWrapper doc)
+        public virtual NSString addFileWrapper(NSFileWrapper doc)
         {
             NSString key;
 
             GSFileWrapperDirectoryTypeCheck();
 
-            key = doc.PreferredFilename();
-            if (key == null || key.IsEqualToString(""))
+            key = doc.preferredFilename();
+            if (key == null || key.isEqualToString(""))
             {
-                NSException.Raise("NSInvalidArgumentException", "Adding file wrapper with no preferred filename.");
+                NSException.raise("NSInvalidArgumentException", "Adding file wrapper with no preferred filename.");
                 return null;
             }
 
-            if (((NSDictionary)_wrapperData).ObjectForKey(key) != null)
+            if (((NSDictionary)_wrapperData).objectForKey(key) != null)
             {
                 // FIXME - handle duplicate names
             }
-            ((NSDictionary)_wrapperData).SetObjectForKey(doc, key);
+            ((NSDictionary)_wrapperData).setObjectForKey(doc, key);
 
             return key;
         }
 
 
-        public virtual void RemoveFileWrapper(NSFileWrapper doc)
+        public virtual void removeFileWrapper(NSFileWrapper doc)
         {
             GSFileWrapperDirectoryTypeCheck();
 
-            ((NSDictionary)_wrapperData).RemoveObjectsForKeys(((NSDictionary)_wrapperData).AllKeysForObject(doc));
+            ((NSDictionary)_wrapperData).removeObjectsForKeys(((NSDictionary)_wrapperData).allKeysForObject(doc));
         }
 
 
-        public virtual NSDictionary FileWrappers()
+        public virtual NSDictionary fileWrappers()
         {
             GSFileWrapperDirectoryTypeCheck();
 
@@ -488,23 +488,23 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSString KeyForFileWrapper(NSFileWrapper doc)
+        public virtual NSString keyForFileWrapper(NSFileWrapper doc)
         {
             GSFileWrapperDirectoryTypeCheck();
 
-            return (NSString)((NSDictionary)_wrapperData).AllKeysForObject(doc).ObjectAtIndex(0);
+            return (NSString)((NSDictionary)_wrapperData).allKeysForObject(doc).objectAtIndex(0);
         }
 
 
-        public virtual NSString AddFileWithPath(NSString path)
+        public virtual NSString addFileWithPath(NSString path)
         {
             NSFileWrapper wrapper;
             GSFileWrapperDirectoryTypeCheck();
 
-            wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitWithPath(path);
+            wrapper = (NSFileWrapper)NSFileWrapper.alloc().initWithPath(path);
             if (wrapper != null)
             {
-                return AddFileWrapper(wrapper);
+                return addFileWrapper(wrapper);
             }
             else
             {
@@ -513,16 +513,16 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSString AddRegularFileWithContents(NSData data, NSString filename)
+        public virtual NSString addRegularFileWithContents(NSData data, NSString filename)
         {
             NSFileWrapper wrapper;
             GSFileWrapperDirectoryTypeCheck();
 
-            wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitRegularFileWithContents(data);
+            wrapper = (NSFileWrapper)NSFileWrapper.alloc().initRegularFileWithContents(data);
             if (wrapper != null)
             {
-                wrapper.SetPreferredFilename(filename);
-                return AddFileWrapper(wrapper);
+                wrapper.setPreferredFilename(filename);
+                return addFileWrapper(wrapper);
             }
             else
             {
@@ -531,16 +531,16 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual NSString AddSymbolicLinkWithDestination(NSString path, NSString filename)
+        public virtual NSString addSymbolicLinkWithDestination(NSString path, NSString filename)
         {
             NSFileWrapper wrapper;
             GSFileWrapperDirectoryTypeCheck();
 
-            wrapper = (NSFileWrapper)NSFileWrapper.Alloc().InitSymbolicLinkWithDestination(path);
+            wrapper = (NSFileWrapper)NSFileWrapper.alloc().initSymbolicLinkWithDestination(path);
             if (wrapper != null)
             {
-                wrapper.SetPreferredFilename(filename);
-                return AddFileWrapper(wrapper);
+                wrapper.setPreferredFilename(filename);
+                return addFileWrapper(wrapper);
             }
             else
             {
@@ -553,7 +553,7 @@ namespace Smartmobili.Cocoa
         //								
 
 
-        public virtual NSData RegularFileContents()
+        public virtual NSData regularFileContents()
         {
             if (_wrapperType == GSFileWrapperType.GSFileWrapperRegularFileType)
             {
@@ -561,7 +561,7 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                NSException.Raise("NSInternalInconsistencyException", "File wrapper does not wrap regular file.");
+                NSException.raise("NSInternalInconsistencyException", "File wrapper does not wrap regular file.");
             }
 
             return null;
@@ -572,7 +572,7 @@ namespace Smartmobili.Cocoa
         //
 
 
-        public virtual NSString SymbolicLinkDestination()
+        public virtual NSString symbolicLinkDestination()
         {
             if (_wrapperType == GSFileWrapperType.GSFileWrapperSymbolicLinkType)
             {
@@ -580,7 +580,7 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                NSException.Raise("NSInternalInconsistencyException", "File wrapper does not wrap symbolic link.");
+                NSException.raise("NSInternalInconsistencyException", "File wrapper does not wrap symbolic link.");
             }
 
             return null;
@@ -591,31 +591,31 @@ namespace Smartmobili.Cocoa
         //
 
 
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
             if (aCoder.AllowsKeyedCoding)
             {
-                aCoder.EncodeObject(SerializedRepresentation(), "NSFileWrapperData");
+                aCoder.encodeObject(serializedRepresentation(), "NSFileWrapperData");
             }
             else
             {
                 int wrapType = (int)_wrapperType;
-                aCoder.EncodeValueOfObjCType<int>(ref wrapType);
+                aCoder.encodeValueOfObjCType<int>(ref wrapType);
                 // Dont store the file name
-                aCoder.EncodeObject(_preferredFilename);
-                aCoder.EncodeObject(_fileAttributes);
-                aCoder.EncodeObject(_wrapperData);
-                //aCoder.EncodeObject(_iconImage);
+                aCoder.encodeObject(_preferredFilename);
+                aCoder.encodeObject(_fileAttributes);
+                aCoder.encodeObject(_wrapperData);
+                //aCoder.encodeObject(_iconImage);
             }
         }
 
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             if (aDecoder.AllowsKeyedCoding)
             {
-                NSData data = (NSData)aDecoder.DecodeObjectForKey("NSFileWrapperData");
-                return InitWithSerializedRepresentation(data);
+                NSData data = (NSData)aDecoder.decodeObjectForKey("NSFileWrapperData");
+                return initWithSerializedRepresentation(data);
             }
             else
             {
@@ -625,39 +625,39 @@ namespace Smartmobili.Cocoa
                 id wrapperData;
                 //NSImage iconImage;
 
-                aDecoder.DecodeValueOfObjCType2<int>(out wrapperType);
+                aDecoder.decodeValueOfObjCType2<int>(out wrapperType);
                 // Dont restore the file name
-                preferredFilename = (NSString)aDecoder.DecodeObject();
-                fileAttributes = (NSDictionary)aDecoder.DecodeObject();
-                wrapperData = aDecoder.DecodeObject();
-                //iconImage = aDecoder.DecodeObject();
+                preferredFilename = (NSString)aDecoder.decodeObject();
+                fileAttributes = (NSDictionary)aDecoder.decodeObject();
+                wrapperData = aDecoder.decodeObject();
+                //iconImage = aDecoder.decodeObject();
 
                 switch ((GSFileWrapperType)wrapperType)
                 {
                     case GSFileWrapperType.GSFileWrapperRegularFileType:
                         {
-                            InitRegularFileWithContents((NSData)wrapperData);
+                            initRegularFileWithContents((NSData)wrapperData);
                             break;
                         }
                     case GSFileWrapperType.GSFileWrapperSymbolicLinkType:
                         {
-                            InitSymbolicLinkWithDestination((NSString)wrapperData);
+                            initSymbolicLinkWithDestination((NSString)wrapperData);
                             break;
                         }
                     case GSFileWrapperType.GSFileWrapperDirectoryType:
                         {
-                            InitDirectoryWithFileWrappers((NSDictionary)wrapperData);
+                            initDirectoryWithFileWrappers((NSDictionary)wrapperData);
                             break;
                         }
                 }
 
                 if (preferredFilename != null)
                 {
-                    SetPreferredFilename(preferredFilename);
+                    setPreferredFilename(preferredFilename);
                 }
                 if (fileAttributes != null)
                 {
-                    SetFileAttributes(fileAttributes);
+                    setFileAttributes(fileAttributes);
                 }
                 //if (iconImage != null)
                 //{

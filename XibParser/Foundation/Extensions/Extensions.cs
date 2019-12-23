@@ -28,7 +28,7 @@ namespace Smartmobili.Cocoa
 {
     public static class Extensions
     {
-        public static bool IsEqualToString(this NSString text, NSString text2)
+        public static bool isEqualToString(this NSString text, NSString text2)
         {
             if (text == null || text2 == null)
                 return false;
@@ -41,17 +41,43 @@ namespace Smartmobili.Cocoa
 
 namespace System
 {
-    public delegate bool Predicate4<in T>(T obj);
+    
 
     public static class Extensions
     {
-        public static bool IsEqualToString(this string text, string text2)
+        public static bool isEqualToString(this string text, string text2)
         { 
             if (text == null || text2 == null)
                 return false;
 
             return text.Equals(text2);
         }
+
+
+        public static bool compare(this byte[] a1, byte[] a2, int len = 0)
+        {
+            if (a1 == a2)
+            {
+                return true;
+            }
+            if ((a1 != null) && (a2 != null))
+            {
+                if ((len == 0) && (a1.Length != a2.Length))
+                {
+                    return false;
+                }
+                for (int i = 0; i < len; i++)
+                {
+                    if (a1[i] != a2[i])
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
 
         public static bool ConvertFromYesNo(this string text)
         {
@@ -132,6 +158,79 @@ namespace System
         //    return ret;
         //}
 
+        public static IntPtr[] ReadArray(this IntPtr ptr, int size)
+        {
+            IntPtr[] ret = new IntPtr[size];
+            for (int i = 0; i < size; i++)
+            {
+                ret[i] = Marshal.ReadIntPtr(ptr, i * IntPtr.Size);
+            }
+
+            return ret;
+        }
+
+        public static IntPtr Inc(this IntPtr ptr, int offSet = 1)
+        {
+            IntPtr ret = new IntPtr(ptr.ToInt64() + offSet);
+            return ret;
+        }
+
+        public static IntPtr Dec(this IntPtr ptr, int offSet = -1)
+        {
+            IntPtr ret = new IntPtr(ptr.ToInt64() + offSet);
+            return ret;
+        }
+
+        public static IntPtr Deref(this IntPtr ptr)
+        {
+            var deref = (IntPtr)Marshal.PtrToStructure(ptr, typeof(IntPtr));
+            return deref;
+        }
+
+        public static T Deref<T>(this IntPtr ptr) where T : struct
+        {
+            var val = default(T);
+
+            if (typeof(T) == typeof(bool))
+            {
+                bool bVal = Marshal.ReadByte(ptr) != 0 ? true : false;
+                val = (T)Convert.ChangeType(bVal, typeof(bool));
+            }
+            else if (typeof(T) == typeof(Int32))
+            {
+                val = (T)Convert.ChangeType(Marshal.ReadInt32(ptr), typeof(Int32));
+            }
+            else if ((typeof(T) == typeof(Int64)))
+            {
+                val = (T)Convert.ChangeType(Marshal.ReadInt64(ptr), typeof(Int64));
+            }
+            else
+            {
+                val = (T)Convert.ChangeType(Marshal.ReadIntPtr(ptr), typeof(IntPtr));
+            }
+
+            return val;
+        }
+
+
+
+        public static IntPtr DerefInc(this IntPtr ptr, int offset = 0)
+        {
+            var deref = (IntPtr)Marshal.PtrToStructure(ptr, typeof(IntPtr));
+            return deref.Inc(offset);
+        }
+
+        public static IntPtr Assign(this IntPtr lhs, IntPtr rhs)
+        {
+            return IntPtr.Zero;
+        }
+
+        public static IntPtr ToIntPtr(this Delegate dlgate)
+        {
+            return Marshal.GetFunctionPointerForDelegate(dlgate);
+        }
+
+
         public static int strlen(this IntPtr nativeUtf8)
         {
             int len = 0;
@@ -143,6 +242,19 @@ namespace System
             }
 
             return len;
+        }
+
+
+        public static char GetChar(this IntPtr nativeUtf8)
+        {
+            char chr = '\0';
+
+            if (nativeUtf8 != IntPtr.Zero)
+            {
+                chr = (char)Marshal.ReadByte(nativeUtf8, 0);
+            }
+
+            return chr;
         }
 
         public static byte[] GetBytes(this IntPtr nativeUtf8)
@@ -162,7 +274,7 @@ namespace System
             return buffer;
         }
 
-        public static string GetString(this IntPtr nativeUtf8)
+        public static string GetStringFromUTF8(this IntPtr nativeUtf8)
         {
             return Encoding.UTF8.GetString(nativeUtf8.GetBytes());
         }

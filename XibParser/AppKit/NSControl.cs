@@ -42,8 +42,8 @@ namespace Smartmobili.Cocoa
         protected bool _ignoresMultiClick;
 
 
-        static NSControl() { Initialize(); }
-        public static void Initialize()
+        static NSControl() { initialize(); }
+        public static void initialize()
         {
             cellClass = NSCell.Class;
             usedCellClass = cellClass;
@@ -83,7 +83,7 @@ namespace Smartmobili.Cocoa
                 if (!value)
                     this.AbortEditing();
 
-                SetNeedsDisplay(true);
+                setNeedsDisplay(true);
             }
         }
 
@@ -97,8 +97,8 @@ namespace Smartmobili.Cocoa
                 bool wasEditing = AbortEditing();
 
                 selected.DoubleValue = value;
-                if (!selected.IsKindOfClass(actionCellClass))
-                    SetNeedsDisplay(true);
+                if (!selected.isKindOfClass(actionCellClass))
+                    setNeedsDisplay(true);
 
                 if (wasEditing)
                 {
@@ -118,8 +118,8 @@ namespace Smartmobili.Cocoa
                 bool wasEditing = AbortEditing();
 
                 selected.FloatValue = value;
-                if (!selected.IsKindOfClass(actionCellClass))
-                    SetNeedsDisplay(true);
+                if (!selected.isKindOfClass(actionCellClass))
+                    setNeedsDisplay(true);
 
                 if (wasEditing)
                 {
@@ -139,8 +139,8 @@ namespace Smartmobili.Cocoa
                 bool wasEditing = AbortEditing();
 
                 selected.IntValue = value;
-                if (!selected.IsKindOfClass(actionCellClass))
-                    SetNeedsDisplay(true);
+                if (!selected.isKindOfClass(actionCellClass))
+                    setNeedsDisplay(true);
 
                 if (wasEditing)
                 {
@@ -160,8 +160,8 @@ namespace Smartmobili.Cocoa
                 bool wasEditing = AbortEditing();
 
                 selected.IntegerValue = value;
-                if (!selected.IsKindOfClass(actionCellClass))
-                    SetNeedsDisplay(true);
+                if (!selected.isKindOfClass(actionCellClass))
+                    setNeedsDisplay(true);
 
                 if (wasEditing)
                 {
@@ -182,8 +182,8 @@ namespace Smartmobili.Cocoa
                 bool wasEditing = AbortEditing();
 
                 selected.StringValue = value;
-                if (!selected.IsKindOfClass(actionCellClass))
-                    SetNeedsDisplay(true);
+                if (!selected.isKindOfClass(actionCellClass))
+                    setNeedsDisplay(true);
 
                 if (wasEditing)
                 {
@@ -203,8 +203,8 @@ namespace Smartmobili.Cocoa
                 bool wasEditing = AbortEditing();
 
                 selected.ObjectValue = value;
-                if (!selected.IsKindOfClass(actionCellClass))
-                    SetNeedsDisplay(true);
+                if (!selected.isKindOfClass(actionCellClass))
+                    setNeedsDisplay(true);
 
                 if (wasEditing)
                 {
@@ -216,7 +216,7 @@ namespace Smartmobili.Cocoa
 
         public virtual void SetNeedsDisplay()
         {
-            base.SetNeedsDisplay(true);
+            base.setNeedsDisplay(true);
         }
 
 
@@ -236,8 +236,8 @@ namespace Smartmobili.Cocoa
                     AbortEditing();
 
                     ((NSCell)_cell).Alignment = value;
-                    if (!((NSCell)_cell).IsKindOfClass(actionCellClass))
-                        SetNeedsDisplay(true);
+                    if (!((NSCell)_cell).isKindOfClass(actionCellClass))
+                        setNeedsDisplay(true);
                 } 
             }
         }
@@ -273,8 +273,8 @@ namespace Smartmobili.Cocoa
                 if (_cell != null)
                 {
                     ((NSCell)_cell).Formatter = value;
-                    if (!((NSCell)_cell).IsKindOfClass(actionCellClass))
-                        SetNeedsDisplay(true);
+                    if (!((NSCell)_cell).isKindOfClass(actionCellClass))
+                        setNeedsDisplay(true);
                 } 
             }
         }
@@ -288,8 +288,8 @@ namespace Smartmobili.Cocoa
                 if (_cell != null)
                 {
                     ((NSCell)_cell).BaseWritingDirection = value;
-                    if (!((NSCell)_cell).IsKindOfClass(actionCellClass))
-                        SetNeedsDisplay(true);
+                    if (!((NSCell)_cell).isKindOfClass(actionCellClass))
+                        setNeedsDisplay(true);
                 } 
             }
         }
@@ -397,18 +397,18 @@ namespace Smartmobili.Cocoa
              if (((NSCell)_cell).Equals(aCell))
              {
                  ((NSCell)_cell).State = (int)NSCellStateValue.NSOnState;
-                 SetNeedsDisplay(true);
+                 setNeedsDisplay(true);
              }
          }
         
          public virtual void UpdateCell(NSCell aCell)
          {
-             SetNeedsDisplay(true);
+             setNeedsDisplay(true);
          }
 
          public virtual void UpdateCellInside(NSCell aCell)
          {
-             SetNeedsDisplay(true);
+             setNeedsDisplay(true);
          }
 
          [ObjcPropAttribute("action")]
@@ -502,16 +502,16 @@ namespace Smartmobili.Cocoa
             get { return ((NSCell)SelectedCell).MouseDownFlags; }
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                NSCell cell = (NSCell)aDecoder.DecodeObjectForKey("NSCell");
+                NSCell cell = (NSCell)aDecoder.decodeObjectForKey("NSCell");
 
                 if (cell != null)
                 {
@@ -523,15 +523,15 @@ namespace Smartmobili.Cocoa
                     // as we store some properties only on the cell.
                     
                     //FIXME
-                    Cell = (NSCell)NSCell.Alloc().Init(); 
+                    Cell = (NSCell)NSCell.alloc().init(); 
                 }
-                if (aDecoder.ContainsValueForKey("NSEnabled"))
+                if (aDecoder.containsValueForKey("NSEnabled"))
                 {
-                    this.Enabled = aDecoder.DecodeBoolForKey("NSEnabled");
+                    this.Enabled = aDecoder.decodeBoolForKey("NSEnabled");
                 }
-                if (aDecoder.ContainsValueForKey("NSTag"))
+                if (aDecoder.containsValueForKey("NSTag"))
                 {
-                    this.Tag = aDecoder.DecodeIntForKey("NSTag");
+                    this.Tag = aDecoder.decodeIntForKey("NSTag");
                 }
             }
 

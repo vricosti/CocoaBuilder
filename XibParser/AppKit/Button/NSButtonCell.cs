@@ -181,7 +181,7 @@ namespace Smartmobili.Cocoa
             {
                 _contents = value;
                 _cell.contents_is_attributed_string = Convert.ToUInt32(false);
-                _UpdateCell();
+                _updateCell();
             }
         }
 
@@ -197,7 +197,7 @@ namespace Smartmobili.Cocoa
             set
             {
                 _altContents = value;
-                _UpdateCell();
+                _updateCell();
             }
         }
 
@@ -227,7 +227,7 @@ namespace Smartmobili.Cocoa
             set
             {
                 _altImage = value;
-                _UpdateCell();
+                _updateCell();
             }
         }
 
@@ -249,7 +249,7 @@ namespace Smartmobili.Cocoa
                     _cell.type = (uint)NSCellType.NSImageCellType;
                 }
 
-                _UpdateCell();
+                _updateCell();
             }
         }
 
@@ -461,7 +461,7 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public id _Init()
+        public id _init()
         {
             id self = this;
 
@@ -484,57 +484,57 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public override id Init()
+        public override id init()
         {
             id self = this;
 
-            this.InitTextCell("Button");
+            this.initTextCell("Button");
 
             return self;
         }
 
-        public override id InitImageCell(NSImage anImage)
+        public override id initImageCell(NSImage anImage)
         {
-            if (base.InitImageCell(anImage) == null)
+            if (base.initImageCell(anImage) == null)
                 return null;
 
-            return this._Init();
+            return this._init();
         }
 
-        public override id InitTextCell(NSString aString)
+        public override id initTextCell(NSString aString)
         {
-            if (base.InitTextCell(aString) == null)
+            if (base.initTextCell(aString) == null)
                 return null;
 
-            return this._Init();
+            return this._init();
         }
 
 
         //https://github.com/gnustep/gnustep-gui/blob/master/Source/NSButtonCell.m
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
                 int delay = 0;
                 int interval = 0;
 
-                if (aDecoder.ContainsValueForKey("NSKeyEquivalent"))
+                if (aDecoder.containsValueForKey("NSKeyEquivalent"))
                 {
-                    KeyEquivalent = (NSString)aDecoder.DecodeObjectForKey("NSKeyEquivalent");
+                    KeyEquivalent = (NSString)aDecoder.decodeObjectForKey("NSKeyEquivalent");
                 }
-                if (aDecoder.ContainsValueForKey("NSNormalImage"))
+                if (aDecoder.containsValueForKey("NSNormalImage"))
                 {
-                    Image = (NSImage)aDecoder.DecodeObjectForKey("NSNormalImage");
+                    Image = (NSImage)aDecoder.decodeObjectForKey("NSNormalImage");
                 }
-                if (aDecoder.ContainsValueForKey("NSAlternateContents"))
+                if (aDecoder.containsValueForKey("NSAlternateContents"))
                 {
-                    AlternateTitle = (NSString)aDecoder.DecodeObjectForKey("NSAlternateContents");
+                    AlternateTitle = (NSString)aDecoder.decodeObjectForKey("NSAlternateContents");
                 }
-                if (aDecoder.ContainsValueForKey("NSButtonFlags"))
+                if (aDecoder.containsValueForKey("NSButtonFlags"))
                 {
-                    uint bFlags = (uint)aDecoder.DecodeIntForKey("NSButtonFlags");
+                    uint bFlags = (uint)aDecoder.decodeIntForKey("NSButtonFlags");
                     GSButtonCellFlags buttonCellFlags = PrimitiveConversion.FromLong<GSButtonCellFlags>(bFlags);
 
                     this.Transparent = Convert.ToBoolean(buttonCellFlags.isTransparent);
@@ -589,9 +589,9 @@ namespace Smartmobili.Cocoa
                         this.ImagePosition = NSCellImagePosition.NSNoImage;
                     }
                 }
-                if (aDecoder.ContainsValueForKey("NSButtonFlags2"))
+                if (aDecoder.containsValueForKey("NSButtonFlags2"))
                 {
-                    //uint bFlags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");
+                    //uint bFlags2 = (uint)aDecoder.decodeIntForKey("NSButtonFlags2");
                     //GSButtonCellFlags2 buttonCellFlags2 = PrimitiveConversion.FromLong<GSButtonCellFlags2>(bFlags2);
                     //this.ShowsBorderOnlyWhileMouseInside = Convert.ToBoolean(buttonCellFlags2.showsBorderOnlyWhileMouseInside);
                     //this.BezelStyle = (NSBezelStyle)buttonCellFlags2.bezelStyle;
@@ -599,7 +599,7 @@ namespace Smartmobili.Cocoa
                     //uint imageScale = buttonCellFlags2.imageScaling;
 
                     uint imageScale;
-                    uint bFlags2 = (uint)aDecoder.DecodeIntForKey("NSButtonFlags2");
+                    uint bFlags2 = (uint)aDecoder.decodeIntForKey("NSButtonFlags2");
                     this.ShowsBorderOnlyWhileMouseInside = Convert.ToBoolean(bFlags2 & 0x8);
                     this.BezelStyle = (NSBezelStyle)((bFlags2 & 0x7) | ((bFlags2 & 0x20) >> 2));
                     this._keyEquivalentModifierMask = (uint)((bFlags2 >> 8) & (uint)NSDeviceIndependentModifierFlagsMasks.NSDeviceIndependentModifierFlagsMask);
@@ -618,9 +618,9 @@ namespace Smartmobili.Cocoa
                     this.ImageScaling = (NSImageScaling)imageScale;
                 }
 
-                if (aDecoder.ContainsValueForKey("NSAlternateImage"))
+                if (aDecoder.containsValueForKey("NSAlternateImage"))
                 {
-                    object image = aDecoder.DecodeObjectForKey("NSAlternateImage");
+                    object image = aDecoder.decodeObjectForKey("NSAlternateImage");
                     if (image != null && image.GetType() == typeof(NSImage))
                     {
                         #region TODO
@@ -648,13 +648,13 @@ namespace Smartmobili.Cocoa
                     }
                 }
 
-                if (aDecoder.ContainsValueForKey("NSPeriodicDelay"))
+                if (aDecoder.containsValueForKey("NSPeriodicDelay"))
                 {
-                    delay = aDecoder.DecodeIntForKey("NSPeriodicDelay");
+                    delay = aDecoder.decodeIntForKey("NSPeriodicDelay");
                 }
-                if (aDecoder.ContainsValueForKey("NSPeriodicInterval"))
+                if (aDecoder.containsValueForKey("NSPeriodicInterval"))
                 {
-                    interval = aDecoder.DecodeIntForKey("NSPeriodicInterval");
+                    interval = aDecoder.decodeIntForKey("NSPeriodicInterval");
                 }
 
                 this.SetPeriodicDelay(delay, interval);

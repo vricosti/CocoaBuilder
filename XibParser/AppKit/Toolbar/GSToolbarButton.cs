@@ -13,7 +13,7 @@ namespace Smartmobili.Cocoa.AppKit
         NSToolbarItem _toolbarItem;
 
 
-        public id InitWithToolbarItem(NSToolbarItem toolbarItem)
+        public id initWithToolbarItem(NSToolbarItem toolbarItem)
         {
             id self = null;
 

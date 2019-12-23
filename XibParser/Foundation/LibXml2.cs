@@ -4,45 +4,68 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using xmlParserCtxtPtr = System.IntPtr;
-using xmlSAXHandlerPtr = System.IntPtr;
-using NodePtr = System.IntPtr;
-using DocPtr = System.IntPtr;
-using NsPtr = System.IntPtr;
-using AttrPtr = System.IntPtr;
-using DtdPtr = System.IntPtr;
-using xmlEntityPtr = System.IntPtr;
+using xmlCharPtr = System.IntPtr;
+
+//using xmlParserInputPtr = System.IntPtr;
+//using xmlParserCtxtPtr = System.IntPtr;
+//using xmlSAXHandlerPtr = System.IntPtr;
+//using NodePtr = Node*;
+//using DocPtr = System.IntPtr;
+//using NsPtr = System.IntPtr;
+//using AttrPtr = System.IntPtr;
+//using DtdPtr = System.IntPtr;
+//using xmlEntityPtr = System.IntPtr;
+//using xmlExternalEntityLoaderPtr = System.IntPtr;
+//using xmlTextReaderPtr = System.IntPtr;
+//using xmlTextReaderLocatorPtr = System.IntPtr;
+//using xmlTextReaderErrorFunc = System.IntPtr;
+//using xmlNodePtr = System.IntPtr;
+//using xmlDocPtr = System.IntPtr;
+//using xmlErrorPtr = System.IntPtr;
 
 namespace Smartmobili.Cocoa
 {
-    
+#pragma warning disable 169
 
-    public enum ElementType 
+    public enum xmlParserProperties
     {
-        ELEMENT_NODE,
-        ATTRIBUTE_NODE,
-        TEXT_NODE,
-        CDATA_SECTION_NODE,
-        ENTITY_REF_NODE,
-        ENTITY_NODE,
-        PI_NODE,
-        COMMENT_NODE,
-        DOCUMENT_NODE,
-        DOCUMENT_TYPE_NODE,
-        DOCUMENT_FRAG_NODE,
-        NOTATION_NODE,
-        HTML_DOCUMENT_NODE,
-        DTD_NODE,
-        ELEMENT_DECL,
-        ATTRIBUTE_DECL,
-        ENTITY_DECL,
-        NAMESPACE_DECL,
-        XINCLUDE_START,
-        XINCLUDE_END,
-        DOCB_DOCUMENT_NODE,
+        XML_PARSER_LOADDTD = 1,
+        XML_PARSER_DEFAULTATTRS = 2,
+        XML_PARSER_VALIDATE = 3,
+        XML_PARSER_SUBST_ENTITIES = 4
     }
 
-    public enum XmlElementType
+    public enum xmlParserSeverities
+    {
+        XML_PARSER_SEVERITY_VALIDITY_WARNING = 1,
+        XML_PARSER_SEVERITY_VALIDITY_ERROR = 2,
+        XML_PARSER_SEVERITY_WARNING = 3,
+        XML_PARSER_SEVERITY_ERROR = 4,
+    }
+
+    public enum xmlReaderTypes
+    {
+        XML_READER_TYPE_NONE = 0,
+        XML_READER_TYPE_ELEMENT = 1,
+        XML_READER_TYPE_ATTRIBUTE = 2,
+        XML_READER_TYPE_TEXT = 3,
+        XML_READER_TYPE_CDATA = 4,
+        XML_READER_TYPE_ENTITY_REFERENCE = 5,
+        XML_READER_TYPE_ENTITY = 6,
+        XML_READER_TYPE_PROCESSING_INSTRUCTION = 7,
+        XML_READER_TYPE_COMMENT = 8,
+        XML_READER_TYPE_DOCUMENT = 9,
+        XML_READER_TYPE_DOCUMENT_TYPE = 10,
+        XML_READER_TYPE_DOCUMENT_FRAGMENT = 11,
+        XML_READER_TYPE_NOTATION = 12,
+        XML_READER_TYPE_WHITESPACE = 13,
+        XML_READER_TYPE_SIGNIFICANT_WHITESPACE = 14,
+        XML_READER_TYPE_END_ELEMENT = 15,
+        XML_READER_TYPE_END_ENTITY = 16,
+        XML_READER_TYPE_XML_DECLARATION = 17
+    }
+
+    public enum xmlElementType
     {
         XML_ELEMENT_UNDEF = 0,
         XML_ELEMENT_NODE = 1,
@@ -64,147 +87,656 @@ namespace Smartmobili.Cocoa
         XML_ENTITY_DECL = 17,
         XML_NAMESPACE_DECL = 18,
         XML_XINCLUDE_START = 19,
-        XML_XINCLUDE_END = 20
+        XML_XINCLUDE_END = 20,
+        //#ifdef LIBXML_DOCB_ENABLED
+        XML_DOCB_DOCUMENT_NODE = 21
+        //#endif
     }
 
-    //public unsafe struct Entity
-    //{
-
-    //}
-
-    //public unsafe struct Enumeration
-    //{
-
-    //}
-
-    //public unsafe struct SAXLocator
-    //{
-
-    //}
-
-    //public unsafe struct Error
-    //{
-
-    //}
+    public enum xmlAttributeType
+    {
+        XML_ATTRIBUTE_CDATA = 1,
+        XML_ATTRIBUTE_ID,
+        XML_ATTRIBUTE_IDREF,
+        XML_ATTRIBUTE_IDREFS,
+        XML_ATTRIBUTE_ENTITY,
+        XML_ATTRIBUTE_ENTITIES,
+        XML_ATTRIBUTE_NMTOKEN,
+        XML_ATTRIBUTE_NMTOKENS,
+        XML_ATTRIBUTE_ENUMERATION,
+        XML_ATTRIBUTE_NOTATION
+    }
 
 
-    //public class ElementContent : IDisposable
-    //{
-    //    private bool disposed = false;
-
-    //    public void Dispose()
-    //    {
-    //        Dispose(true);
-    //        GC.SuppressFinalize(this);
-    //    }
-
-    //    protected virtual void Dispose(bool disposing)
-    //    {
-    //    }
-    //}
-
-    //public unsafe class Ns : IDisposable
-    //{
-    //    private bool disposed = false;
-
-    //    public    Ns                        next ;
-    //    public    ElementType               type ;
-    //    public    string                    href ;
-    //    public    string                    prefix ;
-    //    public    void**                    _private ;
-    //    public    Doc                       context ;
-
-    //    public void Dispose()
-    //    {
-    //        Dispose(true);
-    //        GC.SuppressFinalize(this);
-    //    }
-
-    //    protected virtual void Dispose(bool disposing)
-    //    {
-    //    }
-    //}
-
-    //public unsafe class Node : IDisposable
-    //{
-    //    private bool disposed = false;
-
-    //    public void** _private;
-    //    public ElementType type;
-    //    public string name;
-    //    public NodePtr children;
-    //    public NodePtr last;
-    //    public NodePtr parent;
-    //    public NodePtr next;
-    //    public NodePtr prev;
-    //    public DocPtr doc;
-    //    public NsPtr ns;
-    //    public string content;
-    //    public AttrPtr properties;
-    //    public NsPtr ns_def;
-    //    public ushort line;
-    //    public ushort extra;
-
-    //    public void Dispose()
-    //    {
-    //        Dispose(true);
-    //        GC.SuppressFinalize(this);
-    //    }
-
-    //    protected virtual void Dispose(bool disposing)
-    //    {
-    //    }
-    //}
-
-    //public unsafe class Doc : IDisposable
-    //{
-    //    private bool disposed = false;
-
-    //    public void** _private;
-    //    public ElementType type;
-    //    public string name;
-    //    public NodePtr children;
-    //    public NodePtr last;
-    //    public NodePtr parent;
-    //    public NodePtr next;
-    //    public NodePtr prev;
-    //    public DocPtr doc;
-    //    public int compression;
-    //    public int standalone;
-    //    public DtdPtr int_subset;
-    //    public DtdPtr ext_subset;
-    //    public NsPtr old_ns;
-    //    public string version;
-    //    public string encoding;
-    //    public string url;
-    //    public int charset;
+    public enum xmlParserInputState
+    {
+        XML_PARSER_EOF = -1,	/* nothing is to be parsed */
+        XML_PARSER_START = 0,	/* nothing has been parsed */
+        XML_PARSER_MISC,		/* Misc* before int subset */
+        XML_PARSER_PI,		/* Within a processing instruction */
+        XML_PARSER_DTD,		/* within some DTD content */
+        XML_PARSER_PROLOG,		/* Misc* after internal subset */
+        XML_PARSER_COMMENT,		/* within a comment */
+        XML_PARSER_START_TAG,	/* within a start tag */
+        XML_PARSER_CONTENT,		/* within the content */
+        XML_PARSER_CDATA_SECTION,	/* within a CDATA section */
+        XML_PARSER_END_TAG,		/* within a closing tag */
+        XML_PARSER_ENTITY_DECL,	/* within an entity declaration */
+        XML_PARSER_ENTITY_VALUE,	/* within an entity value in a decl */
+        XML_PARSER_ATTRIBUTE_VALUE,	/* within an attribute value */
+        XML_PARSER_SYSTEM_LITERAL,	/* within a SYSTEM value */
+        XML_PARSER_EPILOG, 		/* the Misc* after the last end tag */
+        XML_PARSER_IGNORE,		/* within an IGNORED section */
+        XML_PARSER_PUBLIC_LITERAL 	/* within a PUBLIC value */
+    }
 
 
-    //    public Doc(string version) { }
 
-    //    public void Dispose()
-    //    {
-    //        Dispose(true);
-    //        GC.SuppressFinalize(this);
-    //    }
-
-    //    protected virtual void Dispose(bool disposing)
-    //    {
-    //    }
-
-    //}
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    public unsafe struct xmlDict
+    {
+        IntPtr dummy;
+    }
 
 
-    
+    /* entities.h */
+    public enum xmlEntityType
+    {
+        XML_INTERNAL_GENERAL_ENTITY = 1,
+        XML_EXTERNAL_GENERAL_PARSED_ENTITY = 2,
+        XML_EXTERNAL_GENERAL_UNPARSED_ENTITY = 3,
+        XML_INTERNAL_PARAMETER_ENTITY = 4,
+        XML_EXTERNAL_PARAMETER_ENTITY = 5,
+        XML_INTERNAL_PREDEFINED_ENTITY = 6
+    }
 
-   
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    public unsafe struct xmlEntity
+    {
+        void* _private;	            /* application data */
+        xmlElementType type;        /* XML_ENTITY_DECL, must be second ! */
+        xmlCharPtr name;	        /* Entity name */
+        xmlNode* children;	        /* First child link */
+        xmlNode* last;	            /* Last child link */
+        xmlDtd* parent;	            /* -> DTD */
+        xmlNode* next;	            /* next sibling link  */
+        xmlNode* prev;	            /* previous sibling link  */
+        xmlDoc* doc;                /* the containing document */
+
+        xmlCharPtr orig;	        /* content without ref substitution */
+        public xmlCharPtr content;     	/* content or ndata if unparsed */
+        int length;	                /* the content length */
+        public xmlEntityType etype;	    /* The entity type */
+        xmlCharPtr ExternalID;	    /* External identifier for PUBLIC */
+        xmlCharPtr SystemID;	    /* URI for a SYSTEM or PUBLIC Entity */
+
+        xmlEntity* nexte;	        /* unused */
+        xmlCharPtr URI;	            /* the full URI as computed */
+        int owner;	                /* does the entity own the childrens */
+        int _checked;	            /* was the entity content checked */
+        /* this is also used to count entites
+        * references done from that entity */
+    }
 
 
-    public static class LibXml
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    public unsafe struct xmlNs
+    {
+        xmlNs* next;	        /* next Ns link for this node  */
+        xmlElementType type;	/* global or local */
+        xmlCharPtr href;	    /* URL for the namespace */
+        xmlCharPtr prefix;	    /* prefix for the namespace */
+        void* _private;         /* application data */
+        xmlDoc* context;		/* normally an xmlDoc */
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    public unsafe struct xmlAttr
+    {
+        public void* _private;	            /* application data */
+        xmlElementType type;        /* XML_ATTRIBUTE_NODE, must be second ! */
+        xmlCharPtr name;            /* the name of the property */
+        xmlNode* children;	        /* the value of the property */
+        xmlNode* last;	            /* NULL */
+        xmlNode* parent;	        /* child->parent link */
+        public xmlAttr* next;	            /* next sibling link  */
+        xmlAttr* prev;	            /* previous sibling link  */
+        xmlDoc* doc;	            /* the containing document */
+        xmlNs* ns;                  /* pointer to the associated namespace */
+        xmlAttributeType atype;     /* the attribute type if validating */
+        void* psvi;	                /* for type/PSVI informations */
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    public unsafe struct xmlNode
+    {
+        public void* _private;
+        public xmlElementType type;
+        public xmlCharPtr name;
+        public xmlNode* children;
+        public xmlNode* last;
+        public xmlNode* parent;
+        public xmlNode* next;
+        public xmlNode* prev;
+        public xmlDoc* doc;
+
+        /* End of common part */
+        public xmlNs* ns;
+        public xmlCharPtr content;
+        public xmlAttr* properties;
+        public xmlNs* nsDef;
+        public void* psvi;
+        public uint line;
+        public uint extra;  //0x3A(x86)
+    }
+
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    public unsafe struct xmlDtd
+    {
+        void* _private;	            /* application data */
+        xmlElementType type;        /* XML_DTD_NODE, must be second ! */
+        xmlCharPtr name;	        /* Name of the DTD */
+        xmlNode* children;	        /* the value of the property link */
+        xmlNode* last;	            /* last child link */
+        xmlDoc* parent;	            /* child->parent link */
+        xmlNode* next;	            /* next sibling link  */
+        xmlNode* prev;	            /* previous sibling link  */
+        xmlDoc* doc;	            /* the containing document */
+
+        /* End of common part */
+        void* notations;            /* Hash table for notations if any */
+        void* elements;             /* Hash table for elements if any */
+        void* attributes;           /* Hash table for attributes if any */
+        void* entities;             /* Hash table for entities if any */
+        xmlCharPtr ExternalID;	    /* External identifier for PUBLIC DTD */
+        xmlCharPtr SystemID;	    /* URI for a SYSTEM or PUBLIC DTD */
+        void* pentities;            /* Hash table for param entities if any */
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    public unsafe struct xmlDoc
+    {
+        public void* _private;	/* application data */
+        xmlElementType type;       /* XML_DOCUMENT_NODE, must be second ! */
+        IntPtr name;	/* name/filename/URI of the document */
+        xmlNode* children;	/* the document tree */
+        xmlNode* last;	/* last child link */
+        xmlNode* parent;	/* child->parent link */
+        xmlNode* next;	/* next sibling link  */
+        xmlNode* prev;	/* previous sibling link  */
+        xmlDoc* doc;	/* autoreference to itself */
+
+        /* End of common part */
+        int compression;/* level of zlib compression */
+        public int standalone; /* standalone document (no external refs) 
+				                1 if standalone="yes"
+				                0 if standalone="no"
+				                -1 if there is no XML declaration
+				                -2 if there is an XML declaration, but no
+					            standalone attribute was specified */
+        public xmlDtd* intSubset;	/* the document internal subset */
+        public xmlDtd* extSubset;	/* the document external subset */
+        xmlNs* oldNs;	/* Global namespace, the old way */
+        public xmlCharPtr version;	/* the XML version string */
+        public xmlCharPtr encoding;   /* external initial encoding, if any */
+        void* ids;        /* Hash table for ID attributes if any */
+        void* refs;       /* Hash table for IDREFs attributes if any */
+        xmlCharPtr URL;	/* The URI for that document */
+        int charset;    /* encoding of the in-memory content
+				            actually an xmlCharEncoding */
+        void* dict;      /* dict used to allocate names or NULL */
+        void* psvi;	/* for type/PSVI informations */
+        int parseFlags;	/* set of xmlParserOption used to parse the
+				            document */
+        int properties;	/* set of xmlDocProperties for this document
+				            set at the end of parsing */
+    }
+
+    //int sizeOfV1 = sizeof(xmlSAXHandlerV1); => 112 bytes
+    [StructLayout(LayoutKind.Sequential)]
+    public unsafe struct xmlSAXHandlerV1
+    {
+        public IntPtr internalSubset;
+        public IntPtr isStandalone;
+        public IntPtr hasInternalSubset;
+        public IntPtr hasExternalSubset;
+        public IntPtr resolveEntity;
+        public IntPtr getEntity;
+        public IntPtr entityDecl;
+        public IntPtr notationDecl;
+        public IntPtr attributeDecl;
+        public IntPtr elementDecl;
+        public IntPtr unparsedEntityDecl;
+        public IntPtr setDocumentLocator;
+        public IntPtr startDocument;
+        public IntPtr endDocument;
+        public IntPtr startElement;
+        public IntPtr endElement;
+        public IntPtr reference;
+        public IntPtr characters;
+        public IntPtr ignorableWhitespace;
+        public IntPtr processingInstruction;
+        public IntPtr comment;
+        public IntPtr warning;
+        public IntPtr error;
+        public IntPtr fatalError; /* unused error() get all the errors */
+        public IntPtr getParameterEntity;
+        public IntPtr cdataBlock;
+        public IntPtr externalSubset;
+        public UInt32 initialized;
+    }
+
+    //int sizeOfV2 = sizeof(xmlSAXHandler); => 128 bytes
+    [StructLayout(LayoutKind.Sequential)]
+    public unsafe struct xmlSAXHandler
+    {
+        public IntPtr /*internalSubsetSAXFunc*/ internalSubset;
+        public IntPtr /*isStandaloneSAXFunc*/ isStandalone;
+        public IntPtr /*hasInternalSubsetSAXFunc*/  hasInternalSubset;
+        public IntPtr /*hasExternalSubsetSAXFunc*/ hasExternalSubset;
+        public IntPtr /*resolveEntitySAXFunc*/ resolveEntity;
+        public IntPtr /*getEntitySAXFunc*/ getEntity;
+        public IntPtr /*entityDeclSAXFunc*/ entityDecl;
+        public IntPtr /*notationDeclSAXFunc*/ notationDecl;
+        public IntPtr /*attributeDeclSAXFunc*/ attributeDecl;
+        public IntPtr /*elementDeclSAXFunc*/ elementDecl;
+        public IntPtr /*unparsedEntityDeclSAXFunc*/ unparsedEntityDecl;
+        public IntPtr /*setDocumentLocatorSAXFunc*/ setDocumentLocator;
+        public IntPtr /*startDocumentSAXFunc*/ startDocument;
+        public IntPtr /*endDocumentSAXFunc*/ endDocument;
+        public IntPtr /*startElementSAXFunc*/ startElement;
+        public IntPtr /*endElementSAXFunc*/ endElement;
+        public IntPtr /*referenceSAXFunc*/ reference;
+        public IntPtr /*charactersSAXFunc*/ characters;
+        public IntPtr /*ignorableWhitespaceSAXFunc*/ ignorableWhitespace;
+        public IntPtr /*processingInstructionSAXFunc*/ processingInstruction;
+        public IntPtr /*commentSAXFunc*/ comment;
+        public IntPtr /*warningSAXFunc*/ warning;
+        public IntPtr /*errorSAXFunc*/ error;
+        public IntPtr /*fatalErrorSAXFunc*/ fatalError; /* unused error() get all the errors */
+        public IntPtr /*getParameterEntitySAXFunc*/ getParameterEntity;
+        public IntPtr /*cdataBlockSAXFunc*/ cdataBlock;
+        public IntPtr /*externalSubsetSAXFunc*/ externalSubset;
+        public UInt32 initialized;
+        /* The following fields are extensions available only on version 2 */
+        public IntPtr /*void* */ _private;
+        public IntPtr /*startElementNsSAX2Func*/ startElementNs;
+        public IntPtr /*endElementNsSAX2Func*/ endElementNs;
+        public IntPtr /*xmlStructuredErrorFunc*/ serror;
+    }
+
+    public unsafe struct xmlParserInputBuffer
+    { }
+
+    public unsafe struct xmlParserInput
+    {
+        /* Input buffer */
+        public xmlParserInputBuffer* buf;      /* UTF-8 encoded buffer */
+
+        public IntPtr filename;             /* The file analyzed, if any */
+        public IntPtr directory;            /* the directory/base of the file */
+        public xmlCharPtr _base;              /* Base of the array to parse */
+        public xmlCharPtr cur;               /* Current char being parsed */
+        public xmlCharPtr end;               /* end of the array to parse */
+        public int length;                       /* length if known */
+        public int line;                         /* Current line */
+        public int col;                          /* Current column */
+        /*
+         * NOTE: consumed is only tested for equality in the parser code,
+         *       so even if there is an overflow this should not give troubles
+         *       for parsing very large instances.
+         */
+        public uint consumed;           /* How many xmlChars already consumed */
+        public IntPtr free;    /* function to deallocate the base */
+        public xmlCharPtr encoding;          /* the encoding string for entity */
+        public xmlCharPtr version;           /* the version string for entity */
+        public int standalone;                   /* Was that entity marked standalone */
+        public int id;                           /* an unique identifier for the entity */
+    }
+
+
+    public unsafe struct xmlParserNodeInfo
+    {
+        xmlNode* node;
+        /* Position & line # that text that created the node begins & ends on */
+        uint begin_pos;
+        uint begin_line;
+        uint end_pos;
+        uint end_line;
+    }
+
+
+    public unsafe struct xmlHashTable
+    { }
+
+    public unsafe struct xmlParserNodeInfoSeq
+    {
+        uint maximum;
+        uint length;
+        xmlParserNodeInfo* buffer;
+    }
+
+    public unsafe struct xmlValidCtxt
+    { }
+
+    public enum xmlErrorLevel
+    {
+        XML_ERR_NONE = 0,
+        XML_ERR_WARNING = 1,	/* A simple warning */
+        XML_ERR_ERROR = 2,		/* A recoverable error */
+        XML_ERR_FATAL = 3		/* A fatal error */
+    }
+
+    public unsafe struct xmlError
+    {
+        public int domain;	        /* What part of the library raised this error */
+        public int code;	        /* The error code, e.g. an xmlParserError */
+        public IntPtr message;     /* human-readable informative error message */
+        public xmlErrorLevel level;/* how consequent is the error */
+        IntPtr file;	    /* the filename */
+        public int line;	        /* the line number if available */
+        IntPtr str1;	    /* extra string information */
+        IntPtr str2;	    /* extra string information */
+        IntPtr str3;	    /* extra string information */
+        int int1;	        /* extra number information */
+        int int2;	        /* column number of the error or 0 if N/A (todo: rename this field when we would break ABI) */
+        void* ctxt;         /* the parser context if available */
+        void* node;         /* the node in the tree */
+    }
+
+    public enum xmlParserMode
+    {
+        XML_PARSE_UNKNOWN = 0,
+        XML_PARSE_DOM = 1,
+        XML_PARSE_SAX = 2,
+        XML_PARSE_PUSH_DOM = 3,
+        XML_PARSE_PUSH_SAX = 4,
+        XML_PARSE_READER = 5
+    }
+
+    public unsafe struct xmlParserCtxt
+    {
+        xmlSAXHandler* sax;         /* The SAX handler */
+        void* userData;             /* For SAX interface only, used by DOM build */
+        public xmlDoc* myDoc;              /* the document being built */
+        int wellFormed;             /* is the document well formed */
+        public int replaceEntities;        /* shall we replace entities ? */
+        xmlCharPtr version;         /* the XML version string */
+        xmlCharPtr encoding;        /* the declared encoding, if any */
+        int standalone;             /* standalone document */
+        int html;                   /* an HTML(1)/Docbook(2) document
+                                       * 3 is HTML after <head>
+                                       * 10 is HTML after <body>
+                                       */
+
+        /* Input stream stack */
+        public xmlParserInput* input;          /* Current input stream */
+        int inputNr;                    /* Number of current input streams */
+        int inputMax;                   /* Max number of input streams */
+        xmlParserInput** inputTab;      /* stack of inputs */
+
+        /* Node analysis stack only used for DOM building */
+        public xmlNode* node;                  /* Current parsed Node */
+        int nodeNr;                     /* Depth of the parsing stack */
+        int nodeMax;                    /* Max depth of the parsing stack */
+        xmlNode* nodeTab;               /* array of nodes */
+
+        int record_info;                /* Whether node info should be kept */
+        xmlParserNodeInfoSeq node_seq;  /* info about each node parsed */
+
+        int errNo;                      /* error code */
+
+        int hasExternalSubset;          /* reference and external subset */
+        int hasPErefs;                  /* the internal subset has PE refs */
+        int external;                   /* are we parsing an external entity */
+
+        int valid;                      /* is the document valid */
+        int validate;                   /* shall we try to validate ? */
+        xmlValidCtxt vctxt;             /* The validity context */
+
+        public xmlParserInputState instate;    /* current type of input */
+        int token;                      /* next char look-ahead */
+
+        char* directory;                /* the data directory */
+
+        /* Node name stack */
+        xmlCharPtr name;                /* Current parsed Node */
+        int nameNr;                     /* Depth of the parsing stack */
+        int nameMax;                    /* Max depth of the parsing stack */
+        xmlCharPtr* nameTab;            /* array of nodes */
+
+        long nbChars;                   /* number of xmlChar processed */
+        long checkIndex;                /* used by progressive parsing lookup */
+        int keepBlanks;                 /* ugly but ... */
+        int disableSAX;                 /* SAX callbacks are disabled */
+        int inSubset;                   /* Parsing is in int 1/ext 2 subset */
+        xmlCharPtr intSubName;          /* name of subset */
+        xmlCharPtr extSubURI;           /* URI of external subset */
+        xmlCharPtr extSubSystem;        /* SYSTEM ID of external subset */
+
+        /* xml:space values */
+        int* space;                     /* Should the parser preserve spaces */
+        int spaceNr;                    /* Depth of the parsing stack */
+        int spaceMax;                   /* Max depth of the parsing stack */
+        int* spaceTab;                  /* array of space infos */
+
+        int depth;                      /* to prevent entity substitution loops */
+        xmlParserInput* entity;         /* used to check entities boundaries */
+        int charset;                    /* encoding of the in-memory content
+				                        actually an xmlCharEncoding */
+        int nodelen;                    /* Those two fields are there to */
+        int nodemem;                    /* Speed up large node parsing */
+        int pedantic;                   /* signal pedantic warnings */
+        public void* _private;                 /* For user data, libxml won't touch it */
+
+        int loadsubset;                 /* should the external subset be loaded */
+        int linenumbers;                /* set line number in element content */
+        void* catalogs;                 /* document's own catalog */
+        int recovery;                   /* run in recovery mode */
+        int progressive;                /* is this a progressive parsing */
+        xmlDict* dict;                  /* dictionnary for the parser */
+        xmlCharPtr* atts;               /* array for the attributes callbacks */
+        int maxatts;                    /* the size of the array */
+        int docdict;                    /* use strings from dict to build tree */
+
+        /*
+         * pre-interned strings
+         */
+        xmlCharPtr str_xml;
+        xmlCharPtr str_xmlns;
+        xmlCharPtr str_xml_ns;
+
+        /*
+         * Everything below is used only by the new SAX mode
+         */
+        int sax2;                       /* operating in the new SAX mode */
+        int nsNr;                       /* the number of inherited namespaces */
+        int nsMax;                      /* the size of the arrays */
+        xmlCharPtr* nsTab;              /* the array of prefix/namespace name */
+        int* attallocs;                 /* which attribute were allocated */
+        void** pushTab;                 /* array of data for push */
+        xmlHashTable* attsDefault;      /* defaulted attributes if any */
+        xmlHashTable* attsSpecial;      /* non-CDATA attributes if any */
+        int nsWellFormed;               /* is the document XML Nanespace okay */
+        public int options;                    /* Extra options */
+
+        /*
+         * Those fields are needed only for treaming parsing so far
+         */
+        int dictNames;                  /* Use dictionary names for the tree */
+        int freeElemsNr;                /* number of freed element nodes */
+        xmlNode* freeElems;             /* List of freed element nodes */
+        int freeAttrsNr;                /* number of freed attributes nodes */
+        xmlAttr* freeAttrs;             /* List of freed attributes nodes */
+
+        /*
+         * the complete error informations for the last error.
+         */
+        public xmlError lastError;
+        xmlParserMode parseMode;        /* the parser mode */
+        uint nbentities;                /* number of entities references */
+        uint sizeentities;              /* size of parsed entities */
+
+        /* for use by HTML non-recursive parser */
+        xmlParserNodeInfo* nodeInfo;    /* Current NodeInfo */
+        int nodeInfoNr;                 /* Depth of the parsing stack */
+        int nodeInfoMax;                /* Max depth of the parsing stack */
+        xmlParserNodeInfo* nodeInfoTab; /* array of nodeInfos */
+    }
+
+
+    public enum xmlBufferAllocationScheme
+    {
+        XML_BUFFER_ALLOC_DOUBLEIT,	/* double each time one need to grow */
+        XML_BUFFER_ALLOC_EXACT,	    /* grow only to the minimal size */
+        XML_BUFFER_ALLOC_IMMUTABLE, /* immutable buffer */
+        XML_BUFFER_ALLOC_IO		    /* special allocation scheme used for I/O */
+    }
+
+    public unsafe struct xmlBuffer
+    {
+        IntPtr content;		    /* The buffer content UTF8 */
+        uint use;		        /* The buffer size used */
+        uint size;		        /* The buffer size */
+        xmlBufferAllocationScheme alloc; /* The realloc method */
+        xmlCharPtr contentIO;		    /* in IO mode we may have a different base */
+    }
+
+    public unsafe struct xmlRelaxNG { }
+    public unsafe struct xmlRelaxNGValidCtxt { }
+    public unsafe struct xmlSchema { }
+    public unsafe struct xmlSchemaValidCtxt { }
+    public unsafe struct xmlSchemaSAXPlug { }
+    public unsafe struct xmlXIncludeCtxt { }
+    public unsafe struct xmlPattern { }
+
+
+    public enum xmlTextReaderState
+    {
+        XML_TEXTREADER_NONE = -1,
+        XML_TEXTREADER_START = 0,
+        XML_TEXTREADER_ELEMENT = 1,
+        XML_TEXTREADER_END = 2,
+        XML_TEXTREADER_EMPTY = 3,
+        XML_TEXTREADER_BACKTRACK = 4,
+        XML_TEXTREADER_DONE = 5,
+        XML_TEXTREADER_ERROR = 6
+    }
+
+    public enum xmlTextReaderValidate
+    {
+        XML_TEXTREADER_NOT_VALIDATE = 0,
+        XML_TEXTREADER_VALIDATE_DTD = 1,
+        XML_TEXTREADER_VALIDATE_RNG = 2,
+        XML_TEXTREADER_VALIDATE_XSD = 4
+    }
+
+
+    public unsafe struct xmlTextReader
+    {
+        int mode;	/* the parsing mode */
+        xmlDoc* doc;    /* when walking an existing doc */
+        xmlTextReaderValidate validate;/* is there any validation */
+        int allocs;	/* what structure were deallocated */
+        public xmlTextReaderState state;
+        public xmlParserCtxt* ctxt;	/* the parser context */
+        public xmlSAXHandler* sax;	/* the parser SAX callbacks */
+        public xmlParserInputBuffer* input;	/* the input */
+        IntPtr startElement;/* initial SAX callbacks */
+        IntPtr /*endElementSAXFunc*/ endElement;  /* idem */
+        public IntPtr /*startElementNsSAX2Func*/ startElementNs;/* idem */
+        IntPtr /*endElementNsSAX2Func*/ endElementNs;  /* idem */
+        public IntPtr /*charactersSAXFunc*/ characters;
+        IntPtr /*cdataBlockSAXFunc*/ cdataBlock;
+        uint _base;	/* base of the segment in the input */
+        uint cur;	/* current position in the input */
+        xmlNode* node;	/* current node */
+        xmlNode* curnode;/* current attribute node */
+        int depth;  /* depth of the current node */
+        xmlNode* faketext;/* fake xmlNs chld */
+        int preserve;/* preserve the resulting document */
+        xmlBuffer* buffer; /* used to return const xmlChar * */
+        xmlDict* dict;	/* the context dictionnary */
+
+        /* entity stack when traversing entities content */
+        xmlNode* ent;          /* Current Entity Ref Node */
+        int entNr;        /* Depth of the entities stack */
+        int entMax;       /* Max depth of the entities stack */
+        xmlNode** entTab;       /* array of entities */
+
+        /* error handling */
+        IntPtr /*xmlTextReaderErrorFunc*/ errorFunc;    /* callback function */
+        void* errorFuncArg; /* callback function user argument */
+
+        //#ifdef LIBXML_SCHEMAS_ENABLED
+        /* Handling of RelaxNG validation */
+        xmlRelaxNG* rngSchemas;	/* The Relax NG schemas */
+        xmlRelaxNGValidCtxt* rngValidCtxt;/* The Relax NG validation context */
+        int rngValidErrors;/* The number of errors detected */
+        xmlNode* rngFullNode;	/* the node if RNG not progressive */
+        /* Handling of Schemas validation */
+        xmlSchema* xsdSchemas;	/* The Schemas schemas */
+        xmlSchemaValidCtxt* xsdValidCtxt;/* The Schemas validation context */
+        int xsdPreserveCtxt; /* 1 if the context was provided by the user */
+        int xsdValidErrors;/* The number of errors detected */
+        xmlSchemaSAXPlug* xsdPlug;	/* the schemas plug in SAX pipeline */
+        //#endif
+        //#ifdef LIBXML_XINCLUDE_ENABLED
+        /* Handling of XInclude processing */
+        int xinclude;	/* is xinclude asked for */
+        IntPtr xinclude_name;	/* the xinclude name from dict */
+        xmlXIncludeCtxt* xincctxt;	/* the xinclude context */
+        int in_xinclude;	/* counts for xinclude */
+        //#endif
+        //#ifdef LIBXML_PATTERN_ENABLED
+        int patternNr;       /* number of preserve patterns */
+        int patternMax;      /* max preserve patterns */
+        xmlPattern** patternTab;      /* array of preserve patterns */
+        //#endif
+        int preserves;	/* level of preserves */
+        int parserFlags;	/* the set of options set */
+        /* Structured error handling */
+        IntPtr /*xmlStructuredErrorFunc*/ sErrorFunc;  /* callback function */
+    }
+
+
+
+    public unsafe static class LibXml
     {
         public const UInt32 XML_SAX2_MAGIC = 0xDEEDBEAF;
 
-        public enum XmlParserOption
+
+        public static readonly byte[] NativeEmptyString = new byte[] { 0x00 };
+        
+        public static readonly byte[] NativeLTString = System.Text.Encoding.UTF8.GetBytes("lt" + "\0");
+        public static readonly byte[] NativeLTEntityString = System.Text.Encoding.UTF8.GetBytes("<" + "\0");
+
+        public static readonly byte[] NativeGTString = System.Text.Encoding.UTF8.GetBytes("gt" + "\0");
+        public static readonly byte[] NativeGTEntityString = System.Text.Encoding.UTF8.GetBytes(">" + "\0");
+
+        public static readonly byte[] NativeAmpString = System.Text.Encoding.UTF8.GetBytes("amp" + "\0");
+        public static readonly byte[] NativeAmpEntityString = System.Text.Encoding.UTF8.GetBytes("&" + "\0");
+
+        public static readonly byte[] NativeQuoteString = System.Text.Encoding.UTF8.GetBytes("quot" + "\0");
+        public static readonly byte[] NativeQuoteEntityString = System.Text.Encoding.UTF8.GetBytes("\"" + "\0");
+
+        public static readonly byte[] NativeAposString = System.Text.Encoding.UTF8.GetBytes("apos" + "\0");
+        public static readonly byte[] NativeAposEntityString = System.Text.Encoding.UTF8.GetBytes("'" + "\0");
+
+        //xmlParserInputState
+        //public const Int32 XML_PARSER_CONTENT = 7;
+        //xmlEntityType
+        //public const Int32 XML_INTERNAL_PREDEFINED_ENTITY = 6;
+
+
+        static LibXml()
+        {
+            NativeLTString = System.Text.Encoding.UTF8.GetBytes("lt" + "\0");
+        }
+
+
+        public enum XmlParserOption : uint
         {
             XML_PARSE_RECOVER = 1, //: recover on errors
             XML_PARSE_NOENT = 2, //: substitute entities
@@ -242,7 +774,7 @@ namespace Smartmobili.Cocoa
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate IntPtr resolveEntitySAXFunc(IntPtr ctx, IntPtr publicId, IntPtr systemId);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public unsafe delegate IntPtr getEntitySAXFunc(IntPtr ctx, IntPtr name);
+        public unsafe delegate xmlEntity* getEntitySAXFunc(IntPtr ctx, IntPtr name);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void entityDeclSAXFunc(IntPtr ctx, IntPtr name, int type, IntPtr publicId, IntPtr systemId, IntPtr content);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -287,126 +819,137 @@ namespace Smartmobili.Cocoa
         public unsafe delegate void externalSubsetSAXFunc(IntPtr ctx, IntPtr name, IntPtr ExternalID, IntPtr SystemID);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void startElementNsSAX2Func(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI,
-        int nb_namespaces, string[] namespaces, int nb_attributes, int nb_defaulted, string[] attributes);
+        int nb_namespaces, IntPtr namespaces, int nb_attributes, int nb_defaulted, IntPtr attributes);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void endElementNsSAX2Func(IntPtr ctx, IntPtr localname, IntPtr prefix, IntPtr URI);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public unsafe delegate void xmlStructuredErrorFunc(IntPtr ctx, IntPtr error);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate xmlParserInput* xmlExternalEntityLoader(IntPtr URL, IntPtr ID, xmlParserCtxt* context);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public unsafe delegate void xmlTextReaderErrorFunc(IntPtr userData, IntPtr pMsg, int severity, IntPtr locator);
 
 
 
-        //int sizeOfV1 = sizeof(xmlSAXHandlerV1); => 112 bytes
-        [StructLayout(LayoutKind.Sequential)]
-        public unsafe struct xmlSAXHandlerV1
-        {
-            public IntPtr internalSubset;
-            public IntPtr isStandalone;
-            public IntPtr hasInternalSubset;
-            public IntPtr hasExternalSubset;
-            public IntPtr resolveEntity;
-            public IntPtr getEntity;
-            public IntPtr entityDecl;
-            public IntPtr notationDecl;
-            public IntPtr attributeDecl;
-            public IntPtr elementDecl;
-            public IntPtr unparsedEntityDecl;
-            public IntPtr setDocumentLocator;
-            public IntPtr startDocument;
-            public IntPtr endDocument;
-            public IntPtr startElement;
-            public IntPtr endElement;
-            public IntPtr reference;
-            public IntPtr characters;
-            public IntPtr ignorableWhitespace;
-            public IntPtr processingInstruction;
-            public IntPtr comment;
-            public IntPtr warning;
-            public IntPtr error;
-            public IntPtr fatalError; /* unused error() get all the errors */
-            public IntPtr getParameterEntity;
-            public IntPtr cdataBlock;
-            public IntPtr externalSubset;
-            public UInt32 initialized;
-        }
 
-        //int sizeOfV2 = sizeof(xmlSAXHandler); => 128 bytes
-        [StructLayout(LayoutKind.Sequential)]
-        public unsafe struct xmlSAXHandler
-        {
-            public IntPtr /*internalSubsetSAXFunc*/ internalSubset;
-            public IntPtr /*isStandaloneSAXFunc*/ isStandalone;
-            public IntPtr /*hasInternalSubsetSAXFunc*/  hasInternalSubset;
-            public IntPtr /*hasExternalSubsetSAXFunc*/ hasExternalSubset;
-            public IntPtr /*resolveEntitySAXFunc*/ resolveEntity;
-            public IntPtr /*getEntitySAXFunc*/ getEntity;
-            public IntPtr /*entityDeclSAXFunc*/ entityDecl;
-            public IntPtr /*notationDeclSAXFunc*/ notationDecl;
-            public IntPtr /*attributeDeclSAXFunc*/ attributeDecl;
-            public IntPtr /*elementDeclSAXFunc*/ elementDecl;
-            public IntPtr /*unparsedEntityDeclSAXFunc*/ unparsedEntityDecl;
-            public IntPtr /*setDocumentLocatorSAXFunc*/ setDocumentLocator;
-            public IntPtr /*startDocumentSAXFunc*/ startDocument;
-            public IntPtr /*endDocumentSAXFunc*/ endDocument;
-            public IntPtr /*startElementSAXFunc*/ startElement;
-            public IntPtr /*endElementSAXFunc*/ endElement;
-            public IntPtr /*referenceSAXFunc*/ reference;
-            public IntPtr /*charactersSAXFunc*/ characters;
-            public IntPtr /*ignorableWhitespaceSAXFunc*/ ignorableWhitespace;
-            public IntPtr /*processingInstructionSAXFunc*/ processingInstruction;
-            public IntPtr /*commentSAXFunc*/ comment;
-            public IntPtr /*warningSAXFunc*/ warning;
-            public IntPtr /*errorSAXFunc*/ error;
-            public IntPtr /*fatalErrorSAXFunc*/ fatalError; /* unused error() get all the errors */
-            public IntPtr /*getParameterEntitySAXFunc*/ getParameterEntity;
-            public IntPtr /*cdataBlockSAXFunc*/ cdataBlock;
-            public IntPtr /*externalSubsetSAXFunc*/ externalSubset;
-            public UInt32 initialized;
-            /* The following fields are extensions available only on version 2 */
-            public IntPtr /*void* */ _private;
-            public IntPtr /*startElementNsSAX2Func*/ startElementNs;
-            public IntPtr /*endElementNsSAX2Func*/ endElementNs;
-            public IntPtr /*xmlStructuredErrorFunc*/ serror;
-        }
-
-       
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlInitParser();
-        
+
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlCleanupParser();
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern int xmlSAXUserParseFile(xmlSAXHandlerPtr sax, IntPtr user_data, [MarshalAs(UnmanagedType.LPArray)] byte[] filename);
-        
+        internal static extern int xmlSAXUserParseFile(xmlSAXHandler* sax, IntPtr user_data, [MarshalAs(UnmanagedType.LPArray)] byte[] filename);
+
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern int xmlSAXUserParseMemory(xmlSAXHandlerPtr sax, IntPtr user_data, [MarshalAs(UnmanagedType.LPArray)] byte[] buffer, int size);
-        
+        internal static extern int xmlSAXUserParseMemory(xmlSAXHandler* sax, IntPtr user_data, [MarshalAs(UnmanagedType.LPArray)] byte[] buffer, int size);
+
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern int xmlStrlen( IntPtr str);
+        internal static extern int xmlStrlen(IntPtr str);
 
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern int xmlParseChunk(xmlParserCtxtPtr ctxt, [MarshalAs(UnmanagedType.LPArray)] byte[] chunk, int size, int terminate);
+        internal static extern int xmlParseChunk(xmlParserCtxt* ctxt, [MarshalAs(UnmanagedType.LPArray)] byte[] chunk, int size, int terminate);
 
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlSetStructuredErrorFunc(IntPtr ctx, IntPtr /*xmlStructuredErrorFunc*/ handler);
 
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlError* xmlCtxtGetLastError(IntPtr ctx);
+
+
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern xmlParserCtxtPtr xmlCreatePushParserCtxt(xmlSAXHandlerPtr sax, IntPtr user_data,
+        internal static extern xmlParserCtxt* xmlCreatePushParserCtxt(xmlSAXHandler* sax, IntPtr user_data,
             [MarshalAs(UnmanagedType.LPArray)] byte[] chunk, int size, [MarshalAs(UnmanagedType.LPArray)] byte[] filename);
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern int xmlCtxtUseOptions(xmlParserCtxtPtr ctxt, int options);
+        internal static extern int xmlCtxtUseOptions(xmlParserCtxt* ctxt, int options);
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlFreeEnumeration(IntPtr/*xmlEnumerationPtr*/ cur);
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern xmlEntityPtr xmlGetPredefinedEntity(IntPtr pName);
+        internal static extern xmlEntity* xmlGetPredefinedEntity(IntPtr pName);
 
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlEntity* xmlGetPredefinedEntity2([MarshalAs(UnmanagedType.LPArray)] byte[] pName);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlExternalEntityLoader xmlGetExternalEntityLoader();
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlSetExternalEntityLoader(xmlExternalEntityLoader f);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlTextReader* xmlReaderForMemory(byte[] buffer, int size, IntPtr URL, IntPtr encoding, int options);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderSetParserProp(xmlTextReader* reader, int prop, int value);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlTextReaderSetErrorHandler(xmlTextReader* reader, xmlTextReaderErrorFunc f, IntPtr pUserData);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderLocatorLineNumber(IntPtr locator);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlDoc* xmlTextReaderCurrentDoc(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlFreeDoc(xmlDoc* doc);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderNodeType(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderRead(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlCharPtr xmlTextReaderConstName(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlCharPtr xmlTextReaderConstPrefix(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlCharPtr xmlTextReaderConstNamespaceUri(xmlTextReader* reader);
+        
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlCharPtr xmlTextReaderConstValue(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderMoveToFirstAttribute(xmlTextReader* reader);
+        
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlNode* xmlTextReaderCurrentNode(xmlTextReader* reader);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderIsEmptyElement(xmlTextReader* reader);
+        
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern int xmlTextReaderClose(xmlTextReader* reader);
+        
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlFreeTextReader(xmlTextReader* reader);
+
+        		
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlNode* xmlAddChild(xmlNode* parent, xmlNode* cur);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlNode* xmlNewCharRef(xmlDoc* doc, IntPtr name);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern xmlNode* xmlNewReference(xmlDoc* doc, IntPtr name);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern IntPtr xmlStrsub(IntPtr str, int start, int len);
+
+        [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        internal static extern void xmlFree(IntPtr ptr);
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -420,145 +963,146 @@ namespace Smartmobili.Cocoa
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlSAX2EntityDecl(IntPtr ctx, IntPtr pName, int type, IntPtr pPublicId, IntPtr pSystemId, IntPtr pContent);
-        
+
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        internal static extern xmlEntityPtr xmlSAX2GetEntity(IntPtr ctx, IntPtr pName);
+        internal static extern xmlEntity* xmlSAX2GetEntity(IntPtr ctx, IntPtr pName);
 
         [DllImport("libxml2.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern void xmlSAX2InternalSubset(IntPtr ctx, IntPtr pName, IntPtr pExternalID, IntPtr pSystemID);
 
 
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlParseFile(String file);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlParseFile(String file);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlParseMemory(String file, int size);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlParseMemory(String file, int size);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern XmlElementType _xmlNodeGetElementType(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern XmlElementType _xmlNodeGetElementType(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern String _xmlNodeGetName(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern String _xmlNodeGetName(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNodeGetNs(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNodeGetNs(IntPtr node);
 
-        ///* Navigation */
+        //    ///* Navigation */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNodeGetPrevSibling(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNodeGetPrevSibling(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNodeGetNextSibling(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNodeGetNextSibling(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNodeGetFirstChild(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNodeGetFirstChild(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNodeGetLastChild(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNodeGetLastChild(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNodeGetDocument(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNodeGetDocument(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlElementGetFirstAttr(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlElementGetFirstAttr(IntPtr node);
 
-        ///* String Dumpers */
+        //    ///* String Dumpers */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern String _xmlNodeDump(IntPtr node, int level, int format);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern String _xmlNodeDump(IntPtr node, int level, int format);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern String _xmlDocDump(IntPtr doc, int format);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern String _xmlDocDump(IntPtr doc, int format);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern String _xmlNodeGetContent(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern String _xmlNodeGetContent(IntPtr node);
 
-        ///* Namespaces */
+        //    ///* Namespaces */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern String _xmlNsGetHref(IntPtr ns);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern String _xmlNsGetHref(IntPtr ns);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern String _xmlNsGetPrefix(IntPtr ns);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern String _xmlNsGetPrefix(IntPtr ns);
 
-        ///* Attributes */
+        //    ///* Attributes */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern String _xmlElementGetAttrValue(IntPtr node, String name);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern String _xmlElementGetAttrValue(IntPtr node, String name);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlElementGetAttr(IntPtr node, String name);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlElementGetAttr(IntPtr node, String name);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern int _xmlElementSetAttrValue(IntPtr node, String name, String value);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern int _xmlElementSetAttrValue(IntPtr node, String name, String value);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlElementSetAttr(IntPtr node, String name, String value);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlElementSetAttr(IntPtr node, String name, String value);
 
-        ///* Cache nodes to prevent double freeing */
+        //    ///* Cache nodes to prevent double freeing */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern bool _xmlNodeCache(IntPtr node, Object nodeObj);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern bool _xmlNodeCache(IntPtr node, Object nodeObj);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern bool _xmlNodeUncache(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern bool _xmlNodeUncache(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern bool _xmlNodeIsCached(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern bool _xmlNodeIsCached(IntPtr node);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern Object _xmlNodeGetCached(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern Object _xmlNodeGetCached(IntPtr node);
 
-        ///* object construction */
+        //    ///* object construction */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNewDoc(String version);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNewDoc(String version);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNewNode(IntPtr ns, String name);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNewNode(IntPtr ns, String name);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNewText(String content);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNewText(String content);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNewCDataBlock(String content, int len);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNewCDataBlock(String content, int len);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNewComment(String content);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNewComment(String content);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlNewPI(String name, String content);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlNewPI(String name, String content);
 
-        ///* Adding to the tree */
+        //    ///* Adding to the tree */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern IntPtr _xmlAddChild(IntPtr parent, IntPtr child);
-        ///* adjusting the tree */
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern IntPtr _xmlAddChild(IntPtr parent, IntPtr child);
+        //    ///* adjusting the tree */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern void _xmlNodeNormalize(IntPtr node);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern void _xmlNodeNormalize(IntPtr node);
 
-        ///* compression support ie my favourite */
+        //    ///* compression support ie my favourite */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern int _xmlDocGetCompression(IntPtr doc);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern int _xmlDocGetCompression(IntPtr doc);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern int _xmlParserGetCompression();
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern int _xmlParserGetCompression();
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern void _xmlDocSetCompression(IntPtr doc, int level);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern void _xmlDocSetCompression(IntPtr doc, int level);
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern void _xmlParserSetCompression(int gzip);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern void _xmlParserSetCompression(int gzip);
 
-        ///* file output */
+        //    ///* file output */
 
-        //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern void _xmlDocSaveToFile(IntPtr doc, String filename, int format);
+        //    //[DllImport("libxml_wrapper", CallingConvention = CallingConvention.Cdecl)]
+        //    //internal static extern void _xmlDocSaveToFile(IntPtr doc, String filename, int format);
 
 
     }
+#pragma warning restore 169
 }

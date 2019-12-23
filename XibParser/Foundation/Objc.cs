@@ -78,6 +78,7 @@ namespace Smartmobili.Cocoa
             return ret;
         }
 
+        //public static object MsgSendClass(id receiver, NSString aString, params object[] args)
         //public static object MsgSend2(id receiver, NSString aString, object getOrSetValue)
         //{
         //    object ret = null;
@@ -89,7 +90,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        public static NSString Encode(Type type)
+        public static NSString encode(Type type)
         {
             return "";
         }
@@ -114,6 +115,41 @@ namespace Smartmobili.Cocoa
                 return "";
             }
         }
+
+        //new public static id alloc() 
+        //{
+        //    id self = new id();
+
+        //    try
+        //    {
+        //        self = Activator.CreateInstance(InnerType) as id;
+        //    }
+        //    catch
+        //    { 
+
+        //    }
+
+
+        //    return self;
+        //}
+
+        new public virtual id alloc()
+        {
+
+            id self = new id();
+
+            try
+            {
+                self = Activator.CreateInstance(InnerType) as id;
+            }
+            catch
+            {
+                self = new id();
+            }
+
+            return self;
+        }
+
 
         //public static bool operator ==(Class cls1, Class cls2)
         //{
@@ -144,7 +180,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public static Class NSClassFromString(string className)
+        public static Class ClassFromString(string className)
         {
             Class cls = null;
 

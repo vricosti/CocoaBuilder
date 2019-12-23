@@ -10,10 +10,10 @@ namespace Smartmobili.Cocoa
     public class NSSecureTextField : NSTextField
     {
         new public static Class Class = new Class(typeof(NSSecureTextField));
-        new public static NSSecureTextField Alloc() { return new NSSecureTextField(); }
+        new public static NSSecureTextField alloc() { return new NSSecureTextField(); }
 
-        static NSSecureTextField() { Initialize(); }
-        new static void Initialize()
+        static NSSecureTextField() { initialize(); }
+        new static void initialize()
         {
             
         }
@@ -23,7 +23,7 @@ namespace Smartmobili.Cocoa
             get { return NSSecureTextFieldCell.Class; }
             set 
             {
-              NSException.Raise(@"NSInvalidArgumentException", @"NSSecureTextField only uses NSSecureTextFieldCells.", null);
+              NSException.raise(@"NSInvalidArgumentException", @"NSSecureTextField only uses NSSecureTextFieldCells.", null);
             }
         }
 
@@ -33,11 +33,11 @@ namespace Smartmobili.Cocoa
         {
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) != null)
+            if (base.initWithCoder(aDecoder) != null)
             {
                 
             }

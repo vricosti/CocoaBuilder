@@ -8,7 +8,7 @@ namespace Smartmobili.Cocoa
     public class NSXMLNamedFidelityNode : NSXMLNamedNode
     {
         new public static Class Class = new Class(typeof(NSXMLNamedFidelityNode));
-        new public static NSXMLNamedFidelityNode Alloc() { return new NSXMLNamedFidelityNode(); }
+        new public static NSXMLNamedFidelityNode alloc() { return new NSXMLNamedFidelityNode(); }
 
 
         protected NSString _whitespace;
@@ -22,7 +22,7 @@ namespace Smartmobili.Cocoa
 
         public virtual NSString _XMLStringWithOptionAppendingToString(uint options, NSString str)
         {
-            if (GetName() == null)
+            if (name() == null)
                 return null;
 
             
@@ -30,12 +30,12 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public virtual uint GetFidelity()
+        public virtual uint fidelity()
         {
             return _fidelity;
         }
 
-        public virtual void SetFidelity(uint fidelity)
+        public virtual void setFidelity(uint fidelity)
         {
             _fidelity = fidelity;
         }

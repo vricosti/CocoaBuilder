@@ -92,12 +92,12 @@ namespace Smartmobili.Cocoa
             set { menuBarVisible = value; }
         }
 
-        new public static NSMenu Alloc()
+        new public static NSMenu alloc()
         {
             return new NSMenu();
         }
 
-        public override id Init()
+        public override id init()
         {
             return InitWithTitle(NSProcessInfo.ProcessInfo.ProcessName);
         }
@@ -107,13 +107,13 @@ namespace Smartmobili.Cocoa
             id self = this;
             NSMenuView menuRep;
 
-            if (base.Init() == null)
+            if (base.init() == null)
                 return null;
 
             _title = aTitle;
-            _items = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _items = (NSMutableArray)NSMutableArray.alloc().init();
             _menu.changedMessagesEnabled = 1;
-            _notifications = (NSMutableArray)NSMutableArray.Alloc().Init();
+            _notifications = (NSMutableArray)NSMutableArray.alloc().init();
             _menu.needsSizing = 1;
             // According to the spec, menus do autoenable by default.
             _menu.autoenable = 1;
@@ -124,7 +124,7 @@ namespace Smartmobili.Cocoa
             //[_bWindow setLevel: NSPopUpMenuWindowLevel];
 
             // Create a NSMenuView to draw our menu items.
-            menuRep = (NSMenuView)NSMenuView.Alloc().InitWithFrame(NSRect.Zero);
+            menuRep = (NSMenuView)NSMenuView.alloc().initWithFrame(NSRect.Zero);
             //[self setMenuRepresentation: menuRep];
            
 
@@ -132,17 +132,17 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                Title = (NSString)aDecoder.DecodeObjectForKey("NSTitle");
+                Title = (NSString)aDecoder.decodeObjectForKey("NSTitle");
 
-                MenuItems = (NSMutableArray)aDecoder.DecodeObjectForKey("NSMenuItems");
+                MenuItems = (NSMutableArray)aDecoder.decodeObjectForKey("NSMenuItems");
 
-                Name = (NSString)aDecoder.DecodeObjectForKey("NSName");
+                Name = (NSString)aDecoder.decodeObjectForKey("NSName");
             }
 
             return this;

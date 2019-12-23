@@ -153,30 +153,30 @@ namespace Smartmobili.Cocoa
             
         //}
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                ItemIdentifier = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemIdentifier");
+                ItemIdentifier = (NSString)aDecoder.decodeObjectForKey("NSToolbarItemIdentifier");
 
-                Label = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemLabel");
-                PaletteLabel = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemPaletteLabel");
-                ToolTip = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemToolTip");
-                View = (NSView)aDecoder.DecodeObjectForKey("NSToolbarItemView");
-                Image = (NSImage)aDecoder.DecodeObjectForKey("NSToolbarItemImage");
-                //Target = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemTarget");
-                //Action = (NSString)aDecoder.DecodeObjectForKey("NSToolbarItemAction");
-                MinSize = (NSSize)(NSString)aDecoder.DecodeObjectForKey("NSToolbarItemMinSize");
-                MaxSize = (NSSize)(NSString)aDecoder.DecodeObjectForKey("NSToolbarItemMaxSize");
-                Enabled = aDecoder.DecodeBoolForKey("NSToolbarItemEnabled");
-                Autovalidates = aDecoder.DecodeBoolForKey("NSToolbarItemAutovalidates");
-                Tag = aDecoder.DecodeIntForKey("NSToolbarItemTag");
-                IsUserRemovable = aDecoder.DecodeBoolForKey("NSToolbarIsUserRemovable");
-                VisibilityPriority = aDecoder.DecodeIntForKey("NSToolbarItemVisibilityPriority");
+                Label = (NSString)aDecoder.decodeObjectForKey("NSToolbarItemLabel");
+                PaletteLabel = (NSString)aDecoder.decodeObjectForKey("NSToolbarItemPaletteLabel");
+                ToolTip = (NSString)aDecoder.decodeObjectForKey("NSToolbarItemToolTip");
+                View = (NSView)aDecoder.decodeObjectForKey("NSToolbarItemView");
+                Image = (NSImage)aDecoder.decodeObjectForKey("NSToolbarItemImage");
+                //Target = (NSString)aDecoder.decodeObjectForKey("NSToolbarItemTarget");
+                //Action = (NSString)aDecoder.decodeObjectForKey("NSToolbarItemAction");
+                MinSize = (NSSize)(NSString)aDecoder.decodeObjectForKey("NSToolbarItemMinSize");
+                MaxSize = (NSSize)(NSString)aDecoder.decodeObjectForKey("NSToolbarItemMaxSize");
+                Enabled = aDecoder.decodeBoolForKey("NSToolbarItemEnabled");
+                Autovalidates = aDecoder.decodeBoolForKey("NSToolbarItemAutovalidates");
+                Tag = aDecoder.decodeIntForKey("NSToolbarItemTag");
+                IsUserRemovable = aDecoder.decodeBoolForKey("NSToolbarIsUserRemovable");
+                VisibilityPriority = aDecoder.decodeIntForKey("NSToolbarItemVisibilityPriority");
             }
 
             return self;

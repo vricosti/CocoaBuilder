@@ -8,17 +8,17 @@ namespace Smartmobili.Cocoa
     public class NSTableHeaderView : NSView
     {
         new public static Class Class = new Class(typeof(NSTableHeaderView));
-        new public static NSTableHeaderView Alloc() { return new NSTableHeaderView(); }
+        new public static NSTableHeaderView alloc() { return new NSTableHeaderView(); }
 
         public NSTableHeaderView()
         {
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)

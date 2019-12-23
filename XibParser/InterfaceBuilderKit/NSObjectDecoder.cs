@@ -48,11 +48,11 @@ namespace Smartmobili.Cocoa
             XmlElement = xElement;
             AllowsKeyedCoding = true;
             
-            CreateDictionary(xElement);
+            createDictionary(xElement);
             
         }
 
-        private void CreateDictionary(XElement xElement)
+        private void createDictionary(XElement xElement)
         {
             if (xElement == null)
                 return;
@@ -77,7 +77,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public object Create(XElement xCurrentElement = null)
+        public object create(XElement xCurrentElement = null)
         {
             id nsObj = null;
 
@@ -103,21 +103,21 @@ namespace Smartmobili.Cocoa
                 case "array":
                     {
                         attrClass = xElement.AttributeValueOrDefault("class", "NSArray");
-                        nsObj = (id)CreateFromClassName(xElement, attrClass);
+                        nsObj = (id)createFromClassName(xElement, attrClass);
                         break;
                     }
 
                 case "dictionary":
                     {
                         attrClass = xElement.AttributeValueOrDefault("class", "NSDictionary");
-                        nsObj = (id)CreateFromClassName(xElement, attrClass);
+                        nsObj = (id)createFromClassName(xElement, attrClass);
                         break;
                     }
 
                 case "object":
                     {
                         attrClass = xElement.AttributeValueOrDefault("class", string.Empty);
-                        nsObj = (id)CreateFromClassName(xElement, attrClass);
+                        nsObj = (id)createFromClassName(xElement, attrClass);
                         break;
                     }
 
@@ -146,7 +146,7 @@ namespace Smartmobili.Cocoa
 
         
 
-        public object ResolveReference(object instance, string propertyName, XElement xElement)
+        public object resolveReference(object instance, string propertyName, XElement xElement)
         {
             id nsObj = null;
 
@@ -177,7 +177,7 @@ namespace Smartmobili.Cocoa
 
 
 
-        private object CreateFromClassName(XElement xElement, string attrClass)
+        private object createFromClassName(XElement xElement, string attrClass)
         {
             NSCoding2 nsObj = null;
 
@@ -191,71 +191,71 @@ namespace Smartmobili.Cocoa
                 nsObj = Activator.CreateInstance(t) as NSCoding2;
                 if (nsObj != null)
                 {
-                    //nsObj = (NSCoding2)nsObj.InitWithCoder(decoder);   
+                    //nsObj = (NSCoding2)nsObj.initWithCoder(decoder);   
                 }
                 else
                 {
                     System.Diagnostics.Debug.WriteLine(string.Format(
-                        "CreateFromClassName : this class name {0} doesn't implement NSCoding protocol", attrClass));
+                        "createFromClassName : this class name {0} doesn't implement NSCoding protocol", attrClass));
                 }
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine(
-                        string.Format("CreateFromClassName : Unknown <object> class name {0}", attrClass));
+                        string.Format("createFromClassName : Unknown <object> class name {0}", attrClass));
             }
 
             //switch (attrClass)
             //{
-            //    case "IBActionConnection": { nsObj = new IBActionConnection(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBActionInfo": { nsObj = new IBActionInfo(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBBindingConnection": { nsObj = new IBBindingConnection(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBClassDescriber": { nsObj = new IBClassDescriber(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBClassDescriptionSource": { nsObj = new IBClassDescriptionSource(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBConnectionRecord": { nsObj = new IBConnectionRecord(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBMutableOrderedSet": { nsObj = new IBMutableOrderedSet(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBObjectContainer": { nsObj = new IBObjectContainer(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBObjectRecord": { nsObj = new IBObjectRecord(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBOutletConnection": { nsObj = new IBOutletConnection(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBPartialClassDescription": { nsObj = new IBPartialClassDescription(); nsObj.InitWithCoder(decoder); break; }
-            //    case "IBToOneOutletInfo": { nsObj = new IBToOneOutletInfo(); nsObj.InitWithCoder(decoder); break; }
+            //    case "IBActionConnection": { nsObj = new IBActionConnection(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBActionInfo": { nsObj = new IBActionInfo(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBBindingConnection": { nsObj = new IBBindingConnection(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBClassDescriber": { nsObj = new IBClassDescriber(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBClassDescriptionSource": { nsObj = new IBClassDescriptionSource(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBConnectionRecord": { nsObj = new IBConnectionRecord(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBMutableOrderedSet": { nsObj = new IBMutableOrderedSet(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBObjectContainer": { nsObj = new IBObjectContainer(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBObjectRecord": { nsObj = new IBObjectRecord(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBOutletConnection": { nsObj = new IBOutletConnection(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBPartialClassDescription": { nsObj = new IBPartialClassDescription(); nsObj.initWithCoder(decoder); break; }
+            //    case "IBToOneOutletInfo": { nsObj = new IBToOneOutletInfo(); nsObj.initWithCoder(decoder); break; }
 
-            //    case "NSArray": { nsObj = new NSArray(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSArrayController": { nsObj = new NSArrayController(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSBox": { nsObj = new NSBox(); nsObj.InitWithCoder(decoder); break; }
+            //    case "NSArray": { nsObj = new NSArray(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSArrayController": { nsObj = new NSArrayController(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSBox": { nsObj = new NSBox(); nsObj.initWithCoder(decoder); break; }
             //    case "NSButton": { ;break; }
             //    case "NSButtonCell": { ;break; }
-            //    case "NSClipView": { nsObj = new NSClipView(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSCollectionView": { nsObj = new NSCollectionView(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSCollectionViewItem": { nsObj = new NSCollectionViewItem(); nsObj.InitWithCoder(decoder); break; }
+            //    case "NSClipView": { nsObj = new NSClipView(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSCollectionView": { nsObj = new NSCollectionView(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSCollectionViewItem": { nsObj = new NSCollectionViewItem(); nsObj.initWithCoder(decoder); break; }
             //    case "NSColor": { ;break; }
-            //    case "NSCustomObject": { nsObj = new NSCustomObject(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSCustomResource": { nsObj = new NSCustomResource(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSCustomView": { nsObj = new NSCustomView(); nsObj.InitWithCoder(decoder); break; }
+            //    case "NSCustomObject": { nsObj = new NSCustomObject(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSCustomResource": { nsObj = new NSCustomResource(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSCustomView": { nsObj = new NSCustomView(); nsObj.initWithCoder(decoder); break; }
             //    case "NSFont": { ;break; }
-            //    case "NSMenu": { nsObj = new NSMenu(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSMenuItem": { nsObj = new NSMenuItem(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSMutableArray": { nsObj = new NSMutableArray(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSMutableDictionary": { nsObj = new NSMutableDictionary(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSMutableString": { nsObj = new NSMutableString(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSNibBindingConnector": { nsObj = new NSNibBindingConnector(); nsObj.InitWithCoder(decoder); break; }
+            //    case "NSMenu": { nsObj = new NSMenu(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSMenuItem": { nsObj = new NSMenuItem(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSMutableArray": { nsObj = new NSMutableArray(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSMutableDictionary": { nsObj = new NSMutableDictionary(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSMutableString": { nsObj = new NSMutableString(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSNibBindingConnector": { nsObj = new NSNibBindingConnector(); nsObj.initWithCoder(decoder); break; }
             //    case "NSPopUpButton": { ;break; }
             //    case "NSPopUpButtonCell": { ;break; }
-            //    case "NSScroller": { nsObj = new NSScroller(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSScrollView": { nsObj = new NSScrollView(); nsObj.InitWithCoder(decoder); break; }
+            //    case "NSScroller": { nsObj = new NSScroller(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSScrollView": { nsObj = new NSScrollView(); nsObj.initWithCoder(decoder); break; }
             //    case "NSSegmentedCell": { ;break; }
             //    case "NSSegmentedControl": { ;break; }
             //    case "NSSegmentItem": { ;break; }
-            //    case "NSTextField": { nsObj = new NSTextField(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSTextFieldCell": { nsObj = new NSTextFieldCell(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSToolbar": { nsObj = new NSToolbar(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSToolbarFlexibleSpaceItem": { nsObj = new NSToolbarFlexibleSpaceItem(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSToolbarItem": { nsObj = new NSToolbarItem(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSToolbarSeparatorItem": { nsObj = new NSToolbarSeparatorItem(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSToolbarSpaceItem": { nsObj = new NSToolbarSpaceItem(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSView": { nsObj = new NSView(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSViewController": { nsObj = new NSViewController(); nsObj.InitWithCoder(decoder); break; }
-            //    case "NSWindowTemplate": { nsObj = new NSWindowTemplate(); nsObj.InitWithCoder(decoder); break; }
+            //    case "NSTextField": { nsObj = new NSTextField(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSTextFieldCell": { nsObj = new NSTextFieldCell(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSToolbar": { nsObj = new NSToolbar(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSToolbarFlexibleSpaceItem": { nsObj = new NSToolbarFlexibleSpaceItem(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSToolbarItem": { nsObj = new NSToolbarItem(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSToolbarSeparatorItem": { nsObj = new NSToolbarSeparatorItem(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSToolbarSpaceItem": { nsObj = new NSToolbarSpaceItem(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSView": { nsObj = new NSView(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSViewController": { nsObj = new NSViewController(); nsObj.initWithCoder(decoder); break; }
+            //    case "NSWindowTemplate": { nsObj = new NSWindowTemplate(); nsObj.initWithCoder(decoder); break; }
             //    case "NSWindowView": { ;break; }
 
             //    default:
@@ -268,96 +268,96 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public id DecodeObjectForKey(string keyName)
+        public id decodeObjectForKey(string keyName)
         {
             id nsObj = null;
 
             XElement xElm = _classDict.Find(i => (string)i.Attribute("key") == keyName);
             if (xElm != null)
             {
-                nsObj = (id)Create(xElm);
+                nsObj = (id)create(xElm);
             }
 
             return nsObj;
         }
 
 
-        public void DecodeValueOfObjCType(string valueType, ref object data)
+        public void decodeValueOfObjCType(string valueType, ref object data)
         {
 
         }
 
-        public bool ContainsValueForKey(NSString keyName)
+        public bool containsValueForKey(NSString keyName)
         {
             return _classDict.Exists(i => (string)i.Attribute("key") == keyName);
         }
 
-        public NSPoint DecodePointForKey(string keyName)
+        public NSPoint decodePointForKey(string keyName)
         {
             NSPoint nsPoint = new NSPoint();
 
             XElement xElm = _classDict.Find(i => (string)i.Attribute("key") == keyName);
             if (xElm != null)
             {
-                nsPoint = (NSPoint)(NSString)this.Create(xElm);
+                nsPoint = (NSPoint)(NSString)this.create(xElm);
             }
 
             return nsPoint;
         }
 
-        public NSSize DecodeSizeForKey(string keyName)
+        public NSSize decodeSizeForKey(string keyName)
         {
             NSSize nsSize = new NSSize();
 
             XElement xElm = _classDict.Find(i => (string)i.Attribute("key") == keyName);
             if (xElm != null)
             {
-                nsSize = (NSSize)(NSString)this.Create(xElm);
+                nsSize = (NSSize)(NSString)this.create(xElm);
             }
 
             return nsSize;
         }
-        public NSRect DecodeRectForKey(string keyName)
+        public NSRect decodeRectForKey(string keyName)
         {
             NSRect nsRect = new NSRect();
 
             XElement xElm = _classDict.Find( i => (string)i.Attribute("key") == keyName);
             if (xElm != null)
             {
-                nsRect = (NSRect)(NSString)this.Create(xElm);
+                nsRect = (NSRect)(NSString)this.create(xElm);
             }
 
             return nsRect;
         }
 
-        public int DecodeIntForKey(string keyName)
+        public int decodeIntForKey(string keyName)
         {
             int ret = 0;
 
             XElement xElm = _classDict.Find(i => (string)i.Attribute("key") == keyName);
             if (xElm != null)
             {
-                ret = (NSNumber)this.Create(xElm);
+                ret = (NSNumber)this.create(xElm);
             }
 
             return ret;
         }
 
-        public bool DecodeBoolForKey(string keyName)
+        public bool decodeBoolForKey(string keyName)
         {
             bool ret = false;
 
             XElement xElm = _classDict.Find(i => (string)i.Attribute("key") == keyName);
             if (xElm != null)
             {
-                ret = (NSNumber)this.Create(xElm);
+                ret = (NSNumber)this.create(xElm);
             }
 
             return ret;
         }
 
 
-        //public static object Create(XElement xElement)
+        //public static object create(XElement xElement)
         //{
         //    object nsObj = null;
 
@@ -401,8 +401,8 @@ namespace Smartmobili.Cocoa
         //                    case "NSTextField": { ;break; }
         //                    case "NSTextFieldCell": { ;break; }
         //                    case "NSToolbar": { nsObj = new NSToolbar(xElement); break; }
-        //                    case "NSToolbarFlexibleSpaceItem": { nsObj = NSToolbarFlexibleSpaceItem.Create(xElement); break; }
-        //                    case "NSToolbarItem": { nsObj = NSToolbarItem.Create(xElement); break; }
+        //                    case "NSToolbarFlexibleSpaceItem": { nsObj = NSToolbarFlexibleSpaceItem.create(xElement); break; }
+        //                    case "NSToolbarItem": { nsObj = NSToolbarItem.create(xElement); break; }
         //                    case "NSToolbarSpaceItem": { ;break; }
         //                    case "NSView": { nsObj = new NSView((xElement); ;break; }
         //                    case "NSViewController": { ;break; }

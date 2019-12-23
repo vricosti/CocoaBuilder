@@ -1,0 +1,68 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SM.Toolkit">
+
+    <ControlTemplate x:Key="PopupTemplate">
+        <local:ToolbarEditor></local:ToolbarEditor>
+    </ControlTemplate>
+    <BooleanToVisibilityConverter x:Key="BoolToVis"></BooleanToVisibilityConverter>
+
+    <!--Height="{TemplateBinding ToolbarHeight}"-->
+        
+    <Style TargetType="{x:Type local:SMToolbar}">
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <!--<Setter Property="ItemTemplate" >
+            <Setter.Value>
+                <DataTemplate>
+                    <local:SMToolbarItem></local:SMToolbarItem>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>-->
+        <Setter Property="local:Adorners.Template" Value="{StaticResource PopupTemplate}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SMToolbar}"> 
+
+                    <Border x:Name="PART_Root"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Focusable="True" >
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <ScrollViewer x:Name="PART_Scroll"  
+                                          Grid.Column="0"
+                                          HorizontalScrollBarVisibility="Hidden"                                          
+                                          VerticalScrollBarVisibility="Disabled"
+                                          IsHitTestVisible="False" >
+
+                                <ContentControl x:Name="PART_Content"
+                                                Content="{TemplateBinding Content}"
+                                                IsHitTestVisible="False" />
+                            </ScrollViewer>
+
+                            <Path Grid.Column="1"
+                                  MaxWidth="14"
+                                  MaxHeight="12"
+                                  Margin="5,0"
+                                  Stretch="Fill"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  Data=" M 0,0 L 4,5 L 0,10 M 4.5,0 L 8,5 L 4.5,10" 
+                                  Stroke="Black" StrokeThickness="2"
+                                  Visibility="{Binding Path=ShowOverflow, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVis}}">
+                            </Path>
+                        </Grid>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

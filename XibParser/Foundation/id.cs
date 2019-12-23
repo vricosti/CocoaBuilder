@@ -25,7 +25,7 @@ using System.Text;
 
 namespace Smartmobili.Cocoa
 {
-    public class id
+    public class id : INSNumber
     {
         protected bool _isInited;
 
@@ -38,31 +38,60 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public id Retain()
+        public void release()
         {
+        }
+
+        public T retain<T>() where T : class
+        {
+            //return (T)Convert.ChangeType(, typeof(this.GetType()));
+            return this as T;
+        }
+
+        public id retain()
+        {
+            // DOES NOTHING - JUST TO BE CONSISTENT WITH ORIGINAL COCOA
             return this;
         }
 
+        public id autorelease()
+        {
+            // DOES NOTHING - JUST TO BE CONSISTENT WITH ORIGINAL COCOA
+            return this;
+        }
 
         public virtual Class GetClass()
         {
             return new Class(this.GetType());
         }
 
-        public virtual id Init()
+        public virtual id init()
         {
             id self = this;
+
+            if (this.GetType() == typeof(id))
+                self = null;
 
             return self;
         }
 
-        public virtual bool IsEqual(id otherObj)
+        public virtual NSString description()
+        {
+            return "id";
+        }
+
+        public virtual NSString stringValue()
+        {
+            return this.ToString();
+        }
+
+        public virtual bool isEqual(id otherObj)
         {
             return this.Equals(otherObj);
         }
 
 
-        public bool RespondsToSelector(SEL aSelector)
+        public bool respondsToSelector(SEL aSelector)
         {
             bool ret = false;
             string methodName = (string)aSelector.SelectorName;
@@ -75,19 +104,19 @@ namespace Smartmobili.Cocoa
             return ret;
         }
 
-        public id PerformSelector(SEL aSelector)
+        public id performSelector(SEL aSelector)
         {
             return null;
         }
 
 
-        public id PerformSelector(SEL aSelector, id anObject)
+        public id performSelector(SEL aSelector, id anObject)
         {
             return null;
         }
 
 
-        public bool IsKindOfClass(Class aClass)
+        public bool isKindOfClass(Class aClass)
         {
             bool isKindOfClass = false;
 
@@ -101,5 +130,46 @@ namespace Smartmobili.Cocoa
 
             return isKindOfClass;
         }
+
+        // Inside code I prefer to call those methods directly without having to write Objc.MsgSend(...)
+        // So I am declaring the id base class as implementing those interfaces
+        #region INSNumber
+        public virtual double doubleValue()
+        {
+            throw new InvalidOperationException();
+            return 0;
+        }
+
+        public virtual float floatValue()
+        {
+            throw new InvalidOperationException();
+            return 0;
+        }
+        
+        public virtual int intValue()
+        {
+            throw new InvalidOperationException();
+            return 0;
+        }
+        
+        public virtual int integerValue()
+        {
+            throw new InvalidOperationException();
+            return 0;
+        }
+        
+        public virtual bool boolValue()
+        {
+            throw new InvalidOperationException();
+            return false;
+        }
+
+        public virtual uint unsignedIntegerValue()
+        {
+            throw new InvalidOperationException();
+            return 0;
+        }
+
+        #endregion
     }
 }

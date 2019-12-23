@@ -44,17 +44,17 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                AvoidsEmptySelection = aDecoder.DecodeBoolForKey("NSAvoidsEmptySelection");
-                PreservesSelection = aDecoder.DecodeBoolForKey("NSPreservesSelection");
-                SelectsInsertedObjects = aDecoder.DecodeBoolForKey("NSSelectsInsertedObjects");
-                FilterRestrictsInsertion = aDecoder.DecodeBoolForKey("NSFilterRestrictsInsertion");
-                ClearsFilterPredicateOnInsertion = aDecoder.DecodeBoolForKey("NSClearsFilterPredicateOnInsertion");
+                AvoidsEmptySelection = aDecoder.decodeBoolForKey("NSAvoidsEmptySelection");
+                PreservesSelection = aDecoder.decodeBoolForKey("NSPreservesSelection");
+                SelectsInsertedObjects = aDecoder.decodeBoolForKey("NSSelectsInsertedObjects");
+                FilterRestrictsInsertion = aDecoder.decodeBoolForKey("NSFilterRestrictsInsertion");
+                ClearsFilterPredicateOnInsertion = aDecoder.decodeBoolForKey("NSClearsFilterPredicateOnInsertion");
             }
 
             return this;

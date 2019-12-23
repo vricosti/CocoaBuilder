@@ -8,7 +8,7 @@ namespace Smartmobili.Cocoa
     public class GSXibLoader : GSModelLoader
     {
         new public static Class Class = new Class(typeof(GSXibLoader));
-        new public static GSXibLoader Alloc() { return new GSXibLoader(); }
+        new public static GSXibLoader alloc() { return new GSXibLoader(); }
 
         new public static NSString Type
         {
@@ -24,28 +24,28 @@ namespace Smartmobili.Cocoa
         {
             NSEnumerator en;
             id obj;
-            NSMutableArray topLevelObjects = (NSMutableArray)context.ObjectForKey((id)NS.NibTopLevelObjects);
-            id owner = context.ObjectForKey(NS.NibOwner);
+            NSMutableArray topLevelObjects = (NSMutableArray)context.objectForKey((id)NS.NibTopLevelObjects);
+            id owner = context.objectForKey(NS.NibOwner);
             id first = null;
             id app = null;
 
-            // Get the file's owner and NSApplication object references...
-            if (((NSCustomObject)rootObjects.ObjectAtIndex(1)).ClassName.IsEqualToString(@"FirstResponder"))
-                first = ((NSCustomObject)rootObjects.ObjectAtIndex(1)).RealObject;
+            // get the file's owner and NSApplication object references...
+            if (((NSCustomObject)rootObjects.objectAtIndex(1)).ClassName.isEqualToString(@"FirstResponder"))
+                first = ((NSCustomObject)rootObjects.objectAtIndex(1)).RealObject;
             else
                 NS.Log(@"%s:first responder missing\n", "Awake");
 
-            if (((NSCustomObject)rootObjects.ObjectAtIndex(2)).ClassName.IsEqualToString(@"NSApplication"))
-                app = ((NSCustomObject)rootObjects.ObjectAtIndex(2)).RealObject;
+            if (((NSCustomObject)rootObjects.objectAtIndex(2)).ClassName.isEqualToString(@"NSApplication"))
+                app = ((NSCustomObject)rootObjects.objectAtIndex(2)).RealObject;
             else
                 NS.Log(@"%s:NSApplication missing\n", "Awake");
 
             // Use the owner as first root object
-            ((NSCustomObject)rootObjects.ObjectAtIndex(0)).SetRealObject(owner);
-            en = rootObjects.ObjectEnumerator();
-            while ((obj = en.NextObject()) != null)
+            ((NSCustomObject)rootObjects.objectAtIndex(0)).SetRealObject(owner);
+            en = rootObjects.objectEnumerator();
+            while ((obj = en.nextObject()) != null)
             {
-                if (obj.RespondsToSelector(new SEL("NibInstantiate")))
+                if (obj.respondsToSelector(new SEL("NibInstantiate")))
                 {
                     obj = (id)Objc.MsgSend(obj, "NibInstantiate", null);
                 }
@@ -53,7 +53,7 @@ namespace Smartmobili.Cocoa
                 // IGNORE file's owner, first responder and NSApplication instances...
                 if ((obj != null) && (obj != owner) && (obj != first) && (obj != app))
                 {
-                    topLevelObjects.AddObject(obj);
+                    topLevelObjects.addObject(obj);
                     // All top level objects must be released by the caller to avoid
                     // leaking, unless they are going to be released by other nib
                     // objects on behalf of the owner.
@@ -61,7 +61,7 @@ namespace Smartmobili.Cocoa
                 }
 
                 //FIXME
-                //if ((obj.IsKindOfClass(NSMenu.Class)) &&
+                //if ((obj.isKindOfClass(NSMenu.Class)) &&
                 //    (((NSMenu)obj _isMainMenu]))
                 //  {
                 //    // add the menu...
@@ -83,7 +83,7 @@ namespace Smartmobili.Cocoa
             {
                 if (data != null)
                 {
-                    unarchiver = GSXibKeyedUnarchiver.Alloc().InitForReadingWithData(data);
+                    unarchiver = GSXibKeyedUnarchiver.alloc().initForReadingWithData(data);
                     if (unarchiver != null)
                     {
                         NSArray rootObjects;
@@ -91,8 +91,8 @@ namespace Smartmobili.Cocoa
 
                         //NSDebugLLog(@"XIB", @"Invoking unarchiver");
                         // unarchiver setObjectZone: zone];
-                        rootObjects = (NSArray)unarchiver.DecodeObjectForKey(@"IBDocument.RootObjects");
-                        objects = (IBObjectContainer)unarchiver.DecodeObjectForKey(@"IBDocument.Objects");
+                        rootObjects = (NSArray)unarchiver.decodeObjectForKey(@"IBDocument.RootObjects");
+                        objects = (IBObjectContainer)unarchiver.decodeObjectForKey(@"IBDocument.Objects");
                         //NSDebugLLog(@"XIB", @"rootObjects %@", rootObjects);
                         //[self awake: rootObjects inContainer: objects withContext: context];
                         this.Awake(rootObjects, objects, context);
@@ -106,7 +106,7 @@ namespace Smartmobili.Cocoa
                 }
                 else
                 {
-                    NS.Log(@"Data passed to Xib loading method is nil.");
+                    NS.Log(@"data passed to Xib loading method is nil.");
                 }
             }
             catch (Exception ex)
@@ -128,11 +128,11 @@ namespace Smartmobili.Cocoa
             bool isDir = false;
 
             //NSDebugLLog(@"XIB", @"Loading Xib `%@'...\n", fileName);
-            if (mgr.FileExistsAtPath(fileName, ref isDir))
+            if (mgr.fileExistsAtPath(fileName, ref isDir))
             {
                 if (isDir == false)
                 {
-                    return NSData.DataWithContentsOfFile(fileName);
+                    return NSData.dataWithContentsOfFile(fileName);
                 }
                 else
                 {

@@ -34,7 +34,7 @@ namespace Smartmobili.Cocoa
     public class IBXMLDecoder_Apple : NSKeyedUnarchiver
     {
         new public static Class Class = new Class(typeof(IBXMLDecoder_Apple));
-        new public static IBXMLDecoder_Apple Alloc() { return new IBXMLDecoder_Apple(); }
+        new public static IBXMLDecoder_Apple alloc() { return new IBXMLDecoder_Apple(); }
 
         protected NSXMLElement _currentElement; //0x04
         protected NSMutableArray _successfullyDecodedObjects; //0x08
@@ -62,24 +62,54 @@ namespace Smartmobili.Cocoa
 
         public override bool AllowsKeyedCoding { get { return true; } }
 
-        public override id InitForReadingWithData(NSData data, object dummyObject = null)
+        public override id initForReadingWithData(NSData data, object dummyObject = null)
         {
             NSError outErr = null;
-            return InitForReadingWithData(data, ref outErr);
+            return initForReadingWithData(data, ref outErr);
         }
-        public override id InitForReadingWithData(NSData data, ref NSError outError)
+        public override id initForReadingWithData(NSData data, ref NSError outError)
         {
             return null;
         }
 
-        private uint IBXMLDecoderBuildIDIndex(IBXMLDecoder_Apple decoder, NSXMLElement element)
+        private uint _IBXMLDecoderBuildIDIndex(IBXMLDecoder_Apple decoder, 
+                                              NSXMLElement element, 
+                                              NSMutableDictionary objectIDsToObjectNodes,
+                                              id unknownRbxPlusZero,
+                                              NSMutableSet uniqueIDs,
+                                              bool notused)
         {
             if (decoder._objectTypeElementNames == null)
             {
-                decoder._objectTypeElementNames = (NSSet)NSSet.Alloc().InitWithObjects(
+                decoder._objectTypeElementNames = (NSSet)NSSet.alloc().initWithObjects(
                     (NSString)"object", (NSString)"dictionary", (NSString)"array", (NSString)"set",
                     (NSString)"integer", (NSString)"real", (NSString)"boolean", (NSString)"string", null);
             }
+
+            var elements = element.elements();
+            if (elements != null && elements.count() != 0)
+            {
+                foreach(NSXMLElement elmt in elements)
+                {
+                    if (decoder._objectTypeElementNames.containsObject(elmt.name()) == false)
+                    {
+                        if (elmt.name().isEqualToString(@"reference"))
+                        {
+                            var refNode = elmt.attributeForName(@"ref");
+                            if (refNode != null)
+                            {
+                                NSString refId = refNode.stringValue();
+                            }
+                        }
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
 
             return 0;
         }
@@ -109,8 +139,8 @@ namespace Smartmobili.Cocoa
 //                            if (*var_168 != var_64) {
 //                                    objc_enumerationMutation(var_76);
 //                            }
-//                            eax = [*(var_164 + var_88 * 0x4) name];
-//                            eax = [var_68 containsObject:eax];
+//                            
+//                            eax = [var_68 containsObject:[*(var_164 + var_88 * 0x4) name]];
 //                            if (eax == 0x0) {
 //                                    eax = [esi name];
 //                                    eax = [eax isEqualToString:@"reference"];
@@ -206,18 +236,18 @@ namespace Smartmobili.Cocoa
 
 
 
-        public override float DecodeFloatForKey(NSString key)
+        public override float decodeFloatForKey(NSString key)
         {
-            NSDictionary objects = (NSDictionary)_childMap.ObjectForKey(_currentElement);
-            NSString floatString = objects.ObjectForKey(key).ToString();
-            return IBXMLCoderDoubleFromString(floatString);
+            NSDictionary objects = (NSDictionary)_childMap.objectForKey(_currentElement);
+            NSString floatString = objects.objectForKey(key).stringValue();
+            return _IBXMLCoderDoubleFromString(floatString);
         }
         public virtual id ObjectForOID(NSString key)
         {
-            return _objectIDsToObjects.ObjectForKey(key);
+            return _objectIDsToObjects.objectForKey(key);
         }
 
-        public virtual id ObjectForXMLElement(object element)
+        public virtual id ObjectForXMLElement(NSXMLElement element)
         {
             return null;
             //if ( )
@@ -371,7 +401,7 @@ namespace Smartmobili.Cocoa
         }
 
 
-        private float IBXMLCoderDoubleFromString(NSString text)
+        private float _IBXMLCoderDoubleFromString(NSString text)
         {
             return 0;
         }

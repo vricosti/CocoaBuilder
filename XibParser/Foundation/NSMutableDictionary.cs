@@ -32,7 +32,7 @@ namespace Smartmobili.Cocoa
     {
         new public static Class Class = new Class(typeof(NSMutableDictionary));
 
-        new public static NSMutableDictionary Alloc()
+        new public static NSMutableDictionary alloc()
         {
             return new NSMutableDictionary();
         }
@@ -42,15 +42,18 @@ namespace Smartmobili.Cocoa
 
         }
 
-       
-        
 
-        public static NSMutableDictionary DictionaryWithDictionary(NSDictionary anotherDic)
+        new public static NSMutableDictionary dictionary()
         {
-            return (NSMutableDictionary)Alloc().InitWithDictionary(anotherDic);
+            return (NSMutableDictionary)NSMutableDictionary.alloc().init();
         }
 
-        public virtual id InitWithCapacity(uint numitems)
+        public static NSMutableDictionary dictionaryWithDictionary(NSDictionary anotherDic)
+        {
+            return (NSMutableDictionary)alloc().initWithDictionary(anotherDic);
+        }
+
+        public virtual id initWithCapacity(uint numitems)
         {
             id self = this;
 
@@ -59,15 +62,19 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-
-        public virtual void AddEntriesFromDictionary(NSDictionary otherDictionary)
+        public virtual id mutableCopy()
         {
-            NSEnumerator enumerator = otherDictionary.KeyEnumerator();
+            return this;
+        }
+
+        public virtual void addEntriesFromDictionary(NSDictionary otherDictionary)
+        {
+            NSEnumerator enumerator = otherDictionary.keyEnumerator();
             id aKey = null;
-            while ( (aKey = enumerator.NextObject()) != null) 
+            while ( (aKey = enumerator.nextObject()) != null) 
             {
-                id value = otherDictionary.ObjectForKey(aKey);
-                this.SetObjectForKey(value, aKey);
+                id value = otherDictionary.objectForKey(aKey);
+                this.setObjectForKey(value, aKey);
             }
         }
        

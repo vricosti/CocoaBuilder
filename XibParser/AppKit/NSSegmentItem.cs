@@ -104,16 +104,16 @@ namespace Smartmobili.Cocoa
         }
 
 
-        new public static NSSegmentItem Alloc()
+        new public static NSSegmentItem alloc()
         {
             return new NSSegmentItem();
         }
 
-        public override id Init()
+        public override id init()
         {
             id self = this;
 
-            base.Init();
+            base.init();
             if (self == null)
                 return null;
 
@@ -123,72 +123,72 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
             if (aCoder.AllowsKeyedCoding)
             {
                 if (_label != null)
-                    aCoder.EncodeObjectForKey(_label, @"NSSegmentItemLabel");
+                    aCoder.encodeObjectForKey(_label, @"NSSegmentItemLabel");
                 if (_image != null)
-                    aCoder.EncodeObjectForKey(_image, @"NSSegmentItemImage");
+                    aCoder.encodeObjectForKey(_image, @"NSSegmentItemImage");
                 if (_menu != null)
-                    aCoder.EncodeObjectForKey(_menu, @"NSSegmentItemMenu");
+                    aCoder.encodeObjectForKey(_menu, @"NSSegmentItemMenu");
                 if (_enabled)
-                    aCoder.EncodeBoolForKey(true, @"NSSegmentItemEnabled");
+                    aCoder.encodeBoolForKey(true, @"NSSegmentItemEnabled");
                 else
-                    aCoder.EncodeBoolForKey(true, @"NSSegmentItemDisabled");
+                    aCoder.encodeBoolForKey(true, @"NSSegmentItemDisabled");
                 if (_selected)
-                    aCoder.EncodeBoolForKey(true, @"NSSegmentItemSelected");
+                    aCoder.encodeBoolForKey(true, @"NSSegmentItemSelected");
                 if (_width != 0.0)
-                    aCoder.EncodeFloatForKey(_width, @"NSSegmentItemWidth");
+                    aCoder.encodeFloatForKey(_width, @"NSSegmentItemWidth");
                 if (_tag != 0)
-                    aCoder.EncodeIntForKey(_tag, @"NSSegmentItemTag");
+                    aCoder.encodeIntForKey(_tag, @"NSSegmentItemTag");
             }
             else
             {
-                aCoder.EncodeObject(_label);
-                aCoder.EncodeObject(_image);
-                aCoder.EncodeObject(_menu);
-                aCoder.EncodeValueOfObjCType<bool>(ref _enabled);
-                aCoder.EncodeValueOfObjCType<bool>(ref _selected);
-                aCoder.EncodeValueOfObjCType<float>(ref _width);
-                aCoder.EncodeValueOfObjCType<int>(ref _tag);
+                aCoder.encodeObject(_label);
+                aCoder.encodeObject(_image);
+                aCoder.encodeObject(_menu);
+                aCoder.encodeValueOfObjCType<bool>(ref _enabled);
+                aCoder.encodeValueOfObjCType<bool>(ref _selected);
+                aCoder.encodeValueOfObjCType<float>(ref _width);
+                aCoder.encodeValueOfObjCType<int>(ref _tag);
             }
         }
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                if (aDecoder.ContainsValueForKey(@"NSSegmentItemLabel"))
-                    Label = (NSString)aDecoder.DecodeObjectForKey(@"NSSegmentItemLabel");
-                if (aDecoder.ContainsValueForKey(@"NSSegmentItemImage"))
-                    Image = (NSImage)aDecoder.DecodeObjectForKey(@"NSSegmentItemImage");
-                if (aDecoder.ContainsValueForKey(@"NSSegmentItemMenu"))
-                    Menu = (NSMenu)aDecoder.DecodeObjectForKey(@"NSSegmentItemMenu");
-                if (aDecoder.ContainsValueForKey(@"NSSegmentItemEnabled"))
-                    _enabled = aDecoder.DecodeBoolForKey(@"NSSegmentItemEnabled");
-                else if (aDecoder.ContainsValueForKey(@"NSSegmentItemDisabled"))
-                    _enabled = !aDecoder.DecodeBoolForKey(@"NSSegmentItemDisabled");
+                if (aDecoder.containsValueForKey(@"NSSegmentItemLabel"))
+                    Label = (NSString)aDecoder.decodeObjectForKey(@"NSSegmentItemLabel");
+                if (aDecoder.containsValueForKey(@"NSSegmentItemImage"))
+                    Image = (NSImage)aDecoder.decodeObjectForKey(@"NSSegmentItemImage");
+                if (aDecoder.containsValueForKey(@"NSSegmentItemMenu"))
+                    Menu = (NSMenu)aDecoder.decodeObjectForKey(@"NSSegmentItemMenu");
+                if (aDecoder.containsValueForKey(@"NSSegmentItemEnabled"))
+                    _enabled = aDecoder.decodeBoolForKey(@"NSSegmentItemEnabled");
+                else if (aDecoder.containsValueForKey(@"NSSegmentItemDisabled"))
+                    _enabled = !aDecoder.decodeBoolForKey(@"NSSegmentItemDisabled");
                 else
                     _enabled = true;
-                if (aDecoder.ContainsValueForKey(@"NSSegmentItemSelected"))
-                    _selected = aDecoder.DecodeBoolForKey(@"NSSegmentItemSelected");
-                if (aDecoder.ContainsValueForKey(@"NSSegmentItemWidth"))
-                    _width = aDecoder.DecodeFloatForKey(@"NSSegmentItemWidth");
-                if (aDecoder.ContainsValueForKey(@"NSSegmentItemTag"))
-                    _tag = aDecoder.DecodeIntForKey(@"NSSegmentItemTag");
+                if (aDecoder.containsValueForKey(@"NSSegmentItemSelected"))
+                    _selected = aDecoder.decodeBoolForKey(@"NSSegmentItemSelected");
+                if (aDecoder.containsValueForKey(@"NSSegmentItemWidth"))
+                    _width = aDecoder.decodeFloatForKey(@"NSSegmentItemWidth");
+                if (aDecoder.containsValueForKey(@"NSSegmentItemTag"))
+                    _tag = aDecoder.decodeIntForKey(@"NSSegmentItemTag");
             }
             else
             {
-                _label = (NSString)aDecoder.DecodeObject();
-                _image = (NSImage)aDecoder.DecodeObject();
-                _menu = (NSMenu)aDecoder.DecodeObject();
-                aDecoder.DecodeValueOfObjCType<bool>(ref _enabled);
-                aDecoder.DecodeValueOfObjCType<bool>(ref _selected);
-                aDecoder.DecodeValueOfObjCType<float>(ref _width);
-                aDecoder.DecodeValueOfObjCType<int>(ref _tag);
+                _label = (NSString)aDecoder.decodeObject();
+                _image = (NSImage)aDecoder.decodeObject();
+                _menu = (NSMenu)aDecoder.decodeObject();
+                aDecoder.decodeValueOfObjCType<bool>(ref _enabled);
+                aDecoder.decodeValueOfObjCType<bool>(ref _selected);
+                aDecoder.decodeValueOfObjCType<float>(ref _width);
+                aDecoder.decodeValueOfObjCType<int>(ref _tag);
             }
 
             return self;

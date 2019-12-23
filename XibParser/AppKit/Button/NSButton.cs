@@ -31,13 +31,13 @@ namespace Smartmobili.Cocoa
     public class NSButton : NSControl
     {
         new public static Class Class = new Class(typeof(NSButton));
-        new public static NSButton Alloc() { return new NSButton(); }
+        new public static NSButton alloc() { return new NSButton(); }
 
         private static Class buttonCellClass;
 
 
-        static NSButton() { Initialize(); }
-        new static void Initialize()
+        static NSButton() { initialize(); }
+        new static void initialize()
         {
             NSButton.CellClass = NSButtonCell.Class;
         }
@@ -72,63 +72,63 @@ namespace Smartmobili.Cocoa
         public NSString AlternateTitle
         {
             get { return ((NSButtonCell)_cell).AlternateTitle; }
-            set { ((NSButtonCell)_cell).AlternateTitle = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).AlternateTitle = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("title")]
         public NSString Title
         {
             get { return ((NSButtonCell)_cell).Title; }
-            set { ((NSButtonCell)_cell).Title = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).Title = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("alternateImage")]
         public NSImage AlternateImage
         {
             get { return ((NSButtonCell)_cell).AlternateImage; }
-            set { ((NSButtonCell)_cell).AlternateImage = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).AlternateImage = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("image")]
         public NSImage Image
         {
             get { return ((NSButtonCell)_cell).Image; }
-            set { ((NSButtonCell)_cell).Image = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).Image = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("imagePosition")]
         public NSCellImagePosition ImagePosition
         {
             get { return (NSCellImagePosition)((NSButtonCell)_cell).ImagePosition; }
-            set { ((NSButtonCell)_cell).ImagePosition = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).ImagePosition = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("bordered", GetName = "isBordered")]
         public bool Bordered
         {
             get { return ((NSButtonCell)_cell).Bordered; }
-            set { ((NSButtonCell)_cell).Bordered = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).Bordered = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("transparent", GetName = "isTransparent")]
         public bool Transparent
         {
             get { return ((NSButtonCell)_cell).Transparent; }
-            set { ((NSButtonCell)_cell).Transparent = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).Transparent = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("bezelStyle")]
         public NSBezelStyle BezelStyle
         {
             get { return ((NSButtonCell)_cell).BezelStyle; }
-            set { ((NSButtonCell)_cell).BezelStyle = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).BezelStyle = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("showsBorderOnlyWhileMouseInside")]
         public bool ShowsBorderOnlyWhileMouseInside
         {
             get { return ((NSButtonCell)_cell).ShowsBorderOnlyWhileMouseInside; }
-            set { ((NSButtonCell)_cell).ShowsBorderOnlyWhileMouseInside = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).ShowsBorderOnlyWhileMouseInside = value; this.setNeedsDisplay(true); }
         }
 
         //
@@ -152,14 +152,14 @@ namespace Smartmobili.Cocoa
         public int State
         {
             get { return ((NSButtonCell)_cell).ShowsStateBy; }
-            set { ((NSButtonCell)_cell).State = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).State = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcPropAttribute("allowsMixedState")]
         public bool AllowsMixedState
         {
             get { return ((NSButtonCell)_cell).AllowsMixedState; }
-            set { ((NSButtonCell)_cell).AllowsMixedState = value; this.SetNeedsDisplay(true); }
+            set { ((NSButtonCell)_cell).AllowsMixedState = value; this.setNeedsDisplay(true); }
         }
 
         [ObjcMethod("getPeriodicDelay:interval")]
@@ -177,13 +177,13 @@ namespace Smartmobili.Cocoa
 
         }
 
-        //public override id InitWithCoder(NSCoder aDecoder)
+        //public override id initWithCoder(NSCoder aDecoder)
         //{
-        //    base.InitWithCoder(aDecoder);
+        //    base.initWithCoder(aDecoder);
 
         //    if (aDecoder.AllowsKeyedCoding)
         //    {
-        //        _cell = (NSButtonCell)aDecoder.DecodeObjectForKey("NSCell");
+        //        _cell = (NSButtonCell)aDecoder.decodeObjectForKey("NSCell");
         //    }
 
         //    return this;

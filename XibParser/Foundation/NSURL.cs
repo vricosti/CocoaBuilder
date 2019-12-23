@@ -28,10 +28,11 @@ namespace Smartmobili.Cocoa
 
     //https://github.com/stevegeek/cocotron/blob/master/Foundation/NSURL/NSURL.h
 
+
     public class NSURL : NSObject
     {
         new public static Class Class = new Class(typeof(NSURL));
-        new public static NSURL Alloc() { return new NSURL(); }
+        new public static NSURL alloc() { return new NSURL(); }
 
         protected NSURL _baseURL;
         protected NSString _string;
@@ -51,6 +52,10 @@ namespace Smartmobili.Cocoa
         //NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
         //NSURL *fileURL = [NSURL fileURLWithPath:filePath];
 
+        public virtual NSString scheme()
+        {
+            return _scheme;
+        }
 
         public virtual bool IsFileURL
         {
@@ -59,23 +64,42 @@ namespace Smartmobili.Cocoa
 
         public virtual NSString Path
         {
-            get { return GetPath(); }
+            get { return path(); }
         }
+
+        public virtual NSString host()
+        {
+            return _host;
+        }
+
+
+        public virtual NSNumber port()
+        {
+            return _port;
+        }
+
 
         public NSURL()
         {}
 
         public virtual bool isFileURL()
         {
-            return true;
+            bool bRet = false;
+
+            NSString scheme = this.scheme();
+            if( scheme != null)
+            {
+                bRet = (scheme.caseInsensitiveCompare(NSURLFileScheme) == 0);
+            }
+            return bRet;
         }
 
-        public virtual NSString GetPath()
+        public virtual NSString path()
         {
-            return this._PathWithEscapes(false);
+            return this._pathWithEscapes(false);
         }
 
-        private NSString _PathWithEscapes(bool withEscapes)
+        private NSString _pathWithEscapes(bool withEscapes)
         {
             return _path;
         }
@@ -86,16 +110,16 @@ namespace Smartmobili.Cocoa
 //   return self;
 //}
 
-        public static id FileURLWithPath(NSString aPath)
+        public static id fileURLWithPath(NSString aPath)
         {
-            return NSURL.Alloc().InitFileURLWithPath(aPath);
+            return NSURL.alloc().initFileURLWithPath(aPath);
         }
-        public virtual id InitFileURLWithPath(NSString aPath)
+        public virtual id initFileURLWithPath(NSString aPath)
         {
-            return this.InitWithScheme(NSURLFileScheme, @"localhost", aPath);
+            return this.initWithScheme(NSURLFileScheme, @"localhost", aPath);
         }
 
-        public virtual id InitWithScheme(NSString scheme, NSString host, NSString path)
+        public virtual id initWithScheme(NSString scheme, NSString host, NSString path)
         {
             id self = this;
 
@@ -104,6 +128,14 @@ namespace Smartmobili.Cocoa
             _path = path;
 
             return self;
+        }
+
+        public virtual id initWithString(NSString aURLString)
+        {
+            if (aURLString == null)
+                throw new ArgumentNullException();
+
+            return this;
         }
 
         

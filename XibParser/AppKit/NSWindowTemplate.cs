@@ -174,66 +174,66 @@ namespace Smartmobili.Cocoa
             
         }
 
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
-            base.EncodeWithCoder(aCoder);
+            base.encodeWithCoder(aCoder);
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                if (aDecoder.ContainsValueForKey("NSViewClass"))
+                if (aDecoder.containsValueForKey("NSViewClass"))
                 {
-                    _viewClass = (id)aDecoder.DecodeObjectForKey("NSViewClass");
+                    _viewClass = (id)aDecoder.decodeObjectForKey("NSViewClass");
                 }
-                if (aDecoder.ContainsValueForKey("NSWindowClass"))
+                if (aDecoder.containsValueForKey("NSWindowClass"))
                 {
-                    _windowClass = (NSString)aDecoder.DecodeObjectForKey("NSWindowClass");
+                    _windowClass = (NSString)aDecoder.decodeObjectForKey("NSWindowClass");
                 }
-                if (aDecoder.ContainsValueForKey("NSWindowStyleMask"))
+                if (aDecoder.containsValueForKey("NSWindowStyleMask"))
                 {
-                    _windowStyle = (uint)aDecoder.DecodeIntForKey("NSWindowStyleMask");
+                    _windowStyle = (uint)aDecoder.decodeIntForKey("NSWindowStyleMask");
                 }
-                if (aDecoder.ContainsValueForKey("NSWindowBacking"))
+                if (aDecoder.containsValueForKey("NSWindowBacking"))
                 {
-                    _backingStoreType = (NSBackingStoreType)aDecoder.DecodeIntForKey("NSWindowBacking");
+                    _backingStoreType = (NSBackingStoreType)aDecoder.decodeIntForKey("NSWindowBacking");
                 }
-                if (aDecoder.ContainsValueForKey("NSWindowView"))
+                if (aDecoder.containsValueForKey("NSWindowView"))
                 {
-                    _view = (id)aDecoder.DecodeObjectForKey("NSWindowView");
+                    _view = (id)aDecoder.decodeObjectForKey("NSWindowView");
                 }
-                if (aDecoder.ContainsValueForKey("NSWTFlags"))
+                if (aDecoder.containsValueForKey("NSWTFlags"))
                 {
-                    uint flags = (uint)aDecoder.DecodeIntForKey("NSWTFlags");
+                    uint flags = (uint)aDecoder.decodeIntForKey("NSWTFlags");
                     _flags = PrimitiveConversion.FromLong<GSWindowTemplateFlags>(flags);
                 }
-                if (aDecoder.ContainsValueForKey("NSMinSize"))
+                if (aDecoder.containsValueForKey("NSMinSize"))
                 {
-                    _minSize = aDecoder.DecodeSizeForKey("NSMinSize");
+                    _minSize = aDecoder.decodeSizeForKey("NSMinSize");
                 }
-                if (aDecoder.ContainsValueForKey("NSMaxSize"))
+                if (aDecoder.containsValueForKey("NSMaxSize"))
                 {
-                    _maxSize = aDecoder.DecodeSizeForKey("NSMaxSize");
+                    _maxSize = aDecoder.decodeSizeForKey("NSMaxSize");
                 }
                 else
                 {
                     _maxSize = new NSSize((float)10e+4, (float)10e+4);
                 }
 
-                if (aDecoder.ContainsValueForKey("NSWindowRect"))
+                if (aDecoder.containsValueForKey("NSWindowRect"))
                 {
-                    _windowRect = aDecoder.DecodeRectForKey("NSWindowRect");
+                    _windowRect = aDecoder.decodeRectForKey("NSWindowRect");
                 }
-                if (aDecoder.ContainsValueForKey("NSFrameAutosaveName"))
+                if (aDecoder.containsValueForKey("NSFrameAutosaveName"))
                 {
-                    _autosaveName = (NSString)aDecoder.DecodeObjectForKey("NSFrameAutosaveName");
+                    _autosaveName = (NSString)aDecoder.decodeObjectForKey("NSFrameAutosaveName");
                 }
-                if (aDecoder.ContainsValueForKey("NSWindowTitle"))
+                if (aDecoder.containsValueForKey("NSWindowTitle"))
                 {
-                    _title = (NSString)aDecoder.DecodeObjectForKey("NSWindowTitle");
+                    _title = (NSString)aDecoder.decodeObjectForKey("NSWindowTitle");
                     _windowStyle |= (uint)NSWindowStyleMasks.NSTitledWindowMask;
                 }
 
@@ -248,27 +248,27 @@ namespace Smartmobili.Cocoa
 
             //if (aDecoder.AllowsKeyedCoding)
             //{
-            //    StyleMask = (NSWindowStyleMasks)aDecoder.DecodeIntForKey("NSWindowStyleMask");
-            //    Backing = aDecoder.DecodeIntForKey("NSWindowBacking");
-            //    WindowRect = aDecoder.DecodeRectForKey("NSWindowRect");
-            //    NSWTFlags = (uint)aDecoder.DecodeIntForKey("NSWTFlags");
-            //    if (aDecoder.ContainsValueForKey("NSWindowTitle"))
+            //    StyleMask = (NSWindowStyleMasks)aDecoder.decodeIntForKey("NSWindowStyleMask");
+            //    Backing = aDecoder.decodeIntForKey("NSWindowBacking");
+            //    WindowRect = aDecoder.decodeRectForKey("NSWindowRect");
+            //    NSWTFlags = (uint)aDecoder.decodeIntForKey("NSWTFlags");
+            //    if (aDecoder.containsValueForKey("NSWindowTitle"))
             //    {
-            //        Title = (NSString)aDecoder.DecodeObjectForKey("NSWindowTitle");
+            //        Title = (NSString)aDecoder.decodeObjectForKey("NSWindowTitle");
             //        StyleMask |= NSWindowStyleMasks.NSTitledWindowMask;
             //    }
 
-            //    WindowClass = (NSString)aDecoder.DecodeObjectForKey("NSWindowClass");
-            //    Toolbar = (NSToolbar)aDecoder.DecodeObjectForKey("NSViewClass");
-            //    WindowView = (NSView)aDecoder.DecodeObjectForKey("NSWindowView");
-            //    ScreenRect = (NSRect)aDecoder.DecodeRectForKey("NSScreenRect");
-            //    IsRestorable = aDecoder.DecodeBoolForKey("NSWindowIsRestorable");
+            //    WindowClass = (NSString)aDecoder.decodeObjectForKey("NSWindowClass");
+            //    Toolbar = (NSToolbar)aDecoder.decodeObjectForKey("NSViewClass");
+            //    WindowView = (NSView)aDecoder.decodeObjectForKey("NSWindowView");
+            //    ScreenRect = (NSRect)aDecoder.decodeRectForKey("NSScreenRect");
+            //    IsRestorable = aDecoder.decodeBoolForKey("NSWindowIsRestorable");
 
-            //    MinSize = aDecoder.DecodeSizeForKey("NSMinSize");
+            //    MinSize = aDecoder.decodeSizeForKey("NSMinSize");
 
-            //    if (aDecoder.ContainsValueForKey("NSMaxSize"))
+            //    if (aDecoder.containsValueForKey("NSMaxSize"))
             //    {
-            //        MaxSize = aDecoder.DecodeSizeForKey("NSMaxSize");
+            //        MaxSize = aDecoder.decodeSizeForKey("NSMaxSize");
             //    }
             //    else
             //    {

@@ -27,22 +27,136 @@ namespace Smartmobili.Cocoa
     public class NSSet : NSObject
     {
         new public static Class Class = new Class(typeof(NSSet));
-        new public static NSSet Alloc() { return new NSSet(); }
+        new public static NSSet alloc() { return new NSSet(); }
 
-        public virtual id InitWithObjects(params id[] objects)
+        protected HashSet<id> _sets;
+
+
+        public static NSSet set()
         {
-            return null;
+            return (NSSet)NSSet.alloc().init();
+        }
+
+        public static NSSet setWithObject(id obj)
+        {
+            return (NSSet)NSSet.alloc().initWithObjects(obj);
         }
 
 
+        public virtual id initWithObjects(params id[] objects)
+        {
+            id self = this;
+
+            if (objects == null)
+                return null;
+
+            _sets = new HashSet<id>(objects.Where(x => x != null).ToArray());
+
+            return self;
+        }
+
+        public virtual bool containsObject(id anObject)
+        {
+            return _sets.Contains(anObject);
+        }
+
+        public id member(id anObject)
+        {
+            if (anObject == null)
+                return null;
+
+            if (_sets.Contains(anObject))
+                return anObject;
+            else 
+                return null;
+        }
+        public virtual void addObject(id anObject)
+        { }
+
+        public virtual void addObjectsFromArray(NSArray anArray)
+        { }
+
+        public virtual void removeObject(id anObject)
+        { }
+        public virtual void removeAllObjects()
+        { }
     }
 
 
     public class NSMutableSet : NSSet
     {
         new public static Class Class = new Class(typeof(NSMutableSet));
-        new public static NSMutableSet Alloc() { return new NSMutableSet(); }
+        new public static NSMutableSet alloc() { return new NSMutableSet(); }
+
+        public static NSMutableSet set()
+        {
+            return (NSMutableSet)NSMutableSet.alloc().init();
+        }
+
+        public override void addObject(id anObject)
+        {
+            _sets.Add(anObject);
+        }
+
+        public override void addObjectsFromArray(NSArray anArray)
+        { 
+            foreach(id item in anArray)
+            {
+                addObject(item);
+            }
+        }
+
+        public override void removeObject(id anObject)
+        {
+            _sets.Remove(anObject);
+        }
+        public override void removeAllObjects()
+        {
+            _sets.Clear();
+        }
+        
+    }
+
+    public class NSCountedSet : NSMutableSet
+    {
+        new public static Class Class = new Class(typeof(NSCountedSet));
+        new public static NSCountedSet alloc() { return new NSCountedSet(); }
+
+        public virtual id initWithArray(NSArray anArray)
+        {
+            return null;
+        }
+
+        public virtual id initWithCapacity(UInt32/*NSUInteger*/ numItems)
+        {
+            return null;
+        }
+
+        public virtual id initWithSet(NSSet aSet)
+        {
+            return null;
+        }
+
+        public virtual void addObject(id anObject)
+        {
+
+        }
+
+
+        //- (NSUInteger)countForObject:(id)anObject
+    }
+
+    public class NSOrderedSet : NSObject
+    {
+        new public static Class Class = new Class(typeof(NSOrderedSet));
+        new public static NSOrderedSet alloc() { return new NSOrderedSet(); }
     }
 
 
+    public class NSMutableOrderedSet : NSOrderedSet
+    {
+        new public static Class Class = new Class(typeof(NSMutableOrderedSet));
+        new public static NSMutableOrderedSet alloc() { return new NSMutableOrderedSet(); }
+    }
+    
 }

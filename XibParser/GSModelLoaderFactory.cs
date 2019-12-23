@@ -30,7 +30,7 @@ namespace Smartmobili.Cocoa
 
         public virtual bool LoadModelData(NSData data, NSDictionary context)
         {
-            NSException.Raise(@"NSInternalInconsistencyException", @"Abstract model loader.");
+            NSException.raise(@"NSInternalInconsistencyException", @"Abstract model loader.");
             return false;
         }
 
@@ -54,7 +54,7 @@ namespace Smartmobili.Cocoa
 
         public virtual NSData DataForFile(NSString fileName)
         {
-            return NSData.DataWithContentsOfFile(fileName);
+            return NSData.dataWithContentsOfFile(fileName);
         }
     }
 
@@ -64,14 +64,14 @@ namespace Smartmobili.Cocoa
 
         private static NSMutableDictionary _modelMap = null;
 
-        static GSModelLoaderFactory() { Initialize(); }
-        static void Initialize()
+        static GSModelLoaderFactory() { initialize(); }
+        static void initialize()
         {
             NSArray classes = GS.ObjCAllSubclassesOfClass(GSModelLoader.Class);
-            NSEnumerator en = classes.ObjectEnumerator();
+            NSEnumerator en = classes.objectEnumerator();
             Class cls = null;
 
-            while ((cls = (Class)en.NextObject()) != null)
+            while ((cls = (Class)en.nextObject()) != null)
             {
                 RegisterModelLoaderClass(cls);
             }
@@ -81,9 +81,9 @@ namespace Smartmobili.Cocoa
         {
             if (_modelMap == null)
             {
-                _modelMap = (NSMutableDictionary)NSMutableDictionary.Alloc().InitWithCapacity(5);
+                _modelMap = (NSMutableDictionary)NSMutableDictionary.alloc().initWithCapacity(5);
             }
-            _modelMap.SetObjectForKey(aClass, (NSString)Objc.MsgSend(aClass, "Type"));
+            _modelMap.setObjectForKey(aClass, (NSString)Objc.MsgSend(aClass, "Type"));
 
         }
     }

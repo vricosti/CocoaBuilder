@@ -41,17 +41,17 @@ namespace Smartmobili.Cocoa
 
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (aDecoder.AllowsKeyedCoding)
+            if (aDecoder.retain<NSCoder>().allowsKeyedCoding())
             {
-                ObjectID = aDecoder.DecodeIntForKey("objectID");
-                Object = aDecoder.DecodeObjectForKey("object");
-                Children = aDecoder.DecodeObjectForKey("children");
-                Parent = aDecoder.DecodeObjectForKey("parent");
-                ObjectName = (NSString)aDecoder.DecodeObjectForKey("objectName");
+                ObjectID = aDecoder.decodeIntForKey("objectID");
+                Object = aDecoder.decodeObjectForKey("object");
+                Children = aDecoder.decodeObjectForKey("children");
+                Parent = aDecoder.decodeObjectForKey("parent");
+                ObjectName = (NSString)aDecoder.decodeObjectForKey("objectName");
 
             }
 

@@ -1,0 +1,526 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <Style x:Key="BaseButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="Foreground" Value="#000000"></Setter>
+        <!--<Setter Property="FontSize" Value="12"></Setter>-->
+        <!--<Setter Property="Padding" Value="5,2"></Setter>-->
+        
+        <!--<Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>-->
+    </Style>
+
+    <!-- NSRoundedBezelStyle button style -->
+    <Style x:Key="NSRoundedBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#9A9A9A"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FFFFFF" Offset="0" ></GradientStop>
+                <GradientStop Color="#F3F3F3" Offset=".5" ></GradientStop>
+                <GradientStop Color="#ECECEC" Offset=".5" ></GradientStop>
+                <GradientStop Color="#F2F2F2" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+        </Style.Resources>
+        
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- NSSmallSquareBezelStyle button style -->
+    <Style x:Key="NSSmallSquareBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#A5A5A5"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FAFAFA" Offset="0" ></GradientStop>
+                <GradientStop Color="#F4F4F4" Offset=".5" ></GradientStop>
+                <GradientStop Color="#EAEAEA" Offset=".5" ></GradientStop>
+                <GradientStop Color="#EFEFEF" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+        </Style.Resources>
+        
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>        
+    </Style>
+
+    <!-- NSRoundRectBezelStyle button style -->
+    <Style x:Key="NSRoundRectBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#A7A7A7"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FAFAFA" Offset="0" ></GradientStop>
+                <GradientStop Color="#E8E8E8" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+        </Style.Resources>
+        
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="10,2"></Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>        
+    </Style>
+
+    <!-- NSTexturedRoundedBezelStyle button style -->
+    <Style x:Key="NSTexturedRoundedBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#8E8E8E"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FBFBFB" Offset="0" ></GradientStop>
+                <GradientStop Color="#EEEEEE" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+        </Style.Resources>
+        
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>        
+    </Style>
+
+    <!-- NSTexturedSquareBezelStyle button style -->
+    <Style x:Key="NSTexturedSquareBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#7A7A7A"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#DCDCDC" Offset="0" ></GradientStop>
+                <GradientStop Color="#D3D3D3" Offset=".5" ></GradientStop>
+                <GradientStop Color="#D5D5D5" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="InnerBorderBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#EFEFEF" Offset="0" ></GradientStop>
+                <GradientStop Color="#9E9E9E" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="InnerBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#E6E6E6" Offset="0" ></GradientStop>
+                <GradientStop Color="#C2C2C2" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+        </Style.Resources>
+        
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="5,0"></Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                        <Grid>
+                        <Border BorderBrush="{StaticResource InnerBorderBrush}"
+                                Background="{StaticResource InnerBackgroundBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                SnapsToDevicePixels="True">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderThickness="0"
+                                    CornerRadius="3"
+                                    Margin="1"
+                                    SnapsToDevicePixels="True">
+                                
+                            </Border>
+                                
+                            </Border>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Margin="{TemplateBinding Padding}"></ContentPresenter>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>                
+    </Style>
+
+    <!-- NSRecessedBezelStyle button style -->
+    <Style x:Key="NSRecessedBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <LinearGradientBrush x:Key="ButtonBorderBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#535353" Offset="0" ></GradientStop>
+                <GradientStop Color="#9A9A9A" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#A2A2A2"></SolidColorBrush>
+            <LinearGradientBrush x:Key="InnerBorderBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#8A8A8A" Offset="0" ></GradientStop>
+                <GradientStop Color="#A2A2A2" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+        </Style.Resources>
+        
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="8,0,8,2"></Setter>-->
+        <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    
+                    <Border Background="{StaticResource InnerBorderBrush}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                        <Grid>
+                        <Border BorderBrush="{StaticResource InnerBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="9"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">                          
+                        </Border>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"                                           
+                                              TextOptions.TextFormattingMode="Ideal"
+                                              RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <ContentPresenter.Effect>
+                                    <DropShadowEffect ShadowDepth="1" BlurRadius="0" Color="Black" Direction="270" ></DropShadowEffect>
+                                </ContentPresenter.Effect>
+                            </ContentPresenter>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>        
+    </Style>
+
+    <!-- NSInlineBezelStyle button style -->
+    <Style x:Key="NSInlineBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#B1B1B1"></SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#B7B8B7"></SolidColorBrush> 
+        </Style.Resources>
+
+        <Setter Property="BorderThickness" Value="0,1,0,0"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="10,0"></Setter>-->
+        <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+        <!--<Setter Property="FontWeight" Value="Medium"></Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                        </Border>
+
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"></ContentPresenter>
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- NSShadowlessSquareBezelStyle button style -->
+    <Style x:Key="NSShadowlessSquareBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="InnerBorderBrush" Color="#F1F1F1"></SolidColorBrush>
+            <SolidColorBrush x:Key="InnerBackgroundBrush" Color="#F8F8F8"></SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#969696"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#E3E3E3" Offset="0" ></GradientStop>
+                <GradientStop Color="#F9F9F9" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+            
+        </Style.Resources>
+        
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="5,4,5,5"></Setter>-->
+        <!--<Setter Property="Height" Value="50"></Setter>
+        <Setter Property="Width" Value="50"></Setter>-->
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{StaticResource InnerBackgroundBrush}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="0,1,0,0"
+                                BorderBrush="{StaticResource InnerBorderBrush}"
+                                Margin="0,1,0,0">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"></ContentPresenter>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- NSHelpButtonBezelStyle button style -->
+    <Style x:Key="NSHelpButtonBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#838383"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FFFFFF" Offset="0" ></GradientStop>
+                <GradientStop Color="#F3F3F3" Offset="0.5" ></GradientStop>
+                <GradientStop Color="#ECECEC" Offset="0.5" ></GradientStop>
+                <GradientStop Color="#F0F0F0" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+
+        </Style.Resources>
+
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="2"></Setter>-->
+        <!--<Setter Property="Height" Value="25"></Setter>
+        <Setter Property="Width" Value="25"></Setter>-->
+        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Stroke="{TemplateBinding BorderBrush}" 
+                                 Fill="{TemplateBinding Background}"
+                                 Height="{TemplateBinding Height}"
+                                 Width="{TemplateBinding Width}"></Ellipse>
+                        <TextBlock Text="?"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Margin="{TemplateBinding Padding}"></TextBlock>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- NSRoundedDisclosureBezelStyle button style -->
+    <Style x:Key="NSRoundedDisclosureBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#909090"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FFFFFF" Offset="0" ></GradientStop>
+                <GradientStop Color="#F3F3F3" Offset=".5" ></GradientStop>
+                <GradientStop Color="#ECECEC" Offset=".5" ></GradientStop>
+                <GradientStop Color="#F2F2F2" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="ArrowFillBrush" Color="#4E4E4E"></SolidColorBrush>
+        </Style.Resources>
+
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="8"></Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                        <Path Data="M0,5 L4,0 L8,5"
+                              Fill="{StaticResource ArrowFillBrush}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Margin="{TemplateBinding Padding}"></Path>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- NSCircularBezelStyle button style -->
+    <Style x:Key="NSCircularBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#838383"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FFFFFF" Offset="0" ></GradientStop>
+                <GradientStop Color="#F3F3F3" Offset="0.5" ></GradientStop>
+                <GradientStop Color="#ECECEC" Offset="0.5" ></GradientStop>
+                <GradientStop Color="#F0F0F0" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+
+        </Style.Resources>
+
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="10"></Setter>-->
+        <!--<Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Stroke="{TemplateBinding BorderBrush}"
+                                 Fill="{TemplateBinding Background}"></Ellipse>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"></ContentPresenter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Bevel button style -->
+    <Style x:Key="NSRegularSquareBezelStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#AEAEAE"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FFFFFF" Offset="0" ></GradientStop>
+                <GradientStop Color="#F1F1F1" Offset="0.1" ></GradientStop>
+                <GradientStop Color="#F1F1F1" Offset="0.5" ></GradientStop>
+                <GradientStop Color="#F1F1F1" Offset="0.9" ></GradientStop>
+                <GradientStop Color="#FFFFFF" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+
+        </Style.Resources>
+
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="20"></Setter>-->
+        <!--<Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="4" Opacity=".3" ShadowDepth="0"></DropShadowEffect>
+                        </Border.Effect>           
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}">                                
+                            </ContentPresenter>              
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- PopUp button style -->
+    <Style x:Key="PopUpButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <!-- Resources (Brushes for background and border color) -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#9A9A9A"></SolidColorBrush>
+            <LinearGradientBrush x:Key="ButtonBackgroundBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
+                <GradientStop Color="#FFFFFF" Offset="0" ></GradientStop>
+                <GradientStop Color="#F3F3F3" Offset="0.5" ></GradientStop>
+                <GradientStop Color="#ECECEC" Offset="0.5" ></GradientStop>
+                <GradientStop Color="#F0F0F0" Offset="1" ></GradientStop>
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="ArrowFillBrush" Color="#4E4E4E"></SolidColorBrush>
+
+        </Style.Resources>
+
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"></Setter>
+        <!--<Setter Property="Padding" Value="5,2"></Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="20"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"
+                                          Grid.Column="0">
+                        </ContentPresenter>
+                            <Path Data="M0,3 L3,0 L6,3 M0,7 L3,10 L6,7"
+                                  Fill="{StaticResource ArrowFillBrush}"                                                                
+                                  Grid.Column="1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"></Path>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

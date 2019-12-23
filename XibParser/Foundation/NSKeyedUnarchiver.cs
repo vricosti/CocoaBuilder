@@ -29,17 +29,20 @@ namespace Smartmobili.Cocoa
 
     public interface INSKeyedUnarchiverDelegate
     {
-        Class UnarchiverCannotDecodeObjectOfClassName(NSKeyedUnarchiver anUnarchiver, NSString aName, NSArray classNames);
-        id UnarchiverDidDecodeObject(NSKeyedUnarchiver anUnarchiver, id anObject);
-        void UnarchiverDidFinish(NSKeyedUnarchiver anUnarchiver);
-        void UnarchiverWillFinish(NSKeyedUnarchiver anUnarchiver);
-        void UnarchiverWillReplaceObject(NSKeyedUnarchiver anUnarchiver, id anObject, id newObject);
+        Class unarchiverCannotDecodeObjectOfClassName(NSKeyedUnarchiver anUnarchiver, NSString aName, NSArray classNames);
+        id unarchiverDidDecodeObject(NSKeyedUnarchiver anUnarchiver, id anObject);
+        void unarchiverDidFinish(NSKeyedUnarchiver anUnarchiver);
+        void unarchiverWillFinish(NSKeyedUnarchiver anUnarchiver);
+        void unarchiverWillReplaceObject(NSKeyedUnarchiver anUnarchiver, id anObject, id newObject);
     }
 
 
     public class NSKeyedUnarchiver : NSCoder, INSKeyedUnarchiverDelegate
     {
         new public static Class Class = new Class(typeof(NSKeyedUnarchiver));
+        new public static NSKeyedUnarchiver alloc() { return new NSKeyedUnarchiver(); }
+        
+        
         protected id _delegate;
 
         public NSKeyedUnarchiver()
@@ -58,9 +61,19 @@ namespace Smartmobili.Cocoa
 
         public virtual id Delegate
         {
-            get { return _delegate; }
-            set { _delegate = value; }
+            get { return getDelegate(); }
+            set { setDelegate(value); }
         }
+
+        public virtual id getDelegate()
+        {
+            return _delegate;
+        }
+        public virtual void setDelegate(id dlgate)
+        {
+            _delegate = dlgate;
+        }
+
 
         public override bool AllowsKeyedCoding 
         {
@@ -70,78 +83,125 @@ namespace Smartmobili.Cocoa
             }
         }
 
-        public override bool ContainsValueForKey(NSString key)
+        public override bool containsValueForKey(NSString key)
         {
             return false;
         }
 
-        //– initForReadingWithData:
 
-        public virtual id InitForReadingWithData(NSData data, ref NSError outError)
+
+       public static id unarchiveObjectWithData(NSData data)
+       {
+           id decodedObject = null;
+
+           NSKeyedUnarchiver unarchiver = (NSKeyedUnarchiver)NSKeyedUnarchiver.alloc().initForReadingWithData(data);
+           decodedObject = unarchiver.decodeObjectForKey("root");
+           unarchiver.finishDecoding();
+
+           return decodedObject;
+       }
+
+
+       public override id init()
+       {
+           NSException.raise("NSInvalidArgumentException", "cannot use -init for initialization");
+           return null;
+       }
+        public virtual id initForReadingWithData(NSData data)
         {
             return null;
         }
-        public virtual id InitForReadingWithData(NSData data, object dummyObject)
+
+
+//        function methImpl_NSKeyedUnarchiver_finishDecoding {
+//    if ((rdi._flags & 0x2) != 0x0) goto loc_20f2e;
+//    goto loc_20eae;
+
+//loc_20f2e:
+//    return rax;
+
+//loc_20eae:
+//    if (rbx._delegate != 0x0) {
+//            rdx = @selector(unarchiverWillFinish:);
+//            rsi = objc_msg_respondsToSelector_;
+//            rax = (*objc_msg_respondsToSelector_)();
+//            if (rax != 0x0) {
+//                    rax = [*(rbx + r14) unarchiverWillFinish:rbx];
+//            }
+//    }
+//    rbx._flags = rbx._flags | 0x2;
+//    if (*(rbx + r14) == 0x0) goto loc_20f2e;
+//    rsi = objc_msg_respondsToSelector_;
+//    rax = (*objc_msg_respondsToSelector_)();
+//    if (rax == 0x0) goto loc_20f2e;
+//    rdi = *(rbx + r14);
+//    rdx = rbx;
+//    rax = [rdi unarchiverDidFinish:rdx];
+//}
+
+
+        public virtual void finishDecoding()
         {
-            return null;
+            throw new NotImplementedException("");
         }
 
-        public override void DecodeArrayOfObjCType<T>(uint count, ref T[] array)
-        {
-            throw new NotImplementedException();
-        }
 
-        public override bool DecodeBoolForKey(NSString key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override byte[] DecodeBytesForKey(NSString key, ref int lengthp)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object[] DecodeBytesWithReturnedLength(ref int numBytes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double DecodeDoubleForKey(NSString key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override float DecodeFloatForKey(NSString key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int DecodeInt32ForKey(NSString key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override long DecodeInt64ForKey(NSString key)
+        public override void decodeArrayOfObjCType<T>(uint count, ref T[] array)
         {
             throw new NotImplementedException();
         }
 
-        public override int DecodeIntegerForKey(NSString key)
+        public override bool decodeBoolForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override int DecodeIntForKey(NSString key)
+        public override byte[] decodeBytesForKey(NSString key, ref uint lengthp)
         {
             throw new NotImplementedException();
         }
 
-        public override id DecodeObject()
+        public override object[] decodeBytesWithReturnedLength(ref int numBytes)
         {
             throw new NotImplementedException();
         }
 
-        public override id DecodeObjectForKey(NSString key)
+        public override double decodeDoubleForKey(NSString key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override float decodeFloatForKey(NSString key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int decodeInt32ForKey(NSString key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override long decodeInt64ForKey(NSString key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int decodeIntegerForKey(NSString key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int decodeIntForKey(NSString key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override id decodeObject()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override id decodeObjectForKey(NSString key)
         {
             throw new NotImplementedException();
         }
@@ -151,16 +211,16 @@ namespace Smartmobili.Cocoa
         //    throw new NotImplementedException();
         //}
 
-        public override NSPoint DecodePoint()
+        public override NSPoint decodePoint()
         {
             throw new NotImplementedException();
         }
 
-        public override NSPoint DecodePointForKey(NSString aKey)
+        public override NSPoint decodePointForKey(NSString aKey)
         {
             NSPoint point = new NSPoint();
 
-            NSString val = (NSString)DecodeObjectForKey(aKey);
+            NSString val = (NSString)decodeObjectForKey(aKey);
             if (val != null)
             {
                 point = (NSPoint)val;
@@ -169,26 +229,26 @@ namespace Smartmobili.Cocoa
             return point;
         }
 
-        public override id DecodePropertyList()
+        public override id decodePropertyList()
         {
             throw new NotImplementedException();
         }
 
-        public override id DecodePropertyListForKey(NSString key)
+        public override id decodePropertyListForKey(NSString key)
         {
             throw new NotImplementedException();
         }
 
-        public override NSRect DecodeRect()
+        public override NSRect decodeRect()
         {
             throw new NotImplementedException();
         }
 
-        public override NSRect DecodeRectForKey(NSString aKey)
+        public override NSRect decodeRectForKey(NSString aKey)
         {
             NSRect rect = new NSSize();
 
-            NSString val = (NSString)DecodeObjectForKey(aKey);
+            NSString val = (NSString)decodeObjectForKey(aKey);
             if (val != null)
             {
                 rect = (NSRect)val;
@@ -197,16 +257,16 @@ namespace Smartmobili.Cocoa
             return rect;
         }
 
-        public override NSSize DecodeSize()
+        public override NSSize decodeSize()
         {
             throw new NotImplementedException();
         }
 
-        public override NSSize DecodeSizeForKey(NSString aKey)
+        public override NSSize decodeSizeForKey(NSString aKey)
         {
             NSSize aSize = new NSSize();
 
-            NSString val = (NSString)DecodeObjectForKey(aKey);
+            NSString val = (NSString)decodeObjectForKey(aKey);
             if (val != null)
             {
                 aSize = (NSSize)val;
@@ -217,48 +277,48 @@ namespace Smartmobili.Cocoa
 
       
 
-        public override void DecodeValueOfObjCType<T>(ref T data)
+        public override void decodeValueOfObjCType<T>(ref T data)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Class UnarchiverCannotDecodeObjectOfClassName(NSKeyedUnarchiver anUnarchiver, NSString aName, NSArray classNames)
+        public virtual Class unarchiverCannotDecodeObjectOfClassName(NSKeyedUnarchiver anUnarchiver, NSString aName, NSArray classNames)
         {
             return null;
         }
 
-        public virtual id UnarchiverDidDecodeObject(NSKeyedUnarchiver anUnarchiver, id anObject)
+        public virtual id unarchiverDidDecodeObject(NSKeyedUnarchiver anUnarchiver, id anObject)
         {
             return anObject;
         }
 
 
-        public virtual void UnarchiverDidFinish(NSKeyedUnarchiver anUnarchiver)
+        public virtual void unarchiverDidFinish(NSKeyedUnarchiver anUnarchiver)
         {
             
         }
 
-        public virtual void UnarchiverWillFinish(NSKeyedUnarchiver anUnarchiver)
+        public virtual void unarchiverWillFinish(NSKeyedUnarchiver anUnarchiver)
         {
             
         }
 
-        public virtual void UnarchiverWillReplaceObject(NSKeyedUnarchiver anUnarchiver, id anObject, id newObject)
+        public virtual void unarchiverWillReplaceObject(NSKeyedUnarchiver anUnarchiver, id anObject, id newObject)
         {
             
         }
 
-        public virtual id _DecodeArrayOfObjectsForKey(NSString aKey)
+        public virtual id _decodeArrayOfObjectsForKey(NSString aKey)
         {
             return null;
         }
 
-        public virtual id _DecodeArrayOfObjectsForElement(GSXibElement element)
+        public virtual id _decodeArrayOfObjectsForElement(GSXibElement element)
         {
             return null;
         }
 
-        public virtual id _DecodeDictionaryOfObjectsForElement(GSXibElement element)
+        public virtual id _decodeDictionaryOfObjectsForElement(GSXibElement element)
         {
             return null;
         }

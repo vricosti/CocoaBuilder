@@ -70,44 +70,44 @@ namespace Smartmobili.Cocoa
         }
 
 
-        public override void EncodeWithCoder(NSCoder aCoder)
+        public override void encodeWithCoder(NSCoder aCoder)
         {
-            base.EncodeWithCoder(aCoder);
+            base.encodeWithCoder(aCoder);
             if (aCoder.AllowsKeyedCoding)
             {
-                aCoder.EncodeIntegerForKey(Tag, "NSTag");
+                aCoder.encodeIntegerForKey(Tag, "NSTag");
                 if (Target != null)
                 {
-                    aCoder.EncodeObjectForKey(Target, "NSTarget");
+                    aCoder.encodeObjectForKey(Target, "NSTarget");
                 }
                 if (Action != null)
                 {
-                    aCoder.EncodeObjectForKey(SEL.StringFromSelector(this.Action), "NSAction");
+                    aCoder.encodeObjectForKey(SEL.StringFromSelector(this.Action), "NSAction");
                 }
-                aCoder.EncodeObjectForKey(_control_view, "NSControlView");
+                aCoder.encodeObjectForKey(_control_view, "NSControlView");
             }
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)
             {
-                if (aDecoder.ContainsValueForKey("NSTag"))
+                if (aDecoder.containsValueForKey("NSTag"))
                 {
-                    this.Tag = aDecoder.DecodeIntForKey("NSTag");
+                    this.Tag = aDecoder.decodeIntForKey("NSTag");
                 }
-                if (aDecoder.ContainsValueForKey("NSTarget"))
+                if (aDecoder.containsValueForKey("NSTarget"))
                 {
-                    this.Target = aDecoder.DecodeObjectForKey("NSTarget");
+                    this.Target = aDecoder.decodeObjectForKey("NSTarget");
                 }
-                if (aDecoder.ContainsValueForKey("NSAction"))
+                if (aDecoder.containsValueForKey("NSAction"))
                 {
-                    NSString action = (NSString)aDecoder.DecodeObjectForKey("NSAction");
+                    NSString action = (NSString)aDecoder.decodeObjectForKey("NSAction");
                     this.Action = SEL.SelectorFromString(action);
                 }
             }
@@ -118,9 +118,9 @@ namespace Smartmobili.Cocoa
         
 
 
-        protected void _UpdateCell()
+        protected void _updateCell()
         {
-            if (_control_view != null && _control_view.IsKindOfClass(NSControl.Class))
+            if (_control_view != null && _control_view.isKindOfClass(NSControl.Class))
             {
                 ((NSControl)_control_view).UpdateCell(this);
             }

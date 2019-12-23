@@ -111,15 +111,15 @@ namespace Smartmobili.Cocoa
 
         public virtual void ReplaceCharactersInRangeRTF(NSRange aRange, NSData rtfData)
         {
-            NSDictionary dict = (NSDictionary)NSDictionary.Alloc().Init();
-            NSAttributedString attr = (NSAttributedString)NSAttributedString.Alloc().InitWithRTF(rtfData, ref dict);
+            NSDictionary dict = (NSDictionary)NSDictionary.alloc().init();
+            NSAttributedString attr = (NSAttributedString)NSAttributedString.alloc().initWithRTF(rtfData, ref dict);
             this.ReplaceCharactersInRange(aRange, attr);
         }
 
         public virtual void ReplaceCharactersInRangeRTFD(NSRange aRange, NSData rtfData)
         {
-            NSDictionary dict = (NSDictionary)NSDictionary.Alloc().Init();
-            NSAttributedString attr = (NSAttributedString)NSAttributedString.Alloc().InitWithRTFD(rtfData, ref dict);
+            NSDictionary dict = (NSDictionary)NSDictionary.alloc().init();
+            NSAttributedString attr = (NSAttributedString)NSAttributedString.alloc().initWithRTFD(rtfData, ref dict);
             this.ReplaceCharactersInRange(aRange, attr);
         }
 

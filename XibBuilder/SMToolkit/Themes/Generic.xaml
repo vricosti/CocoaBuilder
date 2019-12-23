@@ -1,0 +1,16 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+   <ResourceDictionary.MergedDictionaries>        
+        <ResourceDictionary Source="/SM.Toolkit;component/SMWindow/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMToolbar/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMToolbarItem/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMToolbar/Implementation/ToolbarEditor/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMMenu/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMMenuItem/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMPanel/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMButton/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMTextField/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/SM.Toolkit;component/SMPopupButton/Themes/Generic.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -16,7 +16,7 @@ namespace Smartmobili.Cocoa
 
         public static void Log(NSString format, params object[] args)
         {
-            NSLog.Log(format, args);
+            NSLog.log(format, args);
         }
 
 
@@ -111,14 +111,29 @@ namespace Smartmobili.Cocoa
 			return rect;
 		}
 
+
+        public static NSMapTable CreateMapTable(uint capacity)
+        {
+            return (NSMapTable)NSMapTable.alloc().init();
+        }
         public static id MapGet(NSMapTable map, IntPtr ptr)
         {
             return NSMapTable.Get(map, ptr);
         }
 
+        public static void MapInsert(NSMapTable table, IntPtr key, id value)
+        {
+            NSMapTable.Insert(table, key, value);
+        }
+
         public static void MapInsertKnownAbsent(NSMapTable table, IntPtr key, id value)
         {
             NSMapTable.InsertKnownAbsent(table, key, value);
+        }
+
+        public static Class ClassFromString(NSString className)
+        {
+           return Class.ClassFromString(className);
         }
     }
     
@@ -133,14 +148,14 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                result = (NSMutableArray)NSMutableArray.Array();
+                result = (NSMutableArray)NSMutableArray.array();
                 //Assembly a = Assembly.GetExecutingAssembly();
                 //foreach (Type t in a.GetTypes())
                 //{
                 //    if (t.IsSubclassOf(cls.InnerType))
                 //    {
                 //        //System.Diagnostics.Debug.WriteLine("dqsd");
-                //        result.AddObject(new Class(t));
+                //        result.addObject(new Class(t));
                 //    }
                 //}
 
@@ -153,7 +168,7 @@ namespace Smartmobili.Cocoa
                             if (t.IsSubclassOf(cls.InnerType))
                             {
                                 //System.Diagnostics.Debug.WriteLine("dqsd");
-                                result.AddObject(new Class(t));
+                                result.addObject(new Class(t));
                             }
                         }
                     }

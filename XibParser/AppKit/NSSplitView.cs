@@ -18,7 +18,7 @@ namespace Smartmobili.Cocoa
     public class NSSplitView : NSView
     {
         new public static Class Class = new Class(typeof(NSSplitView));
-        new public static NSSplitView Alloc() { return new NSSplitView(); }
+        new public static NSSplitView alloc() { return new NSSplitView(); }
 
         protected id _delegate;
         protected NSImage _dimpleImage;
@@ -31,8 +31,8 @@ namespace Smartmobili.Cocoa
         protected bool _never_displayed_before;
         protected bool _is_pane_splitter;
 
-        static NSSplitView() { Initialize(); }
-        public static void Initialize()
+        static NSSplitView() { initialize(); }
+        public static void initialize()
         {
             
         }

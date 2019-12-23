@@ -28,7 +28,7 @@ namespace Smartmobili.Cocoa
     public class NSTextField : NSControl
     {
         new public static Class Class = new Class(typeof(NSTextField));
-        new public static NSTextField Alloc() { return new NSTextField(); }
+        new public static NSTextField alloc() { return new NSTextField(); }
 
         private static Class usedCellClass;
         private static Class textFieldCellClass;
@@ -38,8 +38,8 @@ namespace Smartmobili.Cocoa
         protected NSText _text_object;
 
 
-        static NSTextField() { Initialize(); }
-        new static void Initialize()
+        static NSTextField() { initialize(); }
+        new static void initialize()
         {
             //[self setVersion: 1];
             textFieldCellClass = NSTextFieldCell.Class;
@@ -132,11 +132,11 @@ namespace Smartmobili.Cocoa
 
 
 
-        public override id InitWithFrame(NSRect frameRect)
+        public override id initWithFrame(NSRect frameRect)
         {
             id self = this;
 
-            if (base.InitWithFrame(frameRect) == null)
+            if (base.initWithFrame(frameRect) == null)
                 return null;
 
             ((NSCell)_cell).Bezeled = true;
@@ -150,9 +150,9 @@ namespace Smartmobili.Cocoa
             return self;
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
-            base.InitWithCoder(aDecoder);
+            base.initWithCoder(aDecoder);
 
             if (aDecoder.AllowsKeyedCoding)
             {
@@ -160,9 +160,9 @@ namespace Smartmobili.Cocoa
             }
             else
             {
-                //this._setDelegate(aDecoder.DecodeObject);
+                //this._setDelegate(aDecoder.decodeObject);
                 //[aDecoder decodeValueOfObjCType: @encode(SEL) at: &_error_action];
-                aDecoder.DecodeValueOfObjCType2<SEL>(out _error_action);
+                aDecoder.decodeValueOfObjCType2<SEL>(out _error_action);
             }
             _text_object = null;
 

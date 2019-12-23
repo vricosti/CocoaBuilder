@@ -28,7 +28,7 @@ namespace Smartmobili.Cocoa
     public class NSRecursiveLock : NSObject
     {
         new public static Class Class = new Class(typeof(NSRecursiveLock));
-        new public static NSRecursiveLock Alloc() { return new NSRecursiveLock(); }
+        new public static NSRecursiveLock alloc() { return new NSRecursiveLock(); }
 
         readonly object _locker = new object();
 

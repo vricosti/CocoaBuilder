@@ -27,37 +27,48 @@ namespace Smartmobili.Cocoa
     public class NSCharacterSet : NSObject
     {
         new public static Class Class = new Class(typeof(NSCharacterSet));
-        new public static NSCharacterSet Alloc() { return new NSCharacterSet(); }
+        new public static NSCharacterSet alloc() { return new NSCharacterSet(); }
 
         protected List<char> _charList = new List<char>("");
 
-        //static NSCharacterSet() { Initialize(); }
-        //public static void Initialize()
+        //static NSCharacterSet() { initialize(); }
+        //public static void initialize()
         //{
-        //    WhitespaceAndNewlineCharacterSet = NSCharacterSet.CharacterSetWithCharactersInString("");
+        //    WhitespaceAndNewlineCharacterSet = NSCharacterSet.characterSetWithCharactersInString("");
         //}
 
         private static NSCharacterSet _WhitespaceAndNewlineCharacterSet = null;
-        public static NSCharacterSet WhitespaceAndNewlineCharacterSet
+        public static NSCharacterSet whitespaceAndNewlineCharacterSet()
         {
-            get
-            {
-                if (_WhitespaceAndNewlineCharacterSet == null)
-                    _WhitespaceAndNewlineCharacterSet = NSCharacterSet.CharacterSetWithCharactersInString(" \r\n\t");
-                
-                return _WhitespaceAndNewlineCharacterSet;
-            }
-        }
+             if (_WhitespaceAndNewlineCharacterSet == null)
+                 _WhitespaceAndNewlineCharacterSet = NSCharacterSet.characterSetWithCharactersInString(" \r\n\t");
 
-        public static NSCharacterSet CharacterSetWithCharactersInString(NSString aString)
+             return _WhitespaceAndNewlineCharacterSet;
+        }
+        
+        //public static NSCharacterSet WhitespaceAndNewlineCharacterSet
+        //{
+        //    get
+        //    {
+        //        if (_WhitespaceAndNewlineCharacterSet == null)
+        //            _WhitespaceAndNewlineCharacterSet = NSCharacterSet.characterSetWithCharactersInString(" \r\n\t");
+                
+        //        return _WhitespaceAndNewlineCharacterSet;
+        //    }
+        //}
+
+
+
+
+        public static NSCharacterSet characterSetWithCharactersInString(NSString aString)
         {
-            NSMutableCharacterSet ms = (NSMutableCharacterSet)NSMutableCharacterSet.Alloc().Init();
-            ms.AddCharactersInString(aString);
+            NSMutableCharacterSet ms = (NSMutableCharacterSet)NSMutableCharacterSet.alloc().init();
+            ms.addCharactersInString(aString);
 
             return ms;
         }
 
-        public virtual bool CharacterIsMember(Char aCharacter)
+        public virtual bool characterIsMember(Char aCharacter)
         {
             return (_charList.Contains(aCharacter));
         }

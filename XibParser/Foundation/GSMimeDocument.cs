@@ -28,19 +28,19 @@ namespace Smartmobili.Cocoa
     public class GSMimeDocument : NSObject
     {
         new public static Class Class = new Class(typeof(GSMimeDocument));
-        new public static GSMimeDocument Alloc() { return new GSMimeDocument(); }
+        new public static GSMimeDocument alloc() { return new GSMimeDocument(); }
 
         
 
 
-        private static void Decodebase64(byte[] dst, byte[] src, int dstIndex)
+        private static void decodebase64(byte[] dst, byte[] src, int dstIndex)
         {
             dst[dstIndex] = Convert.ToByte((src[0] << 2) | ((src[1] & 0x30) >> 4));
             dst[dstIndex + 1] = Convert.ToByte(((src[1] & 0x0F) << 4) | ((src[2] & 0x3C) >> 2));
             dst[dstIndex + 2] = Convert.ToByte(((src[2] & 0x03) << 6) | (src[3] & 0x3F)); 
         }
 
-        public static NSData DecodeBase64(NSData source)
+        public static NSData decodeBase64(NSData source)
         {
             int length;
             int declen;
@@ -57,14 +57,14 @@ namespace Smartmobili.Cocoa
                 return null;
             }
 
-            length = source.Length;
+            length = (int)source.length();
             if (length == 0)
             {
-                return NSData.Data();
+                return NSData.data();
             }
 
             declen = ((length + 3) * 3) / 4;
-            src = source.Bytes;
+            src = source.bytes();
             //end = &src[length];
 
             result = new byte[declen];
@@ -118,7 +118,7 @@ namespace Smartmobili.Cocoa
                     if (pos == 4)
                     {
                         pos = 0;
-                        Decodebase64(result, buf, dstIndex);
+                        decodebase64(result, buf, dstIndex);
                         dstIndex += 3;
                     }
                 }
@@ -142,7 +142,7 @@ namespace Smartmobili.Cocoa
                 {
                     buf[i] = Convert.ToByte('\0');
                 }
-                Decodebase64(tail, buf, 0);
+                decodebase64(tail, buf, 0);
                 if (pad > 3) 
                     pad = 3;
 
@@ -151,7 +151,7 @@ namespace Smartmobili.Cocoa
                 dstIndex += 3 - pad;
             }
 
-            return NSData.Alloc().InitWithBytes(result);
+            return (NSData)NSData.alloc().initWithBytes(result);
         }
 
     }

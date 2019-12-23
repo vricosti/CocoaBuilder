@@ -9,17 +9,17 @@ namespace Smartmobili.Cocoa
     public class NSSecureTextFieldCell : NSTextFieldCell
     {
         new public static Class Class = new Class(typeof(NSSecureTextFieldCell));
-        new public static NSSecureTextFieldCell Alloc() { return new NSSecureTextFieldCell(); }
+        new public static NSSecureTextFieldCell alloc() { return new NSSecureTextFieldCell(); }
 
         public NSSecureTextFieldCell()
         {
         }
 
-        public override id InitWithCoder(NSCoder aDecoder)
+        public override id initWithCoder(NSCoder aDecoder)
         {
             id self = this;
 
-            if (base.InitWithCoder(aDecoder) == null)
+            if (base.initWithCoder(aDecoder) == null)
                 return null;
 
             if (aDecoder.AllowsKeyedCoding)

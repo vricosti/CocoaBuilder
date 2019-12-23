@@ -26,130 +26,130 @@ namespace Smartmobili.Cocoa
 {
     public abstract class NSCoder : NSObject
     {
-        public virtual void EncodeValueOfObjCType<T>(ref T data) 
+        public virtual void encodeValueOfObjCType<T>(ref T data) 
         {}
 
-        public virtual void DecodeValueOfObjCType<T>(ref T data) 
+        public virtual void decodeValueOfObjCType<T>(ref T data) 
         {}
 
-        public virtual void DecodeValueOfObjCType2<T>(out T data)
+        public virtual void decodeValueOfObjCType2<T>(out T data)
         { 
             data = default(T);
         }
 
-        public virtual void EncodeDataObject(NSData data) 
+        public virtual void encodeDataObject(NSData data) 
         { }
 
-        public virtual NSData  DecodeDataObject() 
+        public virtual NSData  decodeDataObject() 
         { 
             return null; 
         }
 
-        public virtual int VersionForClassName(NSString className) 
+        public virtual int versionForClassName(NSString className) 
         { 
             return -1; 
         }
 
-        public virtual void EncodeArrayOfObjCType<T>(uint count, ref T[] array) 
+        public virtual void encodeArrayOfObjCType<T>(uint count, ref T[] array) 
         { }
 
-        public virtual void EncodeBytes(byte[] d, uint l) 
+        public virtual void encodeBytes(byte[] d, uint l) 
         { }
 
-        public virtual void EncodeConditionalObject(id anObject) 
+        public virtual void encodeConditionalObject(id anObject) 
         {
-            EncodeObject(anObject);
+            encodeObject(anObject);
         }
 
-        public virtual void EncodeObject(id anObject)
+        public virtual void encodeObject(id anObject)
         { 
-            EncodeValueOfObjCType<id>(ref anObject);
+            encodeValueOfObjCType<id>(ref anObject);
         }
 
 
-        public virtual void EncodeObject(id anObject, NSString aKey)
+        public virtual void encodeObject(id anObject, NSString aKey)
         {
-            EncodeValueOfObjCType<id>(ref anObject);
+            encodeValueOfObjCType<id>(ref anObject);
         }
 
-        public virtual void EncodePropertyList(id plist)
+        public virtual void encodePropertyList(id plist)
         {
             id anObject = null;
             //anObject = plist ? (id)[NSSerializer serializePropertyList: plist] : nil;
-            EncodeValueOfObjCType<id>(ref anObject);
+            encodeValueOfObjCType<id>(ref anObject);
         }
 
-        public virtual void EncodePoint(ref NSPoint point)
+        public virtual void encodePoint(ref NSPoint point)
         {
-            EncodeValueOfObjCType<NSPoint>(ref point);
+            encodeValueOfObjCType<NSPoint>(ref point);
         }
 
-        public virtual void EncodeRect(NSRect rect)
+        public virtual void encodeRect(NSRect rect)
         {
-            EncodeValueOfObjCType<NSRect>(ref rect);
+            encodeValueOfObjCType<NSRect>(ref rect);
         }
 
-        public virtual void EncodeRootObject(id rootObject)
+        public virtual void encodeRootObject(id rootObject)
         {
-            EncodeObject(rootObject);
+            encodeObject(rootObject);
         }
 
-        public virtual void EncodeSize(NSSize size)
+        public virtual void encodeSize(NSSize size)
         {
-            EncodeValueOfObjCType<NSSize>(ref size);
+            encodeValueOfObjCType<NSSize>(ref size);
         }
 
-        public virtual void EncodeValuesOfObjCTypes(params NSString[] types)
+        public virtual void encodeValuesOfObjCTypes(params NSString[] types)
         {
 
         }
 
-        public virtual void DecodeArrayOfObjCType<T>(uint count, ref T[] array)
+        public virtual void decodeArrayOfObjCType<T>(uint count, ref T[] array)
         { }
 
 
-        public virtual object[] DecodeBytesWithReturnedLength(ref int numBytes)
+        public virtual object[] decodeBytesWithReturnedLength(ref int numBytes)
         {
             return null;
         }
 
         //- (id)decodeObject
-        public virtual id DecodeObject()
+        public virtual id decodeObject()
         {
             return null;
         }
 
         //- (id)decodePropertyList
-        public virtual id DecodePropertyList()
+        public virtual id decodePropertyList()
         {
             return null;
         }
 
         //- (NSPoint)decodePoint
-        public virtual NSPoint DecodePoint()
+        public virtual NSPoint decodePoint()
         {
             NSPoint point = new NSPoint();
-            DecodeValueOfObjCType<NSPoint>(ref point);
+            decodeValueOfObjCType<NSPoint>(ref point);
             return point;
         }
 
 
-        public virtual NSRect DecodeRect()
+        public virtual NSRect decodeRect()
         {
             NSRect	rect = new NSRect();
-            DecodeValueOfObjCType<NSRect>(ref rect);
+            decodeValueOfObjCType<NSRect>(ref rect);
             return rect;
         }
 
         //- (NSSize)decodeSize
-        public virtual NSSize DecodeSize()
+        public virtual NSSize decodeSize()
         {
             NSSize size = new NSSize();
-            DecodeValueOfObjCType<NSSize>(ref size);
+            decodeValueOfObjCType<NSSize>(ref size);
             return size;
         }
 
-        public virtual void DecodeValuesOfObjCTypes(params string[] types)
+        public virtual void decodeValuesOfObjCTypes(params string[] types)
         {
 
         }
@@ -159,67 +159,72 @@ namespace Smartmobili.Cocoa
         ////////////////////////////////////////////////////////////////////////////////////////////
         public virtual bool AllowsKeyedCoding
         {
-            get { return false; }
+            get { return allowsKeyedCoding(); }
         }
 
-        public virtual bool ContainsValueForKey(NSString key)
+        public virtual bool allowsKeyedCoding()
         {
             return false;
         }
 
-        public virtual bool DecodeBoolForKey(NSString key)
+        public virtual bool containsValueForKey(NSString key)
         {
             return false;
         }
 
-        public virtual byte[] DecodeBytesForKey(NSString key, ref int lengthp)
+        public virtual bool decodeBoolForKey(NSString key)
+        {
+            return false;
+        }
+
+        public virtual byte[] decodeBytesForKey(NSString key, ref uint lengthp)
         {
             return null;
         }
 
-        public virtual double DecodeDoubleForKey(NSString key)
+        public virtual double decodeDoubleForKey(NSString key)
         {
             return 0;
         }
 
-        public virtual float DecodeFloatForKey(NSString key)
+        public virtual float decodeFloatForKey(NSString key)
         {
             return 0;
         }
 
-        public virtual int DecodeIntForKey(NSString key)
+        public virtual int decodeIntForKey(NSString key)
         {
             return 0;
         }
 
-        public virtual int DecodeIntegerForKey(NSString key)
+        public virtual int decodeIntegerForKey(NSString key)
         {
             return 0;
         }
 
-        public virtual Int32 DecodeInt32ForKey(NSString key)
+        public virtual Int32 decodeInt32ForKey(NSString key)
         {
             return 0;
         }
 
-        public virtual Int64 DecodeInt64ForKey(NSString key)
+        public virtual Int64 decodeInt64ForKey(NSString key)
         {
             return 0;
         }
 
-        public virtual id DecodeObjectForKey(NSString key)
+        public virtual id decodeObjectForKey(NSString key)
         {
             return null;
         }
 
         
-        public virtual NSPoint DecodePointForKey(NSString key)
+        public virtual NSPoint decodePointForKey(NSString key)
         {
             return new NSPoint();
         }
 
         //- (NSRect)decodeRectForKey:(NSString *)key
-        public virtual NSRect DecodeRectForKey(NSString key)
+        public virtual NSRect decodeRectForKey(NSString key)
         {
             return new NSRect();
         }
@@ -227,57 +232,57 @@ namespace Smartmobili.Cocoa
 
 
         //- (NSSize)decodeSizeForKey:(NSString *)key
-        public virtual NSSize DecodeSizeForKey(NSString key)
+        public virtual NSSize decodeSizeForKey(NSString key)
         {
             return new NSSize();
         }
 
-        public virtual id DecodePropertyListForKey(NSString key)
+        public virtual id decodePropertyListForKey(NSString key)
         {
             return null;
         }
 
 
-        public virtual void EncodeBoolForKey(bool aBool, NSString aKey)
+        public virtual void encodeBoolForKey(bool aBool, NSString aKey)
         {
 
         }
 
-        public virtual void EncodeBytesForKey(byte[] bytes, uint length, NSString aKey)
+        public virtual void encodeBytesForKey(byte[] bytes, uint length, NSString aKey)
         {
 
         }
 
-        public virtual void EncodeConditionalObjectForKey(id anObject, NSString aKey)
+        public virtual void encodeConditionalObjectForKey(id anObject, NSString aKey)
         {
 
         }
 
-        public virtual void EncodeDoubleForKey(double aDouble, NSString aKey)
+        public virtual void encodeDoubleForKey(double aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeFloatForKey(float aDouble, NSString aKey)
+        public virtual void encodeFloatForKey(float aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeIntForKey(int aDouble, NSString aKey)
+        public virtual void encodeIntForKey(int aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeIntegerForKey(int aDouble, NSString aKey)
+        public virtual void encodeIntegerForKey(int aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeInt32ForKey(int aDouble, NSString aKey)
+        public virtual void encodeInt32ForKey(int aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeInt64ForKey(int aDouble, NSString aKey)
+        public virtual void encodeInt64ForKey(int aDouble, NSString aKey)
         {
         }
 
-        public virtual void EncodeObjectForKey(id anObject, NSString aKey)
+        public virtual void encodeObjectForKey(id anObject, NSString aKey)
         {
         }
         
