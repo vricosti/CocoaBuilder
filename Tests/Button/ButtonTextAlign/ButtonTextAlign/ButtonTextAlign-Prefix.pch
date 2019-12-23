@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'ButtonApp1' target in the 'ButtonApp1' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

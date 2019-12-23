@@ -36,7 +36,7 @@ namespace Smartmobili.Cocoa
                
             //}
 
-            return self;
+            return null;
         }
 
     }

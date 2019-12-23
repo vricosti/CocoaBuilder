@@ -1,0 +1,89 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SM.Toolkit">
+
+    <SolidColorBrush x:Key="SeparatorBrush" Color="#6A6A6A"></SolidColorBrush>
+    <SolidColorBrush x:Key="ContentBackgroundBrush" Color="#EDEDED"></SolidColorBrush>
+    
+    <Style TargetType="{x:Type local:ToolbarEditor}">
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource SeparatorBrush}"></Setter>
+        <Setter Property="Background" Value="{StaticResource ContentBackgroundBrush}"></Setter>
+        <Setter Property="MinWidth" Value="540"></Setter>
+        <Setter Property="MinHeight" Value="278"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ToolbarEditor}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+   
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" ShadowDepth="2" Direction="270" BlurRadius="8" Opacity=".5"></DropShadowEffect>
+                            </Border.Effect>
+
+                        <Grid x:Name="PART_PopupBorder"
+                              Background="Transparent" AllowDrop="True">
+                                <TextBlock Text="Allowed Toolbar Items"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Top" HorizontalAlignment="Left"
+                                           Margin="20,20,20,0" AllowDrop="False"></TextBlock>
+
+                            <ListBox x:Name="PART_AllowedToolbar"
+                                         Background="Transparent"
+                                         Margin="20,46,20,20"
+                                         VerticalAlignment="Top"
+                                         BorderBrush="{StaticResource SeparatorBrush}"
+                                         BorderThickness="0"
+                                         MinHeight="64"
+                                         ItemsSource="{TemplateBinding AllowedItems}"
+                                         AllowDrop="True"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"></StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+
+                                </ListBox>
+
+                                <TextBlock Text="Default Toolbar Items ... drag in items from above"
+                                           FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                           Margin="20,130,20,0" AllowDrop="False"></TextBlock>
+
+                            <ListBox x:Name="PART_DefaultToolbar"
+                                         Background="Transparent"
+                                         Margin="20,155,20,0"
+                                         VerticalAlignment="Top"
+                                         BorderBrush="{StaticResource SeparatorBrush}"
+                                         BorderThickness="1"
+                                         MinHeight="64"
+                                         ItemsSource="{TemplateBinding DefaultItems}"                                                         
+                                         AllowDrop="True"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"></StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>                                    
+                                </ListBox>
+
+                                <Button x:Name="PART_ButtonDone"
+                                        Content="Done"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Margin="20,0,20,20"
+                                        Height="21"
+                                        Width="70" AllowDrop="False">                                    
+                                </Button>
+                            </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

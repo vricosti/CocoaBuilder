@@ -17,6 +17,18 @@ namespace Smartmobili.Cocoa
             Class cls, NSURL forURL, NSURL withContentsOfURL, 
             NSString ofType, NSString extension, ref NSError outError)
         {
+            IDEEditorDocument doc = (IDEEditorDocument)IDEEditorDocument.alloc().initForURL(forURL, withContentsOfURL, ofType, null);
+            if (doc != null)
+            {
+
+            }
+
+            return doc;
+        }
+
+
+        public virtual id initForURL(NSURL absoluteURL, NSURL absoluteDocumentContentsURL, NSString typeName, object dummyNullable)
+        {
             return null;
         }
     }

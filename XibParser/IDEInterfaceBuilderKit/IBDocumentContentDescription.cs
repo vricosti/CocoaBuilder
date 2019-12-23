@@ -12,7 +12,7 @@ namespace Smartmobili.Cocoa
         new public static IBDocumentContentDescription alloc() { return new IBDocumentContentDescription(); }
 
         protected IBDocumentDataTypeDescription _fileDataTypeDescription;
-        protected IBDocumentXMLArchiveTypeDescription _xmlArchiveTypeDescription;
+        //protected IBDocumentXMLArchiveTypeDescription _xmlArchiveTypeDescription;
 
     }
 

@@ -1,0 +1,98 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SM.Toolkit">
+
+
+    <LinearGradientBrush x:Key="MenuBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FBFBFB" Offset="0" />
+        <GradientStop Color="#DBDBDB" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="MenuItemHighlightBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#6188F7" Offset="0" />
+        <GradientStop Color="#1A56DD" Offset="1" />
+    </LinearGradientBrush>
+
+    
+    <SolidColorBrush x:Key="MenuBorderBrush" Color="#767676"></SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#0C3D77"></SolidColorBrush>
+    <SolidColorBrush x:Key="Brush7" Color="#205EA8"></SolidColorBrush>
+
+    <LinearGradientBrush x:Key="HoverShineBrush" EndPoint="0.5,0.971" StartPoint="0.5,0.042">
+        <GradientStop Color="#05FFFFFF" Offset="0" />
+        <GradientStop Color="#11FFFFFF" Offset="0.25" />
+        <GradientStop Color="#15FFFFFF" Offset="0.467" />
+        <GradientStop Color="#00FFFFFF" Offset="0.475" />
+        <GradientStop Color="#00FFFFFF" Offset="0.856" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="MenuItemSeparatorBrush" StartPoint="0.5,0" EndPoint="0.5,1" >
+        <GradientStop Color="#052651" Offset="0" />
+        <GradientStop Color="#052651" Offset=".5" />
+        <GradientStop Color="#16569E" Offset=".5" />
+        <GradientStop Color="#16569E" Offset="1" />
+    </LinearGradientBrush>    
+
+    <Style x:Key="CloseButton" TargetType="{x:Type Button}">
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" >
+                        <Image Source="/SM.Toolkit;component/Images/menu_close.png" Stretch="Uniform"></Image>                        
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type local:SMMenu}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>        
+        <Setter Property="Background" Value="{StaticResource MenuBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource MenuBorderBrush}"></Setter>        
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontFamily" Value="Tahoma"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SMMenu}">
+
+                    <Border Grid.Column="1"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" >
+
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="6" Opacity=".2" ShadowDepth="2" Direction="270"></DropShadowEffect>
+                        </Border.Effect>
+                        
+                        <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="26"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="PART_Close" Style="{StaticResource CloseButton}"></Button>
+
+                        <StackPanel Grid.Column="1"
+                                    IsItemsHost="True"
+                                    ClipToBounds="True" 
+                                    Orientation="Horizontal"/>
+                    </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="#A5FFFFFF"/>
+                            <Setter Property="BorderBrush" Value="#59C0C0C0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

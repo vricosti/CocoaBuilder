@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:XibBuilder">    
+
+    <!-- Display current Width and Height while resizing -->
+    <Style TargetType="{x:Type local:DesignerControlResizeChrome}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DesignerControlResizeChrome}">
+                    <!--<Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}">
+
+                        <Grid SnapsToDevicePixels="true">
+                            
+                            <local:DragThumb x:Name="PART_DragThumb"
+                                             BorderBrush="#CBCBCB"
+                                             BorderThickness="1"
+                                             Background="#44E6E6BE"
+                                             Cursor="SizeAll"
+                                             Focusable="True"/>
+
+                            <local:ResizeThumb Width="5" Height="5" Cursor="SizeNS" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                            <local:ResizeThumb Width="5" Height="5" Cursor="SizeNS" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                            <local:ResizeThumb Width="5" Height="5" Cursor="SizeWE" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <local:ResizeThumb Width="5" Height="5" Cursor="SizeWE" VerticalAlignment="Center" HorizontalAlignment="Right" />
+
+                            <local:ResizeThumb Width="5" Height="5" Cursor="SizeNWSE"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <local:ResizeThumb Width="5" Height="5" Cursor="SizeNESW" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                            <local:ResizeThumb Width="5" Height="5" Cursor="SizeNESW" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <local:ResizeThumb Width="5" Height="5" Cursor="SizeNWSE" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </Border>-->
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="Red" Margin="-5" >
+
+                        <Grid SnapsToDevicePixels="true" Background="Red">
+
+                            <local:DragThumb x:Name="PART_DragThumb"
+                                             BorderBrush="#CBCBCB"
+                                             BorderThickness="1"
+                                             Background="#44E6E6BE"
+                                             Cursor="SizeAll"
+                                             Focusable="True"/>                            
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

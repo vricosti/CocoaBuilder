@@ -12,99 +12,103 @@ namespace Smartmobili.Cocoa
         new public static Class Class = new Class(typeof(IBDocument));
         new public static IBDocument alloc() { return new IBDocument(); }
 
-        protected IBTargetRuntime _targetRuntime;
-        protected NSString _uniqueID;
-        protected NSMutableDictionary _documentMetadata;
-        protected IBObjectContainer _objectContainer;
-        protected NSArray _ideTopLevelStructureObjects;
-        protected IBMutableIdentityDictionary _memberToMemberWrapperMap;
-        protected NSMutableSet _membersWithAutoNullifyingNonChildRelationshipKeyPaths;
-        protected Int64 _delayExecutionOfDidChangeChildWrapperBlocksNestingCount;
-        protected NSMutableOrderedSet _delayedDidChangeChildWrapperMemberWrappers;
-        protected bool _isFlushingUpdatesToDelayedDidChangeChildWrapperMemberWrappers;
-        protected IBMutableIdentityDictionary _explicitDefaultVersionsForDocumentDependencies;
-        protected IBMutableIdentityDictionary _explicitVersionsForDocumentDependencies;
-        protected NSDictionary _lastSavedPluginVersionsForDependentPlugins;
-        protected NSString _lastSavedSystemVersion;
-        protected NSString _lastSavedInterfaceBuilderVersion;
-        protected NSNumber _cachedDevelopmentVersion;
-        protected NSNumber _cachedSystemVersion;
-        protected NSDictionary _additionalInstantiationInformation;
-        //protected DVTPerformanceMetric _documentLoadingMetric;
-        protected NSString _classNameThatPreventedDecode;
-        protected NSURL _verificationMessagesSourceURL;
-        protected NSArray _verificationMessages;
-        protected id _previousXmlDecoderHints;
-        protected bool _unarchiving;
-        protected bool _closing;
-        protected bool _transientPasteboardDocument;
-        protected bool _wasUnarchivedWithDocumentUnarchiver;
-        //protected IBMutableIdentityDictionary _effectivePropertyAccessControlCache;
-        protected bool _shouldDisplayLockedMemberAlertForNextAutomaticUndo;
-        protected id _memberWarnedForLockedPropertyChange;
-        protected Int64 _defaultPropertyAccessControl;
-        protected Int64 _localizationMode;
-        protected bool _switchingLocalizations;
-        //protected DVTObservingToken _headerScanningClassProviderFirstCompletionObserverToken;
-        //protected DVTObservingToken _indexClassProviderIndexObservingToken;
-        protected bool _haveClearedLocalDescriptionsClassProvider;
-        //protected IBClassesDebuggerController _classesDebugger;
-        protected IBLocalDescriptionsClassProvider _localDescriptionsClassProvider;
-        protected IBUserDefinedActionClassProvider _userDefinedActionClassProvider;
-        //protected IBHeaderScanningClassProvider _headerScanningClassProvider;
-        //protected IBUnsavedFilesClassProvider _unsavedFilesClassProvider;
-        protected IBSystemClassProvider _systemClassProvider;
-        //protected IBIndexClassProvider _indexClassProvider;
-        protected IBClassDescriber _classDescriber;
-        //protected DVTTask _simulationTask;
-        protected Int64 _undoableEditingActionNameTypePriority;
-        protected bool _undoableEditingActionNameOpenedUndoGroup;
-        //protected IBMutableIdentityDictionary _undoBlocks;
-        protected bool _logUndoActions;
-        //protected DVTObservingToken _undoManagerObservations;
-        //protected IBDocumentArbitrationStackEntry _arbitrationStackEntryPushedDuringDidStartEditing;
-        protected bool _ibDocumentIsClosing;
-        protected NSMutableSet _editorViewControllers;
-        //protected IBMutableIdentityDictionary _workspaceDocumentsByEditorViewController;
-        protected Int64 _nextObjectObserverKey;
-        protected bool _topLevelViewsShouldMaintainOriginalFrameWhenMovedToTheTopLevel;
-        //protected DVTDelayedInvocation _optimisticallyDropRecomputableEditorStateInvocation;
-        protected NSMutableSet _containerInterfaceBuilderDocumentFilePaths;
-        //protected IDEContainer _resourceProvidingContainer;
-        //protected id <DVTInvalidation> _containerDocumentFileNamesObservation;
-        //protected IBResourceManager _resourceManager;
-        //protected IDEMediaResourceVariantContext _variantContextForMediaLibrary;
-        //protected IBMutableIdentityDictionary _objectsToDesignTimeRecensionTokens;
-        //protected IBMutableIdentityDictionary _membersToWarnings;
-        protected NSMutableSet _parentsWithPendingChildWarningCalculations;
-        protected NSMutableSet _membersWithPendingWarningCalculations;
-        protected NSMutableSet _classNamesWithPendingWarningCalculations;
-        //protected DVTDelayedInvocation _warningsInvocation;
-        protected bool _warningsEnabled;
-        protected bool _allWarningsAreInvalid;
-        protected Int64 _autolayoutAutomaticConstraintInvalidationPreventionNestingCount;
-        protected Int64 _autolayoutAutomaticConstraintUpdatingPreventionNestingCount;
-        //protected IBMutableIdentityDictionary _cachedAutolayoutStatusIncludingDescendantsByArbitrationUnitRoot;
-        //protected IBMutableIdentityDictionary _autolayoutStatusByArbitrationUnitRoot;
-        protected NSCountedSet _keepReferencingConstraintsNestingCountsByView;
-        protected bool _assertDuringConstraintUpdatingNestingCount;
-        protected NSMutableArray _autolayoutStatusChangeObservers;
-        protected NSMutableArray _developmentTargetChangeObservers;
-        protected NSMutableArray _autolayoutArbitrationStack;
-        protected bool _automaticConstraintUpdatingDisabled;
-        protected bool _isRunningArbitrationOfUnit;
-        protected bool _useAutolayout;
-        //protected IBFileBuildSettingsSnapshot _cachedBuildSettingsSnapshot;
-        protected UInt64 _cachedBuildSettingsSnapshotNestingCount;
-        protected NSMutableArray _blockingAutosaveErrors;
-        //protected DVTNotificationToken _warningSeverityToken;
-        protected bool _previouslyAttemptedUpgradeToXcode5;
+        NSMutableDictionary _documentMetadata;
+        NSArray _ideTopLevelStructureObjects;
+        IBMutableIdentityDictionary _memberToMemberWrapperMap;
+        NSMutableSet _membersWithAutoNullifyingNonChildRelationshipKeyPaths;
+        Int64 _delayExecutionOfDidChangeChildWrapperBlocksNestingCount;
+        NSMutableOrderedSet _delayedDidChangeChildWrapperMemberWrappers;
+        bool _isFlushingUpdatesToDelayedDidChangeChildWrapperMemberWrappers;
+        IBMutableIdentityDictionary _explicitDefaultVersionsForDocumentDependencies;
+        IBMutableIdentityDictionary _explicitVersionsForDocumentDependencies;
+        NSMutableDictionary _documentDependencyChangeObservers;
+        NSNumber _cachedDevelopmentVersion;
+        NSNumber _cachedSystemVersion;
+        bool _unarchiving;
+        bool _unarchivingForPasteBoard;
+        Int64 _defaultPropertyAccessControl;
+        //IBClassesDebuggerController _classesDebugger;
+        //id <DVTInvalidation> _sourceCodeClassProviderObserverToken;
+        //IBIndexClassDescriber _indexClassDescriber;
+        Int64 _undoableEditingActionNameTypePriority;
+        bool _undoableEditingActionNameOpenedUndoGroup;
+        IBMutableIdentityDictionary _undoBlocks;
+        bool _logUndoActions;
+        //DVTObservingToken _undoManagerObservations;
+        bool _ibDocumentIsClosing;
+        IBMutableIdentityDictionary _memberChangeObservers;
+        NSMutableDictionary _uniquedMemberChangeObservers;
+        Int64 _nextMemberChangeObserverKey;
+        NSMutableSet _editorViewControllers;
+        IBMutableIdentityDictionary _workspaceDocumentsByEditorViewController;
+        //DVTDelayedInvocation _optimisticallyDropRecomputableEditorStateInvocation;
+        NSMutableSet _containerInterfaceBuilderDocumentFilePaths;
+        //id <DVTInvalidation> _containerDocumentFileNamesObservation;
+        //id <DVTInvalidation> _containerFontsObservation;
+        //IDEMediaResourceVariantContext _variantContextForMediaLibrary;
+        //IBDocumentIssueGenerator _issueGenerator;
+        IBMutableIdentityDictionary _objectsToDesignTimeRecensionTokens;
+        //IBFileBuildSettingsSnapshot _cachedBuildSettingsSnapshot;
+        UInt64 _cachedBuildSettingsSnapshotNestingCount;
+        NSMutableArray _blockingAutosaveErrors;
+        //DVTNotificationToken _editorDocumentDidSaveToken;
+        //IBDocumentAutolayoutManager _autolayoutManager;
+        Int64 _configurationPropertyForwardingDirection;
+        IBMutableIdentityDictionary _overriddenTargetConfigurationByMemberForAllAttributes;
+        IBMutableIdentityDictionary _overriddenTargetConfigurationByMemberThenAttribute;
+        IBMutableIdentityDictionary _propertiesByMemberWithBlockedChangeForwarding;
+        Int64 _disableXMLFormattingCount;
+        NSArray _objectsWithRepairedMemberIDs;
+        bool _previouslyAttachedToEditor;
+        bool _usesConfigurations;
+        bool _wasUnarchivedWithDocumentUnarchiver;
+        bool _transientPasteboardDocument;
+        bool _previouslyAttemptedUpgradeToXcode5;
+        bool _topLevelViewsShouldMaintainOriginalFrameWhenMovedToTheTopLevel;
+        bool _launchScreen;
+        bool _shouldDisplayLockedMemberAlertForNextAutomaticUndo;
+        bool _markDocumentAsCleanAndDiscardUndoableEventsAtEndOfUndoGroup;
+        NSString _defaultModuleName;
+        IBClassDescriber _classDescriber;
+        IBSystemClassProvider _systemClassProvider;
+        IBAbstractClassProvider _mockClassProvider;
+        IBUserDefinedActionClassProvider _userDefinedActionClassProvider;
+        IBTargetRuntime _targetRuntime;
+        //IBPlatform _platform;
+        //IBMemberConfiguration _editedMemberConfiguration;
+        //IDEWorkspaceDocument _explicitWorkspaceDocument;
+        //IBResourceManager _resourceManager;
+        //IDEContainer _resourceProvidingContainer;
+        NSString _uniqueID;
+        NSDictionary _additionalInstantiationInformation;
+        NSArray _verificationMessages;
+        NSURL _verificationMessagesSourceURL;
+        NSString _lastSavedSystemVersion;
+        NSString _lastSavedInterfaceBuilderVersion;
+        NSDictionary _lastSavedPluginVersionsForDependentPlugins;
+        //IBDocumentLiveViewsDispatcher _liveViewsDispatcher;
+        IBObjectContainer _objectContainer;
+        //IBDocumentPlatformAdapter _platformAdapter;
+        id _previousXmlDecoderHints;
+        NSString _classNameThatPreventedDecode;
+        //DVTPerformanceMetric _documentLoadingMetric;
+        IBMutableIdentityDictionary _effectivePropertyAccessControlCache;
+        NSObject _memberWarnedForLockedPropertyChange;
+        //IBSourceCodeClassProvider _sourceCodeClassProvider;
+        //IBTemporaryPasteboardClassProvider _temporaryPasteboardClassProvider;
+        //struct CGSize _canvasLayoutPositioningScale;
 
 
 
         public void setClassNameThatPreventedDecode(NSString aClassNameThatPreventedDecode)
         {
             _classNameThatPreventedDecode = aClassNameThatPreventedDecode;
+        }
+
+
+        NSArray verificationMessages()
+        {
+            return this._verificationMessages;
         }
 
         public virtual id initForURL(NSURL forUrl, NSURL url, NSString type, ref NSError error)
@@ -126,26 +130,61 @@ namespace Smartmobili.Cocoa
 
             InvokeWithUndoSuppressedDelegate myDelegate = _readFromURL;
             bRet = invokeWithUndoSuppressed(myDelegate);
-   
+
             return bRet;
         }
 
         private bool _readFromURL(NSURL url, NSString typeName, ref NSError outError)
         {
             bool bRet = false;
-            this.setClassNameThatPreventedDecode(null);
-            //
-            bRet = base.readFromURL(url, typeName, ref outError);
+            //this.setClassNameThatPreventedDecode(null);
 
+            Int64 decodingStyle = 0;
+            bRet = decodeContentsOfURL(url, typeName, ref decodingStyle, ref outError);
+            if (bRet)
+            {
+                appendVerificationMessages(performVerification());
+            }
 
             return false;
         }
+
+
+        bool decodeContentsOfURL(NSURL url, NSString ofType, ref Int64 decodingStyle, ref NSError error)
+        {
+            return false;
+        }
+
+        //function methImpl_IBDocument_decodeContentsOfURL_ofType_decodingStyle_error_ {
+
 
         public virtual bool invokeWithUndoSuppressed(InvokeWithUndoSuppressedDelegate delgate)
         {
             return false;
         }
 
+
+        NSArray performVerification()
+        {
+            NSArray messages = null;
+
+            return messages;
+        }
+
+
+        void appendVerificationMessages(NSArray theMessages)
+        {
+            //NSArray curMessages = verificationMessages();
+            //if (curMessages != null)
+            //{
+            //    NSArray allMessages = curMessages.arrayByAddingObjectsFromArray(curMessages);
+            //    this.setVerificationMessages(allMessages);
+            //}
+            //else
+            //{
+            //    this.setVerificationMessages(theMessages);
+            //}
+        }
 
         public override bool readFromFileWrapper(NSFileWrapper fileWrapper, NSString typeName, ref NSError outError)
         {
@@ -156,6 +195,6 @@ namespace Smartmobili.Cocoa
 
 
     }
-    
+
 
 }

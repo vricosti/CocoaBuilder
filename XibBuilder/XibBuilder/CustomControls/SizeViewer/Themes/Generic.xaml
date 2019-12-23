@@ -1,0 +1,56 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:XibBuilder">
+
+    <local:DoubleFormatConverter x:Key="doubleFormatConverter"/>
+
+    <!-- Display current Width and Height while resizing -->
+    <Style TargetType="{x:Type local:SizeViewer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SizeViewer}">
+                    <Border CornerRadius="5" 
+                            Background="Black"                           
+                            Margin="-45,20,0,0"
+                            Padding="8,6">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Text="W : "
+                                       Foreground="White"
+                                       SnapsToDevicePixels="True"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="1"
+                                       Text="{Binding Path=ActualWidth, Converter={StaticResource doubleFormatConverter}}"
+                                       Foreground="White" 
+                                       TextAlignment="Right"
+                                       SnapsToDevicePixels="True"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0"
+                                       Text="H : "
+                                       Foreground="White"
+                                       SnapsToDevicePixels="True"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="1"
+                                       Text="{Binding Path=ActualHeight, Converter={StaticResource doubleFormatConverter}}"
+                                       Foreground="White" 
+                                       TextAlignment="Right"
+                                       SnapsToDevicePixels="True"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

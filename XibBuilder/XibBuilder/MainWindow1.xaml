@@ -1,0 +1,25 @@
+﻿<Window x:Class="XibBuilder.MainWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow1" Height="400" Width="600">
+    <Grid>
+        <Canvas Background="WhiteSmoke">
+            <Button Canvas.Left="10" Canvas.Top="10" Content="Button" Style="{StaticResource ButtonStyle}"></Button>
+            <Button Canvas.Left="10" Canvas.Top="50" Content="Gradient Button" Style="{StaticResource GradientButtonStyle}"></Button>
+            <Button Canvas.Left="10" Canvas.Top="90" Content="Round Rect Button" Style="{StaticResource RoundRectButtonStyle}"></Button>
+            <Button Canvas.Left="10" Canvas.Top="130" Content="Round Textured Button" Style="{StaticResource RoundTexturedButtonStyle}"></Button>
+            <Button Canvas.Left="10" Canvas.Top="170" Content="Textured Button" Style="{StaticResource TexturedButtonStyle}"></Button>
+            <Button Canvas.Left="10" Canvas.Top="210" Content="Recessed Button" Style="{StaticResource RecessedButtonStyle}"></Button>
+            <Button Canvas.Left="10" Canvas.Top="250" Content="Inline Button" Style="{StaticResource InlineButtonStyle}"></Button>
+            <Button Canvas.Left="10" Canvas.Top="290" Style="{StaticResource SquareButtonStyle}"></Button>
+
+            <Button Canvas.Left="200" Canvas.Top="10" Style="{StaticResource HelpButtonStyle}"></Button>
+            <Button Canvas.Left="200" Canvas.Top="50" Style="{StaticResource DisclosureButtonStyle}"></Button>
+            <Button Canvas.Left="200" Canvas.Top="90" Style="{StaticResource RoundButtonStyle}" ></Button>
+            <Button Canvas.Left="200" Canvas.Top="130" Style="{StaticResource BevelButtonStyle}"></Button>
+            <Button Canvas.Left="200" Canvas.Top="190" Content="Item 1" Style="{StaticResource PopUpButtonStyle}"></Button>     
+            
+        </Canvas>
+        
+    </Grid>
+</Window>
